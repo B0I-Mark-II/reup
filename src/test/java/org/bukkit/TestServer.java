@@ -4,11 +4,15 @@ import com.google.common.collect.ImmutableMap;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Logger;
+import org.bukkit.block.Biome;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.SimplePluginManager;
+import org.jetbrains.annotations.NotNull;
 
 public final class TestServer implements InvocationHandler {
     private static interface MethodHandler {
@@ -75,6 +79,50 @@ public final class TestServer implements InvocationHandler {
                         }
                     }
                 );
+            methodMap.put(
+                    Server.class.getMethod("getRegistry", Class.class),
+                    new MethodHandler() {
+                        private final Map<Class<?>, Registry<?>> registers = new HashMap<>();
+                        @Override
+                        public Object handle(TestServer server, Object[] args) {
+                            return registers.computeIfAbsent((Class<?>) args[0], aClass -> new Registry<Keyed>() {
+                                private final Map<NamespacedKey, Keyed> cache = new HashMap<>();
+                                private int ordinal = 0;
+                                @Override
+                                public Keyed get(NamespacedKey key) {
+                                    if (aClass == Biome.class) {
+                                        return cache.computeIfAbsent(key, key1 -> new Biome() {
+                                            @Override
+                                            public int compareTo(Biome biome) {
+                                                throw new UnsupportedOperationException("Not supported");
+                                            }
+                                            @NotNull
+                                            @Override
+                                            public String name() {
+                                                throw new UnsupportedOperationException("Not supported");
+                                            }
+                                            @Override
+                                            public int ordinal() {
+                                                throw new UnsupportedOperationException("Not supported");
+                                            }
+                                            @NotNull
+                                            @Override
+                                            public NamespacedKey getKey() {
+                                                throw new UnsupportedOperationException("Not supported");
+                                            }
+                                        });
+                                    }
+                                    throw new UnsupportedOperationException("Not supported");
+                                }
+
+                                @Override
+                                public Iterator<Keyed> iterator() {
+                                    throw new UnsupportedOperationException("Not supported");
+                                }
+                            });
+                        }
+                    }
+            );
             methods = methodMap.build();
 
             TestServer server = new TestServer();

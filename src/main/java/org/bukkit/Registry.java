@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableMap;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Predicate;
 import org.bukkit.advancement.Advancement;
 import org.bukkit.attribute.Attribute;
@@ -63,7 +64,7 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
      *
      * @see Biome
      */
-    Registry<Biome> BIOME = new SimpleRegistry<>(Biome.class);
+    Registry<Biome> BIOME = Objects.requireNonNull(Bukkit.getRegistry(Biome.class), "No registry present for Biome");
     /**
      * Custom boss bars.
      *
