@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
+import org.bukkit.OldEnum;
 import org.bukkit.Registry;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
  * Depending on the server there might be additional biomes present (for example biomes created by data packs),
  * which you can get via {@link Registry#BIOME}.
  */
-public abstract class Biome implements Keyed, Comparable<Biome> {
+public abstract class Biome extends OldEnum<Biome> implements Keyed {
 
     public static final Biome OCEAN = getBiome("ocean");
     public static final Biome PLAINS = getBiome("plains");
@@ -98,9 +99,9 @@ public abstract class Biome implements Keyed, Comparable<Biome> {
     public static final Biome LUSH_CAVES = getBiome("lush_caves");
 
     /**
-     * Represents a custom Biome
+     * Represents a custom Biome.
      *
-     * @deprecated only for backwards compatibility, custom is no longer returned
+     * @deprecated only for backwards compatibility, custom is no longer returned.
      */
     @Deprecated
     public static final Biome CUSTOM = getBiome("custom");
@@ -109,13 +110,13 @@ public abstract class Biome implements Keyed, Comparable<Biome> {
     private static Biome getBiome(String key) {
         NamespacedKey namespacedKey = NamespacedKey.minecraft(key);
         Biome biome = Registry.BIOME.get(namespacedKey);
-        Preconditions.checkNotNull(biome, "No Biome found for %s this should not happen", namespacedKey);
+        Preconditions.checkNotNull(biome, "No Biome found for %s. This is a bug.", namespacedKey);
         return biome;
     }
 
     /**
-     * @param name of the biome
-     * @return the biome with the given name
+     * @param name of the biome.
+     * @return the biome with the given name.
      * @deprecated only for backwards compatibility, use {@link Registry#get(NamespacedKey)} instead.
      */
     @NotNull
@@ -127,36 +128,12 @@ public abstract class Biome implements Keyed, Comparable<Biome> {
     }
 
     /**
-     * @return an array of all know Biomes
-     * @deprecated use {@link Registry#iterator()}
+     * @return an array of all know Biomes.
+     * @deprecated use {@link Registry#iterator()}.
      */
     @NotNull
     @Deprecated
     public static Biome[] values() {
         return Lists.newArrayList(Registry.BIOME).toArray(new Biome[0]);
     }
-
-    /**
-     * @param biome to compare to.
-     * @return negative if this biome is lower, zero if equal and positive if higher than the given biome.
-     * @deprecated only for backwards compatibility, biomes can not be compared.
-     */
-    @Deprecated
-    @Override
-    public abstract int compareTo(Biome biome);
-
-    /**
-     * @return the name of the biome.
-     * @deprecated only for backwards compatibility, use {@link #getKey()} instead.
-     */
-    @NotNull
-    @Deprecated
-    public abstract String name();
-
-    /**
-     * @return the ordinal of the biome.
-     * @deprecated only for backwards compatibility, it is not guaranteed that a biome always has the same ordinal.
-     */
-    @Deprecated
-    public abstract int ordinal();
 }

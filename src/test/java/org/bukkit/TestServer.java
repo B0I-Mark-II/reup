@@ -87,7 +87,6 @@ public final class TestServer implements InvocationHandler {
                         public Object handle(TestServer server, Object[] args) {
                             return registers.computeIfAbsent((Class<?>) args[0], aClass -> new Registry<Keyed>() {
                                 private final Map<NamespacedKey, Keyed> cache = new HashMap<>();
-                                private int ordinal = 0;
                                 @Override
                                 public Keyed get(NamespacedKey key) {
                                     if (aClass == Biome.class) {
