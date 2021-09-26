@@ -1,11 +1,13 @@
 package org.bukkit.entity;
 
 import com.google.common.base.Preconditions;
-import java.util.HashMap;
-import java.util.Map;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+import com.google.common.collect.Lists;
 import org.bukkit.Keyed;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
 import org.bukkit.World;
 import org.bukkit.entity.minecart.CommandMinecart;
 import org.bukkit.entity.minecart.ExplosiveMinecart;
@@ -16,11 +18,13 @@ import org.bukkit.entity.minecart.SpawnerMinecart;
 import org.bukkit.entity.minecart.StorageMinecart;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.OldEnum;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public enum EntityType implements Keyed {
+public abstract class EntityType extends OldEnum<EntityType> implements Keyed {
+    private static final BiMap<Short, EntityType> ID_MAP = HashBiMap.create();
 
     // These strings MUST match the strings in nms.EntityTypes and are case sensitive.
     /**
@@ -29,311 +33,294 @@ public enum EntityType implements Keyed {
      * Spawn with {@link World#dropItem(Location, ItemStack)} or {@link
      * World#dropItemNaturally(Location, ItemStack)}
      */
-    DROPPED_ITEM("item", Item.class, 1, false),
+    public static final EntityType ITEM = getEntityType("item", 1);
     /**
      * An experience orb.
      */
-    EXPERIENCE_ORB("experience_orb", ExperienceOrb.class, 2),
+    public static final EntityType EXPERIENCE_ORB = getEntityType("experience_orb", 2);
     /**
      * @see AreaEffectCloud
      */
-    AREA_EFFECT_CLOUD("area_effect_cloud", AreaEffectCloud.class, 3),
+    public static final EntityType AREA_EFFECT_CLOUD = getEntityType("area_effect_cloud", 3);
     /**
      * @see ElderGuardian
      */
-    ELDER_GUARDIAN("elder_guardian", ElderGuardian.class, 4),
+    public static final EntityType ELDER_GUARDIAN = getEntityType("elder_guardian", 4);
     /**
      * @see WitherSkeleton
      */
-    WITHER_SKELETON("wither_skeleton", WitherSkeleton.class, 5),
+    public static final EntityType WITHER_SKELETON = getEntityType("wither_skeleton", 5);
     /**
      * @see Stray
      */
-    STRAY("stray", Stray.class, 6),
+    public static final EntityType STRAY = getEntityType("stray", 6);
     /**
      * A flying chicken egg.
      */
-    EGG("egg", Egg.class, 7),
+    public static final EntityType EGG = getEntityType("egg", 7);
     /**
      * A leash attached to a fencepost.
      */
-    LEASH_HITCH("leash_knot", LeashHitch.class, 8),
+    public static final EntityType LEASH_KNOT = getEntityType("leash_knot", 8);
     /**
      * A painting on a wall.
      */
-    PAINTING("painting", Painting.class, 9),
+    public static final EntityType PAINTING = getEntityType("painting", 9);
     /**
      * An arrow projectile; may get stuck in the ground.
      */
-    ARROW("arrow", Arrow.class, 10),
+    public static final EntityType ARROW = getEntityType("arrow", 10);
     /**
      * A flying snowball.
      */
-    SNOWBALL("snowball", Snowball.class, 11),
+    public static final EntityType SNOWBALL = getEntityType("snowball", 11);
     /**
      * A flying large fireball, as thrown by a Ghast for example.
      */
-    FIREBALL("fireball", LargeFireball.class, 12),
+    public static final EntityType FIREBALL = getEntityType("fireball", 12);
     /**
      * A flying small fireball, such as thrown by a Blaze or player.
      */
-    SMALL_FIREBALL("small_fireball", SmallFireball.class, 13),
+    public static final EntityType SMALL_FIREBALL = getEntityType("small_fireball", 13);
     /**
      * A flying ender pearl.
      */
-    ENDER_PEARL("ender_pearl", EnderPearl.class, 14),
+    public static final EntityType ENDER_PEARL = getEntityType("ender_pearl", 14);
     /**
      * An ender eye signal.
      */
-    ENDER_SIGNAL("eye_of_ender", EnderSignal.class, 15),
+    public static final EntityType EYE_OF_ENDER = getEntityType("eye_of_ender", 15);
     /**
      * A flying splash potion.
      */
-    SPLASH_POTION("potion", ThrownPotion.class, 16, false),
+    public static final EntityType POTION = getEntityType("potion", 16);
     /**
      * A flying experience bottle.
      */
-    THROWN_EXP_BOTTLE("experience_bottle", ThrownExpBottle.class, 17),
+    public static final EntityType EXPERIENCE_BOTTLE = getEntityType("experience_bottle", 17);
     /**
      * An item frame on a wall.
      */
-    ITEM_FRAME("item_frame", ItemFrame.class, 18),
+    public static final EntityType ITEM_FRAME = getEntityType("item_frame", 18);
     /**
      * A flying wither skull projectile.
      */
-    WITHER_SKULL("wither_skull", WitherSkull.class, 19),
+    public static final EntityType WITHER_SKULL = getEntityType("wither_skull", 19);
     /**
      * Primed TNT that is about to explode.
      */
-    PRIMED_TNT("tnt", TNTPrimed.class, 20),
+    public static final EntityType TNT = getEntityType("tnt", 20);
     /**
      * A block that is going to or is about to fall.
      */
-    FALLING_BLOCK("falling_block", FallingBlock.class, 21, false),
+    public static final EntityType FALLING_BLOCK = getEntityType("falling_block", 21);
     /**
      * Internal representation of a Firework once it has been launched.
      */
-    FIREWORK("firework_rocket", Firework.class, 22, false),
+    public static final EntityType FIREWORK_ROCKET = getEntityType("firework_rocket", 22);
     /**
      * @see Husk
      */
-    HUSK("husk", Husk.class, 23),
+    public static final EntityType HUSK = getEntityType("husk", 23);
     /**
      * Like {@link #ARROW} but causes the {@link PotionEffectType#GLOWING} effect on all team members.
      */
-    SPECTRAL_ARROW("spectral_arrow", SpectralArrow.class, 24),
+    public static final EntityType SPECTRAL_ARROW = getEntityType("spectral_arrow", 24);
     /**
      * Bullet fired by {@link #SHULKER}.
      */
-    SHULKER_BULLET("shulker_bullet", ShulkerBullet.class, 25),
+    public static final EntityType SHULKER_BULLET = getEntityType("shulker_bullet", 25);
     /**
      * Like {@link #FIREBALL} but with added effects.
      */
-    DRAGON_FIREBALL("dragon_fireball", DragonFireball.class, 26),
+    public static final EntityType DRAGON_FIREBALL = getEntityType("dragon_fireball", 26);
     /**
      * @see ZombieVillager
      */
-    ZOMBIE_VILLAGER("zombie_villager", ZombieVillager.class, 27),
+    public static final EntityType ZOMBIE_VILLAGER = getEntityType("zombie_villager", 27);
     /**
      * @see SkeletonHorse
      */
-    SKELETON_HORSE("skeleton_horse", SkeletonHorse.class, 28),
+    public static final EntityType SKELETON_HORSE = getEntityType("skeleton_horse", 28);
     /**
      * @see ZombieHorse
      */
-    ZOMBIE_HORSE("zombie_horse", ZombieHorse.class, 29),
+    public static final EntityType ZOMBIE_HORSE = getEntityType("zombie_horse", 29);
     /**
      * Mechanical entity with an inventory for placing weapons / armor into.
      */
-    ARMOR_STAND("armor_stand", ArmorStand.class, 30),
+    public static final EntityType ARMOR_STAND = getEntityType("armor_stand", 30);
     /**
      * @see Donkey
      */
-    DONKEY("donkey", Donkey.class, 31),
+    public static final EntityType DONKEY = getEntityType("donkey", 31);
     /**
      * @see Mule
      */
-    MULE("mule", Mule.class, 32),
+    public static final EntityType MULE = getEntityType("mule", 32);
     /**
      * @see EvokerFangs
      */
-    EVOKER_FANGS("evoker_fangs", EvokerFangs.class, 33),
+    public static final EntityType EVOKER_FANGS = getEntityType("evoker_fangs", 33);
     /**
      * @see Evoker
      */
-    EVOKER("evoker", Evoker.class, 34),
+    public static final EntityType EVOKER = getEntityType("evoker", 34);
     /**
      * @see Vex
      */
-    VEX("vex", Vex.class, 35),
+    public static final EntityType VEX = getEntityType("vex", 35);
     /**
      * @see Vindicator
      */
-    VINDICATOR("vindicator", Vindicator.class, 36),
+    public static final EntityType VINDICATOR = getEntityType("vindicator", 36);
     /**
      * @see Illusioner
      */
-    ILLUSIONER("illusioner", Illusioner.class, 37),
+    public static final EntityType ILLUSIONER = getEntityType("illusioner", 37);
     /**
      * @see CommandMinecart
      */
-    MINECART_COMMAND("command_block_minecart", CommandMinecart.class, 40),
+    public static final EntityType COMMAND_BLOCK_MINECART = getEntityType("command_block_minecart", 40);
     /**
      * A placed boat.
      */
-    BOAT("boat", Boat.class, 41),
+    public static final EntityType BOAT = getEntityType("boat", 41);
     /**
      * @see RideableMinecart
      */
-    MINECART("minecart", RideableMinecart.class, 42),
+    public static final EntityType MINECART = getEntityType("minecart", 42);
     /**
      * @see StorageMinecart
      */
-    MINECART_CHEST("chest_minecart", StorageMinecart.class, 43),
+    public static final EntityType CHEST_MINECART = getEntityType("chest_minecart", 43);
     /**
      * @see PoweredMinecart
      */
-    MINECART_FURNACE("furnace_minecart", PoweredMinecart.class, 44),
+    public static final EntityType FURNACE_MINECART = getEntityType("furnace_minecart", 44);
     /**
      * @see ExplosiveMinecart
      */
-    MINECART_TNT("tnt_minecart", ExplosiveMinecart.class, 45),
+    public static final EntityType TNT_MINECART = getEntityType("tnt_minecart", 45);
     /**
      * @see HopperMinecart
      */
-    MINECART_HOPPER("hopper_minecart", HopperMinecart.class, 46),
+    public static final EntityType HOPPER_MINECART = getEntityType("hopper_minecart", 46);
     /**
      * @see SpawnerMinecart
      */
-    MINECART_MOB_SPAWNER("spawner_minecart", SpawnerMinecart.class, 47),
-    CREEPER("creeper", Creeper.class, 50),
-    SKELETON("skeleton", Skeleton.class, 51),
-    SPIDER("spider", Spider.class, 52),
-    GIANT("giant", Giant.class, 53),
-    ZOMBIE("zombie", Zombie.class, 54),
-    SLIME("slime", Slime.class, 55),
-    GHAST("ghast", Ghast.class, 56),
-    ZOMBIFIED_PIGLIN("zombified_piglin", PigZombie.class, 57),
-    ENDERMAN("enderman", Enderman.class, 58),
-    CAVE_SPIDER("cave_spider", CaveSpider.class, 59),
-    SILVERFISH("silverfish", Silverfish.class, 60),
-    BLAZE("blaze", Blaze.class, 61),
-    MAGMA_CUBE("magma_cube", MagmaCube.class, 62),
-    ENDER_DRAGON("ender_dragon", EnderDragon.class, 63),
-    WITHER("wither", Wither.class, 64),
-    BAT("bat", Bat.class, 65),
-    WITCH("witch", Witch.class, 66),
-    ENDERMITE("endermite", Endermite.class, 67),
-    GUARDIAN("guardian", Guardian.class, 68),
-    SHULKER("shulker", Shulker.class, 69),
-    PIG("pig", Pig.class, 90),
-    SHEEP("sheep", Sheep.class, 91),
-    COW("cow", Cow.class, 92),
-    CHICKEN("chicken", Chicken.class, 93),
-    SQUID("squid", Squid.class, 94),
-    WOLF("wolf", Wolf.class, 95),
-    MUSHROOM_COW("mooshroom", MushroomCow.class, 96),
-    SNOWMAN("snow_golem", Snowman.class, 97),
-    OCELOT("ocelot", Ocelot.class, 98),
-    IRON_GOLEM("iron_golem", IronGolem.class, 99),
-    HORSE("horse", Horse.class, 100),
-    RABBIT("rabbit", Rabbit.class, 101),
-    POLAR_BEAR("polar_bear", PolarBear.class, 102),
-    LLAMA("llama", Llama.class, 103),
-    LLAMA_SPIT("llama_spit", LlamaSpit.class, 104),
-    PARROT("parrot", Parrot.class, 105),
-    VILLAGER("villager", Villager.class, 120),
-    ENDER_CRYSTAL("end_crystal", EnderCrystal.class, 200),
-    TURTLE("turtle", Turtle.class, -1),
-    PHANTOM("phantom", Phantom.class, -1),
-    TRIDENT("trident", Trident.class, -1),
-    COD("cod", Cod.class, -1),
-    SALMON("salmon", Salmon.class, -1),
-    PUFFERFISH("pufferfish", PufferFish.class, -1),
-    TROPICAL_FISH("tropical_fish", TropicalFish.class, -1),
-    DROWNED("drowned", Drowned.class, -1),
-    DOLPHIN("dolphin", Dolphin.class, -1),
-    CAT("cat", Cat.class, -1),
-    PANDA("panda", Panda.class, -1),
-    PILLAGER("pillager", Pillager.class, -1),
-    RAVAGER("ravager", Ravager.class, -1),
-    TRADER_LLAMA("trader_llama", TraderLlama.class, -1),
-    WANDERING_TRADER("wandering_trader", WanderingTrader.class, -1),
-    FOX("fox", Fox.class, -1),
-    BEE("bee", Bee.class, -1),
-    HOGLIN("hoglin", Hoglin.class, -1),
-    PIGLIN("piglin", Piglin.class, -1),
-    STRIDER("strider", Strider.class, -1),
-    ZOGLIN("zoglin", Zoglin.class, -1),
-    PIGLIN_BRUTE("piglin_brute", PiglinBrute.class, -1),
-    AXOLOTL("axolotl", Axolotl.class, -1),
-    GLOW_ITEM_FRAME("glow_item_frame", GlowItemFrame.class, -1),
-    GLOW_SQUID("glow_squid", GlowSquid.class, -1),
-    GOAT("goat", Goat.class, -1),
-    MARKER("marker", Marker.class, -1),
+    public static final EntityType SPAWNER_MINECART = getEntityType("spawner_minecart", 47);
+    public static final EntityType CREEPER = getEntityType("creeper", 50);
+    public static final EntityType SKELETON = getEntityType("skeleton", 51);
+    public static final EntityType SPIDER = getEntityType("spider", 52);
+    public static final EntityType GIANT = getEntityType("giant", 53);
+    public static final EntityType ZOMBIE = getEntityType("zombie", 54);
+    public static final EntityType SLIME = getEntityType("slime", 55);
+    public static final EntityType GHAST = getEntityType("ghast", 56);
+    public static final EntityType ZOMBIFIED_PIGLIN = getEntityType("zombified_piglin", 57);
+    public static final EntityType ENDERMAN = getEntityType("enderman", 58);
+    public static final EntityType CAVE_SPIDER = getEntityType("cave_spider", 59);
+    public static final EntityType SILVERFISH = getEntityType("silverfish", 60);
+    public static final EntityType BLAZE = getEntityType("blaze", 61);
+    public static final EntityType MAGMA_CUBE = getEntityType("magma_cube", 62);
+    public static final EntityType ENDER_DRAGON = getEntityType("ender_dragon", 63);
+    public static final EntityType WITHER = getEntityType("wither", 64);
+    public static final EntityType BAT = getEntityType("bat", 65);
+    public static final EntityType WITCH = getEntityType("witch", 66);
+    public static final EntityType ENDERMITE = getEntityType("endermite", 67);
+    public static final EntityType GUARDIAN = getEntityType("guardian", 68);
+    public static final EntityType SHULKER = getEntityType("shulker", 69);
+    public static final EntityType PIG = getEntityType("pig", 90);
+    public static final EntityType SHEEP = getEntityType("sheep", 91);
+    public static final EntityType COW = getEntityType("cow", 92);
+    public static final EntityType CHICKEN = getEntityType("chicken", 93);
+    public static final EntityType SQUID = getEntityType("squid", 94);
+    public static final EntityType WOLF = getEntityType("wolf", 95);
+    public static final EntityType MOOSHROOM = getEntityType("mooshroom", 96);
+    public static final EntityType SNOW_GOLEM = getEntityType("snow_golem", 97);
+    public static final EntityType OCELOT = getEntityType("ocelot", 98);
+    public static final EntityType IRON_GOLEM = getEntityType("iron_golem", 99);
+    public static final EntityType HORSE = getEntityType("horse", 100);
+    public static final EntityType RABBIT = getEntityType("rabbit", 101);
+    public static final EntityType POLAR_BEAR = getEntityType("polar_bear", 102);
+    public static final EntityType LLAMA = getEntityType("llama", 103);
+    public static final EntityType LLAMA_SPIT = getEntityType("llama_spit", 104);
+    public static final EntityType PARROT = getEntityType("parrot", 105);
+    public static final EntityType VILLAGER = getEntityType("villager", 120);
+    public static final EntityType END_CRYSTAL = getEntityType("end_crystal", 200);
+    public static final EntityType TURTLE = getEntityType("turtle");
+    public static final EntityType PHANTOM = getEntityType("phantom");
+    public static final EntityType TRIDENT = getEntityType("trident");
+    public static final EntityType COD = getEntityType("cod");
+    public static final EntityType SALMON = getEntityType("salmon");
+    public static final EntityType PUFFERFISH = getEntityType("pufferfish");
+    public static final EntityType TROPICAL_FISH = getEntityType("tropical_fish");
+    public static final EntityType DROWNED = getEntityType("drowned");
+    public static final EntityType DOLPHIN = getEntityType("dolphin");
+    public static final EntityType CAT = getEntityType("cat");
+    public static final EntityType PANDA = getEntityType("panda");
+    public static final EntityType PILLAGER = getEntityType("pillager");
+    public static final EntityType RAVAGER = getEntityType("ravager");
+    public static final EntityType TRADER_LLAMA = getEntityType("trader_llama");
+    public static final EntityType WANDERING_TRADER = getEntityType("wandering_trader");
+    public static final EntityType FOX = getEntityType("fox");
+    public static final EntityType BEE = getEntityType("bee");
+    public static final EntityType HOGLIN = getEntityType("hoglin");
+    public static final EntityType PIGLIN = getEntityType("piglin");
+    public static final EntityType STRIDER = getEntityType("strider");
+    public static final EntityType ZOGLIN = getEntityType("zoglin");
+    public static final EntityType PIGLIN_BRUTE = getEntityType("piglin_brute");
+    public static final EntityType AXOLOTL = getEntityType("axolotl");
+    public static final EntityType GLOW_ITEM_FRAME = getEntityType("glow_item_frame");
+    public static final EntityType GLOW_SQUID = getEntityType("glow_squid");
+    public static final EntityType GOAT = getEntityType("goat");
+    public static final EntityType MARKER = getEntityType("marker");
     /**
      * A fishing line and bobber.
      */
-    FISHING_HOOK("fishing_bobber", FishHook.class, -1, false),
+    public static final EntityType FISHING_BOBBER = getEntityType("fishing_bobber");
     /**
      * A bolt of lightning.
      * <p>
      * Spawn with {@link World#strikeLightning(Location)}.
      */
-    LIGHTNING("lightning_bolt", LightningStrike.class, -1, false),
-    PLAYER("player", Player.class, -1, false),
+    public static final EntityType LIGHTNING_BOLT = getEntityType("lightning_bolt");
+    public static final EntityType PLAYER = getEntityType("player");
     /**
      * An unknown entity without an Entity Class
+     * @deprecated only for backwards compatibility, unknown is no longer returned.
      */
-    UNKNOWN(null, null, -1, false);
+    @Deprecated
+    public static final EntityType UNKNOWN = getEntityType("unknown");
 
-    private final String name;
-    private final Class<? extends Entity> clazz;
-    private final short typeId;
-    private final boolean independent, living;
-    private final NamespacedKey key;
+    private static EntityType getEntityType(@NotNull String key) {
+        return getEntityType(key, -1);
+    }
 
-    private static final Map<String, EntityType> NAME_MAP = new HashMap<String, EntityType>();
-    private static final Map<Short, EntityType> ID_MAP = new HashMap<Short, EntityType>();
-
-    static {
-        for (EntityType type : values()) {
-            if (type.name != null) {
-                NAME_MAP.put(type.name.toLowerCase(java.util.Locale.ENGLISH), type);
-            }
-            if (type.typeId > 0) {
-                ID_MAP.put(type.typeId, type);
-            }
+    private static EntityType getEntityType(@NotNull String key, int typeId) {
+        NamespacedKey namespacedKey = NamespacedKey.minecraft(key);
+        EntityType entityType = Registry.ENTITY_TYPE.get(namespacedKey);
+        Preconditions.checkNotNull(entityType, "No EntityType found for %s. This is a bug.", namespacedKey);
+        if (typeId > 0) {
+            ID_MAP.put((short) typeId, entityType);
         }
-
-        // Add legacy names
-        NAME_MAP.put("xp_orb", EXPERIENCE_ORB);
-        NAME_MAP.put("eye_of_ender_signal", ENDER_SIGNAL);
-        NAME_MAP.put("xp_bottle", THROWN_EXP_BOTTLE);
-        NAME_MAP.put("fireworks_rocket", FIREWORK);
-        NAME_MAP.put("evocation_fangs", EVOKER_FANGS);
-        NAME_MAP.put("evocation_illager", EVOKER);
-        NAME_MAP.put("vindication_illager", VINDICATOR);
-        NAME_MAP.put("illusion_illager", ILLUSIONER);
-        NAME_MAP.put("commandblock_minecart", MINECART_COMMAND);
-        NAME_MAP.put("snowman", SNOWMAN);
-        NAME_MAP.put("villager_golem", IRON_GOLEM);
-        NAME_MAP.put("ender_crystal", ENDER_CRYSTAL);
-        NAME_MAP.put("zombie_pigman", ZOMBIFIED_PIGLIN);
+        return entityType;
     }
 
-    private EntityType(/*@Nullable*/ String name, /*@Nullable*/ Class<? extends Entity> clazz, int typeId) {
-        this(name, clazz, typeId, true);
-    }
+    /**
+     * Some entities cannot be spawned using {@link
+     * World#spawnEntity(Location, EntityType)} or {@link
+     * World#spawn(Location, Class)}, usually because they require additional
+     * information in order to spawn.
+     *
+     * @return False if the entity type cannot be spawned
+     */
+    public abstract boolean isSpawnable();
 
-    private EntityType(/*@Nullable*/ String name, /*@Nullable*/ Class<? extends Entity> clazz, int typeId, boolean independent) {
-        this.name = name;
-        this.clazz = clazz;
-        this.typeId = (short) typeId;
-        this.independent = independent;
-        this.living = clazz != null && LivingEntity.class.isAssignableFrom(clazz);
-        this.key = (name == null) ? null : NamespacedKey.minecraft(name);
-    }
+    public abstract boolean isAlive();
+
+    @Nullable
+    public abstract Class<? extends Entity> getEntityClass();
 
     /**
      * Gets the entity type name.
@@ -343,22 +330,7 @@ public enum EntityType implements Keyed {
      */
     @Deprecated
     @Nullable
-    public String getName() {
-        return name;
-    }
-
-    @NotNull
-    @Override
-    public NamespacedKey getKey() {
-        Preconditions.checkArgument(key != null, "EntityType doesn't have key! Is it UNKNOWN?");
-
-        return key;
-    }
-
-    @Nullable
-    public Class<? extends Entity> getEntityClass() {
-        return clazz;
-    }
+    public abstract String getName();
 
     /**
      * Gets the entity type id.
@@ -368,7 +340,7 @@ public enum EntityType implements Keyed {
      */
     @Deprecated
     public short getTypeId() {
-        return typeId;
+        return ID_MAP.inverse().getOrDefault(this, (short) -1);
     }
 
     /**
@@ -385,7 +357,7 @@ public enum EntityType implements Keyed {
         if (name == null) {
             return null;
         }
-        return NAME_MAP.get(name.toLowerCase(java.util.Locale.ENGLISH));
+        return Registry.ENTITY_TYPE.get(NamespacedKey.fromString(name.toLowerCase(java.util.Locale.ENGLISH)));
     }
 
     /**
@@ -405,18 +377,25 @@ public enum EntityType implements Keyed {
     }
 
     /**
-     * Some entities cannot be spawned using {@link
-     * World#spawnEntity(Location, EntityType)} or {@link
-     * World#spawn(Location, Class)}, usually because they require additional
-     * information in order to spawn.
-     *
-     * @return False if the entity type cannot be spawned
+     * @param name of the entityType.
+     * @return the entityType with the given name.
+     * @deprecated only for backwards compatibility, use {@link Registry#get(NamespacedKey)} instead.
      */
-    public boolean isSpawnable() {
-        return independent;
+    @NotNull
+    @Deprecated
+    public static EntityType valueOf(@NotNull String name) {
+        EntityType entityType = Registry.ENTITY_TYPE.get(NamespacedKey.fromString(name.toLowerCase()));
+        Preconditions.checkArgument(entityType != null, "No EntityType found with the name %s", name);
+        return entityType;
     }
 
-    public boolean isAlive() {
-        return living;
+    /**
+     * @return an array of all known EntityTypes.
+     * @deprecated use {@link Registry#iterator()}.
+     */
+    @NotNull
+    @Deprecated
+    public static EntityType[] values() {
+        return Lists.newArrayList(Registry.ENTITY_TYPE).toArray(new EntityType[0]);
     }
 }

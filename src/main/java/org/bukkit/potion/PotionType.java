@@ -14,19 +14,19 @@ public enum PotionType {
     AWKWARD(null, false, false),
     NIGHT_VISION(PotionEffectType.NIGHT_VISION, false, true),
     INVISIBILITY(PotionEffectType.INVISIBILITY, false, true),
-    JUMP(PotionEffectType.JUMP, true, true),
+    JUMP(PotionEffectType.JUMP_BOOST, true, true),
     FIRE_RESISTANCE(PotionEffectType.FIRE_RESISTANCE, false, true),
     SPEED(PotionEffectType.SPEED, true, true),
-    SLOWNESS(PotionEffectType.SLOW, true, true),
+    SLOWNESS(PotionEffectType.SLOWNESS, true, true),
     WATER_BREATHING(PotionEffectType.WATER_BREATHING, false, true),
-    INSTANT_HEAL(PotionEffectType.HEAL, true, false),
-    INSTANT_DAMAGE(PotionEffectType.HARM, true, false),
+    INSTANT_HEAL(PotionEffectType.INSTANT_HEALTH, true, false),
+    INSTANT_DAMAGE(PotionEffectType.INSTANT_DAMAGE, true, false),
     POISON(PotionEffectType.POISON, true, true),
     REGEN(PotionEffectType.REGENERATION, true, true),
-    STRENGTH(PotionEffectType.INCREASE_DAMAGE, true, true),
+    STRENGTH(PotionEffectType.STRENGTH, true, true),
     WEAKNESS(PotionEffectType.WEAKNESS, false, true),
     LUCK(PotionEffectType.LUCK, false, false),
-    TURTLE_MASTER(PotionEffectType.SLOW, true, true), // TODO: multiple effects
+    TURTLE_MASTER(PotionEffectType.SLOWNESS, true, true), // TODO: multiple effects
     SLOW_FALLING(PotionEffectType.SLOW_FALLING, false, true),
     ;
 

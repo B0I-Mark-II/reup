@@ -1,9 +1,12 @@
 package org.bukkit.entity;
 
-import java.util.Locale;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import org.bukkit.Keyed;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
+import org.bukkit.util.OldEnum;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -105,25 +108,45 @@ public interface Villager extends AbstractVillager {
      * Represents Villager type, usually corresponding to what biome they spawn
      * in.
      */
-    public enum Type implements Keyed {
+    public abstract class Type extends OldEnum<Type> implements Keyed {
 
-        DESERT,
-        JUNGLE,
-        PLAINS,
-        SAVANNA,
-        SNOW,
-        SWAMP,
-        TAIGA;
-        private final NamespacedKey key;
-
-        private Type() {
-            this.key = NamespacedKey.minecraft(this.name().toLowerCase(Locale.ROOT));
-        }
+        public static final Type DESERT = getType("desert");
+        public static final Type JUNGLE = getType("jungle");
+        public static final Type PLAINS = getType("plains");
+        public static final Type SAVANNA = getType("savanna");
+        public static final Type SNOW = getType("snow");
+        public static final Type SWAMP = getType("swamp");
+        public static final Type TAIGA = getType("taiga");
 
         @NotNull
-        @Override
-        public NamespacedKey getKey() {
-            return key;
+        private static Type getType(@NotNull String key) {
+            NamespacedKey namespacedKey = NamespacedKey.minecraft(key);
+            Type type = Registry.VILLAGER_TYPE.get(namespacedKey);
+            Preconditions.checkNotNull(type, "No villager type found for %s. This is a bug.", namespacedKey);
+            return type;
+        }
+
+        /**
+         * @param name of the villager type.
+         * @return the villager type with the given name.
+         * @deprecated only for backwards compatibility, use {@link Registry#get(NamespacedKey)} instead.
+         */
+        @NotNull
+        @Deprecated
+        public static Type valueOf(@NotNull String name) {
+            Type type = Registry.VILLAGER_TYPE.get(NamespacedKey.fromString(name.toLowerCase()));
+            Preconditions.checkArgument(type != null, "No villager type found with the name %s", name);
+            return type;
+        }
+
+        /**
+         * @return an array of all known villager types.
+         * @deprecated use {@link Registry#iterator()}.
+         */
+        @NotNull
+        @Deprecated
+        public static Type[] values() {
+            return Lists.newArrayList(Registry.VILLAGER_TYPE).toArray(new Type[0]);
         }
     }
 
@@ -131,88 +154,108 @@ public interface Villager extends AbstractVillager {
      * Represents the various different Villager professions there may be.
      * Villagers have different trading options depending on their profession,
      */
-    public enum Profession implements Keyed {
-        NONE,
+    public abstract class Profession extends OldEnum<Profession> implements Keyed {
+        public static final Profession NONE = getProfession("none");
         /**
          * Armorer profession. Wears a black apron. Armorers primarily trade for
          * iron armor, chainmail armor, and sometimes diamond armor.
          */
-        ARMORER,
+        public static final Profession ARMORER = getProfession("armorer");
         /**
          * Butcher profession. Wears a white apron. Butchers primarily trade for
          * raw and cooked food.
          */
-        BUTCHER,
+        public static final Profession BUTCHER = getProfession("butcher");
         /**
          * Cartographer profession. Wears a white robe. Cartographers primarily
          * trade for explorer maps and some paper.
          */
-        CARTOGRAPHER,
+        public static final Profession CARTOGRAPHER = getProfession("cartographer");
         /**
          * Cleric profession. Wears a purple robe. Clerics primarily trade for
          * rotten flesh, gold ingot, redstone, lapis, ender pearl, glowstone,
          * and bottle o' enchanting.
          */
-        CLERIC,
+        public static final Profession CLERIC = getProfession("cleric");
         /**
          * Farmer profession. Wears a brown robe. Farmers primarily trade for
          * food-related items.
          */
-        FARMER,
+        public static final Profession FARMER = getProfession("farmer");
         /**
          * Fisherman profession. Wears a brown robe. Fisherman primarily trade
          * for fish, as well as possibly selling string and/or coal.
          */
-        FISHERMAN,
+        public static final Profession FISHERMAN = getProfession("fisherman");
         /**
          * Fletcher profession. Wears a brown robe. Fletchers primarily trade
          * for string, bows, and arrows.
          */
-        FLETCHER,
+        public static final Profession FLETCHER = getProfession("fletcher");
         /**
          * Leatherworker profession. Wears a white apron. Leatherworkers
          * primarily trade for leather, and leather armor, as well as saddles.
          */
-        LEATHERWORKER,
+        public static final Profession LEATHERWORKER = getProfession("leatherworker");
         /**
          * Librarian profession. Wears a white robe. Librarians primarily trade
          * for paper, books, and enchanted books.
          */
-        LIBRARIAN,
+        public static final Profession LIBRARIAN = getProfession("librarian");
         /**
          * Mason profession.
          */
-        MASON,
+        public static final Profession MASON = getProfession("mason");
         /**
          * Nitwit profession. Wears a green apron, cannot trade. Nitwit
          * villagers do not do anything. They do not have any trades by default.
          */
-        NITWIT,
+        public static final Profession NITWIT = getProfession("nitwit");
         /**
          * Sheperd profession. Wears a brown robe. Shepherds primarily trade for
          * wool items, and shears.
          */
-        SHEPHERD,
+        public static final Profession SHEPHERD = getProfession("shepherd");
         /**
          * Toolsmith profession. Wears a black apron. Tool smiths primarily
          * trade for iron and diamond tools.
          */
-        TOOLSMITH,
+        public static final Profession TOOLSMITH = getProfession("toolsmith");
         /**
          * Weaponsmith profession. Wears a black apron. Weapon smiths primarily
          * trade for iron and diamond weapons, sometimes enchanted.
          */
-        WEAPONSMITH;
-        private final NamespacedKey key;
-
-        private Profession() {
-            this.key = NamespacedKey.minecraft(this.name().toLowerCase(Locale.ROOT));
-        }
+        public static final Profession WEAPONSMITH = getProfession("weaponsmith");
 
         @NotNull
-        @Override
-        public NamespacedKey getKey() {
-            return key;
+        private static Profession getProfession(@NotNull String key) {
+            NamespacedKey namespacedKey = NamespacedKey.minecraft(key);
+            Profession profession = Registry.VILLAGER_PROFESSION.get(namespacedKey);
+            Preconditions.checkNotNull(profession, "No villager profession found for %s. This is a bug.", namespacedKey);
+            return profession;
+        }
+
+        /**
+         * @param name of the villager profession.
+         * @return the villager profession with the given name.
+         * @deprecated only for backwards compatibility, use {@link Registry#get(NamespacedKey)} instead.
+         */
+        @NotNull
+        @Deprecated
+        public static Profession valueOf(@NotNull String name) {
+            Profession profession = Registry.VILLAGER_PROFESSION.get(NamespacedKey.fromString(name.toLowerCase()));
+            Preconditions.checkArgument(profession != null, "No villager profession found with the name %s", name);
+            return profession;
+        }
+
+        /**
+         * @return an array of all known villager professions.
+         * @deprecated use {@link Registry#iterator()}.
+         */
+        @NotNull
+        @Deprecated
+        public static Profession[] values() {
+            return Lists.newArrayList(Registry.VILLAGER_PROFESSION).toArray(new Profession[0]);
         }
     }
 }

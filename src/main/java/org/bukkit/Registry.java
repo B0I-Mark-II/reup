@@ -2,7 +2,6 @@ package org.bukkit;
 
 import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableMap;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
@@ -16,6 +15,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Villager;
 import org.bukkit.entity.memory.MemoryKey;
 import org.bukkit.loot.LootTables;
+import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -52,19 +52,19 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
      *
      * @see Art
      */
-    Registry<Art> ART = new SimpleRegistry<>(Art.class);
+    Registry<Art> ART = Objects.requireNonNull(Bukkit.getRegistry(Art.class), "No registry present for Art. This is a bug.");
     /**
      * Attribute.
      *
      * @see Attribute
      */
-    Registry<Attribute> ATTRIBUTE = new SimpleRegistry<>(Attribute.class);
+    Registry<Attribute> ATTRIBUTE = Objects.requireNonNull(Bukkit.getRegistry(Attribute.class), "No registry present for Attribute. This is a bug.");
     /**
      * Server biomes.
      *
      * @see Biome
      */
-    Registry<Biome> BIOME = Objects.requireNonNull(Bukkit.getRegistry(Biome.class), "No registry present for Biome");
+    Registry<Biome> BIOME = Objects.requireNonNull(Bukkit.getRegistry(Biome.class), "No registry present for Biome. This is a bug.");
     /**
      * Custom boss bars.
      *
@@ -90,26 +90,13 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
      *
      * @see Enchantment#getByKey(org.bukkit.NamespacedKey)
      */
-    Registry<Enchantment> ENCHANTMENT = new Registry<Enchantment>() {
-
-        @Nullable
-        @Override
-        public Enchantment get(@NotNull NamespacedKey key) {
-            return Enchantment.getByKey(key);
-        }
-
-        @NotNull
-        @Override
-        public Iterator<Enchantment> iterator() {
-            return Arrays.asList(Enchantment.values()).iterator();
-        }
-    };
+    Registry<Enchantment> ENCHANTMENT = Objects.requireNonNull(Bukkit.getRegistry(Enchantment.class), "No registry present for Enchantment. This is a bug.");
     /**
      * Server entity types.
      *
      * @see EntityType
      */
-    Registry<EntityType> ENTITY_TYPE = new SimpleRegistry<>(EntityType.class, (entity) -> entity != EntityType.UNKNOWN);
+    Registry<EntityType> ENTITY_TYPE = Objects.requireNonNull(Bukkit.getRegistry(EntityType.class), "No registry present for EntityType. This is a bug.");
     /**
      * Default server loot tables.
      *
@@ -133,19 +120,19 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
      *
      * @see Sound
      */
-    Registry<Sound> SOUNDS = new SimpleRegistry<>(Sound.class);
+    Registry<Sound> SOUNDS = Objects.requireNonNull(Bukkit.getRegistry(Sound.class), "No registry present for Sound. This is a bug.");
     /**
      * Villager profession.
      *
      * @see Villager.Profession
      */
-    Registry<Villager.Profession> VILLAGER_PROFESSION = new SimpleRegistry<>(Villager.Profession.class);
+    Registry<Villager.Profession> VILLAGER_PROFESSION = Objects.requireNonNull(Bukkit.getRegistry(Villager.Profession.class), "No registry present for Villager Profession. This is a bug.");
     /**
      * Villager type.
      *
      * @see Villager.Type
      */
-    Registry<Villager.Type> VILLAGER_TYPE = new SimpleRegistry<>(Villager.Type.class);
+    Registry<Villager.Type> VILLAGER_TYPE = Objects.requireNonNull(Bukkit.getRegistry(Villager.Type.class), "No registry present for Villager Type. This is a bug.");
     /**
      * Memory Keys.
      *
@@ -170,7 +157,7 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
      *
      * @see Fluid
      */
-    Registry<Fluid> FLUID = new SimpleRegistry<>(Fluid.class);
+    Registry<Fluid> FLUID = Objects.requireNonNull(Bukkit.getRegistry(Fluid.class), "No registry present for Fluid. This is a bug.");
     /**
      * Game events.
      *
@@ -190,6 +177,13 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
             return GameEvent.getByKey(key);
         }
     };
+
+    /**
+     * Server potion effect types.
+     *
+     * @see PotionEffectType
+     */
+    Registry<PotionEffectType> POTION_EFFECT_TYPE = Objects.requireNonNull(Bukkit.getRegistry(PotionEffectType.class), "No registry present for Potion Effect Type. This is a bug.");
 
     /**
      * Get the object by its key.

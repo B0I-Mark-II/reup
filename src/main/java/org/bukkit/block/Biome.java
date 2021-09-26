@@ -4,8 +4,8 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
-import org.bukkit.OldEnum;
 import org.bukkit.Registry;
+import org.bukkit.util.OldEnum;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -107,7 +107,7 @@ public abstract class Biome extends OldEnum<Biome> implements Keyed {
     public static final Biome CUSTOM = getBiome("custom");
 
     @NotNull
-    private static Biome getBiome(String key) {
+    private static Biome getBiome(@NotNull String key) {
         NamespacedKey namespacedKey = NamespacedKey.minecraft(key);
         Biome biome = Registry.BIOME.get(namespacedKey);
         Preconditions.checkNotNull(biome, "No Biome found for %s. This is a bug.", namespacedKey);
@@ -121,14 +121,14 @@ public abstract class Biome extends OldEnum<Biome> implements Keyed {
      */
     @NotNull
     @Deprecated
-    public static Biome valueOf(String name) {
+    public static Biome valueOf(@NotNull String name) {
         Biome biome = Registry.BIOME.get(NamespacedKey.fromString(name.toLowerCase()));
         Preconditions.checkArgument(biome != null, "No Biome found with the name %s", name);
         return biome;
     }
 
     /**
-     * @return an array of all know Biomes.
+     * @return an array of all known Biomes.
      * @deprecated use {@link Registry#iterator()}.
      */
     @NotNull

@@ -1,4 +1,4 @@
-package org.bukkit;
+package org.bukkit.util;
 
 import org.jetbrains.annotations.NotNull;
 

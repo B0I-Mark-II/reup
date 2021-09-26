@@ -1,183 +1,193 @@
 package org.bukkit.potion;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Color;
+import org.bukkit.Keyed;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * Represents a type of potion and its effect on an entity.
  */
-public abstract class PotionEffectType {
+public abstract class PotionEffectType implements Keyed {
+    protected static final BiMap<Integer, PotionEffectType> ID_MAP = HashBiMap.create();
+
     /**
      * Increases movement speed.
      */
-    public static final PotionEffectType SPEED = new PotionEffectTypeWrapper(1);
+    public static final PotionEffectType SPEED = getPotionEffectType("speed", 1);
 
     /**
      * Decreases movement speed.
      */
-    public static final PotionEffectType SLOW = new PotionEffectTypeWrapper(2);
+    public static final PotionEffectType SLOWNESS = getPotionEffectType("slowness", 2);
 
     /**
      * Increases dig speed.
      */
-    public static final PotionEffectType FAST_DIGGING = new PotionEffectTypeWrapper(3);
+    public static final PotionEffectType HASTE = getPotionEffectType("haste", 3);
 
     /**
      * Decreases dig speed.
      */
-    public static final PotionEffectType SLOW_DIGGING = new PotionEffectTypeWrapper(4);
+    public static final PotionEffectType MINING_FATIGUE = getPotionEffectType("mining_fatigue", 4);
 
     /**
      * Increases damage dealt.
      */
-    public static final PotionEffectType INCREASE_DAMAGE = new PotionEffectTypeWrapper(5);
+    public static final PotionEffectType STRENGTH = getPotionEffectType("strength", 5);
 
     /**
      * Heals an entity.
      */
-    public static final PotionEffectType HEAL = new PotionEffectTypeWrapper(6);
+    public static final PotionEffectType INSTANT_HEALTH = getPotionEffectType("instant_health", 6);
 
     /**
      * Hurts an entity.
      */
-    public static final PotionEffectType HARM = new PotionEffectTypeWrapper(7);
+    public static final PotionEffectType INSTANT_DAMAGE = getPotionEffectType("instant_damage", 7);
 
     /**
      * Increases jump height.
      */
-    public static final PotionEffectType JUMP = new PotionEffectTypeWrapper(8);
+    public static final PotionEffectType JUMP_BOOST = getPotionEffectType("jump_boost", 8);
 
     /**
      * Warps vision on the client.
      */
-    public static final PotionEffectType CONFUSION = new PotionEffectTypeWrapper(9);
+    public static final PotionEffectType NAUSEA = getPotionEffectType("nausea", 9);
 
     /**
      * Regenerates health.
      */
-    public static final PotionEffectType REGENERATION = new PotionEffectTypeWrapper(10);
+    public static final PotionEffectType REGENERATION = getPotionEffectType("regeneration", 10);
 
     /**
      * Decreases damage dealt to an entity.
      */
-    public static final PotionEffectType DAMAGE_RESISTANCE = new PotionEffectTypeWrapper(11);
+    public static final PotionEffectType RESISTANCE = getPotionEffectType("resistance", 11);
 
     /**
      * Stops fire damage.
      */
-    public static final PotionEffectType FIRE_RESISTANCE = new PotionEffectTypeWrapper(12);
+    public static final PotionEffectType FIRE_RESISTANCE = getPotionEffectType("fire_resistance", 12);
 
     /**
      * Allows breathing underwater.
      */
-    public static final PotionEffectType WATER_BREATHING = new PotionEffectTypeWrapper(13);
+    public static final PotionEffectType WATER_BREATHING = getPotionEffectType("water_breathing", 13);
 
     /**
      * Grants invisibility.
      */
-    public static final PotionEffectType INVISIBILITY = new PotionEffectTypeWrapper(14);
+    public static final PotionEffectType INVISIBILITY = getPotionEffectType("invisibility", 14);
 
     /**
      * Blinds an entity.
      */
-    public static final PotionEffectType BLINDNESS = new PotionEffectTypeWrapper(15);
+    public static final PotionEffectType BLINDNESS = getPotionEffectType("blindness", 15);
 
     /**
      * Allows an entity to see in the dark.
      */
-    public static final PotionEffectType NIGHT_VISION = new PotionEffectTypeWrapper(16);
+    public static final PotionEffectType NIGHT_VISION = getPotionEffectType("night_vision", 16);
 
     /**
      * Increases hunger.
      */
-    public static final PotionEffectType HUNGER = new PotionEffectTypeWrapper(17);
+    public static final PotionEffectType HUNGER = getPotionEffectType("hunger", 17);
 
     /**
      * Decreases damage dealt by an entity.
      */
-    public static final PotionEffectType WEAKNESS = new PotionEffectTypeWrapper(18);
+    public static final PotionEffectType WEAKNESS = getPotionEffectType("weakness", 18);
 
     /**
      * Deals damage to an entity over time.
      */
-    public static final PotionEffectType POISON = new PotionEffectTypeWrapper(19);
+    public static final PotionEffectType POISON = getPotionEffectType("poison", 19);
 
     /**
      * Deals damage to an entity over time and gives the health to the
      * shooter.
      */
-    public static final PotionEffectType WITHER = new PotionEffectTypeWrapper(20);
+    public static final PotionEffectType WITHER = getPotionEffectType("wither", 20);
 
     /**
      * Increases the maximum health of an entity.
      */
-    public static final PotionEffectType HEALTH_BOOST = new PotionEffectTypeWrapper(21);
+    public static final PotionEffectType HEALTH_BOOST = getPotionEffectType("health_boost", 21);
 
     /**
      * Increases the maximum health of an entity with health that cannot be
      * regenerated, but is refilled every 30 seconds.
      */
-    public static final PotionEffectType ABSORPTION = new PotionEffectTypeWrapper(22);
+    public static final PotionEffectType ABSORPTION = getPotionEffectType("absorption", 22);
 
     /**
      * Increases the food level of an entity each tick.
      */
-    public static final PotionEffectType SATURATION = new PotionEffectTypeWrapper(23);
+    public static final PotionEffectType SATURATION = getPotionEffectType("saturation", 23);
 
     /**
      * Outlines the entity so that it can be seen from afar.
      */
-    public static final PotionEffectType GLOWING = new PotionEffectTypeWrapper(24);
+    public static final PotionEffectType GLOWING = getPotionEffectType("glowing", 24);
 
     /**
      * Causes the entity to float into the air.
      */
-    public static final PotionEffectType LEVITATION = new PotionEffectTypeWrapper(25);
+    public static final PotionEffectType LEVITATION = getPotionEffectType("levitation", 25);
 
     /**
      * Loot table luck.
      */
-    public static final PotionEffectType LUCK = new PotionEffectTypeWrapper(26);
+    public static final PotionEffectType LUCK = getPotionEffectType("luck", 26);
 
     /**
      * Loot table unluck.
      */
-    public static final PotionEffectType UNLUCK = new PotionEffectTypeWrapper(27);
+    public static final PotionEffectType UNLUCK = getPotionEffectType("unluck", 27);
 
     /**
      * Slows entity fall rate.
      */
-    public static final PotionEffectType SLOW_FALLING = new PotionEffectTypeWrapper(28);
+    public static final PotionEffectType SLOW_FALLING = getPotionEffectType("slow_falling", 28);
 
     /**
      * Effects granted by a nearby conduit. Includes enhanced underwater abilities.
      */
-    public static final PotionEffectType CONDUIT_POWER = new PotionEffectTypeWrapper(29);
+    public static final PotionEffectType CONDUIT_POWER = getPotionEffectType("conduit_power", 29);
 
     /**
      * Squee'ek uh'k kk'kkkk squeek eee'eek.
      */
-    public static final PotionEffectType DOLPHINS_GRACE = new PotionEffectTypeWrapper(30);
+    public static final PotionEffectType DOLPHINS_GRACE = getPotionEffectType("dolphins_grace", 30);
 
     /**
      * oof.
      */
-    public static final PotionEffectType BAD_OMEN = new PotionEffectTypeWrapper(31);
+    public static final PotionEffectType BAD_OMEN = getPotionEffectType("bad_omen", 31);
 
     /**
      * \o/.
      */
-    public static final PotionEffectType HERO_OF_THE_VILLAGE = new PotionEffectTypeWrapper(32);
+    public static final PotionEffectType HERO_OF_THE_VILLAGE = getPotionEffectType("hero_of_the_village", 32);
 
-    private final int id;
-
-    protected PotionEffectType(int id) {
-        this.id = id;
+    private static PotionEffectType getPotionEffectType(@NotNull String key, int typeId) {
+        NamespacedKey namespacedKey = NamespacedKey.minecraft(key);
+        PotionEffectType potionEffectType = Registry.POTION_EFFECT_TYPE.get(namespacedKey);
+        Preconditions.checkNotNull(potionEffectType, "No PotionEffectType found for %s. This is a bug.", namespacedKey);
+        if (typeId > 0) {
+            ID_MAP.put(typeId, potionEffectType);
+        }
+        return potionEffectType;
     }
 
     /**
@@ -195,6 +205,21 @@ public abstract class PotionEffectType {
     }
 
     /**
+     * Returns whether the effect of this type happens once, immediately.
+     *
+     * @return whether this type is normally instant
+     */
+    public abstract boolean isInstant();
+
+    /**
+     * Returns the color of this effect type.
+     *
+     * @return the color
+     */
+    @NotNull
+    public abstract Color getColor();
+
+    /**
      * Returns the duration modifier applied to effects of this type.
      *
      * @return duration modifier
@@ -210,62 +235,17 @@ public abstract class PotionEffectType {
      * @deprecated Magic value
      */
     @Deprecated
-    public int getId() {
-        return id;
-    }
+    public abstract int getId();
 
     /**
      * Returns the name of this effect type.
      *
      * @return The name of this effect type
+     * @deprecated only for backwards compatibility, use {@link #getKey()} instead.
      */
     @NotNull
+    @Deprecated
     public abstract String getName();
-
-    /**
-     * Returns whether the effect of this type happens once, immediately.
-     *
-     * @return whether this type is normally instant
-     */
-    public abstract boolean isInstant();
-
-    /**
-     * Returns the color of this effect type.
-     *
-     * @return the color
-     */
-    @NotNull
-    public abstract Color getColor();
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (!(obj instanceof PotionEffectType)) {
-            return false;
-        }
-        final PotionEffectType other = (PotionEffectType) obj;
-        if (this.id != other.id) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return id;
-    }
-
-    @Override
-    public String toString() {
-        return "PotionEffectType[" + id + ", " + getName() + "]";
-    }
-
-    private static final PotionEffectType[] byId = new PotionEffectType[33];
-    private static final Map<String, PotionEffectType> byName = new HashMap<String, PotionEffectType>();
-    // will break on updates.
-    private static boolean acceptingNew = true;
 
     /**
      * Gets the effect type specified by the unique id.
@@ -277,9 +257,7 @@ public abstract class PotionEffectType {
     @Deprecated
     @Nullable
     public static PotionEffectType getById(int id) {
-        if (id >= byId.length || id < 0)
-            return null;
-        return byId[id];
+        return ID_MAP.get(id);
     }
 
     /**
@@ -287,11 +265,23 @@ public abstract class PotionEffectType {
      *
      * @param name Name of PotionEffectType to fetch
      * @return Resulting PotionEffectType, or null if not found.
+     * @deprecated only for backwards compatibility, use {@link Registry#get(NamespacedKey)} instead.
      */
     @Nullable
+    @Deprecated
     public static PotionEffectType getByName(@NotNull String name) {
         Validate.notNull(name, "name cannot be null");
-        return byName.get(name.toLowerCase(java.util.Locale.ENGLISH));
+        return Registry.POTION_EFFECT_TYPE.get(NamespacedKey.fromString(name.toLowerCase(java.util.Locale.ENGLISH)));
+    }
+
+    /**
+     * @return an array of all known PotionEffectTypes.
+     * @deprecated use {@link Registry#iterator()}.
+     */
+    @NotNull
+    @Deprecated
+    public static PotionEffectType[] values() {
+        return Lists.newArrayList(Registry.POTION_EFFECT_TYPE).toArray(new PotionEffectType[0]);
     }
 
     /**
@@ -300,34 +290,15 @@ public abstract class PotionEffectType {
      * Generally not to be used from within a plugin.
      *
      * @param type PotionType to register
+     * @deprecated only for backwards compatibility, has no effect.
      */
-    public static void registerPotionEffectType(@NotNull PotionEffectType type) {
-        if (byId[type.id] != null || byName.containsKey(type.getName().toLowerCase(java.util.Locale.ENGLISH))) {
-            throw new IllegalArgumentException("Cannot set already-set type");
-        } else if (!acceptingNew) {
-            throw new IllegalStateException(
-                    "No longer accepting new potion effect types (can only be done by the server implementation)");
-        }
-
-        byId[type.id] = type;
-        byName.put(type.getName().toLowerCase(java.util.Locale.ENGLISH), type);
-    }
+    @Deprecated
+    public static void registerPotionEffectType(@NotNull PotionEffectType type) {}
 
     /**
      * Stops accepting any effect type registrations.
+     * @deprecated only for backwards compatibility, has no effect.
      */
-    public static void stopAcceptingRegistrations() {
-        acceptingNew = false;
-    }
-
-    /**
-     * Returns an array of all the registered {@link PotionEffectType}s.
-     * This array is not necessarily in any particular order.
-     *
-     * @return Array of types.
-     */
-    @NotNull
-    public static PotionEffectType[] values() {
-        return Arrays.copyOfRange(byId, 1, byId.length);
-    }
+    @Deprecated
+    public static void stopAcceptingRegistrations() {}
 }

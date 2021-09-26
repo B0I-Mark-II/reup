@@ -8,11 +8,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Logger;
-import org.bukkit.block.Biome;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.SimplePluginManager;
-import org.jetbrains.annotations.NotNull;
+import org.mockito.Mockito;
 
 public final class TestServer implements InvocationHandler {
     private static interface MethodHandler {
@@ -82,36 +81,15 @@ public final class TestServer implements InvocationHandler {
             methodMap.put(
                     Server.class.getMethod("getRegistry", Class.class),
                     new MethodHandler() {
-                        private final Map<Class<?>, Registry<?>> registers = new HashMap<>();
+                        private final Map<Class<? extends Keyed>, Registry<?>> registers = new HashMap<>();
                         @Override
                         public Object handle(TestServer server, Object[] args) {
-                            return registers.computeIfAbsent((Class<?>) args[0], aClass -> new Registry<Keyed>() {
+
+                            return registers.computeIfAbsent((Class<? extends Keyed>) args[0], aClass -> new Registry<Keyed>() {
                                 private final Map<NamespacedKey, Keyed> cache = new HashMap<>();
                                 @Override
                                 public Keyed get(NamespacedKey key) {
-                                    if (aClass == Biome.class) {
-                                        return cache.computeIfAbsent(key, key1 -> new Biome() {
-                                            @Override
-                                            public int compareTo(Biome biome) {
-                                                throw new UnsupportedOperationException("Not supported");
-                                            }
-                                            @NotNull
-                                            @Override
-                                            public String name() {
-                                                throw new UnsupportedOperationException("Not supported");
-                                            }
-                                            @Override
-                                            public int ordinal() {
-                                                throw new UnsupportedOperationException("Not supported");
-                                            }
-                                            @NotNull
-                                            @Override
-                                            public NamespacedKey getKey() {
-                                                throw new UnsupportedOperationException("Not supported");
-                                            }
-                                        });
-                                    }
-                                    throw new UnsupportedOperationException("Not supported");
+                                    return cache.computeIfAbsent(key, key2 -> Mockito.mock(aClass));
                                 }
 
                                 @Override
@@ -135,7 +113,9 @@ public final class TestServer implements InvocationHandler {
 
     private Thread creatingThread = Thread.currentThread();
     private PluginManager pluginManager;
-    private TestServer() {};
+    private TestServer() {}
+
+    public static void setup() {}
 
     public static Server getInstance() {
         return Bukkit.getServer();

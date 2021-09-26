@@ -1,52 +1,71 @@
 package org.bukkit;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import java.util.HashMap;
+import java.util.Map;
 import org.apache.commons.lang.Validate;
+import org.bukkit.util.OldEnum;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Represents the art on a painting
+ * Represents the art on a painting.
+ * Listed Arts are present at the default server.
  */
-public enum Art implements Keyed {
-    KEBAB(0, 1, 1),
-    AZTEC(1, 1, 1),
-    ALBAN(2, 1, 1),
-    AZTEC2(3, 1, 1),
-    BOMB(4, 1, 1),
-    PLANT(5, 1, 1),
-    WASTELAND(6, 1, 1),
-    POOL(7, 2, 1),
-    COURBET(8, 2, 1),
-    SEA(9, 2, 1),
-    SUNSET(10, 2, 1),
-    CREEBET(11, 2, 1),
-    WANDERER(12, 1, 2),
-    GRAHAM(13, 1, 2),
-    MATCH(14, 2, 2),
-    BUST(15, 2, 2),
-    STAGE(16, 2, 2),
-    VOID(17, 2, 2),
-    SKULL_AND_ROSES(18, 2, 2),
-    WITHER(19, 2, 2),
-    FIGHTERS(20, 4, 2),
-    POINTER(21, 4, 4),
-    PIGSCENE(22, 4, 4),
-    BURNING_SKULL(23, 4, 4),
-    SKELETON(24, 4, 3),
-    DONKEY_KONG(25, 4, 3);
+public abstract class Art extends OldEnum<Art> implements Keyed {
+    @Deprecated
+    private static final Map<Integer, Art> BY_ID = Maps.newHashMap();
 
-    private final int id, width, height;
-    private final NamespacedKey key;
-    private static final HashMap<String, Art> BY_NAME = Maps.newHashMap();
-    private static final HashMap<Integer, Art> BY_ID = Maps.newHashMap();
+    public static final Art KEBAB = getArt("kebab");
+    public static final Art AZTEC = getArt("aztec");
+    public static final Art ALBAN = getArt("alban");
+    public static final Art AZTEC2 = getArt("aztec2");
+    public static final Art BOMB = getArt("bomb");
+    public static final Art PLANT = getArt("plant");
+    public static final Art WASTELAND = getArt("wasteland");
+    public static final Art POOL = getArt("pool");
+    public static final Art COURBET = getArt("courbet");
+    public static final Art SEA = getArt("sea");
+    public static final Art SUNSET = getArt("sunset");
+    public static final Art CREEBET = getArt("creebet");
+    public static final Art WANDERER = getArt("wanderer");
+    public static final Art GRAHAM = getArt("graham");
+    public static final Art MATCH = getArt("match");
+    public static final Art BUST = getArt("bust");
+    public static final Art STAGE = getArt("stage");
+    public static final Art VOID = getArt("void");
+    public static final Art SKULL_AND_ROSES = getArt("skull_and_roses");
+    public static final Art WITHER = getArt("wither");
+    public static final Art FIGHTERS = getArt("fighters");
+    public static final Art POINTER = getArt("pointer");
+    public static final Art PIGSCENE = getArt("pigscene");
+    public static final Art BURNING_SKULL = getArt("burning_skull");
+    public static final Art SKELETON = getArt("skeleton");
+    public static final Art DONKEY_KONG = getArt("donkey_kong");
 
-    private Art(int id, int width, int height) {
-        this.id = id;
-        this.width = width;
-        this.height = height;
-        this.key = NamespacedKey.minecraft(name().toLowerCase(java.util.Locale.ENGLISH));
+    @NotNull
+    private static Art getArt(@NotNull String key) {
+        NamespacedKey namespacedKey = NamespacedKey.minecraft(key);
+        Art art = Registry.ART.get(namespacedKey);
+        Preconditions.checkNotNull(art, "No Art found for %s. This is a bug.", namespacedKey);
+        BY_ID.put(art.ordinal(), art);
+        return art;
+    }
+
+    /**
+     * Get a painting by its unique name
+     * <p>
+     * This ignores underscores and capitalization
+     *
+     * @param name The name
+     * @return The painting
+     */
+    @Nullable
+    public static Art getByName(@NotNull String name) {
+        Validate.notNull(name, "Name cannot be null");
+
+        return Registry.ART.get(NamespacedKey.fromString(name.toLowerCase(java.util.Locale.ENGLISH)));
     }
 
     /**
@@ -54,18 +73,14 @@ public enum Art implements Keyed {
      *
      * @return The width of the painting, in blocks
      */
-    public int getBlockWidth() {
-        return width;
-    }
+    public abstract int getBlockWidth();
 
     /**
      * Gets the height of the painting, in blocks
      *
      * @return The height of the painting, in blocks
      */
-    public int getBlockHeight() {
-        return height;
-    }
+    public abstract int getBlockHeight();
 
     /**
      * Get the ID of this painting.
@@ -74,15 +89,7 @@ public enum Art implements Keyed {
      * @deprecated Magic value
      */
     @Deprecated
-    public int getId() {
-        return id;
-    }
-
-    @NotNull
-    @Override
-    public NamespacedKey getKey() {
-        return key;
-    }
+    public abstract int getId();
 
     /**
      * Get a painting by its numeric ID
@@ -98,24 +105,25 @@ public enum Art implements Keyed {
     }
 
     /**
-     * Get a painting by its unique name
-     * <p>
-     * This ignores underscores and capitalization
-     *
-     * @param name The name
-     * @return The painting
+     * @param name of the art.
+     * @return the art with the given name.
+     * @deprecated only for backwards compatibility, use {@link Registry#get(NamespacedKey)} instead.
      */
-    @Nullable
-    public static Art getByName(@NotNull String name) {
-        Validate.notNull(name, "Name cannot be null");
-
-        return BY_NAME.get(name.toLowerCase(java.util.Locale.ENGLISH));
+    @NotNull
+    @Deprecated
+    public static Art valueOf(@NotNull String name) {
+        Art art = Registry.ART.get(NamespacedKey.fromString(name.toLowerCase()));
+        Preconditions.checkArgument(art != null, "No Art found with the name %s", name);
+        return art;
     }
 
-    static {
-        for (Art art : values()) {
-            BY_ID.put(art.id, art);
-            BY_NAME.put(art.toString().toLowerCase(java.util.Locale.ENGLISH), art);
-        }
+    /**
+     * @return an array of all known Arts.
+     * @deprecated use {@link Registry#iterator()}.
+     */
+    @NotNull
+    @Deprecated
+    public static Art[] values() {
+        return Lists.newArrayList(Registry.ART).toArray(new Art[0]);
     }
 }
