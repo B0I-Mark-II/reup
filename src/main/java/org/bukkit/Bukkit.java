@@ -46,6 +46,7 @@ import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.messaging.Messenger;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scoreboard.ScoreboardManager;
+import org.bukkit.structure.StructureManager;
 import org.bukkit.util.CachedServerIcon;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -450,6 +451,27 @@ public final class Bukkit {
      */
     public static int getTicksPerWaterAmbientSpawns() {
         return server.getTicksPerAmbientSpawns();
+    }
+    /**
+     * Gets the default ticks per water underground creature spawns value.
+     * <p>
+     * <b>Example Usage:</b>
+     * <ul>
+     * <li>A value of 1 will mean the server will attempt to spawn water underground creature
+     *     every tick.
+     * <li>A value of 400 will mean the server will attempt to spawn water underground creature
+     *     every 400th tick.
+     * <li>A value below 0 will be reset back to Minecraft's default.
+     * </ul>
+     * <p>
+     * <b>Note:</b> If set to 0, water underground creature spawning will be disabled.
+     * <p>
+     * Minecraft default: 1.
+     *
+     * @return the default ticks per water underground creature spawn value
+     */
+    public static int getTicksPerWaterUndergroundCreatureSpawns() {
+        return server.getTicksPerWaterUndergroundCreatureSpawns();
     }
 
     /**
@@ -1235,6 +1257,15 @@ public final class Bukkit {
     }
 
     /**
+     * Get user-specified limit for number of water creature underground that can spawn
+     * in a chunk.
+     * @return the water underground creature limit
+     */
+    public static int getWaterUndergroundCreatureSpawnLimit() {
+        return server.getWaterUndergroundCreatureSpawnLimit();
+    }
+
+    /**
      * Gets user-specified limit for number of ambient mobs that can spawn in
      * a chunk.
      *
@@ -1651,6 +1682,16 @@ public final class Bukkit {
     @NotNull
     public static List<Entity> selectEntities(@NotNull CommandSender sender, @NotNull String selector) throws IllegalArgumentException {
         return server.selectEntities(sender, selector);
+    }
+
+    /**
+     * Gets the structure manager for loading and saving structures.
+     *
+     * @return the structure manager
+     */
+    @NotNull
+    public static StructureManager getStructureManager() {
+        return server.getStructureManager();
     }
 
     /**
