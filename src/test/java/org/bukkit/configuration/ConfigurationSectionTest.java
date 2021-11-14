@@ -10,10 +10,11 @@ import java.util.Map;
 import org.bukkit.Material;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.support.AbstractTestingBase;
 import org.bukkit.util.Vector;
 import org.junit.Test;
 
-public abstract class ConfigurationSectionTest {
+public abstract class ConfigurationSectionTest extends AbstractTestingBase {
     public abstract ConfigurationSection getConfigurationSection();
 
     @Test

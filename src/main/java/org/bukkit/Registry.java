@@ -108,7 +108,7 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
      *
      * @see Material
      */
-    Registry<Material> MATERIAL = new SimpleRegistry<>(Material.class, (mat) -> !mat.isLegacy());
+    Registry<Material> MATERIAL = Objects.requireNonNull(Bukkit.getRegistry(Material.class), "No registry present for Material. This is a bug.");
     /**
      * Server statistics.
      *

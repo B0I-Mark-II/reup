@@ -20,9 +20,10 @@ import org.bukkit.material.Tree;
 import org.bukkit.material.Wood;
 import org.bukkit.material.WoodenStep;
 import org.bukkit.material.types.MushroomBlockTexture;
+import org.bukkit.support.AbstractTestingBase;
 import org.junit.Test;
 
-public class MaterialDataTest {
+public class MaterialDataTest extends AbstractTestingBase {
 
     @Test
     public void testDoor() {

@@ -250,7 +250,7 @@ public class ItemStack implements Cloneable, ConfigurationSerializable {
     @Override
     @Utility
     public String toString() {
-        StringBuilder toString = new StringBuilder("ItemStack{").append(getType().name()).append(" x ").append(getAmount());
+        StringBuilder toString = new StringBuilder("ItemStack{").append(getType().getKey()).append(" x ").append(getAmount());
         if (hasItemMeta()) {
             toString.append(", ").append(getItemMeta());
         }
@@ -455,7 +455,7 @@ public class ItemStack implements Cloneable, ConfigurationSerializable {
         Map<String, Object> result = new LinkedHashMap<String, Object>();
 
         result.put("v", Bukkit.getUnsafe().getDataVersion()); // Include version to indicate we are using modern material names (or LEGACY prefix)
-        result.put("type", getType().name());
+        result.put("type", getType().getKey());
 
         if (getAmount() != 1) {
             result.put("amount", getAmount());

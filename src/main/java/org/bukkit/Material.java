@@ -1,5099 +1,2191 @@
 package org.bukkit;
 
-import com.google.common.collect.Maps;
-import java.lang.reflect.Constructor;
-import java.util.Locale;
-import java.util.Map;
+import com.google.common.base.Preconditions;
 import java.util.function.Consumer;
 import org.apache.commons.lang.Validate;
-import org.bukkit.block.data.Ageable;
-import org.bukkit.block.data.AnaloguePowerable;
-import org.bukkit.block.data.Bisected;
+import org.bukkit.block.BlockType;
 import org.bukkit.block.data.BlockData;
-import org.bukkit.block.data.Directional;
-import org.bukkit.block.data.Levelled;
-import org.bukkit.block.data.Lightable;
-import org.bukkit.block.data.MultipleFacing;
-import org.bukkit.block.data.Orientable;
-import org.bukkit.block.data.Powerable;
-import org.bukkit.block.data.Rail;
-import org.bukkit.block.data.Rotatable;
-import org.bukkit.block.data.Snowable;
-import org.bukkit.block.data.Waterlogged;
-import org.bukkit.block.data.type.AmethystCluster;
-import org.bukkit.block.data.type.Bamboo;
-import org.bukkit.block.data.type.Bed;
-import org.bukkit.block.data.type.Beehive;
-import org.bukkit.block.data.type.Bell;
-import org.bukkit.block.data.type.BigDripleaf;
-import org.bukkit.block.data.type.BrewingStand;
-import org.bukkit.block.data.type.BubbleColumn;
-import org.bukkit.block.data.type.Cake;
-import org.bukkit.block.data.type.Campfire;
-import org.bukkit.block.data.type.Candle;
-import org.bukkit.block.data.type.CaveVines;
-import org.bukkit.block.data.type.CaveVinesPlant;
-import org.bukkit.block.data.type.Chain;
-import org.bukkit.block.data.type.Chest;
-import org.bukkit.block.data.type.Cocoa;
-import org.bukkit.block.data.type.CommandBlock;
-import org.bukkit.block.data.type.Comparator;
-import org.bukkit.block.data.type.CoralWallFan;
-import org.bukkit.block.data.type.DaylightDetector;
-import org.bukkit.block.data.type.Dispenser;
-import org.bukkit.block.data.type.Door;
-import org.bukkit.block.data.type.Dripleaf;
-import org.bukkit.block.data.type.EndPortalFrame;
-import org.bukkit.block.data.type.EnderChest;
-import org.bukkit.block.data.type.Farmland;
-import org.bukkit.block.data.type.Fence;
-import org.bukkit.block.data.type.Fire;
-import org.bukkit.block.data.type.Furnace;
-import org.bukkit.block.data.type.Gate;
-import org.bukkit.block.data.type.GlassPane;
-import org.bukkit.block.data.type.GlowLichen;
-import org.bukkit.block.data.type.Grindstone;
-import org.bukkit.block.data.type.Hopper;
-import org.bukkit.block.data.type.Jigsaw;
-import org.bukkit.block.data.type.Jukebox;
-import org.bukkit.block.data.type.Ladder;
-import org.bukkit.block.data.type.Lantern;
-import org.bukkit.block.data.type.Leaves;
-import org.bukkit.block.data.type.Lectern;
-import org.bukkit.block.data.type.Light;
-import org.bukkit.block.data.type.LightningRod;
-import org.bukkit.block.data.type.NoteBlock;
-import org.bukkit.block.data.type.Observer;
-import org.bukkit.block.data.type.Piston;
-import org.bukkit.block.data.type.PistonHead;
-import org.bukkit.block.data.type.PointedDripstone;
-import org.bukkit.block.data.type.RedstoneRail;
-import org.bukkit.block.data.type.RedstoneWallTorch;
-import org.bukkit.block.data.type.RedstoneWire;
-import org.bukkit.block.data.type.Repeater;
-import org.bukkit.block.data.type.RespawnAnchor;
-import org.bukkit.block.data.type.Sapling;
-import org.bukkit.block.data.type.Scaffolding;
-import org.bukkit.block.data.type.SculkSensor;
-import org.bukkit.block.data.type.SeaPickle;
-import org.bukkit.block.data.type.Sign;
-import org.bukkit.block.data.type.Slab;
-import org.bukkit.block.data.type.SmallDripleaf;
-import org.bukkit.block.data.type.Snow;
-import org.bukkit.block.data.type.Stairs;
-import org.bukkit.block.data.type.StructureBlock;
-import org.bukkit.block.data.type.Switch;
-import org.bukkit.block.data.type.TNT;
-import org.bukkit.block.data.type.TechnicalPiston;
-import org.bukkit.block.data.type.TrapDoor;
-import org.bukkit.block.data.type.Tripwire;
-import org.bukkit.block.data.type.TripwireHook;
-import org.bukkit.block.data.type.TurtleEgg;
-import org.bukkit.block.data.type.Wall;
-import org.bukkit.block.data.type.WallSign;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemType;
 import org.bukkit.material.MaterialData;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * An enum of all material IDs accepted by the official server and client
+ * An interface of all material IDs accepted by the official server and client
  */
-public enum Material implements Keyed {
+public interface Material extends Keyed, Comparable<Material> {
     //<editor-fold desc="Materials" defaultstate="collapsed">
-    AIR(9648, 0),
-    STONE(22948),
-    GRANITE(21091),
-    POLISHED_GRANITE(5477),
-    DIORITE(24688),
-    POLISHED_DIORITE(31615),
-    ANDESITE(25975),
-    POLISHED_ANDESITE(8335),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    DEEPSLATE(26842, Orientable.class),
-    COBBLED_DEEPSLATE(8021),
-    POLISHED_DEEPSLATE(31772),
-    CALCITE(20311),
-    TUFF(24364),
-    DRIPSTONE_BLOCK(26227),
-    /**
-     * BlockData: {@link Snowable}
-     */
-    GRASS_BLOCK(28346, Snowable.class),
-    DIRT(10580),
-    COARSE_DIRT(15411),
-    /**
-     * BlockData: {@link Snowable}
-     */
-    PODZOL(24068, Snowable.class),
-    ROOTED_DIRT(11410),
-    CRIMSON_NYLIUM(18139),
-    WARPED_NYLIUM(26396),
-    COBBLESTONE(32147),
-    OAK_PLANKS(14905),
-    SPRUCE_PLANKS(14593),
-    BIRCH_PLANKS(29322),
-    JUNGLE_PLANKS(26445),
-    ACACIA_PLANKS(31312),
-    DARK_OAK_PLANKS(20869),
-    CRIMSON_PLANKS(18812),
-    WARPED_PLANKS(16045),
-    /**
-     * BlockData: {@link Sapling}
-     */
-    OAK_SAPLING(9636, Sapling.class),
-    /**
-     * BlockData: {@link Sapling}
-     */
-    SPRUCE_SAPLING(19874, Sapling.class),
-    /**
-     * BlockData: {@link Sapling}
-     */
-    BIRCH_SAPLING(31533, Sapling.class),
-    /**
-     * BlockData: {@link Sapling}
-     */
-    JUNGLE_SAPLING(17951, Sapling.class),
-    /**
-     * BlockData: {@link Sapling}
-     */
-    ACACIA_SAPLING(20806, Sapling.class),
-    /**
-     * BlockData: {@link Sapling}
-     */
-    DARK_OAK_SAPLING(14933, Sapling.class),
-    BEDROCK(23130),
-    SAND(11542),
-    RED_SAND(16279),
-    GRAVEL(7804),
-    COAL_ORE(30965),
-    DEEPSLATE_COAL_ORE(16823),
-    IRON_ORE(19834),
-    DEEPSLATE_IRON_ORE(26021),
-    COPPER_ORE(32666),
-    DEEPSLATE_COPPER_ORE(6588),
-    GOLD_ORE(32625),
-    DEEPSLATE_GOLD_ORE(13582),
-    /**
-     * BlockData: {@link Lightable}
-     */
-    REDSTONE_ORE(10887, Lightable.class),
-    /**
-     * BlockData: {@link Lightable}
-     */
-    DEEPSLATE_REDSTONE_ORE(6331, Lightable.class),
-    EMERALD_ORE(16630),
-    DEEPSLATE_EMERALD_ORE(5299),
-    LAPIS_ORE(22934),
-    DEEPSLATE_LAPIS_ORE(13598),
-    DIAMOND_ORE(9292),
-    DEEPSLATE_DIAMOND_ORE(17792),
-    NETHER_GOLD_ORE(4185),
-    NETHER_QUARTZ_ORE(4807),
-    ANCIENT_DEBRIS(18198),
-    COAL_BLOCK(27968),
-    RAW_IRON_BLOCK(32210),
-    RAW_COPPER_BLOCK(17504),
-    RAW_GOLD_BLOCK(23246),
-    AMETHYST_BLOCK(18919),
-    BUDDING_AMETHYST(13963),
-    IRON_BLOCK(24754),
-    COPPER_BLOCK(12880),
-    GOLD_BLOCK(27392),
-    DIAMOND_BLOCK(5944),
-    NETHERITE_BLOCK(6527),
-    EXPOSED_COPPER(28488),
-    WEATHERED_COPPER(19699),
-    OXIDIZED_COPPER(19490),
-    CUT_COPPER(32519),
-    EXPOSED_CUT_COPPER(18000),
-    WEATHERED_CUT_COPPER(21158),
-    OXIDIZED_CUT_COPPER(5382),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    CUT_COPPER_STAIRS(25925, Stairs.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    EXPOSED_CUT_COPPER_STAIRS(31621, Stairs.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    WEATHERED_CUT_COPPER_STAIRS(5851, Stairs.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    OXIDIZED_CUT_COPPER_STAIRS(25379, Stairs.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    CUT_COPPER_SLAB(28988, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    EXPOSED_CUT_COPPER_SLAB(26694, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    WEATHERED_CUT_COPPER_SLAB(4602, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    OXIDIZED_CUT_COPPER_SLAB(29642, Slab.class),
-    WAXED_COPPER_BLOCK(14638),
-    WAXED_EXPOSED_COPPER(27989),
-    WAXED_WEATHERED_COPPER(5960),
-    WAXED_OXIDIZED_COPPER(25626),
-    WAXED_CUT_COPPER(11030),
-    WAXED_EXPOSED_CUT_COPPER(30043),
-    WAXED_WEATHERED_CUT_COPPER(13823),
-    WAXED_OXIDIZED_CUT_COPPER(22582),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    WAXED_CUT_COPPER_STAIRS(23125, Stairs.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    WAXED_EXPOSED_CUT_COPPER_STAIRS(15532, Stairs.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    WAXED_WEATHERED_CUT_COPPER_STAIRS(29701, Stairs.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    WAXED_OXIDIZED_CUT_COPPER_STAIRS(9842, Stairs.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    WAXED_CUT_COPPER_SLAB(6271, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    WAXED_EXPOSED_CUT_COPPER_SLAB(22091, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    WAXED_WEATHERED_CUT_COPPER_SLAB(20035, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    WAXED_OXIDIZED_CUT_COPPER_SLAB(11202, Slab.class),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    OAK_LOG(26723, Orientable.class),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    SPRUCE_LOG(9726, Orientable.class),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    BIRCH_LOG(26727, Orientable.class),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    JUNGLE_LOG(20721, Orientable.class),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    ACACIA_LOG(8385, Orientable.class),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    DARK_OAK_LOG(14831, Orientable.class),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    CRIMSON_STEM(27920, Orientable.class),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    WARPED_STEM(28920, Orientable.class),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    STRIPPED_OAK_LOG(20523, Orientable.class),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    STRIPPED_SPRUCE_LOG(6140, Orientable.class),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    STRIPPED_BIRCH_LOG(8838, Orientable.class),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    STRIPPED_JUNGLE_LOG(15476, Orientable.class),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    STRIPPED_ACACIA_LOG(18167, Orientable.class),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    STRIPPED_DARK_OAK_LOG(6492, Orientable.class),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    STRIPPED_CRIMSON_STEM(16882, Orientable.class),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    STRIPPED_WARPED_STEM(15627, Orientable.class),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    STRIPPED_OAK_WOOD(31455, Orientable.class),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    STRIPPED_SPRUCE_WOOD(6467, Orientable.class),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    STRIPPED_BIRCH_WOOD(22350, Orientable.class),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    STRIPPED_JUNGLE_WOOD(30315, Orientable.class),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    STRIPPED_ACACIA_WOOD(27193, Orientable.class),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    STRIPPED_DARK_OAK_WOOD(16000, Orientable.class),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    STRIPPED_CRIMSON_HYPHAE(27488, Orientable.class),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    STRIPPED_WARPED_HYPHAE(7422, Orientable.class),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    OAK_WOOD(7378, Orientable.class),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    SPRUCE_WOOD(32328, Orientable.class),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    BIRCH_WOOD(20913, Orientable.class),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    JUNGLE_WOOD(10341, Orientable.class),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    ACACIA_WOOD(9541, Orientable.class),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    DARK_OAK_WOOD(16995, Orientable.class),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    CRIMSON_HYPHAE(6550, Orientable.class),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    WARPED_HYPHAE(18439, Orientable.class),
-    /**
-     * BlockData: {@link Leaves}
-     */
-    OAK_LEAVES(4385, Leaves.class),
-    /**
-     * BlockData: {@link Leaves}
-     */
-    SPRUCE_LEAVES(20039, Leaves.class),
-    /**
-     * BlockData: {@link Leaves}
-     */
-    BIRCH_LEAVES(12601, Leaves.class),
-    /**
-     * BlockData: {@link Leaves}
-     */
-    JUNGLE_LEAVES(5133, Leaves.class),
-    /**
-     * BlockData: {@link Leaves}
-     */
-    ACACIA_LEAVES(16606, Leaves.class),
-    /**
-     * BlockData: {@link Leaves}
-     */
-    DARK_OAK_LEAVES(22254, Leaves.class),
-    /**
-     * BlockData: {@link Leaves}
-     */
-    AZALEA_LEAVES(23001, Leaves.class),
-    /**
-     * BlockData: {@link Leaves}
-     */
-    FLOWERING_AZALEA_LEAVES(20893, Leaves.class),
-    SPONGE(15860),
-    WET_SPONGE(9043),
-    GLASS(6195),
-    TINTED_GLASS(19154),
-    LAPIS_BLOCK(14485),
-    SANDSTONE(13141),
-    CHISELED_SANDSTONE(31763),
-    CUT_SANDSTONE(6118),
-    COBWEB(9469),
-    GRASS(6155),
-    FERN(15794),
-    AZALEA(29386),
-    FLOWERING_AZALEA(28270),
-    DEAD_BUSH(22888),
-    SEAGRASS(23942),
-    /**
-     * BlockData: {@link SeaPickle}
-     */
-    SEA_PICKLE(19562, SeaPickle.class),
-    WHITE_WOOL(8624),
-    ORANGE_WOOL(23957),
-    MAGENTA_WOOL(11853),
-    LIGHT_BLUE_WOOL(21073),
-    YELLOW_WOOL(29507),
-    LIME_WOOL(10443),
-    PINK_WOOL(7611),
-    GRAY_WOOL(27209),
-    LIGHT_GRAY_WOOL(22936),
-    CYAN_WOOL(12221),
-    PURPLE_WOOL(11922),
-    BLUE_WOOL(15738),
-    BROWN_WOOL(32638),
-    GREEN_WOOL(25085),
-    RED_WOOL(11621),
-    BLACK_WOOL(16693),
-    DANDELION(30558),
-    POPPY(12851),
-    BLUE_ORCHID(13432),
-    ALLIUM(6871),
-    AZURE_BLUET(17608),
-    RED_TULIP(16781),
-    ORANGE_TULIP(26038),
-    WHITE_TULIP(31495),
-    PINK_TULIP(27319),
-    OXEYE_DAISY(11709),
-    CORNFLOWER(15405),
-    LILY_OF_THE_VALLEY(7185),
-    WITHER_ROSE(8619),
-    SPORE_BLOSSOM(20627),
-    BROWN_MUSHROOM(9665),
-    RED_MUSHROOM(19728),
-    CRIMSON_FUNGUS(26268),
-    WARPED_FUNGUS(19799),
-    CRIMSON_ROOTS(14064),
-    WARPED_ROOTS(13932),
-    NETHER_SPROUTS(10431),
-    /**
-     * BlockData: {@link Ageable}
-     */
-    WEEPING_VINES(29267, Ageable.class),
-    /**
-     * BlockData: {@link Ageable}
-     */
-    TWISTING_VINES(27283, Ageable.class),
-    /**
-     * BlockData: {@link Ageable}
-     */
-    SUGAR_CANE(7726, Ageable.class),
-    /**
-     * BlockData: {@link Ageable}
-     */
-    KELP(21916, Ageable.class),
-    MOSS_CARPET(8221),
-    MOSS_BLOCK(9175),
-    /**
-     * BlockData: {@link Waterlogged}
-     */
-    HANGING_ROOTS(15498, Waterlogged.class),
-    /**
-     * BlockData: {@link BigDripleaf}
-     */
-    BIG_DRIPLEAF(26173, BigDripleaf.class),
-    /**
-     * BlockData: {@link SmallDripleaf}
-     */
-    SMALL_DRIPLEAF(17540, SmallDripleaf.class),
-    /**
-     * BlockData: {@link Bamboo}
-     */
-    BAMBOO(18728, Bamboo.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    OAK_SLAB(12002, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    SPRUCE_SLAB(28798, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    BIRCH_SLAB(13807, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    JUNGLE_SLAB(19117, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    ACACIA_SLAB(23730, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    DARK_OAK_SLAB(28852, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    CRIMSON_SLAB(4691, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    WARPED_SLAB(27150, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    STONE_SLAB(19838, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    SMOOTH_STONE_SLAB(24129, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    SANDSTONE_SLAB(29830, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    CUT_SANDSTONE_SLAB(30944, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    PETRIFIED_OAK_SLAB(18658, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    COBBLESTONE_SLAB(6340, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    BRICK_SLAB(26333, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    STONE_BRICK_SLAB(19676, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    NETHER_BRICK_SLAB(26586, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    QUARTZ_SLAB(4423, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    RED_SANDSTONE_SLAB(17550, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    CUT_RED_SANDSTONE_SLAB(7220, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    PURPUR_SLAB(11487, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    PRISMARINE_SLAB(31323, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    PRISMARINE_BRICK_SLAB(25624, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    DARK_PRISMARINE_SLAB(7577, Slab.class),
-    SMOOTH_QUARTZ(14415),
-    SMOOTH_RED_SANDSTONE(25180),
-    SMOOTH_SANDSTONE(30039),
-    SMOOTH_STONE(21910),
-    BRICKS(14165),
-    BOOKSHELF(10069),
-    MOSSY_COBBLESTONE(21900),
-    OBSIDIAN(32723),
-    TORCH(6063),
-    /**
-     * BlockData: {@link Directional}
-     */
-    END_ROD(24832, Directional.class),
-    /**
-     * BlockData: {@link MultipleFacing}
-     */
-    CHORUS_PLANT(28243, MultipleFacing.class),
-    /**
-     * BlockData: {@link Ageable}
-     */
-    CHORUS_FLOWER(28542, Ageable.class),
-    PURPUR_BLOCK(7538),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    PURPUR_PILLAR(26718, Orientable.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    PURPUR_STAIRS(8921, Stairs.class),
-    SPAWNER(7018),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    OAK_STAIRS(5449, Stairs.class),
-    /**
-     * BlockData: {@link Chest}
-     */
-    CHEST(22969, Chest.class),
-    CRAFTING_TABLE(20706),
-    /**
-     * BlockData: {@link Farmland}
-     */
-    FARMLAND(31166, Farmland.class),
-    /**
-     * BlockData: {@link Furnace}
-     */
-    FURNACE(8133, Furnace.class),
-    /**
-     * BlockData: {@link Ladder}
-     */
-    LADDER(23599, Ladder.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    COBBLESTONE_STAIRS(24715, Stairs.class),
-    /**
-     * BlockData: {@link Snow}
-     */
-    SNOW(14146, Snow.class),
-    ICE(30428),
-    SNOW_BLOCK(19913),
-    /**
-     * BlockData: {@link Ageable}
-     */
-    CACTUS(12191, Ageable.class),
-    CLAY(27880),
-    /**
-     * BlockData: {@link Jukebox}
-     */
-    JUKEBOX(19264, Jukebox.class),
-    /**
-     * BlockData: {@link Fence}
-     */
-    OAK_FENCE(6442, Fence.class),
-    /**
-     * BlockData: {@link Fence}
-     */
-    SPRUCE_FENCE(25416, Fence.class),
-    /**
-     * BlockData: {@link Fence}
-     */
-    BIRCH_FENCE(17347, Fence.class),
-    /**
-     * BlockData: {@link Fence}
-     */
-    JUNGLE_FENCE(14358, Fence.class),
-    /**
-     * BlockData: {@link Fence}
-     */
-    ACACIA_FENCE(4569, Fence.class),
-    /**
-     * BlockData: {@link Fence}
-     */
-    DARK_OAK_FENCE(21767, Fence.class),
-    /**
-     * BlockData: {@link Fence}
-     */
-    CRIMSON_FENCE(21075, Fence.class),
-    /**
-     * BlockData: {@link Fence}
-     */
-    WARPED_FENCE(18438, Fence.class),
-    PUMPKIN(19170),
-    /**
-     * BlockData: {@link Directional}
-     */
-    CARVED_PUMPKIN(25833, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    JACK_O_LANTERN(13758, Directional.class),
-    NETHERRACK(23425),
-    SOUL_SAND(16841),
-    SOUL_SOIL(31140),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    BASALT(28478, Orientable.class),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    POLISHED_BASALT(11659, Orientable.class),
-    SMOOTH_BASALT(13617),
-    /**
-     * BlockData: {@link Lightable}
-     */
-    SOUL_TORCH(14292, Lightable.class),
-    GLOWSTONE(32713),
-    INFESTED_STONE(18440),
-    INFESTED_COBBLESTONE(4348),
-    INFESTED_STONE_BRICKS(19749),
-    INFESTED_MOSSY_STONE_BRICKS(9850),
-    INFESTED_CRACKED_STONE_BRICKS(7476),
-    INFESTED_CHISELED_STONE_BRICKS(4728),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    INFESTED_DEEPSLATE(9472, Orientable.class),
-    STONE_BRICKS(6962),
-    MOSSY_STONE_BRICKS(16415),
-    CRACKED_STONE_BRICKS(27869),
-    CHISELED_STONE_BRICKS(9087),
-    DEEPSLATE_BRICKS(13193),
-    CRACKED_DEEPSLATE_BRICKS(17105),
-    DEEPSLATE_TILES(11250),
-    CRACKED_DEEPSLATE_TILES(26249),
-    CHISELED_DEEPSLATE(23825),
-    /**
-     * BlockData: {@link MultipleFacing}
-     */
-    BROWN_MUSHROOM_BLOCK(6291, MultipleFacing.class),
-    /**
-     * BlockData: {@link MultipleFacing}
-     */
-    RED_MUSHROOM_BLOCK(20766, MultipleFacing.class),
-    /**
-     * BlockData: {@link MultipleFacing}
-     */
-    MUSHROOM_STEM(16543, MultipleFacing.class),
-    /**
-     * BlockData: {@link Fence}
-     */
-    IRON_BARS(9378, Fence.class),
-    /**
-     * BlockData: {@link Chain}
-     */
-    CHAIN(28265, Chain.class),
-    /**
-     * BlockData: {@link Fence}
-     */
-    GLASS_PANE(5709, Fence.class),
-    MELON(25172),
-    /**
-     * BlockData: {@link MultipleFacing}
-     */
-    VINE(14564, MultipleFacing.class),
-    /**
-     * BlockData: {@link GlowLichen}
-     */
-    GLOW_LICHEN(19165, GlowLichen.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    BRICK_STAIRS(21534, Stairs.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    STONE_BRICK_STAIRS(27032, Stairs.class),
-    /**
-     * BlockData: {@link Snowable}
-     */
-    MYCELIUM(9913, Snowable.class),
-    LILY_PAD(19271),
-    NETHER_BRICKS(27802),
-    CRACKED_NETHER_BRICKS(10888),
-    CHISELED_NETHER_BRICKS(21613),
-    /**
-     * BlockData: {@link Fence}
-     */
-    NETHER_BRICK_FENCE(5286, Fence.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    NETHER_BRICK_STAIRS(12085, Stairs.class),
-    ENCHANTING_TABLE(16255),
-    /**
-     * BlockData: {@link EndPortalFrame}
-     */
-    END_PORTAL_FRAME(15480, EndPortalFrame.class),
-    END_STONE(29686),
-    END_STONE_BRICKS(20314),
-    DRAGON_EGG(29946),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    SANDSTONE_STAIRS(18474, Stairs.class),
-    /**
-     * BlockData: {@link EnderChest}
-     */
-    ENDER_CHEST(32349, EnderChest.class),
-    EMERALD_BLOCK(9914),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    SPRUCE_STAIRS(11192, Stairs.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    BIRCH_STAIRS(7657, Stairs.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    JUNGLE_STAIRS(20636, Stairs.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    CRIMSON_STAIRS(32442, Stairs.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    WARPED_STAIRS(17721, Stairs.class),
-    /**
-     * BlockData: {@link CommandBlock}
-     */
-    COMMAND_BLOCK(4355, CommandBlock.class),
-    BEACON(6608),
-    /**
-     * BlockData: {@link Wall}
-     */
-    COBBLESTONE_WALL(12616, Wall.class),
-    /**
-     * BlockData: {@link Wall}
-     */
-    MOSSY_COBBLESTONE_WALL(11536, Wall.class),
-    /**
-     * BlockData: {@link Wall}
-     */
-    BRICK_WALL(18995, Wall.class),
-    /**
-     * BlockData: {@link Wall}
-     */
-    PRISMARINE_WALL(18184, Wall.class),
-    /**
-     * BlockData: {@link Wall}
-     */
-    RED_SANDSTONE_WALL(4753, Wall.class),
-    /**
-     * BlockData: {@link Wall}
-     */
-    MOSSY_STONE_BRICK_WALL(18259, Wall.class),
-    /**
-     * BlockData: {@link Wall}
-     */
-    GRANITE_WALL(23279, Wall.class),
-    /**
-     * BlockData: {@link Wall}
-     */
-    STONE_BRICK_WALL(29073, Wall.class),
-    /**
-     * BlockData: {@link Wall}
-     */
-    NETHER_BRICK_WALL(10398, Wall.class),
-    /**
-     * BlockData: {@link Wall}
-     */
-    ANDESITE_WALL(14938, Wall.class),
-    /**
-     * BlockData: {@link Wall}
-     */
-    RED_NETHER_BRICK_WALL(4580, Wall.class),
-    /**
-     * BlockData: {@link Wall}
-     */
-    SANDSTONE_WALL(18470, Wall.class),
-    /**
-     * BlockData: {@link Wall}
-     */
-    END_STONE_BRICK_WALL(27225, Wall.class),
-    /**
-     * BlockData: {@link Wall}
-     */
-    DIORITE_WALL(17412, Wall.class),
-    /**
-     * BlockData: {@link Wall}
-     */
-    BLACKSTONE_WALL(17327, Wall.class),
-    /**
-     * BlockData: {@link Wall}
-     */
-    POLISHED_BLACKSTONE_WALL(15119, Wall.class),
-    /**
-     * BlockData: {@link Wall}
-     */
-    POLISHED_BLACKSTONE_BRICK_WALL(9540, Wall.class),
-    /**
-     * BlockData: {@link Wall}
-     */
-    COBBLED_DEEPSLATE_WALL(21893, Wall.class),
-    /**
-     * BlockData: {@link Wall}
-     */
-    POLISHED_DEEPSLATE_WALL(6574, Wall.class),
-    /**
-     * BlockData: {@link Wall}
-     */
-    DEEPSLATE_BRICK_WALL(13304, Wall.class),
-    /**
-     * BlockData: {@link Wall}
-     */
-    DEEPSLATE_TILE_WALL(17077, Wall.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    ANVIL(18718, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    CHIPPED_ANVIL(10623, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    DAMAGED_ANVIL(10274, Directional.class),
-    CHISELED_QUARTZ_BLOCK(30964),
-    QUARTZ_BLOCK(11987),
-    QUARTZ_BRICKS(23358),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    QUARTZ_PILLAR(16452, Orientable.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    QUARTZ_STAIRS(24079, Stairs.class),
-    WHITE_TERRACOTTA(20975),
-    ORANGE_TERRACOTTA(18684),
-    MAGENTA_TERRACOTTA(25900),
-    LIGHT_BLUE_TERRACOTTA(31779),
-    YELLOW_TERRACOTTA(32129),
-    LIME_TERRACOTTA(24013),
-    PINK_TERRACOTTA(23727),
-    GRAY_TERRACOTTA(18004),
-    LIGHT_GRAY_TERRACOTTA(26388),
-    CYAN_TERRACOTTA(25940),
-    PURPLE_TERRACOTTA(10387),
-    BLUE_TERRACOTTA(5236),
-    BROWN_TERRACOTTA(23664),
-    GREEN_TERRACOTTA(4105),
-    RED_TERRACOTTA(5086),
-    BLACK_TERRACOTTA(26691),
-    BARRIER(26453),
-    /**
-     * BlockData: {@link Light}
-     */
-    LIGHT(17829, Light.class),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    HAY_BLOCK(17461, Orientable.class),
-    WHITE_CARPET(15117),
-    ORANGE_CARPET(24752),
-    MAGENTA_CARPET(6180),
-    LIGHT_BLUE_CARPET(21194),
-    YELLOW_CARPET(18149),
-    LIME_CARPET(15443),
-    PINK_CARPET(27381),
-    GRAY_CARPET(26991),
-    LIGHT_GRAY_CARPET(11317),
-    CYAN_CARPET(9742),
-    PURPLE_CARPET(5574),
-    BLUE_CARPET(13292),
-    BROWN_CARPET(23352),
-    GREEN_CARPET(7780),
-    RED_CARPET(5424),
-    BLACK_CARPET(6056),
-    TERRACOTTA(16544),
-    PACKED_ICE(28993),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    ACACIA_STAIRS(17453, Stairs.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    DARK_OAK_STAIRS(22921, Stairs.class),
-    DIRT_PATH(10846),
-    /**
-     * BlockData: {@link Bisected}
-     */
-    SUNFLOWER(7408, Bisected.class),
-    /**
-     * BlockData: {@link Bisected}
-     */
-    LILAC(22837, Bisected.class),
-    /**
-     * BlockData: {@link Bisected}
-     */
-    ROSE_BUSH(6080, Bisected.class),
-    /**
-     * BlockData: {@link Bisected}
-     */
-    PEONY(21155, Bisected.class),
-    /**
-     * BlockData: {@link Bisected}
-     */
-    TALL_GRASS(21559, Bisected.class),
-    /**
-     * BlockData: {@link Bisected}
-     */
-    LARGE_FERN(30177, Bisected.class),
-    WHITE_STAINED_GLASS(31190),
-    ORANGE_STAINED_GLASS(25142),
-    MAGENTA_STAINED_GLASS(26814),
-    LIGHT_BLUE_STAINED_GLASS(17162),
-    YELLOW_STAINED_GLASS(12182),
-    LIME_STAINED_GLASS(24266),
-    PINK_STAINED_GLASS(16164),
-    GRAY_STAINED_GLASS(29979),
-    LIGHT_GRAY_STAINED_GLASS(5843),
-    CYAN_STAINED_GLASS(30604),
-    PURPLE_STAINED_GLASS(21845),
-    BLUE_STAINED_GLASS(7107),
-    BROWN_STAINED_GLASS(20945),
-    GREEN_STAINED_GLASS(22503),
-    RED_STAINED_GLASS(9717),
-    BLACK_STAINED_GLASS(13941),
-    /**
-     * BlockData: {@link GlassPane}
-     */
-    WHITE_STAINED_GLASS_PANE(10557, GlassPane.class),
-    /**
-     * BlockData: {@link GlassPane}
-     */
-    ORANGE_STAINED_GLASS_PANE(21089, GlassPane.class),
-    /**
-     * BlockData: {@link GlassPane}
-     */
-    MAGENTA_STAINED_GLASS_PANE(14082, GlassPane.class),
-    /**
-     * BlockData: {@link GlassPane}
-     */
-    LIGHT_BLUE_STAINED_GLASS_PANE(18721, GlassPane.class),
-    /**
-     * BlockData: {@link GlassPane}
-     */
-    YELLOW_STAINED_GLASS_PANE(20298, GlassPane.class),
-    /**
-     * BlockData: {@link GlassPane}
-     */
-    LIME_STAINED_GLASS_PANE(10610, GlassPane.class),
-    /**
-     * BlockData: {@link GlassPane}
-     */
-    PINK_STAINED_GLASS_PANE(24637, GlassPane.class),
-    /**
-     * BlockData: {@link GlassPane}
-     */
-    GRAY_STAINED_GLASS_PANE(25272, GlassPane.class),
-    /**
-     * BlockData: {@link GlassPane}
-     */
-    LIGHT_GRAY_STAINED_GLASS_PANE(19008, GlassPane.class),
-    /**
-     * BlockData: {@link GlassPane}
-     */
-    CYAN_STAINED_GLASS_PANE(11784, GlassPane.class),
-    /**
-     * BlockData: {@link GlassPane}
-     */
-    PURPLE_STAINED_GLASS_PANE(10948, GlassPane.class),
-    /**
-     * BlockData: {@link GlassPane}
-     */
-    BLUE_STAINED_GLASS_PANE(28484, GlassPane.class),
-    /**
-     * BlockData: {@link GlassPane}
-     */
-    BROWN_STAINED_GLASS_PANE(17557, GlassPane.class),
-    /**
-     * BlockData: {@link GlassPane}
-     */
-    GREEN_STAINED_GLASS_PANE(4767, GlassPane.class),
-    /**
-     * BlockData: {@link GlassPane}
-     */
-    RED_STAINED_GLASS_PANE(8630, GlassPane.class),
-    /**
-     * BlockData: {@link GlassPane}
-     */
-    BLACK_STAINED_GLASS_PANE(13201, GlassPane.class),
-    PRISMARINE(7539),
-    PRISMARINE_BRICKS(29118),
-    DARK_PRISMARINE(19940),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    PRISMARINE_STAIRS(19217, Stairs.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    PRISMARINE_BRICK_STAIRS(15445, Stairs.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    DARK_PRISMARINE_STAIRS(26511, Stairs.class),
-    SEA_LANTERN(20780),
-    RED_SANDSTONE(9092),
-    CHISELED_RED_SANDSTONE(15529),
-    CUT_RED_SANDSTONE(29108),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    RED_SANDSTONE_STAIRS(25466, Stairs.class),
-    /**
-     * BlockData: {@link CommandBlock}
-     */
-    REPEATING_COMMAND_BLOCK(12405, CommandBlock.class),
-    /**
-     * BlockData: {@link CommandBlock}
-     */
-    CHAIN_COMMAND_BLOCK(26798, CommandBlock.class),
-    MAGMA_BLOCK(25927),
-    NETHER_WART_BLOCK(15486),
-    WARPED_WART_BLOCK(15463),
-    RED_NETHER_BRICKS(18056),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    BONE_BLOCK(17312, Orientable.class),
-    STRUCTURE_VOID(30806),
-    /**
-     * BlockData: {@link Directional}
-     */
-    SHULKER_BOX(7776, 1, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    WHITE_SHULKER_BOX(31750, 1, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    ORANGE_SHULKER_BOX(21673, 1, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    MAGENTA_SHULKER_BOX(21566, 1, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    LIGHT_BLUE_SHULKER_BOX(18226, 1, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    YELLOW_SHULKER_BOX(28700, 1, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    LIME_SHULKER_BOX(28360, 1, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    PINK_SHULKER_BOX(24968, 1, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    GRAY_SHULKER_BOX(12754, 1, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    LIGHT_GRAY_SHULKER_BOX(21345, 1, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    CYAN_SHULKER_BOX(28123, 1, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    PURPLE_SHULKER_BOX(10373, 1, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    BLUE_SHULKER_BOX(11476, 1, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    BROWN_SHULKER_BOX(24230, 1, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    GREEN_SHULKER_BOX(9377, 1, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    RED_SHULKER_BOX(32448, 1, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    BLACK_SHULKER_BOX(24076, 1, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    WHITE_GLAZED_TERRACOTTA(11326, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    ORANGE_GLAZED_TERRACOTTA(27451, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    MAGENTA_GLAZED_TERRACOTTA(8067, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    LIGHT_BLUE_GLAZED_TERRACOTTA(4336, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    YELLOW_GLAZED_TERRACOTTA(10914, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    LIME_GLAZED_TERRACOTTA(13861, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    PINK_GLAZED_TERRACOTTA(10260, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    GRAY_GLAZED_TERRACOTTA(6256, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    LIGHT_GRAY_GLAZED_TERRACOTTA(10707, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    CYAN_GLAZED_TERRACOTTA(9550, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    PURPLE_GLAZED_TERRACOTTA(4818, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    BLUE_GLAZED_TERRACOTTA(23823, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    BROWN_GLAZED_TERRACOTTA(5655, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    GREEN_GLAZED_TERRACOTTA(6958, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    RED_GLAZED_TERRACOTTA(24989, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    BLACK_GLAZED_TERRACOTTA(29678, Directional.class),
-    WHITE_CONCRETE(6281),
-    ORANGE_CONCRETE(19914),
-    MAGENTA_CONCRETE(20591),
-    LIGHT_BLUE_CONCRETE(29481),
-    YELLOW_CONCRETE(15722),
-    LIME_CONCRETE(5863),
-    PINK_CONCRETE(5227),
-    GRAY_CONCRETE(13959),
-    LIGHT_GRAY_CONCRETE(14453),
-    CYAN_CONCRETE(26522),
-    PURPLE_CONCRETE(20623),
-    BLUE_CONCRETE(18756),
-    BROWN_CONCRETE(19006),
-    GREEN_CONCRETE(17949),
-    RED_CONCRETE(8032),
-    BLACK_CONCRETE(13338),
-    WHITE_CONCRETE_POWDER(10363),
-    ORANGE_CONCRETE_POWDER(30159),
-    MAGENTA_CONCRETE_POWDER(8272),
-    LIGHT_BLUE_CONCRETE_POWDER(31206),
-    YELLOW_CONCRETE_POWDER(10655),
-    LIME_CONCRETE_POWDER(28859),
-    PINK_CONCRETE_POWDER(6421),
-    GRAY_CONCRETE_POWDER(13031),
-    LIGHT_GRAY_CONCRETE_POWDER(21589),
-    CYAN_CONCRETE_POWDER(15734),
-    PURPLE_CONCRETE_POWDER(26808),
-    BLUE_CONCRETE_POWDER(17773),
-    BROWN_CONCRETE_POWDER(21485),
-    GREEN_CONCRETE_POWDER(6904),
-    RED_CONCRETE_POWDER(13286),
-    BLACK_CONCRETE_POWDER(16150),
-    /**
-     * BlockData: {@link TurtleEgg}
-     */
-    TURTLE_EGG(32101, TurtleEgg.class),
-    DEAD_TUBE_CORAL_BLOCK(28350),
-    DEAD_BRAIN_CORAL_BLOCK(12979),
-    DEAD_BUBBLE_CORAL_BLOCK(28220),
-    DEAD_FIRE_CORAL_BLOCK(5307),
-    DEAD_HORN_CORAL_BLOCK(15103),
-    TUBE_CORAL_BLOCK(23723),
-    BRAIN_CORAL_BLOCK(30618),
-    BUBBLE_CORAL_BLOCK(15437),
-    FIRE_CORAL_BLOCK(12119),
-    HORN_CORAL_BLOCK(19958),
-    /**
-     * BlockData: {@link Waterlogged}
-     */
-    TUBE_CORAL(23048, Waterlogged.class),
-    /**
-     * BlockData: {@link Waterlogged}
-     */
-    BRAIN_CORAL(31316, Waterlogged.class),
-    /**
-     * BlockData: {@link Waterlogged}
-     */
-    BUBBLE_CORAL(12464, Waterlogged.class),
-    /**
-     * BlockData: {@link Waterlogged}
-     */
-    FIRE_CORAL(29151, Waterlogged.class),
-    /**
-     * BlockData: {@link Waterlogged}
-     */
-    HORN_CORAL(19511, Waterlogged.class),
-    /**
-     * BlockData: {@link Waterlogged}
-     */
-    DEAD_BRAIN_CORAL(9116, Waterlogged.class),
-    /**
-     * BlockData: {@link Waterlogged}
-     */
-    DEAD_BUBBLE_CORAL(30583, Waterlogged.class),
-    /**
-     * BlockData: {@link Waterlogged}
-     */
-    DEAD_FIRE_CORAL(8365, Waterlogged.class),
-    /**
-     * BlockData: {@link Waterlogged}
-     */
-    DEAD_HORN_CORAL(5755, Waterlogged.class),
-    /**
-     * BlockData: {@link Waterlogged}
-     */
-    DEAD_TUBE_CORAL(18028, Waterlogged.class),
-    /**
-     * BlockData: {@link Waterlogged}
-     */
-    TUBE_CORAL_FAN(19929, Waterlogged.class),
-    /**
-     * BlockData: {@link Waterlogged}
-     */
-    BRAIN_CORAL_FAN(13849, Waterlogged.class),
-    /**
-     * BlockData: {@link Waterlogged}
-     */
-    BUBBLE_CORAL_FAN(10795, Waterlogged.class),
-    /**
-     * BlockData: {@link Waterlogged}
-     */
-    FIRE_CORAL_FAN(11112, Waterlogged.class),
-    /**
-     * BlockData: {@link Waterlogged}
-     */
-    HORN_CORAL_FAN(13610, Waterlogged.class),
-    /**
-     * BlockData: {@link Waterlogged}
-     */
-    DEAD_TUBE_CORAL_FAN(17628, Waterlogged.class),
-    /**
-     * BlockData: {@link Waterlogged}
-     */
-    DEAD_BRAIN_CORAL_FAN(26150, Waterlogged.class),
-    /**
-     * BlockData: {@link Waterlogged}
-     */
-    DEAD_BUBBLE_CORAL_FAN(17322, Waterlogged.class),
-    /**
-     * BlockData: {@link Waterlogged}
-     */
-    DEAD_FIRE_CORAL_FAN(27073, Waterlogged.class),
-    /**
-     * BlockData: {@link Waterlogged}
-     */
-    DEAD_HORN_CORAL_FAN(11387, Waterlogged.class),
-    BLUE_ICE(22449),
-    /**
-     * BlockData: {@link Waterlogged}
-     */
-    CONDUIT(5148, Waterlogged.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    POLISHED_GRANITE_STAIRS(29588, Stairs.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    SMOOTH_RED_SANDSTONE_STAIRS(17561, Stairs.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    MOSSY_STONE_BRICK_STAIRS(27578, Stairs.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    POLISHED_DIORITE_STAIRS(4625, Stairs.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    MOSSY_COBBLESTONE_STAIRS(29210, Stairs.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    END_STONE_BRICK_STAIRS(28831, Stairs.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    STONE_STAIRS(23784, Stairs.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    SMOOTH_SANDSTONE_STAIRS(21183, Stairs.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    SMOOTH_QUARTZ_STAIRS(19560, Stairs.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    GRANITE_STAIRS(21840, Stairs.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    ANDESITE_STAIRS(17747, Stairs.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    RED_NETHER_BRICK_STAIRS(26374, Stairs.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    POLISHED_ANDESITE_STAIRS(7573, Stairs.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    DIORITE_STAIRS(13134, Stairs.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    COBBLED_DEEPSLATE_STAIRS(20699, Stairs.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    POLISHED_DEEPSLATE_STAIRS(19513, Stairs.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    DEEPSLATE_BRICK_STAIRS(29624, Stairs.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    DEEPSLATE_TILE_STAIRS(6361, Stairs.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    POLISHED_GRANITE_SLAB(4521, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    SMOOTH_RED_SANDSTONE_SLAB(16304, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    MOSSY_STONE_BRICK_SLAB(14002, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    POLISHED_DIORITE_SLAB(18303, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    MOSSY_COBBLESTONE_SLAB(12139, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    END_STONE_BRICK_SLAB(23239, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    SMOOTH_SANDSTONE_SLAB(9030, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    SMOOTH_QUARTZ_SLAB(26543, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    GRANITE_SLAB(10901, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    ANDESITE_SLAB(32124, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    RED_NETHER_BRICK_SLAB(12462, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    POLISHED_ANDESITE_SLAB(24573, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    DIORITE_SLAB(10715, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    COBBLED_DEEPSLATE_SLAB(17388, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    POLISHED_DEEPSLATE_SLAB(32201, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    DEEPSLATE_BRICK_SLAB(23910, Slab.class),
-    /**
-     * BlockData: {@link Slab}
-     */
-    DEEPSLATE_TILE_SLAB(13315, Slab.class),
-    /**
-     * BlockData: {@link Scaffolding}
-     */
-    SCAFFOLDING(15757, Scaffolding.class),
-    REDSTONE(11233),
-    /**
-     * BlockData: {@link Lightable}
-     */
-    REDSTONE_TORCH(22547, Lightable.class),
-    REDSTONE_BLOCK(19496),
-    /**
-     * BlockData: {@link Repeater}
-     */
-    REPEATER(28823, Repeater.class),
-    /**
-     * BlockData: {@link Comparator}
-     */
-    COMPARATOR(18911, Comparator.class),
-    /**
-     * BlockData: {@link Piston}
-     */
-    PISTON(21130, Piston.class),
-    /**
-     * BlockData: {@link Piston}
-     */
-    STICKY_PISTON(18127, Piston.class),
-    SLIME_BLOCK(31892),
-    HONEY_BLOCK(30615),
-    /**
-     * BlockData: {@link Observer}
-     */
-    OBSERVER(10726, Observer.class),
-    /**
-     * BlockData: {@link Hopper}
-     */
-    HOPPER(31974, Hopper.class),
-    /**
-     * BlockData: {@link Dispenser}
-     */
-    DISPENSER(20871, Dispenser.class),
-    /**
-     * BlockData: {@link Dispenser}
-     */
-    DROPPER(31273, Dispenser.class),
-    /**
-     * BlockData: {@link Lectern}
-     */
-    LECTERN(23490, Lectern.class),
-    /**
-     * BlockData: {@link AnaloguePowerable}
-     */
-    TARGET(22637, AnaloguePowerable.class),
-    /**
-     * BlockData: {@link Switch}
-     */
-    LEVER(15319, Switch.class),
-    /**
-     * BlockData: {@link LightningRod}
-     */
-    LIGHTNING_ROD(30770, LightningRod.class),
-    /**
-     * BlockData: {@link DaylightDetector}
-     */
-    DAYLIGHT_DETECTOR(8864, DaylightDetector.class),
-    /**
-     * BlockData: {@link SculkSensor}
-     */
-    SCULK_SENSOR(5598, SculkSensor.class),
-    /**
-     * BlockData: {@link TripwireHook}
-     */
-    TRIPWIRE_HOOK(8130, TripwireHook.class),
-    /**
-     * BlockData: {@link Chest}
-     */
-    TRAPPED_CHEST(18970, Chest.class),
-    /**
-     * BlockData: {@link TNT}
-     */
-    TNT(7896, TNT.class),
-    /**
-     * BlockData: {@link Lightable}
-     */
-    REDSTONE_LAMP(8217, Lightable.class),
-    /**
-     * BlockData: {@link NoteBlock}
-     */
-    NOTE_BLOCK(20979, NoteBlock.class),
-    /**
-     * BlockData: {@link Switch}
-     */
-    STONE_BUTTON(12279, Switch.class),
-    /**
-     * BlockData: {@link Switch}
-     */
-    POLISHED_BLACKSTONE_BUTTON(20760, Switch.class),
-    /**
-     * BlockData: {@link Switch}
-     */
-    OAK_BUTTON(13510, Switch.class),
-    /**
-     * BlockData: {@link Switch}
-     */
-    SPRUCE_BUTTON(23281, Switch.class),
-    /**
-     * BlockData: {@link Switch}
-     */
-    BIRCH_BUTTON(26934, Switch.class),
-    /**
-     * BlockData: {@link Switch}
-     */
-    JUNGLE_BUTTON(25317, Switch.class),
-    /**
-     * BlockData: {@link Switch}
-     */
-    ACACIA_BUTTON(13993, Switch.class),
-    /**
-     * BlockData: {@link Switch}
-     */
-    DARK_OAK_BUTTON(6214, Switch.class),
-    /**
-     * BlockData: {@link Switch}
-     */
-    CRIMSON_BUTTON(26799, Switch.class),
-    /**
-     * BlockData: {@link Switch}
-     */
-    WARPED_BUTTON(25264, Switch.class),
-    /**
-     * BlockData: {@link Powerable}
-     */
-    STONE_PRESSURE_PLATE(22591, Powerable.class),
-    /**
-     * BlockData: {@link Powerable}
-     */
-    POLISHED_BLACKSTONE_PRESSURE_PLATE(32340, Powerable.class),
-    /**
-     * BlockData: {@link AnaloguePowerable}
-     */
-    LIGHT_WEIGHTED_PRESSURE_PLATE(14875, AnaloguePowerable.class),
-    /**
-     * BlockData: {@link AnaloguePowerable}
-     */
-    HEAVY_WEIGHTED_PRESSURE_PLATE(16970, AnaloguePowerable.class),
-    /**
-     * BlockData: {@link Powerable}
-     */
-    OAK_PRESSURE_PLATE(20108, Powerable.class),
-    /**
-     * BlockData: {@link Powerable}
-     */
-    SPRUCE_PRESSURE_PLATE(15932, Powerable.class),
-    /**
-     * BlockData: {@link Powerable}
-     */
-    BIRCH_PRESSURE_PLATE(9664, Powerable.class),
-    /**
-     * BlockData: {@link Powerable}
-     */
-    JUNGLE_PRESSURE_PLATE(11376, Powerable.class),
-    /**
-     * BlockData: {@link Powerable}
-     */
-    ACACIA_PRESSURE_PLATE(17586, Powerable.class),
-    /**
-     * BlockData: {@link Powerable}
-     */
-    DARK_OAK_PRESSURE_PLATE(31375, Powerable.class),
-    /**
-     * BlockData: {@link Powerable}
-     */
-    CRIMSON_PRESSURE_PLATE(18316, Powerable.class),
-    /**
-     * BlockData: {@link Powerable}
-     */
-    WARPED_PRESSURE_PLATE(29516, Powerable.class),
-    /**
-     * BlockData: {@link Door}
-     */
-    IRON_DOOR(4788, Door.class),
-    /**
-     * BlockData: {@link Door}
-     */
-    OAK_DOOR(20341, Door.class),
-    /**
-     * BlockData: {@link Door}
-     */
-    SPRUCE_DOOR(10642, Door.class),
-    /**
-     * BlockData: {@link Door}
-     */
-    BIRCH_DOOR(14759, Door.class),
-    /**
-     * BlockData: {@link Door}
-     */
-    JUNGLE_DOOR(28163, Door.class),
-    /**
-     * BlockData: {@link Door}
-     */
-    ACACIA_DOOR(23797, Door.class),
-    /**
-     * BlockData: {@link Door}
-     */
-    DARK_OAK_DOOR(10669, Door.class),
-    /**
-     * BlockData: {@link Door}
-     */
-    CRIMSON_DOOR(19544, Door.class),
-    /**
-     * BlockData: {@link Door}
-     */
-    WARPED_DOOR(15062, Door.class),
-    /**
-     * BlockData: {@link TrapDoor}
-     */
-    IRON_TRAPDOOR(17095, TrapDoor.class),
-    /**
-     * BlockData: {@link TrapDoor}
-     */
-    OAK_TRAPDOOR(16927, TrapDoor.class),
-    /**
-     * BlockData: {@link TrapDoor}
-     */
-    SPRUCE_TRAPDOOR(10289, TrapDoor.class),
-    /**
-     * BlockData: {@link TrapDoor}
-     */
-    BIRCH_TRAPDOOR(32585, TrapDoor.class),
-    /**
-     * BlockData: {@link TrapDoor}
-     */
-    JUNGLE_TRAPDOOR(8626, TrapDoor.class),
-    /**
-     * BlockData: {@link TrapDoor}
-     */
-    ACACIA_TRAPDOOR(18343, TrapDoor.class),
-    /**
-     * BlockData: {@link TrapDoor}
-     */
-    DARK_OAK_TRAPDOOR(10355, TrapDoor.class),
-    /**
-     * BlockData: {@link TrapDoor}
-     */
-    CRIMSON_TRAPDOOR(25056, TrapDoor.class),
-    /**
-     * BlockData: {@link TrapDoor}
-     */
-    WARPED_TRAPDOOR(7708, TrapDoor.class),
-    /**
-     * BlockData: {@link Gate}
-     */
-    OAK_FENCE_GATE(16689, Gate.class),
-    /**
-     * BlockData: {@link Gate}
-     */
-    SPRUCE_FENCE_GATE(26423, Gate.class),
-    /**
-     * BlockData: {@link Gate}
-     */
-    BIRCH_FENCE_GATE(6322, Gate.class),
-    /**
-     * BlockData: {@link Gate}
-     */
-    JUNGLE_FENCE_GATE(21360, Gate.class),
-    /**
-     * BlockData: {@link Gate}
-     */
-    ACACIA_FENCE_GATE(14145, Gate.class),
-    /**
-     * BlockData: {@link Gate}
-     */
-    DARK_OAK_FENCE_GATE(10679, Gate.class),
-    /**
-     * BlockData: {@link Gate}
-     */
-    CRIMSON_FENCE_GATE(15602, Gate.class),
-    /**
-     * BlockData: {@link Gate}
-     */
-    WARPED_FENCE_GATE(11115, Gate.class),
-    /**
-     * BlockData: {@link RedstoneRail}
-     */
-    POWERED_RAIL(11064, RedstoneRail.class),
-    /**
-     * BlockData: {@link RedstoneRail}
-     */
-    DETECTOR_RAIL(13475, RedstoneRail.class),
-    /**
-     * BlockData: {@link Rail}
-     */
-    RAIL(13285, Rail.class),
-    /**
-     * BlockData: {@link RedstoneRail}
-     */
-    ACTIVATOR_RAIL(5834, RedstoneRail.class),
-    SADDLE(30206, 1),
-    MINECART(14352, 1),
-    CHEST_MINECART(4497, 1),
-    FURNACE_MINECART(14196, 1),
-    TNT_MINECART(4277, 1),
-    HOPPER_MINECART(19024, 1),
-    CARROT_ON_A_STICK(27809, 1, 25),
-    WARPED_FUNGUS_ON_A_STICK(11706, 1, 100),
-    ELYTRA(23829, 1, 432),
-    OAK_BOAT(17570, 1),
-    SPRUCE_BOAT(31427, 1),
-    BIRCH_BOAT(28104, 1),
-    JUNGLE_BOAT(4495, 1),
-    ACACIA_BOAT(27326, 1),
-    DARK_OAK_BOAT(28618, 1),
-    /**
-     * BlockData: {@link StructureBlock}
-     */
-    STRUCTURE_BLOCK(26831, StructureBlock.class),
-    /**
-     * BlockData: {@link Jigsaw}
-     */
-    JIGSAW(17398, Jigsaw.class),
-    TURTLE_HELMET(30120, 1, 275),
-    SCUTE(11914),
-    FLINT_AND_STEEL(28620, 1, 64),
-    APPLE(7720),
-    BOW(8745, 1, 384),
-    ARROW(31091),
-    COAL(29067),
-    CHARCOAL(5390),
-    DIAMOND(20865),
-    EMERALD(5654),
-    LAPIS_LAZULI(11075),
-    QUARTZ(23608),
-    AMETHYST_SHARD(7613),
-    RAW_IRON(5329),
-    IRON_INGOT(24895),
-    RAW_COPPER(6162),
-    COPPER_INGOT(12611),
-    RAW_GOLD(19564),
-    GOLD_INGOT(28927),
-    NETHERITE_INGOT(32457),
-    NETHERITE_SCRAP(29331),
-    WOODEN_SWORD(7175, 1, 59),
-    WOODEN_SHOVEL(28432, 1, 59),
-    WOODEN_PICKAXE(12792, 1, 59),
-    WOODEN_AXE(6292, 1, 59),
-    WOODEN_HOE(16043, 1, 59),
-    STONE_SWORD(25084, 1, 131),
-    STONE_SHOVEL(9520, 1, 131),
-    STONE_PICKAXE(14611, 1, 131),
-    STONE_AXE(6338, 1, 131),
-    STONE_HOE(22855, 1, 131),
-    GOLDEN_SWORD(10505, 1, 32),
-    GOLDEN_SHOVEL(15597, 1, 32),
-    GOLDEN_PICKAXE(25898, 1, 32),
-    GOLDEN_AXE(4878, 1, 32),
-    GOLDEN_HOE(19337, 1, 32),
-    IRON_SWORD(10904, 1, 250),
-    IRON_SHOVEL(30045, 1, 250),
-    IRON_PICKAXE(8842, 1, 250),
-    IRON_AXE(15894, 1, 250),
-    IRON_HOE(11339, 1, 250),
-    DIAMOND_SWORD(27707, 1, 1561),
-    DIAMOND_SHOVEL(25415, 1, 1561),
-    DIAMOND_PICKAXE(24291, 1, 1561),
-    DIAMOND_AXE(27277, 1, 1561),
-    DIAMOND_HOE(24050, 1, 1561),
-    NETHERITE_SWORD(23871, 1, 2031),
-    NETHERITE_SHOVEL(29728, 1, 2031),
-    NETHERITE_PICKAXE(9930, 1, 2031),
-    NETHERITE_AXE(29533, 1, 2031),
-    NETHERITE_HOE(27385, 1, 2031),
-    STICK(9773),
-    BOWL(32661),
-    MUSHROOM_STEW(16336, 1),
-    STRING(12806),
-    FEATHER(30548),
-    GUNPOWDER(29974),
-    WHEAT_SEEDS(28742),
-    /**
-     * BlockData: {@link Ageable}
-     */
-    WHEAT(27709, Ageable.class),
-    BREAD(32049),
-    LEATHER_HELMET(11624, 1, 55),
-    LEATHER_CHESTPLATE(29275, 1, 80),
-    LEATHER_LEGGINGS(28210, 1, 75),
-    LEATHER_BOOTS(15282, 1, 65),
-    CHAINMAIL_HELMET(26114, 1, 165),
-    CHAINMAIL_CHESTPLATE(23602, 1, 240),
-    CHAINMAIL_LEGGINGS(19087, 1, 225),
-    CHAINMAIL_BOOTS(17953, 1, 195),
-    IRON_HELMET(12025, 1, 165),
-    IRON_CHESTPLATE(28112, 1, 240),
-    IRON_LEGGINGS(18951, 1, 225),
-    IRON_BOOTS(8531, 1, 195),
-    DIAMOND_HELMET(10755, 1, 363),
-    DIAMOND_CHESTPLATE(32099, 1, 528),
-    DIAMOND_LEGGINGS(26500, 1, 495),
-    DIAMOND_BOOTS(16522, 1, 429),
-    GOLDEN_HELMET(7945, 1, 77),
-    GOLDEN_CHESTPLATE(4507, 1, 112),
-    GOLDEN_LEGGINGS(21002, 1, 105),
-    GOLDEN_BOOTS(7859, 1, 91),
-    NETHERITE_HELMET(15907, 1, 407),
-    NETHERITE_CHESTPLATE(6106, 1, 592),
-    NETHERITE_LEGGINGS(25605, 1, 555),
-    NETHERITE_BOOTS(8923, 1, 481),
-    FLINT(23596),
-    PORKCHOP(30896),
-    COOKED_PORKCHOP(27231),
-    PAINTING(23945),
-    GOLDEN_APPLE(27732),
-    ENCHANTED_GOLDEN_APPLE(8280),
-    /**
-     * BlockData: {@link Sign}
-     */
-    OAK_SIGN(8192, 16, Sign.class),
-    /**
-     * BlockData: {@link Sign}
-     */
-    SPRUCE_SIGN(21502, 16, Sign.class),
-    /**
-     * BlockData: {@link Sign}
-     */
-    BIRCH_SIGN(11351, 16, Sign.class),
-    /**
-     * BlockData: {@link Sign}
-     */
-    JUNGLE_SIGN(24717, 16, Sign.class),
-    /**
-     * BlockData: {@link Sign}
-     */
-    ACACIA_SIGN(29808, 16, Sign.class),
-    /**
-     * BlockData: {@link Sign}
-     */
-    DARK_OAK_SIGN(15127, 16, Sign.class),
-    /**
-     * BlockData: {@link Sign}
-     */
-    CRIMSON_SIGN(12162, 16, Sign.class),
-    /**
-     * BlockData: {@link Sign}
-     */
-    WARPED_SIGN(10407, 16, Sign.class),
-    BUCKET(15215, 16),
-    WATER_BUCKET(8802, 1),
-    LAVA_BUCKET(9228, 1),
-    POWDER_SNOW_BUCKET(31101, 1),
-    SNOWBALL(19487, 16),
-    LEATHER(16414),
-    MILK_BUCKET(9680, 1),
-    PUFFERFISH_BUCKET(8861, 1),
-    SALMON_BUCKET(9606, 1),
-    COD_BUCKET(28601, 1),
-    TROPICAL_FISH_BUCKET(29995, 1),
-    AXOLOTL_BUCKET(20669, 1),
-    BRICK(6820),
-    CLAY_BALL(24603),
-    DRIED_KELP_BLOCK(12966),
-    PAPER(9923),
-    BOOK(23097),
-    SLIME_BALL(5242),
-    EGG(21603, 16),
-    COMPASS(24139),
-    BUNDLE(16835, 1),
-    FISHING_ROD(4167, 1, 64),
-    CLOCK(14980),
-    SPYGLASS(27490, 1),
-    GLOWSTONE_DUST(6665),
-    COD(24691),
-    SALMON(18516),
-    TROPICAL_FISH(24879),
-    PUFFERFISH(8115),
-    COOKED_COD(9681),
-    COOKED_SALMON(5615),
-    INK_SAC(7184),
-    GLOW_INK_SAC(9686),
-    COCOA_BEANS(30186),
-    WHITE_DYE(10758),
-    ORANGE_DYE(13866),
-    MAGENTA_DYE(11788),
-    LIGHT_BLUE_DYE(28738),
-    YELLOW_DYE(5952),
-    LIME_DYE(6147),
-    PINK_DYE(31151),
-    GRAY_DYE(9184),
-    LIGHT_GRAY_DYE(27643),
-    CYAN_DYE(8043),
-    PURPLE_DYE(6347),
-    BLUE_DYE(11588),
-    BROWN_DYE(7648),
-    GREEN_DYE(23215),
-    RED_DYE(5728),
-    BLACK_DYE(6202),
-    BONE_MEAL(32458),
-    BONE(5686),
-    SUGAR(30638),
-    /**
-     * BlockData: {@link Cake}
-     */
-    CAKE(27048, 1, Cake.class),
-    /**
-     * BlockData: {@link Bed}
-     */
-    WHITE_BED(8185, 1, Bed.class),
-    /**
-     * BlockData: {@link Bed}
-     */
-    ORANGE_BED(11194, 1, Bed.class),
-    /**
-     * BlockData: {@link Bed}
-     */
-    MAGENTA_BED(20061, 1, Bed.class),
-    /**
-     * BlockData: {@link Bed}
-     */
-    LIGHT_BLUE_BED(20957, 1, Bed.class),
-    /**
-     * BlockData: {@link Bed}
-     */
-    YELLOW_BED(30410, 1, Bed.class),
-    /**
-     * BlockData: {@link Bed}
-     */
-    LIME_BED(27860, 1, Bed.class),
-    /**
-     * BlockData: {@link Bed}
-     */
-    PINK_BED(13795, 1, Bed.class),
-    /**
-     * BlockData: {@link Bed}
-     */
-    GRAY_BED(15745, 1, Bed.class),
-    /**
-     * BlockData: {@link Bed}
-     */
-    LIGHT_GRAY_BED(5090, 1, Bed.class),
-    /**
-     * BlockData: {@link Bed}
-     */
-    CYAN_BED(16746, 1, Bed.class),
-    /**
-     * BlockData: {@link Bed}
-     */
-    PURPLE_BED(29755, 1, Bed.class),
-    /**
-     * BlockData: {@link Bed}
-     */
-    BLUE_BED(12714, 1, Bed.class),
-    /**
-     * BlockData: {@link Bed}
-     */
-    BROWN_BED(26672, 1, Bed.class),
-    /**
-     * BlockData: {@link Bed}
-     */
-    GREEN_BED(13797, 1, Bed.class),
-    /**
-     * BlockData: {@link Bed}
-     */
-    RED_BED(30910, 1, Bed.class),
-    /**
-     * BlockData: {@link Bed}
-     */
-    BLACK_BED(20490, 1, Bed.class),
-    COOKIE(27431),
-    FILLED_MAP(23504),
-    SHEARS(27971, 1, 238),
-    MELON_SLICE(5347),
-    DRIED_KELP(21042),
-    PUMPKIN_SEEDS(28985),
-    MELON_SEEDS(18340),
-    BEEF(4803),
-    COOKED_BEEF(21595),
-    CHICKEN(17281),
-    COOKED_CHICKEN(16984),
-    ROTTEN_FLESH(21591),
-    ENDER_PEARL(5259, 16),
-    BLAZE_ROD(8289),
-    GHAST_TEAR(18222),
-    GOLD_NUGGET(28814),
-    /**
-     * BlockData: {@link Ageable}
-     */
-    NETHER_WART(29227, Ageable.class),
-    POTION(24020, 1),
-    GLASS_BOTTLE(6116),
-    SPIDER_EYE(9318),
-    FERMENTED_SPIDER_EYE(19386),
-    BLAZE_POWDER(18941),
-    MAGMA_CREAM(25097),
-    /**
-     * BlockData: {@link BrewingStand}
-     */
-    BREWING_STAND(14539, BrewingStand.class),
-    CAULDRON(26531),
-    ENDER_EYE(24860),
-    GLISTERING_MELON_SLICE(20158),
-    AXOLOTL_SPAWN_EGG(30381),
-    BAT_SPAWN_EGG(14607),
-    BEE_SPAWN_EGG(22924),
-    BLAZE_SPAWN_EGG(4759),
-    CAT_SPAWN_EGG(29583),
-    CAVE_SPIDER_SPAWN_EGG(23341),
-    CHICKEN_SPAWN_EGG(5462),
-    COD_SPAWN_EGG(27248),
-    COW_SPAWN_EGG(14761),
-    CREEPER_SPAWN_EGG(9653),
-    DOLPHIN_SPAWN_EGG(20787),
-    DONKEY_SPAWN_EGG(14513),
-    DROWNED_SPAWN_EGG(19368),
-    ELDER_GUARDIAN_SPAWN_EGG(11418),
-    ENDERMAN_SPAWN_EGG(29488),
-    ENDERMITE_SPAWN_EGG(16617),
-    EVOKER_SPAWN_EGG(21271),
-    FOX_SPAWN_EGG(22376),
-    GHAST_SPAWN_EGG(9970),
-    GLOW_SQUID_SPAWN_EGG(31578),
-    GOAT_SPAWN_EGG(30639),
-    GUARDIAN_SPAWN_EGG(20113),
-    HOGLIN_SPAWN_EGG(14088),
-    HORSE_SPAWN_EGG(25981),
-    HUSK_SPAWN_EGG(20178),
-    LLAMA_SPAWN_EGG(23640),
-    MAGMA_CUBE_SPAWN_EGG(26638),
-    MOOSHROOM_SPAWN_EGG(22125),
-    MULE_SPAWN_EGG(11229),
-    OCELOT_SPAWN_EGG(30080),
-    PANDA_SPAWN_EGG(23759),
-    PARROT_SPAWN_EGG(23614),
-    PHANTOM_SPAWN_EGG(24648),
-    PIG_SPAWN_EGG(22584),
-    PIGLIN_SPAWN_EGG(16193),
-    PIGLIN_BRUTE_SPAWN_EGG(30230),
-    PILLAGER_SPAWN_EGG(28659),
-    POLAR_BEAR_SPAWN_EGG(17015),
-    PUFFERFISH_SPAWN_EGG(24570),
-    RABBIT_SPAWN_EGG(26496),
-    RAVAGER_SPAWN_EGG(8726),
-    SALMON_SPAWN_EGG(18739),
-    SHEEP_SPAWN_EGG(24488),
-    SHULKER_SPAWN_EGG(31848),
-    SILVERFISH_SPAWN_EGG(14537),
-    SKELETON_SPAWN_EGG(15261),
-    SKELETON_HORSE_SPAWN_EGG(21356),
-    SLIME_SPAWN_EGG(17196),
-    SPIDER_SPAWN_EGG(14984),
-    SQUID_SPAWN_EGG(10682),
-    STRAY_SPAWN_EGG(30153),
-    STRIDER_SPAWN_EGG(6203),
-    TRADER_LLAMA_SPAWN_EGG(8439),
-    TROPICAL_FISH_SPAWN_EGG(19713),
-    TURTLE_SPAWN_EGG(17324),
-    VEX_SPAWN_EGG(27751),
-    VILLAGER_SPAWN_EGG(30348),
-    VINDICATOR_SPAWN_EGG(25324),
-    WANDERING_TRADER_SPAWN_EGG(17904),
-    WITCH_SPAWN_EGG(11837),
-    WITHER_SKELETON_SPAWN_EGG(10073),
-    WOLF_SPAWN_EGG(21692),
-    ZOGLIN_SPAWN_EGG(7442),
-    ZOMBIE_SPAWN_EGG(5814),
-    ZOMBIE_HORSE_SPAWN_EGG(4275),
-    ZOMBIE_VILLAGER_SPAWN_EGG(10311),
-    ZOMBIFIED_PIGLIN_SPAWN_EGG(6626),
-    EXPERIENCE_BOTTLE(12858),
-    FIRE_CHARGE(4842),
-    WRITABLE_BOOK(13393, 1),
-    WRITTEN_BOOK(24164, 16),
-    ITEM_FRAME(27318),
-    GLOW_ITEM_FRAME(26473),
-    FLOWER_POT(30567),
-    CARROT(22824),
-    POTATO(21088),
-    BAKED_POTATO(14624),
-    POISONOUS_POTATO(32640),
-    MAP(21655),
-    GOLDEN_CARROT(5300),
-    /**
-     * BlockData: {@link Rotatable}
-     */
-    SKELETON_SKULL(13270, Rotatable.class),
-    /**
-     * BlockData: {@link Rotatable}
-     */
-    WITHER_SKELETON_SKULL(31487, Rotatable.class),
-    /**
-     * BlockData: {@link Rotatable}
-     */
-    PLAYER_HEAD(21174, Rotatable.class),
-    /**
-     * BlockData: {@link Rotatable}
-     */
-    ZOMBIE_HEAD(9304, Rotatable.class),
-    /**
-     * BlockData: {@link Rotatable}
-     */
-    CREEPER_HEAD(29146, Rotatable.class),
-    /**
-     * BlockData: {@link Rotatable}
-     */
-    DRAGON_HEAD(20084, Rotatable.class),
-    NETHER_STAR(12469),
-    PUMPKIN_PIE(28725),
-    FIREWORK_ROCKET(23841),
-    FIREWORK_STAR(12190),
-    ENCHANTED_BOOK(11741, 1),
-    NETHER_BRICK(19996),
-    PRISMARINE_SHARD(10993),
-    PRISMARINE_CRYSTALS(31546),
-    RABBIT(23068),
-    COOKED_RABBIT(4454),
-    RABBIT_STEW(10611, 1),
-    RABBIT_FOOT(13864),
-    RABBIT_HIDE(12467),
-    ARMOR_STAND(12852, 16),
-    IRON_HORSE_ARMOR(30108, 1),
-    GOLDEN_HORSE_ARMOR(7996, 1),
-    DIAMOND_HORSE_ARMOR(10321, 1),
-    LEATHER_HORSE_ARMOR(30667, 1),
-    LEAD(29539),
-    NAME_TAG(30731),
-    COMMAND_BLOCK_MINECART(7992, 1),
-    MUTTON(4792),
-    COOKED_MUTTON(31447),
-    /**
-     * BlockData: {@link Rotatable}
-     */
-    WHITE_BANNER(17562, 16, Rotatable.class),
-    /**
-     * BlockData: {@link Rotatable}
-     */
-    ORANGE_BANNER(4839, 16, Rotatable.class),
-    /**
-     * BlockData: {@link Rotatable}
-     */
-    MAGENTA_BANNER(15591, 16, Rotatable.class),
-    /**
-     * BlockData: {@link Rotatable}
-     */
-    LIGHT_BLUE_BANNER(18060, 16, Rotatable.class),
-    /**
-     * BlockData: {@link Rotatable}
-     */
-    YELLOW_BANNER(30382, 16, Rotatable.class),
-    /**
-     * BlockData: {@link Rotatable}
-     */
-    LIME_BANNER(18887, 16, Rotatable.class),
-    /**
-     * BlockData: {@link Rotatable}
-     */
-    PINK_BANNER(19439, 16, Rotatable.class),
-    /**
-     * BlockData: {@link Rotatable}
-     */
-    GRAY_BANNER(12053, 16, Rotatable.class),
-    /**
-     * BlockData: {@link Rotatable}
-     */
-    LIGHT_GRAY_BANNER(11417, 16, Rotatable.class),
-    /**
-     * BlockData: {@link Rotatable}
-     */
-    CYAN_BANNER(9839, 16, Rotatable.class),
-    /**
-     * BlockData: {@link Rotatable}
-     */
-    PURPLE_BANNER(29027, 16, Rotatable.class),
-    /**
-     * BlockData: {@link Rotatable}
-     */
-    BLUE_BANNER(18481, 16, Rotatable.class),
-    /**
-     * BlockData: {@link Rotatable}
-     */
-    BROWN_BANNER(11481, 16, Rotatable.class),
-    /**
-     * BlockData: {@link Rotatable}
-     */
-    GREEN_BANNER(10698, 16, Rotatable.class),
-    /**
-     * BlockData: {@link Rotatable}
-     */
-    RED_BANNER(26961, 16, Rotatable.class),
-    /**
-     * BlockData: {@link Rotatable}
-     */
-    BLACK_BANNER(9365, 16, Rotatable.class),
-    END_CRYSTAL(19090),
-    CHORUS_FRUIT(7652),
-    POPPED_CHORUS_FRUIT(27844),
-    BEETROOT(23305),
-    BEETROOT_SEEDS(21282),
-    BEETROOT_SOUP(16036, 1),
-    DRAGON_BREATH(20154),
-    SPLASH_POTION(30248, 1),
-    SPECTRAL_ARROW(4568),
-    TIPPED_ARROW(25164),
-    LINGERING_POTION(25857, 1),
-    SHIELD(29943, 1, 336),
-    TOTEM_OF_UNDYING(10139, 1),
-    SHULKER_SHELL(27848),
-    IRON_NUGGET(13715),
-    KNOWLEDGE_BOOK(12646, 1),
-    DEBUG_STICK(24562, 1),
-    MUSIC_DISC_13(16359, 1),
-    MUSIC_DISC_CAT(16246, 1),
-    MUSIC_DISC_BLOCKS(26667, 1),
-    MUSIC_DISC_CHIRP(19436, 1),
-    MUSIC_DISC_FAR(31742, 1),
-    MUSIC_DISC_MALL(11517, 1),
-    MUSIC_DISC_MELLOHI(26117, 1),
-    MUSIC_DISC_STAL(14989, 1),
-    MUSIC_DISC_STRAD(16785, 1),
-    MUSIC_DISC_WARD(24026, 1),
-    MUSIC_DISC_11(27426, 1),
-    MUSIC_DISC_WAIT(26499, 1),
-    MUSIC_DISC_PIGSTEP(21323, 1),
-    TRIDENT(7534, 1, 250),
-    PHANTOM_MEMBRANE(18398),
-    NAUTILUS_SHELL(19989),
-    HEART_OF_THE_SEA(11807),
-    CROSSBOW(4340, 1, 326),
-    SUSPICIOUS_STEW(8173, 1),
-    /**
-     * BlockData: {@link Directional}
-     */
-    LOOM(14276, Directional.class),
-    FLOWER_BANNER_PATTERN(5762, 1),
-    CREEPER_BANNER_PATTERN(15774, 1),
-    SKULL_BANNER_PATTERN(7680, 1),
-    MOJANG_BANNER_PATTERN(11903, 1),
-    GLOBE_BANNER_PATTERN(27753, 1),
-    PIGLIN_BANNER_PATTERN(22028, 1),
-    /**
-     * BlockData: {@link Levelled}
-     */
-    COMPOSTER(31247, Levelled.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    BARREL(22396, Directional.class),
-    /**
-     * BlockData: {@link Furnace}
-     */
-    SMOKER(24781, Furnace.class),
-    /**
-     * BlockData: {@link Furnace}
-     */
-    BLAST_FURNACE(31157, Furnace.class),
-    CARTOGRAPHY_TABLE(28529),
-    FLETCHING_TABLE(30838),
-    /**
-     * BlockData: {@link Grindstone}
-     */
-    GRINDSTONE(26260, Grindstone.class),
-    SMITHING_TABLE(9082),
-    /**
-     * BlockData: {@link Directional}
-     */
-    STONECUTTER(25170, Directional.class),
-    /**
-     * BlockData: {@link Bell}
-     */
-    BELL(20000, Bell.class),
-    /**
-     * BlockData: {@link Lantern}
-     */
-    LANTERN(5992, Lantern.class),
-    /**
-     * BlockData: {@link Lantern}
-     */
-    SOUL_LANTERN(27778, Lantern.class),
-    SWEET_BERRIES(19747),
-    GLOW_BERRIES(11584),
-    /**
-     * BlockData: {@link Campfire}
-     */
-    CAMPFIRE(8488, Campfire.class),
-    /**
-     * BlockData: {@link Campfire}
-     */
-    SOUL_CAMPFIRE(4238, Campfire.class),
-    SHROOMLIGHT(20424),
-    HONEYCOMB(9482),
-    /**
-     * BlockData: {@link Beehive}
-     */
-    BEE_NEST(8825, Beehive.class),
-    /**
-     * BlockData: {@link Beehive}
-     */
-    BEEHIVE(11830, Beehive.class),
-    HONEY_BOTTLE(22927, 16),
-    HONEYCOMB_BLOCK(28780),
-    LODESTONE(23127),
-    CRYING_OBSIDIAN(31545),
-    BLACKSTONE(7354),
-    /**
-     * BlockData: {@link Slab}
-     */
-    BLACKSTONE_SLAB(11948, Slab.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    BLACKSTONE_STAIRS(14646, Stairs.class),
-    GILDED_BLACKSTONE(8498),
-    POLISHED_BLACKSTONE(18144),
-    /**
-     * BlockData: {@link Slab}
-     */
-    POLISHED_BLACKSTONE_SLAB(23430, Slab.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    POLISHED_BLACKSTONE_STAIRS(8653, Stairs.class),
-    CHISELED_POLISHED_BLACKSTONE(21942),
-    POLISHED_BLACKSTONE_BRICKS(19844),
-    /**
-     * BlockData: {@link Slab}
-     */
-    POLISHED_BLACKSTONE_BRICK_SLAB(12219, Slab.class),
-    /**
-     * BlockData: {@link Stairs}
-     */
-    POLISHED_BLACKSTONE_BRICK_STAIRS(17983, Stairs.class),
-    CRACKED_POLISHED_BLACKSTONE_BRICKS(16846),
-    /**
-     * BlockData: {@link RespawnAnchor}
-     */
-    RESPAWN_ANCHOR(4099, RespawnAnchor.class),
-    /**
-     * BlockData: {@link Candle}
-     */
-    CANDLE(16122, Candle.class),
-    /**
-     * BlockData: {@link Candle}
-     */
-    WHITE_CANDLE(26410, Candle.class),
-    /**
-     * BlockData: {@link Candle}
-     */
-    ORANGE_CANDLE(22668, Candle.class),
-    /**
-     * BlockData: {@link Candle}
-     */
-    MAGENTA_CANDLE(25467, Candle.class),
-    /**
-     * BlockData: {@link Candle}
-     */
-    LIGHT_BLUE_CANDLE(28681, Candle.class),
-    /**
-     * BlockData: {@link Candle}
-     */
-    YELLOW_CANDLE(14351, Candle.class),
-    /**
-     * BlockData: {@link Candle}
-     */
-    LIME_CANDLE(21778, Candle.class),
-    /**
-     * BlockData: {@link Candle}
-     */
-    PINK_CANDLE(28259, Candle.class),
-    /**
-     * BlockData: {@link Candle}
-     */
-    GRAY_CANDLE(10721, Candle.class),
-    /**
-     * BlockData: {@link Candle}
-     */
-    LIGHT_GRAY_CANDLE(10031, Candle.class),
-    /**
-     * BlockData: {@link Candle}
-     */
-    CYAN_CANDLE(24765, Candle.class),
-    /**
-     * BlockData: {@link Candle}
-     */
-    PURPLE_CANDLE(19606, Candle.class),
-    /**
-     * BlockData: {@link Candle}
-     */
-    BLUE_CANDLE(29047, Candle.class),
-    /**
-     * BlockData: {@link Candle}
-     */
-    BROWN_CANDLE(26145, Candle.class),
-    /**
-     * BlockData: {@link Candle}
-     */
-    GREEN_CANDLE(29756, Candle.class),
-    /**
-     * BlockData: {@link Candle}
-     */
-    RED_CANDLE(4214, Candle.class),
-    /**
-     * BlockData: {@link Candle}
-     */
-    BLACK_CANDLE(12617, Candle.class),
-    /**
-     * BlockData: {@link AmethystCluster}
-     */
-    SMALL_AMETHYST_BUD(14958, AmethystCluster.class),
-    /**
-     * BlockData: {@link AmethystCluster}
-     */
-    MEDIUM_AMETHYST_BUD(8429, AmethystCluster.class),
-    /**
-     * BlockData: {@link AmethystCluster}
-     */
-    LARGE_AMETHYST_BUD(7279, AmethystCluster.class),
-    /**
-     * BlockData: {@link AmethystCluster}
-     */
-    AMETHYST_CLUSTER(13142, AmethystCluster.class),
-    /**
-     * BlockData: {@link PointedDripstone}
-     */
-    POINTED_DRIPSTONE(18755, PointedDripstone.class),
-    /**
-     * BlockData: {@link Levelled}
-     */
-    WATER(24998, Levelled.class),
-    /**
-     * BlockData: {@link Levelled}
-     */
-    LAVA(8415, Levelled.class),
-    /**
-     * BlockData: {@link Bisected}
-     */
-    TALL_SEAGRASS(27189, Bisected.class),
-    /**
-     * BlockData: {@link PistonHead}
-     */
-    PISTON_HEAD(30226, PistonHead.class),
-    /**
-     * BlockData: {@link TechnicalPiston}
-     */
-    MOVING_PISTON(13831, TechnicalPiston.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    WALL_TORCH(25890, Directional.class),
-    /**
-     * BlockData: {@link Fire}
-     */
-    FIRE(16396, Fire.class),
-    /**
-     * BlockData: {@link Fire}
-     */
-    SOUL_FIRE(30163, Fire.class),
-    /**
-     * BlockData: {@link RedstoneWire}
-     */
-    REDSTONE_WIRE(25984, RedstoneWire.class),
-    /**
-     * BlockData: {@link WallSign}
-     */
-    OAK_WALL_SIGN(12984, 16, WallSign.class),
-    /**
-     * BlockData: {@link WallSign}
-     */
-    SPRUCE_WALL_SIGN(7352, 16, WallSign.class),
-    /**
-     * BlockData: {@link WallSign}
-     */
-    BIRCH_WALL_SIGN(9887, 16, WallSign.class),
-    /**
-     * BlockData: {@link WallSign}
-     */
-    ACACIA_WALL_SIGN(20316, 16, WallSign.class),
-    /**
-     * BlockData: {@link WallSign}
-     */
-    JUNGLE_WALL_SIGN(29629, 16, WallSign.class),
-    /**
-     * BlockData: {@link WallSign}
-     */
-    DARK_OAK_WALL_SIGN(9508, 16, WallSign.class),
-    /**
-     * BlockData: {@link RedstoneWallTorch}
-     */
-    REDSTONE_WALL_TORCH(7595, RedstoneWallTorch.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    SOUL_WALL_TORCH(27500, Directional.class),
-    /**
-     * BlockData: {@link Orientable}
-     */
-    NETHER_PORTAL(19469, Orientable.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    ATTACHED_PUMPKIN_STEM(12724, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    ATTACHED_MELON_STEM(30882, Directional.class),
-    /**
-     * BlockData: {@link Ageable}
-     */
-    PUMPKIN_STEM(19021, Ageable.class),
-    /**
-     * BlockData: {@link Ageable}
-     */
-    MELON_STEM(8247, Ageable.class),
-    /**
-     * BlockData: {@link Levelled}
-     */
-    WATER_CAULDRON(32008, Levelled.class),
-    LAVA_CAULDRON(4514),
-    /**
-     * BlockData: {@link Levelled}
-     */
-    POWDER_SNOW_CAULDRON(31571, Levelled.class),
-    END_PORTAL(16782),
-    /**
-     * BlockData: {@link Cocoa}
-     */
-    COCOA(29709, Cocoa.class),
-    /**
-     * BlockData: {@link Tripwire}
-     */
-    TRIPWIRE(8810, Tripwire.class),
-    POTTED_OAK_SAPLING(11905),
-    POTTED_SPRUCE_SAPLING(29498),
-    POTTED_BIRCH_SAPLING(32484),
-    POTTED_JUNGLE_SAPLING(7525),
-    POTTED_ACACIA_SAPLING(14096),
-    POTTED_DARK_OAK_SAPLING(6486),
-    POTTED_FERN(23315),
-    POTTED_DANDELION(9727),
-    POTTED_POPPY(7457),
-    POTTED_BLUE_ORCHID(6599),
-    POTTED_ALLIUM(13184),
-    POTTED_AZURE_BLUET(8754),
-    POTTED_RED_TULIP(28594),
-    POTTED_ORANGE_TULIP(28807),
-    POTTED_WHITE_TULIP(24330),
-    POTTED_PINK_TULIP(10089),
-    POTTED_OXEYE_DAISY(19707),
-    POTTED_CORNFLOWER(28917),
-    POTTED_LILY_OF_THE_VALLEY(9364),
-    POTTED_WITHER_ROSE(26876),
-    POTTED_RED_MUSHROOM(22881),
-    POTTED_BROWN_MUSHROOM(14481),
-    POTTED_DEAD_BUSH(13020),
-    POTTED_CACTUS(8777),
-    /**
-     * BlockData: {@link Ageable}
-     */
-    CARROTS(17258, Ageable.class),
-    /**
-     * BlockData: {@link Ageable}
-     */
-    POTATOES(10879, Ageable.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    SKELETON_WALL_SKULL(31650, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    WITHER_SKELETON_WALL_SKULL(9326, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    ZOMBIE_WALL_HEAD(16296, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    PLAYER_WALL_HEAD(13164, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    CREEPER_WALL_HEAD(30123, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    DRAGON_WALL_HEAD(19818, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    WHITE_WALL_BANNER(15967, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    ORANGE_WALL_BANNER(9936, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    MAGENTA_WALL_BANNER(23291, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    LIGHT_BLUE_WALL_BANNER(12011, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    YELLOW_WALL_BANNER(32004, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    LIME_WALL_BANNER(21422, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    PINK_WALL_BANNER(9421, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    GRAY_WALL_BANNER(24275, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    LIGHT_GRAY_WALL_BANNER(31088, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    CYAN_WALL_BANNER(10889, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    PURPLE_WALL_BANNER(14298, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    BLUE_WALL_BANNER(17757, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    BROWN_WALL_BANNER(14731, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    GREEN_WALL_BANNER(15046, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    RED_WALL_BANNER(4378, Directional.class),
-    /**
-     * BlockData: {@link Directional}
-     */
-    BLACK_WALL_BANNER(4919, Directional.class),
-    /**
-     * BlockData: {@link Ageable}
-     */
-    BEETROOTS(22075, Ageable.class),
-    END_GATEWAY(26605),
-    /**
-     * BlockData: {@link Ageable}
-     */
-    FROSTED_ICE(21814, Ageable.class),
-    KELP_PLANT(29697),
-    /**
-     * BlockData: {@link CoralWallFan}
-     */
-    DEAD_TUBE_CORAL_WALL_FAN(5128, CoralWallFan.class),
-    /**
-     * BlockData: {@link CoralWallFan}
-     */
-    DEAD_BRAIN_CORAL_WALL_FAN(23718, CoralWallFan.class),
-    /**
-     * BlockData: {@link CoralWallFan}
-     */
-    DEAD_BUBBLE_CORAL_WALL_FAN(18453, CoralWallFan.class),
-    /**
-     * BlockData: {@link CoralWallFan}
-     */
-    DEAD_FIRE_CORAL_WALL_FAN(23375, CoralWallFan.class),
-    /**
-     * BlockData: {@link CoralWallFan}
-     */
-    DEAD_HORN_CORAL_WALL_FAN(27550, CoralWallFan.class),
-    /**
-     * BlockData: {@link CoralWallFan}
-     */
-    TUBE_CORAL_WALL_FAN(25282, CoralWallFan.class),
-    /**
-     * BlockData: {@link CoralWallFan}
-     */
-    BRAIN_CORAL_WALL_FAN(22685, CoralWallFan.class),
-    /**
-     * BlockData: {@link CoralWallFan}
-     */
-    BUBBLE_CORAL_WALL_FAN(20382, CoralWallFan.class),
-    /**
-     * BlockData: {@link CoralWallFan}
-     */
-    FIRE_CORAL_WALL_FAN(20100, CoralWallFan.class),
-    /**
-     * BlockData: {@link CoralWallFan}
-     */
-    HORN_CORAL_WALL_FAN(28883, CoralWallFan.class),
-    BAMBOO_SAPLING(8478),
-    POTTED_BAMBOO(22542),
-    VOID_AIR(13668),
-    CAVE_AIR(17422),
-    /**
-     * BlockData: {@link BubbleColumn}
-     */
-    BUBBLE_COLUMN(31612, BubbleColumn.class),
-    /**
-     * BlockData: {@link Ageable}
-     */
-    SWEET_BERRY_BUSH(11958, Ageable.class),
-    WEEPING_VINES_PLANT(19437),
-    TWISTING_VINES_PLANT(25338),
-    /**
-     * BlockData: {@link WallSign}
-     */
-    CRIMSON_WALL_SIGN(19242, 16, WallSign.class),
-    /**
-     * BlockData: {@link WallSign}
-     */
-    WARPED_WALL_SIGN(13534, 16, WallSign.class),
-    POTTED_CRIMSON_FUNGUS(5548),
-    POTTED_WARPED_FUNGUS(30800),
-    POTTED_CRIMSON_ROOTS(13852),
-    POTTED_WARPED_ROOTS(6403),
-    /**
-     * BlockData: {@link Lightable}
-     */
-    CANDLE_CAKE(25423, Lightable.class),
-    /**
-     * BlockData: {@link Lightable}
-     */
-    WHITE_CANDLE_CAKE(12674, Lightable.class),
-    /**
-     * BlockData: {@link Lightable}
-     */
-    ORANGE_CANDLE_CAKE(24982, Lightable.class),
-    /**
-     * BlockData: {@link Lightable}
-     */
-    MAGENTA_CANDLE_CAKE(11022, Lightable.class),
-    /**
-     * BlockData: {@link Lightable}
-     */
-    LIGHT_BLUE_CANDLE_CAKE(7787, Lightable.class),
-    /**
-     * BlockData: {@link Lightable}
-     */
-    YELLOW_CANDLE_CAKE(17157, Lightable.class),
-    /**
-     * BlockData: {@link Lightable}
-     */
-    LIME_CANDLE_CAKE(14309, Lightable.class),
-    /**
-     * BlockData: {@link Lightable}
-     */
-    PINK_CANDLE_CAKE(20405, Lightable.class),
-    /**
-     * BlockData: {@link Lightable}
-     */
-    GRAY_CANDLE_CAKE(6777, Lightable.class),
-    /**
-     * BlockData: {@link Lightable}
-     */
-    LIGHT_GRAY_CANDLE_CAKE(11318, Lightable.class),
-    /**
-     * BlockData: {@link Lightable}
-     */
-    CYAN_CANDLE_CAKE(21202, Lightable.class),
-    /**
-     * BlockData: {@link Lightable}
-     */
-    PURPLE_CANDLE_CAKE(22663, Lightable.class),
-    /**
-     * BlockData: {@link Lightable}
-     */
-    BLUE_CANDLE_CAKE(26425, Lightable.class),
-    /**
-     * BlockData: {@link Lightable}
-     */
-    BROWN_CANDLE_CAKE(26024, Lightable.class),
-    /**
-     * BlockData: {@link Lightable}
-     */
-    GREEN_CANDLE_CAKE(16334, Lightable.class),
-    /**
-     * BlockData: {@link Lightable}
-     */
-    RED_CANDLE_CAKE(24151, Lightable.class),
-    /**
-     * BlockData: {@link Lightable}
-     */
-    BLACK_CANDLE_CAKE(15191, Lightable.class),
-    POWDER_SNOW(24077),
-    /**
-     * BlockData: {@link CaveVines}
-     */
-    CAVE_VINES(7339, CaveVines.class),
-    /**
-     * BlockData: {@link CaveVinesPlant}
-     */
-    CAVE_VINES_PLANT(30645, CaveVinesPlant.class),
-    /**
-     * BlockData: {@link Dripleaf}
-     */
-    BIG_DRIPLEAF_STEM(13167, Dripleaf.class),
-    POTTED_AZALEA_BUSH(20430),
-    POTTED_FLOWERING_AZALEA_BUSH(10609),
+    Material AIR = getMaterial("air", 9648);
+    Material STONE = getMaterial("stone", 22948);
+    Material GRANITE = getMaterial("granite", 21091);
+    Material POLISHED_GRANITE = getMaterial("polished_granite", 5477);
+    Material DIORITE = getMaterial("diorite", 24688);
+    Material POLISHED_DIORITE = getMaterial("polished_diorite", 31615);
+    Material ANDESITE = getMaterial("andesite", 25975);
+    Material POLISHED_ANDESITE = getMaterial("polished_andesite", 8335);
+    Material DEEPSLATE = getMaterial("deepslate", 26842);
+    Material COBBLED_DEEPSLATE = getMaterial("cobbled_deepslate", 8021);
+    Material POLISHED_DEEPSLATE = getMaterial("polished_deepslate", 31772);
+    Material CALCITE = getMaterial("calcite", 20311);
+    Material TUFF = getMaterial("tuff", 24364);
+    Material DRIPSTONE_BLOCK = getMaterial("dripstone_block", 26227);
+    Material GRASS_BLOCK = getMaterial("grass_block", 28346);
+    Material DIRT = getMaterial("dirt", 10580);
+    Material COARSE_DIRT = getMaterial("coarse_dirt", 15411);
+    Material PODZOL = getMaterial("podzol", 24068);
+    Material ROOTED_DIRT = getMaterial("rooted_dirt", 11410);
+    Material CRIMSON_NYLIUM = getMaterial("crimson_nylium", 18139);
+    Material WARPED_NYLIUM = getMaterial("warped_nylium", 26396);
+    Material COBBLESTONE = getMaterial("cobblestone", 32147);
+    Material OAK_PLANKS = getMaterial("oak_planks", 14905);
+    Material SPRUCE_PLANKS = getMaterial("spruce_planks", 14593);
+    Material BIRCH_PLANKS = getMaterial("birch_planks", 29322);
+    Material JUNGLE_PLANKS = getMaterial("jungle_planks", 26445);
+    Material ACACIA_PLANKS = getMaterial("acacia_planks", 31312);
+    Material DARK_OAK_PLANKS = getMaterial("dark_oak_planks", 20869);
+    Material CRIMSON_PLANKS = getMaterial("crimson_planks", 18812);
+    Material WARPED_PLANKS = getMaterial("warped_planks", 16045);
+    Material OAK_SAPLING = getMaterial("oak_sapling", 9636);
+    Material SPRUCE_SAPLING = getMaterial("spruce_sapling", 19874);
+    Material BIRCH_SAPLING = getMaterial("birch_sapling", 31533);
+    Material JUNGLE_SAPLING = getMaterial("jungle_sapling", 17951);
+    Material ACACIA_SAPLING = getMaterial("acacia_sapling", 20806);
+    Material DARK_OAK_SAPLING = getMaterial("dark_oak_sapling", 14933);
+    Material BEDROCK = getMaterial("bedrock", 23130);
+    Material SAND = getMaterial("sand", 11542);
+    Material RED_SAND = getMaterial("red_sand", 16279);
+    Material GRAVEL = getMaterial("gravel", 7804);
+    Material COAL_ORE = getMaterial("coal_ore", 30965);
+    Material DEEPSLATE_COAL_ORE = getMaterial("deepslate_coal_ore", 16823);
+    Material IRON_ORE = getMaterial("iron_ore", 19834);
+    Material DEEPSLATE_IRON_ORE = getMaterial("deepslate_iron_ore", 26021);
+    Material COPPER_ORE = getMaterial("copper_ore", 32666);
+    Material DEEPSLATE_COPPER_ORE = getMaterial("deepslate_copper_ore", 6588);
+    Material GOLD_ORE = getMaterial("gold_ore", 32625);
+    Material DEEPSLATE_GOLD_ORE = getMaterial("deepslate_gold_ore", 13582);
+    Material REDSTONE_ORE = getMaterial("redstone_ore", 10887);
+    Material DEEPSLATE_REDSTONE_ORE = getMaterial("deepslate_redstone_ore", 6331);
+    Material EMERALD_ORE = getMaterial("emerald_ore", 16630);
+    Material DEEPSLATE_EMERALD_ORE = getMaterial("deepslate_emerald_ore", 5299);
+    Material LAPIS_ORE = getMaterial("lapis_ore", 22934);
+    Material DEEPSLATE_LAPIS_ORE = getMaterial("deepslate_lapis_ore", 13598);
+    Material DIAMOND_ORE = getMaterial("diamond_ore", 9292);
+    Material DEEPSLATE_DIAMOND_ORE = getMaterial("deepslate_diamond_ore", 17792);
+    Material NETHER_GOLD_ORE = getMaterial("nether_gold_ore", 4185);
+    Material NETHER_QUARTZ_ORE = getMaterial("nether_quartz_ore", 4807);
+    Material ANCIENT_DEBRIS = getMaterial("ancient_debris", 18198);
+    Material COAL_BLOCK = getMaterial("coal_block", 27968);
+    Material RAW_IRON_BLOCK = getMaterial("raw_iron_block", 32210);
+    Material RAW_COPPER_BLOCK = getMaterial("raw_copper_block", 17504);
+    Material RAW_GOLD_BLOCK = getMaterial("raw_gold_block", 23246);
+    Material AMETHYST_BLOCK = getMaterial("amethyst_block", 18919);
+    Material BUDDING_AMETHYST = getMaterial("budding_amethyst", 13963);
+    Material IRON_BLOCK = getMaterial("iron_block", 24754);
+    Material COPPER_BLOCK = getMaterial("copper_block", 12880);
+    Material GOLD_BLOCK = getMaterial("gold_block", 27392);
+    Material DIAMOND_BLOCK = getMaterial("diamond_block", 5944);
+    Material NETHERITE_BLOCK = getMaterial("netherite_block", 6527);
+    Material EXPOSED_COPPER = getMaterial("exposed_copper", 28488);
+    Material WEATHERED_COPPER = getMaterial("weathered_copper", 19699);
+    Material OXIDIZED_COPPER = getMaterial("oxidized_copper", 19490);
+    Material CUT_COPPER = getMaterial("cut_copper", 32519);
+    Material EXPOSED_CUT_COPPER = getMaterial("exposed_cut_copper", 18000);
+    Material WEATHERED_CUT_COPPER = getMaterial("weathered_cut_copper", 21158);
+    Material OXIDIZED_CUT_COPPER = getMaterial("oxidized_cut_copper", 5382);
+    Material CUT_COPPER_STAIRS = getMaterial("cut_copper_stairs", 25925);
+    Material EXPOSED_CUT_COPPER_STAIRS = getMaterial("exposed_cut_copper_stairs", 31621);
+    Material WEATHERED_CUT_COPPER_STAIRS = getMaterial("weathered_cut_copper_stairs", 5851);
+    Material OXIDIZED_CUT_COPPER_STAIRS = getMaterial("oxidized_cut_copper_stairs", 25379);
+    Material CUT_COPPER_SLAB = getMaterial("cut_copper_slab", 28988);
+    Material EXPOSED_CUT_COPPER_SLAB = getMaterial("exposed_cut_copper_slab", 26694);
+    Material WEATHERED_CUT_COPPER_SLAB = getMaterial("weathered_cut_copper_slab", 4602);
+    Material OXIDIZED_CUT_COPPER_SLAB = getMaterial("oxidized_cut_copper_slab", 29642);
+    Material WAXED_COPPER_BLOCK = getMaterial("waxed_copper_block", 14638);
+    Material WAXED_EXPOSED_COPPER = getMaterial("waxed_exposed_copper", 27989);
+    Material WAXED_WEATHERED_COPPER = getMaterial("waxed_weathered_copper", 5960);
+    Material WAXED_OXIDIZED_COPPER = getMaterial("waxed_oxidized_copper", 25626);
+    Material WAXED_CUT_COPPER = getMaterial("waxed_cut_copper", 11030);
+    Material WAXED_EXPOSED_CUT_COPPER = getMaterial("waxed_exposed_cut_copper", 30043);
+    Material WAXED_WEATHERED_CUT_COPPER = getMaterial("waxed_weathered_cut_copper", 13823);
+    Material WAXED_OXIDIZED_CUT_COPPER = getMaterial("waxed_oxidized_cut_copper", 22582);
+    Material WAXED_CUT_COPPER_STAIRS = getMaterial("waxed_cut_copper_stairs", 23125);
+    Material WAXED_EXPOSED_CUT_COPPER_STAIRS = getMaterial("waxed_exposed_cut_copper_stairs", 15532);
+    Material WAXED_WEATHERED_CUT_COPPER_STAIRS = getMaterial("waxed_weathered_cut_copper_stairs", 29701);
+    Material WAXED_OXIDIZED_CUT_COPPER_STAIRS = getMaterial("waxed_oxidized_cut_copper_stairs", 9842);
+    Material WAXED_CUT_COPPER_SLAB = getMaterial("waxed_cut_copper_slab", 6271);
+    Material WAXED_EXPOSED_CUT_COPPER_SLAB = getMaterial("waxed_exposed_cut_copper_slab", 22091);
+    Material WAXED_WEATHERED_CUT_COPPER_SLAB = getMaterial("waxed_weathered_cut_copper_slab", 20035);
+    Material WAXED_OXIDIZED_CUT_COPPER_SLAB = getMaterial("waxed_oxidized_cut_copper_slab", 11202);
+    Material OAK_LOG = getMaterial("oak_log", 26723);
+    Material SPRUCE_LOG = getMaterial("spruce_log", 9726);
+    Material BIRCH_LOG = getMaterial("birch_log", 26727);
+    Material JUNGLE_LOG = getMaterial("jungle_log", 20721);
+    Material ACACIA_LOG = getMaterial("acacia_log", 8385);
+    Material DARK_OAK_LOG = getMaterial("dark_oak_log", 14831);
+    Material CRIMSON_STEM = getMaterial("crimson_stem", 27920);
+    Material WARPED_STEM = getMaterial("warped_stem", 28920);
+    Material STRIPPED_OAK_LOG = getMaterial("stripped_oak_log", 20523);
+    Material STRIPPED_SPRUCE_LOG = getMaterial("stripped_spruce_log", 6140);
+    Material STRIPPED_BIRCH_LOG = getMaterial("stripped_birch_log", 8838);
+    Material STRIPPED_JUNGLE_LOG = getMaterial("stripped_jungle_log", 15476);
+    Material STRIPPED_ACACIA_LOG = getMaterial("stripped_acacia_log", 18167);
+    Material STRIPPED_DARK_OAK_LOG = getMaterial("stripped_dark_oak_log", 6492);
+    Material STRIPPED_CRIMSON_STEM = getMaterial("stripped_crimson_stem", 16882);
+    Material STRIPPED_WARPED_STEM = getMaterial("stripped_warped_stem", 15627);
+    Material STRIPPED_OAK_WOOD = getMaterial("stripped_oak_wood", 31455);
+    Material STRIPPED_SPRUCE_WOOD = getMaterial("stripped_spruce_wood", 6467);
+    Material STRIPPED_BIRCH_WOOD = getMaterial("stripped_birch_wood", 22350);
+    Material STRIPPED_JUNGLE_WOOD = getMaterial("stripped_jungle_wood", 30315);
+    Material STRIPPED_ACACIA_WOOD = getMaterial("stripped_acacia_wood", 27193);
+    Material STRIPPED_DARK_OAK_WOOD = getMaterial("stripped_dark_oak_wood", 16000);
+    Material STRIPPED_CRIMSON_HYPHAE = getMaterial("stripped_crimson_hyphae", 27488);
+    Material STRIPPED_WARPED_HYPHAE = getMaterial("stripped_warped_hyphae", 7422);
+    Material OAK_WOOD = getMaterial("oak_wood", 7378);
+    Material SPRUCE_WOOD = getMaterial("spruce_wood", 32328);
+    Material BIRCH_WOOD = getMaterial("birch_wood", 20913);
+    Material JUNGLE_WOOD = getMaterial("jungle_wood", 10341);
+    Material ACACIA_WOOD = getMaterial("acacia_wood", 9541);
+    Material DARK_OAK_WOOD = getMaterial("dark_oak_wood", 16995);
+    Material CRIMSON_HYPHAE = getMaterial("crimson_hyphae", 6550);
+    Material WARPED_HYPHAE = getMaterial("warped_hyphae", 18439);
+    Material OAK_LEAVES = getMaterial("oak_leaves", 4385);
+    Material SPRUCE_LEAVES = getMaterial("spruce_leaves", 20039);
+    Material BIRCH_LEAVES = getMaterial("birch_leaves", 12601);
+    Material JUNGLE_LEAVES = getMaterial("jungle_leaves", 5133);
+    Material ACACIA_LEAVES = getMaterial("acacia_leaves", 16606);
+    Material DARK_OAK_LEAVES = getMaterial("dark_oak_leaves", 22254);
+    Material AZALEA_LEAVES = getMaterial("azalea_leaves", 23001);
+    Material FLOWERING_AZALEA_LEAVES = getMaterial("flowering_azalea_leaves", 20893);
+    Material SPONGE = getMaterial("sponge", 15860);
+    Material WET_SPONGE = getMaterial("wet_sponge", 9043);
+    Material GLASS = getMaterial("glass", 6195);
+    Material TINTED_GLASS = getMaterial("tinted_glass", 19154);
+    Material LAPIS_BLOCK = getMaterial("lapis_block", 14485);
+    Material SANDSTONE = getMaterial("sandstone", 13141);
+    Material CHISELED_SANDSTONE = getMaterial("chiseled_sandstone", 31763);
+    Material CUT_SANDSTONE = getMaterial("cut_sandstone", 6118);
+    Material COBWEB = getMaterial("cobweb", 9469);
+    Material GRASS = getMaterial("grass", 6155);
+    Material FERN = getMaterial("fern", 15794);
+    Material AZALEA = getMaterial("azalea", 29386);
+    Material FLOWERING_AZALEA = getMaterial("flowering_azalea", 28270);
+    Material DEAD_BUSH = getMaterial("dead_bush", 22888);
+    Material SEAGRASS = getMaterial("seagrass", 23942);
+    Material SEA_PICKLE = getMaterial("sea_pickle", 19562);
+    Material WHITE_WOOL = getMaterial("white_wool", 8624);
+    Material ORANGE_WOOL = getMaterial("orange_wool", 23957);
+    Material MAGENTA_WOOL = getMaterial("magenta_wool", 11853);
+    Material LIGHT_BLUE_WOOL = getMaterial("light_blue_wool", 21073);
+    Material YELLOW_WOOL = getMaterial("yellow_wool", 29507);
+    Material LIME_WOOL = getMaterial("lime_wool", 10443);
+    Material PINK_WOOL = getMaterial("pink_wool", 7611);
+    Material GRAY_WOOL = getMaterial("gray_wool", 27209);
+    Material LIGHT_GRAY_WOOL = getMaterial("light_gray_wool", 22936);
+    Material CYAN_WOOL = getMaterial("cyan_wool", 12221);
+    Material PURPLE_WOOL = getMaterial("purple_wool", 11922);
+    Material BLUE_WOOL = getMaterial("blue_wool", 15738);
+    Material BROWN_WOOL = getMaterial("brown_wool", 32638);
+    Material GREEN_WOOL = getMaterial("green_wool", 25085);
+    Material RED_WOOL = getMaterial("red_wool", 11621);
+    Material BLACK_WOOL = getMaterial("black_wool", 16693);
+    Material DANDELION = getMaterial("dandelion", 30558);
+    Material POPPY = getMaterial("poppy", 12851);
+    Material BLUE_ORCHID = getMaterial("blue_orchid", 13432);
+    Material ALLIUM = getMaterial("allium", 6871);
+    Material AZURE_BLUET = getMaterial("azure_bluet", 17608);
+    Material RED_TULIP = getMaterial("red_tulip", 16781);
+    Material ORANGE_TULIP = getMaterial("orange_tulip", 26038);
+    Material WHITE_TULIP = getMaterial("white_tulip", 31495);
+    Material PINK_TULIP = getMaterial("pink_tulip", 27319);
+    Material OXEYE_DAISY = getMaterial("oxeye_daisy", 11709);
+    Material CORNFLOWER = getMaterial("cornflower", 15405);
+    Material LILY_OF_THE_VALLEY = getMaterial("lily_of_the_valley", 7185);
+    Material WITHER_ROSE = getMaterial("wither_rose", 8619);
+    Material SPORE_BLOSSOM = getMaterial("spore_blossom", 20627);
+    Material BROWN_MUSHROOM = getMaterial("brown_mushroom", 9665);
+    Material RED_MUSHROOM = getMaterial("red_mushroom", 19728);
+    Material CRIMSON_FUNGUS = getMaterial("crimson_fungus", 26268);
+    Material WARPED_FUNGUS = getMaterial("warped_fungus", 19799);
+    Material CRIMSON_ROOTS = getMaterial("crimson_roots", 14064);
+    Material WARPED_ROOTS = getMaterial("warped_roots", 13932);
+    Material NETHER_SPROUTS = getMaterial("nether_sprouts", 10431);
+    Material WEEPING_VINES = getMaterial("weeping_vines", 29267);
+    Material TWISTING_VINES = getMaterial("twisting_vines", 27283);
+    Material SUGAR_CANE = getMaterial("sugar_cane", 7726);
+    Material KELP = getMaterial("kelp", 21916);
+    Material MOSS_CARPET = getMaterial("moss_carpet", 8221);
+    Material MOSS_BLOCK = getMaterial("moss_block", 9175);
+    Material HANGING_ROOTS = getMaterial("hanging_roots", 15498);
+    Material BIG_DRIPLEAF = getMaterial("big_dripleaf", 26173);
+    Material SMALL_DRIPLEAF = getMaterial("small_dripleaf", 17540);
+    Material BAMBOO = getMaterial("bamboo", 18728);
+    Material OAK_SLAB = getMaterial("oak_slab", 12002);
+    Material SPRUCE_SLAB = getMaterial("spruce_slab", 28798);
+    Material BIRCH_SLAB = getMaterial("birch_slab", 13807);
+    Material JUNGLE_SLAB = getMaterial("jungle_slab", 19117);
+    Material ACACIA_SLAB = getMaterial("acacia_slab", 23730);
+    Material DARK_OAK_SLAB = getMaterial("dark_oak_slab", 28852);
+    Material CRIMSON_SLAB = getMaterial("crimson_slab", 4691);
+    Material WARPED_SLAB = getMaterial("warped_slab", 27150);
+    Material STONE_SLAB = getMaterial("stone_slab", 19838);
+    Material SMOOTH_STONE_SLAB = getMaterial("smooth_stone_slab", 24129);
+    Material SANDSTONE_SLAB = getMaterial("sandstone_slab", 29830);
+    Material CUT_SANDSTONE_SLAB = getMaterial("cut_sandstone_slab", 30944);
+    Material PETRIFIED_OAK_SLAB = getMaterial("petrified_oak_slab", 18658);
+    Material COBBLESTONE_SLAB = getMaterial("cobblestone_slab", 6340);
+    Material BRICK_SLAB = getMaterial("brick_slab", 26333);
+    Material STONE_BRICK_SLAB = getMaterial("stone_brick_slab", 19676);
+    Material NETHER_BRICK_SLAB = getMaterial("nether_brick_slab", 26586);
+    Material QUARTZ_SLAB = getMaterial("quartz_slab", 4423);
+    Material RED_SANDSTONE_SLAB = getMaterial("red_sandstone_slab", 17550);
+    Material CUT_RED_SANDSTONE_SLAB = getMaterial("cut_red_sandstone_slab", 7220);
+    Material PURPUR_SLAB = getMaterial("purpur_slab", 11487);
+    Material PRISMARINE_SLAB = getMaterial("prismarine_slab", 31323);
+    Material PRISMARINE_BRICK_SLAB = getMaterial("prismarine_brick_slab", 25624);
+    Material DARK_PRISMARINE_SLAB = getMaterial("dark_prismarine_slab", 7577);
+    Material SMOOTH_QUARTZ = getMaterial("smooth_quartz", 14415);
+    Material SMOOTH_RED_SANDSTONE = getMaterial("smooth_red_sandstone", 25180);
+    Material SMOOTH_SANDSTONE = getMaterial("smooth_sandstone", 30039);
+    Material SMOOTH_STONE = getMaterial("smooth_stone", 21910);
+    Material BRICKS = getMaterial("bricks", 14165);
+    Material BOOKSHELF = getMaterial("bookshelf", 10069);
+    Material MOSSY_COBBLESTONE = getMaterial("mossy_cobblestone", 21900);
+    Material OBSIDIAN = getMaterial("obsidian", 32723);
+    Material TORCH = getMaterial("torch", 6063);
+    Material END_ROD = getMaterial("end_rod", 24832);
+    Material CHORUS_PLANT = getMaterial("chorus_plant", 28243);
+    Material CHORUS_FLOWER = getMaterial("chorus_flower", 28542);
+    Material PURPUR_BLOCK = getMaterial("purpur_block", 7538);
+    Material PURPUR_PILLAR = getMaterial("purpur_pillar", 26718);
+    Material PURPUR_STAIRS = getMaterial("purpur_stairs", 8921);
+    Material SPAWNER = getMaterial("spawner", 7018);
+    Material OAK_STAIRS = getMaterial("oak_stairs", 5449);
+    Material CHEST = getMaterial("chest", 22969);
+    Material CRAFTING_TABLE = getMaterial("crafting_table", 20706);
+    Material FARMLAND = getMaterial("farmland", 31166);
+    Material FURNACE = getMaterial("furnace", 8133);
+    Material LADDER = getMaterial("ladder", 23599);
+    Material COBBLESTONE_STAIRS = getMaterial("cobblestone_stairs", 24715);
+    Material SNOW = getMaterial("snow", 14146);
+    Material ICE = getMaterial("ice", 30428);
+    Material SNOW_BLOCK = getMaterial("snow_block", 19913);
+    Material CACTUS = getMaterial("cactus", 12191);
+    Material CLAY = getMaterial("clay", 27880);
+    Material JUKEBOX = getMaterial("jukebox", 19264);
+    Material OAK_FENCE = getMaterial("oak_fence", 6442);
+    Material SPRUCE_FENCE = getMaterial("spruce_fence", 25416);
+    Material BIRCH_FENCE = getMaterial("birch_fence", 17347);
+    Material JUNGLE_FENCE = getMaterial("jungle_fence", 14358);
+    Material ACACIA_FENCE = getMaterial("acacia_fence", 4569);
+    Material DARK_OAK_FENCE = getMaterial("dark_oak_fence", 21767);
+    Material CRIMSON_FENCE = getMaterial("crimson_fence", 21075);
+    Material WARPED_FENCE = getMaterial("warped_fence", 18438);
+    Material PUMPKIN = getMaterial("pumpkin", 19170);
+    Material CARVED_PUMPKIN = getMaterial("carved_pumpkin", 25833);
+    Material JACK_O_LANTERN = getMaterial("jack_o_lantern", 13758);
+    Material NETHERRACK = getMaterial("netherrack", 23425);
+    Material SOUL_SAND = getMaterial("soul_sand", 16841);
+    Material SOUL_SOIL = getMaterial("soul_soil", 31140);
+    Material BASALT = getMaterial("basalt", 28478);
+    Material POLISHED_BASALT = getMaterial("polished_basalt", 11659);
+    Material SMOOTH_BASALT = getMaterial("smooth_basalt", 13617);
+    Material SOUL_TORCH = getMaterial("soul_torch", 14292);
+    Material GLOWSTONE = getMaterial("glowstone", 32713);
+    Material INFESTED_STONE = getMaterial("infested_stone", 18440);
+    Material INFESTED_COBBLESTONE = getMaterial("infested_cobblestone", 4348);
+    Material INFESTED_STONE_BRICKS = getMaterial("infested_stone_bricks", 19749);
+    Material INFESTED_MOSSY_STONE_BRICKS = getMaterial("infested_mossy_stone_bricks", 9850);
+    Material INFESTED_CRACKED_STONE_BRICKS = getMaterial("infested_cracked_stone_bricks", 7476);
+    Material INFESTED_CHISELED_STONE_BRICKS = getMaterial("infested_chiseled_stone_bricks", 4728);
+    Material INFESTED_DEEPSLATE = getMaterial("infested_deepslate", 9472);
+    Material STONE_BRICKS = getMaterial("stone_bricks", 6962);
+    Material MOSSY_STONE_BRICKS = getMaterial("mossy_stone_bricks", 16415);
+    Material CRACKED_STONE_BRICKS = getMaterial("cracked_stone_bricks", 27869);
+    Material CHISELED_STONE_BRICKS = getMaterial("chiseled_stone_bricks", 9087);
+    Material DEEPSLATE_BRICKS = getMaterial("deepslate_bricks", 13193);
+    Material CRACKED_DEEPSLATE_BRICKS = getMaterial("cracked_deepslate_bricks", 17105);
+    Material DEEPSLATE_TILES = getMaterial("deepslate_tiles", 11250);
+    Material CRACKED_DEEPSLATE_TILES = getMaterial("cracked_deepslate_tiles", 26249);
+    Material CHISELED_DEEPSLATE = getMaterial("chiseled_deepslate", 23825);
+    Material BROWN_MUSHROOM_BLOCK = getMaterial("brown_mushroom_block", 6291);
+    Material RED_MUSHROOM_BLOCK = getMaterial("red_mushroom_block", 20766);
+    Material MUSHROOM_STEM = getMaterial("mushroom_stem", 16543);
+    Material IRON_BARS = getMaterial("iron_bars", 9378);
+    Material CHAIN = getMaterial("chain", 28265);
+    Material GLASS_PANE = getMaterial("glass_pane", 5709);
+    Material MELON = getMaterial("melon", 25172);
+    Material VINE = getMaterial("vine", 14564);
+    Material GLOW_LICHEN = getMaterial("glow_lichen", 19165);
+    Material BRICK_STAIRS = getMaterial("brick_stairs", 21534);
+    Material STONE_BRICK_STAIRS = getMaterial("stone_brick_stairs", 27032);
+    Material MYCELIUM = getMaterial("mycelium", 9913);
+    Material LILY_PAD = getMaterial("lily_pad", 19271);
+    Material NETHER_BRICKS = getMaterial("nether_bricks", 27802);
+    Material CRACKED_NETHER_BRICKS = getMaterial("cracked_nether_bricks", 10888);
+    Material CHISELED_NETHER_BRICKS = getMaterial("chiseled_nether_bricks", 21613);
+    Material NETHER_BRICK_FENCE = getMaterial("nether_brick_fence", 5286);
+    Material NETHER_BRICK_STAIRS = getMaterial("nether_brick_stairs", 12085);
+    Material ENCHANTING_TABLE = getMaterial("enchanting_table", 16255);
+    Material END_PORTAL_FRAME = getMaterial("end_portal_frame", 15480);
+    Material END_STONE = getMaterial("end_stone", 29686);
+    Material END_STONE_BRICKS = getMaterial("end_stone_bricks", 20314);
+    Material DRAGON_EGG = getMaterial("dragon_egg", 29946);
+    Material SANDSTONE_STAIRS = getMaterial("sandstone_stairs", 18474);
+    Material ENDER_CHEST = getMaterial("ender_chest", 32349);
+    Material EMERALD_BLOCK = getMaterial("emerald_block", 9914);
+    Material SPRUCE_STAIRS = getMaterial("spruce_stairs", 11192);
+    Material BIRCH_STAIRS = getMaterial("birch_stairs", 7657);
+    Material JUNGLE_STAIRS = getMaterial("jungle_stairs", 20636);
+    Material CRIMSON_STAIRS = getMaterial("crimson_stairs", 32442);
+    Material WARPED_STAIRS = getMaterial("warped_stairs", 17721);
+    Material COMMAND_BLOCK = getMaterial("command_block", 4355);
+    Material BEACON = getMaterial("beacon", 6608);
+    Material COBBLESTONE_WALL = getMaterial("cobblestone_wall", 12616);
+    Material MOSSY_COBBLESTONE_WALL = getMaterial("mossy_cobblestone_wall", 11536);
+    Material BRICK_WALL = getMaterial("brick_wall", 18995);
+    Material PRISMARINE_WALL = getMaterial("prismarine_wall", 18184);
+    Material RED_SANDSTONE_WALL = getMaterial("red_sandstone_wall", 4753);
+    Material MOSSY_STONE_BRICK_WALL = getMaterial("mossy_stone_brick_wall", 18259);
+    Material GRANITE_WALL = getMaterial("granite_wall", 23279);
+    Material STONE_BRICK_WALL = getMaterial("stone_brick_wall", 29073);
+    Material NETHER_BRICK_WALL = getMaterial("nether_brick_wall", 10398);
+    Material ANDESITE_WALL = getMaterial("andesite_wall", 14938);
+    Material RED_NETHER_BRICK_WALL = getMaterial("red_nether_brick_wall", 4580);
+    Material SANDSTONE_WALL = getMaterial("sandstone_wall", 18470);
+    Material END_STONE_BRICK_WALL = getMaterial("end_stone_brick_wall", 27225);
+    Material DIORITE_WALL = getMaterial("diorite_wall", 17412);
+    Material BLACKSTONE_WALL = getMaterial("blackstone_wall", 17327);
+    Material POLISHED_BLACKSTONE_WALL = getMaterial("polished_blackstone_wall", 15119);
+    Material POLISHED_BLACKSTONE_BRICK_WALL = getMaterial("polished_blackstone_brick_wall", 9540);
+    Material COBBLED_DEEPSLATE_WALL = getMaterial("cobbled_deepslate_wall", 21893);
+    Material POLISHED_DEEPSLATE_WALL = getMaterial("polished_deepslate_wall", 6574);
+    Material DEEPSLATE_BRICK_WALL = getMaterial("deepslate_brick_wall", 13304);
+    Material DEEPSLATE_TILE_WALL = getMaterial("deepslate_tile_wall", 17077);
+    Material ANVIL = getMaterial("anvil", 18718);
+    Material CHIPPED_ANVIL = getMaterial("chipped_anvil", 10623);
+    Material DAMAGED_ANVIL = getMaterial("damaged_anvil", 10274);
+    Material CHISELED_QUARTZ_BLOCK = getMaterial("chiseled_quartz_block", 30964);
+    Material QUARTZ_BLOCK = getMaterial("quartz_block", 11987);
+    Material QUARTZ_BRICKS = getMaterial("quartz_bricks", 23358);
+    Material QUARTZ_PILLAR = getMaterial("quartz_pillar", 16452);
+    Material QUARTZ_STAIRS = getMaterial("quartz_stairs", 24079);
+    Material WHITE_TERRACOTTA = getMaterial("white_terracotta", 20975);
+    Material ORANGE_TERRACOTTA = getMaterial("orange_terracotta", 18684);
+    Material MAGENTA_TERRACOTTA = getMaterial("magenta_terracotta", 25900);
+    Material LIGHT_BLUE_TERRACOTTA = getMaterial("light_blue_terracotta", 31779);
+    Material YELLOW_TERRACOTTA = getMaterial("yellow_terracotta", 32129);
+    Material LIME_TERRACOTTA = getMaterial("lime_terracotta", 24013);
+    Material PINK_TERRACOTTA = getMaterial("pink_terracotta", 23727);
+    Material GRAY_TERRACOTTA = getMaterial("gray_terracotta", 18004);
+    Material LIGHT_GRAY_TERRACOTTA = getMaterial("light_gray_terracotta", 26388);
+    Material CYAN_TERRACOTTA = getMaterial("cyan_terracotta", 25940);
+    Material PURPLE_TERRACOTTA = getMaterial("purple_terracotta", 10387);
+    Material BLUE_TERRACOTTA = getMaterial("blue_terracotta", 5236);
+    Material BROWN_TERRACOTTA = getMaterial("brown_terracotta", 23664);
+    Material GREEN_TERRACOTTA = getMaterial("green_terracotta", 4105);
+    Material RED_TERRACOTTA = getMaterial("red_terracotta", 5086);
+    Material BLACK_TERRACOTTA = getMaterial("black_terracotta", 26691);
+    Material BARRIER = getMaterial("barrier", 26453);
+    Material LIGHT = getMaterial("light", 17829);
+    Material HAY_BLOCK = getMaterial("hay_block", 17461);
+    Material WHITE_CARPET = getMaterial("white_carpet", 15117);
+    Material ORANGE_CARPET = getMaterial("orange_carpet", 24752);
+    Material MAGENTA_CARPET = getMaterial("magenta_carpet", 6180);
+    Material LIGHT_BLUE_CARPET = getMaterial("light_blue_carpet", 21194);
+    Material YELLOW_CARPET = getMaterial("yellow_carpet", 18149);
+    Material LIME_CARPET = getMaterial("lime_carpet", 15443);
+    Material PINK_CARPET = getMaterial("pink_carpet", 27381);
+    Material GRAY_CARPET = getMaterial("gray_carpet", 26991);
+    Material LIGHT_GRAY_CARPET = getMaterial("light_gray_carpet", 11317);
+    Material CYAN_CARPET = getMaterial("cyan_carpet", 9742);
+    Material PURPLE_CARPET = getMaterial("purple_carpet", 5574);
+    Material BLUE_CARPET = getMaterial("blue_carpet", 13292);
+    Material BROWN_CARPET = getMaterial("brown_carpet", 23352);
+    Material GREEN_CARPET = getMaterial("green_carpet", 7780);
+    Material RED_CARPET = getMaterial("red_carpet", 5424);
+    Material BLACK_CARPET = getMaterial("black_carpet", 6056);
+    Material TERRACOTTA = getMaterial("terracotta", 16544);
+    Material PACKED_ICE = getMaterial("packed_ice", 28993);
+    Material ACACIA_STAIRS = getMaterial("acacia_stairs", 17453);
+    Material DARK_OAK_STAIRS = getMaterial("dark_oak_stairs", 22921);
+    Material DIRT_PATH = getMaterial("dirt_path", 10846);
+    Material SUNFLOWER = getMaterial("sunflower", 7408);
+    Material LILAC = getMaterial("lilac", 22837);
+    Material ROSE_BUSH = getMaterial("rose_bush", 6080);
+    Material PEONY = getMaterial("peony", 21155);
+    Material TALL_GRASS = getMaterial("tall_grass", 21559);
+    Material LARGE_FERN = getMaterial("large_fern", 30177);
+    Material WHITE_STAINED_GLASS = getMaterial("white_stained_glass", 31190);
+    Material ORANGE_STAINED_GLASS = getMaterial("orange_stained_glass", 25142);
+    Material MAGENTA_STAINED_GLASS = getMaterial("magenta_stained_glass", 26814);
+    Material LIGHT_BLUE_STAINED_GLASS = getMaterial("light_blue_stained_glass", 17162);
+    Material YELLOW_STAINED_GLASS = getMaterial("yellow_stained_glass", 12182);
+    Material LIME_STAINED_GLASS = getMaterial("lime_stained_glass", 24266);
+    Material PINK_STAINED_GLASS = getMaterial("pink_stained_glass", 16164);
+    Material GRAY_STAINED_GLASS = getMaterial("gray_stained_glass", 29979);
+    Material LIGHT_GRAY_STAINED_GLASS = getMaterial("light_gray_stained_glass", 5843);
+    Material CYAN_STAINED_GLASS = getMaterial("cyan_stained_glass", 30604);
+    Material PURPLE_STAINED_GLASS = getMaterial("purple_stained_glass", 21845);
+    Material BLUE_STAINED_GLASS = getMaterial("blue_stained_glass", 7107);
+    Material BROWN_STAINED_GLASS = getMaterial("brown_stained_glass", 20945);
+    Material GREEN_STAINED_GLASS = getMaterial("green_stained_glass", 22503);
+    Material RED_STAINED_GLASS = getMaterial("red_stained_glass", 9717);
+    Material BLACK_STAINED_GLASS = getMaterial("black_stained_glass", 13941);
+    Material WHITE_STAINED_GLASS_PANE = getMaterial("white_stained_glass_pane", 10557);
+    Material ORANGE_STAINED_GLASS_PANE = getMaterial("orange_stained_glass_pane", 21089);
+    Material MAGENTA_STAINED_GLASS_PANE = getMaterial("magenta_stained_glass_pane", 14082);
+    Material LIGHT_BLUE_STAINED_GLASS_PANE = getMaterial("light_blue_stained_glass_pane", 18721);
+    Material YELLOW_STAINED_GLASS_PANE = getMaterial("yellow_stained_glass_pane", 20298);
+    Material LIME_STAINED_GLASS_PANE = getMaterial("lime_stained_glass_pane", 10610);
+    Material PINK_STAINED_GLASS_PANE = getMaterial("pink_stained_glass_pane", 24637);
+    Material GRAY_STAINED_GLASS_PANE = getMaterial("gray_stained_glass_pane", 25272);
+    Material LIGHT_GRAY_STAINED_GLASS_PANE = getMaterial("light_gray_stained_glass_pane", 19008);
+    Material CYAN_STAINED_GLASS_PANE = getMaterial("cyan_stained_glass_pane", 11784);
+    Material PURPLE_STAINED_GLASS_PANE = getMaterial("purple_stained_glass_pane", 10948);
+    Material BLUE_STAINED_GLASS_PANE = getMaterial("blue_stained_glass_pane", 28484);
+    Material BROWN_STAINED_GLASS_PANE = getMaterial("brown_stained_glass_pane", 17557);
+    Material GREEN_STAINED_GLASS_PANE = getMaterial("green_stained_glass_pane", 4767);
+    Material RED_STAINED_GLASS_PANE = getMaterial("red_stained_glass_pane", 8630);
+    Material BLACK_STAINED_GLASS_PANE = getMaterial("black_stained_glass_pane", 13201);
+    Material PRISMARINE = getMaterial("prismarine", 7539);
+    Material PRISMARINE_BRICKS = getMaterial("prismarine_bricks", 29118);
+    Material DARK_PRISMARINE = getMaterial("dark_prismarine", 19940);
+    Material PRISMARINE_STAIRS = getMaterial("prismarine_stairs", 19217);
+    Material PRISMARINE_BRICK_STAIRS = getMaterial("prismarine_brick_stairs", 15445);
+    Material DARK_PRISMARINE_STAIRS = getMaterial("dark_prismarine_stairs", 26511);
+    Material SEA_LANTERN = getMaterial("sea_lantern", 20780);
+    Material RED_SANDSTONE = getMaterial("red_sandstone", 9092);
+    Material CHISELED_RED_SANDSTONE = getMaterial("chiseled_red_sandstone", 15529);
+    Material CUT_RED_SANDSTONE = getMaterial("cut_red_sandstone", 29108);
+    Material RED_SANDSTONE_STAIRS = getMaterial("red_sandstone_stairs", 25466);
+    Material REPEATING_COMMAND_BLOCK = getMaterial("repeating_command_block", 12405);
+    Material CHAIN_COMMAND_BLOCK = getMaterial("chain_command_block", 26798);
+    Material MAGMA_BLOCK = getMaterial("magma_block", 25927);
+    Material NETHER_WART_BLOCK = getMaterial("nether_wart_block", 15486);
+    Material WARPED_WART_BLOCK = getMaterial("warped_wart_block", 15463);
+    Material RED_NETHER_BRICKS = getMaterial("red_nether_bricks", 18056);
+    Material BONE_BLOCK = getMaterial("bone_block", 17312);
+    Material STRUCTURE_VOID = getMaterial("structure_void", 30806);
+    Material SHULKER_BOX = getMaterial("shulker_box", 7776);
+    Material WHITE_SHULKER_BOX = getMaterial("white_shulker_box", 31750);
+    Material ORANGE_SHULKER_BOX = getMaterial("orange_shulker_box", 21673);
+    Material MAGENTA_SHULKER_BOX = getMaterial("magenta_shulker_box", 21566);
+    Material LIGHT_BLUE_SHULKER_BOX = getMaterial("light_blue_shulker_box", 18226);
+    Material YELLOW_SHULKER_BOX = getMaterial("yellow_shulker_box", 28700);
+    Material LIME_SHULKER_BOX = getMaterial("lime_shulker_box", 28360);
+    Material PINK_SHULKER_BOX = getMaterial("pink_shulker_box", 24968);
+    Material GRAY_SHULKER_BOX = getMaterial("gray_shulker_box", 12754);
+    Material LIGHT_GRAY_SHULKER_BOX = getMaterial("light_gray_shulker_box", 21345);
+    Material CYAN_SHULKER_BOX = getMaterial("cyan_shulker_box", 28123);
+    Material PURPLE_SHULKER_BOX = getMaterial("purple_shulker_box", 10373);
+    Material BLUE_SHULKER_BOX = getMaterial("blue_shulker_box", 11476);
+    Material BROWN_SHULKER_BOX = getMaterial("brown_shulker_box", 24230);
+    Material GREEN_SHULKER_BOX = getMaterial("green_shulker_box", 9377);
+    Material RED_SHULKER_BOX = getMaterial("red_shulker_box", 32448);
+    Material BLACK_SHULKER_BOX = getMaterial("black_shulker_box", 24076);
+    Material WHITE_GLAZED_TERRACOTTA = getMaterial("white_glazed_terracotta", 11326);
+    Material ORANGE_GLAZED_TERRACOTTA = getMaterial("orange_glazed_terracotta", 27451);
+    Material MAGENTA_GLAZED_TERRACOTTA = getMaterial("magenta_glazed_terracotta", 8067);
+    Material LIGHT_BLUE_GLAZED_TERRACOTTA = getMaterial("light_blue_glazed_terracotta", 4336);
+    Material YELLOW_GLAZED_TERRACOTTA = getMaterial("yellow_glazed_terracotta", 10914);
+    Material LIME_GLAZED_TERRACOTTA = getMaterial("lime_glazed_terracotta", 13861);
+    Material PINK_GLAZED_TERRACOTTA = getMaterial("pink_glazed_terracotta", 10260);
+    Material GRAY_GLAZED_TERRACOTTA = getMaterial("gray_glazed_terracotta", 6256);
+    Material LIGHT_GRAY_GLAZED_TERRACOTTA = getMaterial("light_gray_glazed_terracotta", 10707);
+    Material CYAN_GLAZED_TERRACOTTA = getMaterial("cyan_glazed_terracotta", 9550);
+    Material PURPLE_GLAZED_TERRACOTTA = getMaterial("purple_glazed_terracotta", 4818);
+    Material BLUE_GLAZED_TERRACOTTA = getMaterial("blue_glazed_terracotta", 23823);
+    Material BROWN_GLAZED_TERRACOTTA = getMaterial("brown_glazed_terracotta", 5655);
+    Material GREEN_GLAZED_TERRACOTTA = getMaterial("green_glazed_terracotta", 6958);
+    Material RED_GLAZED_TERRACOTTA = getMaterial("red_glazed_terracotta", 24989);
+    Material BLACK_GLAZED_TERRACOTTA = getMaterial("black_glazed_terracotta", 29678);
+    Material WHITE_CONCRETE = getMaterial("white_concrete", 6281);
+    Material ORANGE_CONCRETE = getMaterial("orange_concrete", 19914);
+    Material MAGENTA_CONCRETE = getMaterial("magenta_concrete", 20591);
+    Material LIGHT_BLUE_CONCRETE = getMaterial("light_blue_concrete", 29481);
+    Material YELLOW_CONCRETE = getMaterial("yellow_concrete", 15722);
+    Material LIME_CONCRETE = getMaterial("lime_concrete", 5863);
+    Material PINK_CONCRETE = getMaterial("pink_concrete", 5227);
+    Material GRAY_CONCRETE = getMaterial("gray_concrete", 13959);
+    Material LIGHT_GRAY_CONCRETE = getMaterial("light_gray_concrete", 14453);
+    Material CYAN_CONCRETE = getMaterial("cyan_concrete", 26522);
+    Material PURPLE_CONCRETE = getMaterial("purple_concrete", 20623);
+    Material BLUE_CONCRETE = getMaterial("blue_concrete", 18756);
+    Material BROWN_CONCRETE = getMaterial("brown_concrete", 19006);
+    Material GREEN_CONCRETE = getMaterial("green_concrete", 17949);
+    Material RED_CONCRETE = getMaterial("red_concrete", 8032);
+    Material BLACK_CONCRETE = getMaterial("black_concrete", 13338);
+    Material WHITE_CONCRETE_POWDER = getMaterial("white_concrete_powder", 10363);
+    Material ORANGE_CONCRETE_POWDER = getMaterial("orange_concrete_powder", 30159);
+    Material MAGENTA_CONCRETE_POWDER = getMaterial("magenta_concrete_powder", 8272);
+    Material LIGHT_BLUE_CONCRETE_POWDER = getMaterial("light_blue_concrete_powder", 31206);
+    Material YELLOW_CONCRETE_POWDER = getMaterial("yellow_concrete_powder", 10655);
+    Material LIME_CONCRETE_POWDER = getMaterial("lime_concrete_powder", 28859);
+    Material PINK_CONCRETE_POWDER = getMaterial("pink_concrete_powder", 6421);
+    Material GRAY_CONCRETE_POWDER = getMaterial("gray_concrete_powder", 13031);
+    Material LIGHT_GRAY_CONCRETE_POWDER = getMaterial("light_gray_concrete_powder", 21589);
+    Material CYAN_CONCRETE_POWDER = getMaterial("cyan_concrete_powder", 15734);
+    Material PURPLE_CONCRETE_POWDER = getMaterial("purple_concrete_powder", 26808);
+    Material BLUE_CONCRETE_POWDER = getMaterial("blue_concrete_powder", 17773);
+    Material BROWN_CONCRETE_POWDER = getMaterial("brown_concrete_powder", 21485);
+    Material GREEN_CONCRETE_POWDER = getMaterial("green_concrete_powder", 6904);
+    Material RED_CONCRETE_POWDER = getMaterial("red_concrete_powder", 13286);
+    Material BLACK_CONCRETE_POWDER = getMaterial("black_concrete_powder", 16150);
+    Material TURTLE_EGG = getMaterial("turtle_egg", 32101);
+    Material DEAD_TUBE_CORAL_BLOCK = getMaterial("dead_tube_coral_block", 28350);
+    Material DEAD_BRAIN_CORAL_BLOCK = getMaterial("dead_brain_coral_block", 12979);
+    Material DEAD_BUBBLE_CORAL_BLOCK = getMaterial("dead_bubble_coral_block", 28220);
+    Material DEAD_FIRE_CORAL_BLOCK = getMaterial("dead_fire_coral_block", 5307);
+    Material DEAD_HORN_CORAL_BLOCK = getMaterial("dead_horn_coral_block", 15103);
+    Material TUBE_CORAL_BLOCK = getMaterial("tube_coral_block", 23723);
+    Material BRAIN_CORAL_BLOCK = getMaterial("brain_coral_block", 30618);
+    Material BUBBLE_CORAL_BLOCK = getMaterial("bubble_coral_block", 15437);
+    Material FIRE_CORAL_BLOCK = getMaterial("fire_coral_block", 12119);
+    Material HORN_CORAL_BLOCK = getMaterial("horn_coral_block", 19958);
+    Material TUBE_CORAL = getMaterial("tube_coral", 23048);
+    Material BRAIN_CORAL = getMaterial("brain_coral", 31316);
+    Material BUBBLE_CORAL = getMaterial("bubble_coral", 12464);
+    Material FIRE_CORAL = getMaterial("fire_coral", 29151);
+    Material HORN_CORAL = getMaterial("horn_coral", 19511);
+    Material DEAD_BRAIN_CORAL = getMaterial("dead_brain_coral", 9116);
+    Material DEAD_BUBBLE_CORAL = getMaterial("dead_bubble_coral", 30583);
+    Material DEAD_FIRE_CORAL = getMaterial("dead_fire_coral", 8365);
+    Material DEAD_HORN_CORAL = getMaterial("dead_horn_coral", 5755);
+    Material DEAD_TUBE_CORAL = getMaterial("dead_tube_coral", 18028);
+    Material TUBE_CORAL_FAN = getMaterial("tube_coral_fan", 19929);
+    Material BRAIN_CORAL_FAN = getMaterial("brain_coral_fan", 13849);
+    Material BUBBLE_CORAL_FAN = getMaterial("bubble_coral_fan", 10795);
+    Material FIRE_CORAL_FAN = getMaterial("fire_coral_fan", 11112);
+    Material HORN_CORAL_FAN = getMaterial("horn_coral_fan", 13610);
+    Material DEAD_TUBE_CORAL_FAN = getMaterial("dead_tube_coral_fan", 17628);
+    Material DEAD_BRAIN_CORAL_FAN = getMaterial("dead_brain_coral_fan", 26150);
+    Material DEAD_BUBBLE_CORAL_FAN = getMaterial("dead_bubble_coral_fan", 17322);
+    Material DEAD_FIRE_CORAL_FAN = getMaterial("dead_fire_coral_fan", 27073);
+    Material DEAD_HORN_CORAL_FAN = getMaterial("dead_horn_coral_fan", 11387);
+    Material BLUE_ICE = getMaterial("blue_ice", 22449);
+    Material CONDUIT = getMaterial("conduit", 5148);
+    Material POLISHED_GRANITE_STAIRS = getMaterial("polished_granite_stairs", 29588);
+    Material SMOOTH_RED_SANDSTONE_STAIRS = getMaterial("smooth_red_sandstone_stairs", 17561);
+    Material MOSSY_STONE_BRICK_STAIRS = getMaterial("mossy_stone_brick_stairs", 27578);
+    Material POLISHED_DIORITE_STAIRS = getMaterial("polished_diorite_stairs", 4625);
+    Material MOSSY_COBBLESTONE_STAIRS = getMaterial("mossy_cobblestone_stairs", 29210);
+    Material END_STONE_BRICK_STAIRS = getMaterial("end_stone_brick_stairs", 28831);
+    Material STONE_STAIRS = getMaterial("stone_stairs", 23784);
+    Material SMOOTH_SANDSTONE_STAIRS = getMaterial("smooth_sandstone_stairs", 21183);
+    Material SMOOTH_QUARTZ_STAIRS = getMaterial("smooth_quartz_stairs", 19560);
+    Material GRANITE_STAIRS = getMaterial("granite_stairs", 21840);
+    Material ANDESITE_STAIRS = getMaterial("andesite_stairs", 17747);
+    Material RED_NETHER_BRICK_STAIRS = getMaterial("red_nether_brick_stairs", 26374);
+    Material POLISHED_ANDESITE_STAIRS = getMaterial("polished_andesite_stairs", 7573);
+    Material DIORITE_STAIRS = getMaterial("diorite_stairs", 13134);
+    Material COBBLED_DEEPSLATE_STAIRS = getMaterial("cobbled_deepslate_stairs", 20699);
+    Material POLISHED_DEEPSLATE_STAIRS = getMaterial("polished_deepslate_stairs", 19513);
+    Material DEEPSLATE_BRICK_STAIRS = getMaterial("deepslate_brick_stairs", 29624);
+    Material DEEPSLATE_TILE_STAIRS = getMaterial("deepslate_tile_stairs", 6361);
+    Material POLISHED_GRANITE_SLAB = getMaterial("polished_granite_slab", 4521);
+    Material SMOOTH_RED_SANDSTONE_SLAB = getMaterial("smooth_red_sandstone_slab", 16304);
+    Material MOSSY_STONE_BRICK_SLAB = getMaterial("mossy_stone_brick_slab", 14002);
+    Material POLISHED_DIORITE_SLAB = getMaterial("polished_diorite_slab", 18303);
+    Material MOSSY_COBBLESTONE_SLAB = getMaterial("mossy_cobblestone_slab", 12139);
+    Material END_STONE_BRICK_SLAB = getMaterial("end_stone_brick_slab", 23239);
+    Material SMOOTH_SANDSTONE_SLAB = getMaterial("smooth_sandstone_slab", 9030);
+    Material SMOOTH_QUARTZ_SLAB = getMaterial("smooth_quartz_slab", 26543);
+    Material GRANITE_SLAB = getMaterial("granite_slab", 10901);
+    Material ANDESITE_SLAB = getMaterial("andesite_slab", 32124);
+    Material RED_NETHER_BRICK_SLAB = getMaterial("red_nether_brick_slab", 12462);
+    Material POLISHED_ANDESITE_SLAB = getMaterial("polished_andesite_slab", 24573);
+    Material DIORITE_SLAB = getMaterial("diorite_slab", 10715);
+    Material COBBLED_DEEPSLATE_SLAB = getMaterial("cobbled_deepslate_slab", 17388);
+    Material POLISHED_DEEPSLATE_SLAB = getMaterial("polished_deepslate_slab", 32201);
+    Material DEEPSLATE_BRICK_SLAB = getMaterial("deepslate_brick_slab", 23910);
+    Material DEEPSLATE_TILE_SLAB = getMaterial("deepslate_tile_slab", 13315);
+    Material SCAFFOLDING = getMaterial("scaffolding", 15757);
+    Material REDSTONE = getMaterial("redstone", 11233);
+    Material REDSTONE_TORCH = getMaterial("redstone_torch", 22547);
+    Material REDSTONE_BLOCK = getMaterial("redstone_block", 19496);
+    Material REPEATER = getMaterial("repeater", 28823);
+    Material COMPARATOR = getMaterial("comparator", 18911);
+    Material PISTON = getMaterial("piston", 21130);
+    Material STICKY_PISTON = getMaterial("sticky_piston", 18127);
+    Material SLIME_BLOCK = getMaterial("slime_block", 31892);
+    Material HONEY_BLOCK = getMaterial("honey_block", 30615);
+    Material OBSERVER = getMaterial("observer", 10726);
+    Material HOPPER = getMaterial("hopper", 31974);
+    Material DISPENSER = getMaterial("dispenser", 20871);
+    Material DROPPER = getMaterial("dropper", 31273);
+    Material LECTERN = getMaterial("lectern", 23490);
+    Material TARGET = getMaterial("target", 22637);
+    Material LEVER = getMaterial("lever", 15319);
+    Material LIGHTNING_ROD = getMaterial("lightning_rod", 30770);
+    Material DAYLIGHT_DETECTOR = getMaterial("daylight_detector", 8864);
+    Material SCULK_SENSOR = getMaterial("sculk_sensor", 5598);
+    Material TRIPWIRE_HOOK = getMaterial("tripwire_hook", 8130);
+    Material TRAPPED_CHEST = getMaterial("trapped_chest", 18970);
+    Material TNT = getMaterial("tnt", 7896);
+    Material REDSTONE_LAMP = getMaterial("redstone_lamp", 8217);
+    Material NOTE_BLOCK = getMaterial("note_block", 20979);
+    Material STONE_BUTTON = getMaterial("stone_button", 12279);
+    Material POLISHED_BLACKSTONE_BUTTON = getMaterial("polished_blackstone_button", 20760);
+    Material OAK_BUTTON = getMaterial("oak_button", 13510);
+    Material SPRUCE_BUTTON = getMaterial("spruce_button", 23281);
+    Material BIRCH_BUTTON = getMaterial("birch_button", 26934);
+    Material JUNGLE_BUTTON = getMaterial("jungle_button", 25317);
+    Material ACACIA_BUTTON = getMaterial("acacia_button", 13993);
+    Material DARK_OAK_BUTTON = getMaterial("dark_oak_button", 6214);
+    Material CRIMSON_BUTTON = getMaterial("crimson_button", 26799);
+    Material WARPED_BUTTON = getMaterial("warped_button", 25264);
+    Material STONE_PRESSURE_PLATE = getMaterial("stone_pressure_plate", 22591);
+    Material POLISHED_BLACKSTONE_PRESSURE_PLATE = getMaterial("polished_blackstone_pressure_plate", 32340);
+    Material LIGHT_WEIGHTED_PRESSURE_PLATE = getMaterial("light_weighted_pressure_plate", 14875);
+    Material HEAVY_WEIGHTED_PRESSURE_PLATE = getMaterial("heavy_weighted_pressure_plate", 16970);
+    Material OAK_PRESSURE_PLATE = getMaterial("oak_pressure_plate", 20108);
+    Material SPRUCE_PRESSURE_PLATE = getMaterial("spruce_pressure_plate", 15932);
+    Material BIRCH_PRESSURE_PLATE = getMaterial("birch_pressure_plate", 9664);
+    Material JUNGLE_PRESSURE_PLATE = getMaterial("jungle_pressure_plate", 11376);
+    Material ACACIA_PRESSURE_PLATE = getMaterial("acacia_pressure_plate", 17586);
+    Material DARK_OAK_PRESSURE_PLATE = getMaterial("dark_oak_pressure_plate", 31375);
+    Material CRIMSON_PRESSURE_PLATE = getMaterial("crimson_pressure_plate", 18316);
+    Material WARPED_PRESSURE_PLATE = getMaterial("warped_pressure_plate", 29516);
+    Material IRON_DOOR = getMaterial("iron_door", 4788);
+    Material OAK_DOOR = getMaterial("oak_door", 20341);
+    Material SPRUCE_DOOR = getMaterial("spruce_door", 10642);
+    Material BIRCH_DOOR = getMaterial("birch_door", 14759);
+    Material JUNGLE_DOOR = getMaterial("jungle_door", 28163);
+    Material ACACIA_DOOR = getMaterial("acacia_door", 23797);
+    Material DARK_OAK_DOOR = getMaterial("dark_oak_door", 10669);
+    Material CRIMSON_DOOR = getMaterial("crimson_door", 19544);
+    Material WARPED_DOOR = getMaterial("warped_door", 15062);
+    Material IRON_TRAPDOOR = getMaterial("iron_trapdoor", 17095);
+    Material OAK_TRAPDOOR = getMaterial("oak_trapdoor", 16927);
+    Material SPRUCE_TRAPDOOR = getMaterial("spruce_trapdoor", 10289);
+    Material BIRCH_TRAPDOOR = getMaterial("birch_trapdoor", 32585);
+    Material JUNGLE_TRAPDOOR = getMaterial("jungle_trapdoor", 8626);
+    Material ACACIA_TRAPDOOR = getMaterial("acacia_trapdoor", 18343);
+    Material DARK_OAK_TRAPDOOR = getMaterial("dark_oak_trapdoor", 10355);
+    Material CRIMSON_TRAPDOOR = getMaterial("crimson_trapdoor", 25056);
+    Material WARPED_TRAPDOOR = getMaterial("warped_trapdoor", 7708);
+    Material OAK_FENCE_GATE = getMaterial("oak_fence_gate", 16689);
+    Material SPRUCE_FENCE_GATE = getMaterial("spruce_fence_gate", 26423);
+    Material BIRCH_FENCE_GATE = getMaterial("birch_fence_gate", 6322);
+    Material JUNGLE_FENCE_GATE = getMaterial("jungle_fence_gate", 21360);
+    Material ACACIA_FENCE_GATE = getMaterial("acacia_fence_gate", 14145);
+    Material DARK_OAK_FENCE_GATE = getMaterial("dark_oak_fence_gate", 10679);
+    Material CRIMSON_FENCE_GATE = getMaterial("crimson_fence_gate", 15602);
+    Material WARPED_FENCE_GATE = getMaterial("warped_fence_gate", 11115);
+    Material POWERED_RAIL = getMaterial("powered_rail", 11064);
+    Material DETECTOR_RAIL = getMaterial("detector_rail", 13475);
+    Material RAIL = getMaterial("rail", 13285);
+    Material ACTIVATOR_RAIL = getMaterial("activator_rail", 5834);
+    Material SADDLE = getMaterial("saddle", 30206);
+    Material MINECART = getMaterial("minecart", 14352);
+    Material CHEST_MINECART = getMaterial("chest_minecart", 4497);
+    Material FURNACE_MINECART = getMaterial("furnace_minecart", 14196);
+    Material TNT_MINECART = getMaterial("tnt_minecart", 4277);
+    Material HOPPER_MINECART = getMaterial("hopper_minecart", 19024);
+    Material CARROT_ON_A_STICK = getMaterial("carrot_on_a_stick", 27809);
+    Material WARPED_FUNGUS_ON_A_STICK = getMaterial("warped_fungus_on_a_stick", 11706);
+    Material ELYTRA = getMaterial("elytra", 23829);
+    Material OAK_BOAT = getMaterial("oak_boat", 17570);
+    Material SPRUCE_BOAT = getMaterial("spruce_boat", 31427);
+    Material BIRCH_BOAT = getMaterial("birch_boat", 28104);
+    Material JUNGLE_BOAT = getMaterial("jungle_boat", 4495);
+    Material ACACIA_BOAT = getMaterial("acacia_boat", 27326);
+    Material DARK_OAK_BOAT = getMaterial("dark_oak_boat", 28618);
+    Material STRUCTURE_BLOCK = getMaterial("structure_block", 26831);
+    Material JIGSAW = getMaterial("jigsaw", 17398);
+    Material TURTLE_HELMET = getMaterial("turtle_helmet", 30120);
+    Material SCUTE = getMaterial("scute", 11914);
+    Material FLINT_AND_STEEL = getMaterial("flint_and_steel", 28620);
+    Material APPLE = getMaterial("apple", 7720);
+    Material BOW = getMaterial("bow", 8745);
+    Material ARROW = getMaterial("arrow", 31091);
+    Material COAL = getMaterial("coal", 29067);
+    Material CHARCOAL = getMaterial("charcoal", 5390);
+    Material DIAMOND = getMaterial("diamond", 20865);
+    Material EMERALD = getMaterial("emerald", 5654);
+    Material LAPIS_LAZULI = getMaterial("lapis_lazuli", 11075);
+    Material QUARTZ = getMaterial("quartz", 23608);
+    Material AMETHYST_SHARD = getMaterial("amethyst_shard", 7613);
+    Material RAW_IRON = getMaterial("raw_iron", 5329);
+    Material IRON_INGOT = getMaterial("iron_ingot", 24895);
+    Material RAW_COPPER = getMaterial("raw_copper", 6162);
+    Material COPPER_INGOT = getMaterial("copper_ingot", 12611);
+    Material RAW_GOLD = getMaterial("raw_gold", 19564);
+    Material GOLD_INGOT = getMaterial("gold_ingot", 28927);
+    Material NETHERITE_INGOT = getMaterial("netherite_ingot", 32457);
+    Material NETHERITE_SCRAP = getMaterial("netherite_scrap", 29331);
+    Material WOODEN_SWORD = getMaterial("wooden_sword", 7175);
+    Material WOODEN_SHOVEL = getMaterial("wooden_shovel", 28432);
+    Material WOODEN_PICKAXE = getMaterial("wooden_pickaxe", 12792);
+    Material WOODEN_AXE = getMaterial("wooden_axe", 6292);
+    Material WOODEN_HOE = getMaterial("wooden_hoe", 16043);
+    Material STONE_SWORD = getMaterial("stone_sword", 25084);
+    Material STONE_SHOVEL = getMaterial("stone_shovel", 9520);
+    Material STONE_PICKAXE = getMaterial("stone_pickaxe", 14611);
+    Material STONE_AXE = getMaterial("stone_axe", 6338);
+    Material STONE_HOE = getMaterial("stone_hoe", 22855);
+    Material GOLDEN_SWORD = getMaterial("golden_sword", 10505);
+    Material GOLDEN_SHOVEL = getMaterial("golden_shovel", 15597);
+    Material GOLDEN_PICKAXE = getMaterial("golden_pickaxe", 25898);
+    Material GOLDEN_AXE = getMaterial("golden_axe", 4878);
+    Material GOLDEN_HOE = getMaterial("golden_hoe", 19337);
+    Material IRON_SWORD = getMaterial("iron_sword", 10904);
+    Material IRON_SHOVEL = getMaterial("iron_shovel", 30045);
+    Material IRON_PICKAXE = getMaterial("iron_pickaxe", 8842);
+    Material IRON_AXE = getMaterial("iron_axe", 15894);
+    Material IRON_HOE = getMaterial("iron_hoe", 11339);
+    Material DIAMOND_SWORD = getMaterial("diamond_sword", 27707);
+    Material DIAMOND_SHOVEL = getMaterial("diamond_shovel", 25415);
+    Material DIAMOND_PICKAXE = getMaterial("diamond_pickaxe", 24291);
+    Material DIAMOND_AXE = getMaterial("diamond_axe", 27277);
+    Material DIAMOND_HOE = getMaterial("diamond_hoe", 24050);
+    Material NETHERITE_SWORD = getMaterial("netherite_sword", 23871);
+    Material NETHERITE_SHOVEL = getMaterial("netherite_shovel", 29728);
+    Material NETHERITE_PICKAXE = getMaterial("netherite_pickaxe", 9930);
+    Material NETHERITE_AXE = getMaterial("netherite_axe", 29533);
+    Material NETHERITE_HOE = getMaterial("netherite_hoe", 27385);
+    Material STICK = getMaterial("stick", 9773);
+    Material BOWL = getMaterial("bowl", 32661);
+    Material MUSHROOM_STEW = getMaterial("mushroom_stew", 16336);
+    Material STRING = getMaterial("string", 12806);
+    Material FEATHER = getMaterial("feather", 30548);
+    Material GUNPOWDER = getMaterial("gunpowder", 29974);
+    Material WHEAT_SEEDS = getMaterial("wheat_seeds", 28742);
+    Material WHEAT = getMaterial("wheat", 27709);
+    Material BREAD = getMaterial("bread", 32049);
+    Material LEATHER_HELMET = getMaterial("leather_helmet", 11624);
+    Material LEATHER_CHESTPLATE = getMaterial("leather_chestplate", 29275);
+    Material LEATHER_LEGGINGS = getMaterial("leather_leggings", 28210);
+    Material LEATHER_BOOTS = getMaterial("leather_boots", 15282);
+    Material CHAINMAIL_HELMET = getMaterial("chainmail_helmet", 26114);
+    Material CHAINMAIL_CHESTPLATE = getMaterial("chainmail_chestplate", 23602);
+    Material CHAINMAIL_LEGGINGS = getMaterial("chainmail_leggings", 19087);
+    Material CHAINMAIL_BOOTS = getMaterial("chainmail_boots", 17953);
+    Material IRON_HELMET = getMaterial("iron_helmet", 12025);
+    Material IRON_CHESTPLATE = getMaterial("iron_chestplate", 28112);
+    Material IRON_LEGGINGS = getMaterial("iron_leggings", 18951);
+    Material IRON_BOOTS = getMaterial("iron_boots", 8531);
+    Material DIAMOND_HELMET = getMaterial("diamond_helmet", 10755);
+    Material DIAMOND_CHESTPLATE = getMaterial("diamond_chestplate", 32099);
+    Material DIAMOND_LEGGINGS = getMaterial("diamond_leggings", 26500);
+    Material DIAMOND_BOOTS = getMaterial("diamond_boots", 16522);
+    Material GOLDEN_HELMET = getMaterial("golden_helmet", 7945);
+    Material GOLDEN_CHESTPLATE = getMaterial("golden_chestplate", 4507);
+    Material GOLDEN_LEGGINGS = getMaterial("golden_leggings", 21002);
+    Material GOLDEN_BOOTS = getMaterial("golden_boots", 7859);
+    Material NETHERITE_HELMET = getMaterial("netherite_helmet", 15907);
+    Material NETHERITE_CHESTPLATE = getMaterial("netherite_chestplate", 6106);
+    Material NETHERITE_LEGGINGS = getMaterial("netherite_leggings", 25605);
+    Material NETHERITE_BOOTS = getMaterial("netherite_boots", 8923);
+    Material FLINT = getMaterial("flint", 23596);
+    Material PORKCHOP = getMaterial("porkchop", 30896);
+    Material COOKED_PORKCHOP = getMaterial("cooked_porkchop", 27231);
+    Material PAINTING = getMaterial("painting", 23945);
+    Material GOLDEN_APPLE = getMaterial("golden_apple", 27732);
+    Material ENCHANTED_GOLDEN_APPLE = getMaterial("enchanted_golden_apple", 8280);
+    Material OAK_SIGN = getMaterial("oak_sign", 8192);
+    Material SPRUCE_SIGN = getMaterial("spruce_sign", 21502);
+    Material BIRCH_SIGN = getMaterial("birch_sign", 11351);
+    Material JUNGLE_SIGN = getMaterial("jungle_sign", 24717);
+    Material ACACIA_SIGN = getMaterial("acacia_sign", 29808);
+    Material DARK_OAK_SIGN = getMaterial("dark_oak_sign", 15127);
+    Material CRIMSON_SIGN = getMaterial("crimson_sign", 12162);
+    Material WARPED_SIGN = getMaterial("warped_sign", 10407);
+    Material BUCKET = getMaterial("bucket", 15215);
+    Material WATER_BUCKET = getMaterial("water_bucket", 8802);
+    Material LAVA_BUCKET = getMaterial("lava_bucket", 9228);
+    Material POWDER_SNOW_BUCKET = getMaterial("powder_snow_bucket", 31101);
+    Material SNOWBALL = getMaterial("snowball", 19487);
+    Material LEATHER = getMaterial("leather", 16414);
+    Material MILK_BUCKET = getMaterial("milk_bucket", 9680);
+    Material PUFFERFISH_BUCKET = getMaterial("pufferfish_bucket", 8861);
+    Material SALMON_BUCKET = getMaterial("salmon_bucket", 9606);
+    Material COD_BUCKET = getMaterial("cod_bucket", 28601);
+    Material TROPICAL_FISH_BUCKET = getMaterial("tropical_fish_bucket", 29995);
+    Material AXOLOTL_BUCKET = getMaterial("axolotl_bucket", 20669);
+    Material BRICK = getMaterial("brick", 6820);
+    Material CLAY_BALL = getMaterial("clay_ball", 24603);
+    Material DRIED_KELP_BLOCK = getMaterial("dried_kelp_block", 12966);
+    Material PAPER = getMaterial("paper", 9923);
+    Material BOOK = getMaterial("book", 23097);
+    Material SLIME_BALL = getMaterial("slime_ball", 5242);
+    Material EGG = getMaterial("egg", 21603);
+    Material COMPASS = getMaterial("compass", 24139);
+    Material BUNDLE = getMaterial("bundle", 16835);
+    Material FISHING_ROD = getMaterial("fishing_rod", 4167);
+    Material CLOCK = getMaterial("clock", 14980);
+    Material SPYGLASS = getMaterial("spyglass", 27490);
+    Material GLOWSTONE_DUST = getMaterial("glowstone_dust", 6665);
+    Material COD = getMaterial("cod", 24691);
+    Material SALMON = getMaterial("salmon", 18516);
+    Material TROPICAL_FISH = getMaterial("tropical_fish", 24879);
+    Material PUFFERFISH = getMaterial("pufferfish", 8115);
+    Material COOKED_COD = getMaterial("cooked_cod", 9681);
+    Material COOKED_SALMON = getMaterial("cooked_salmon", 5615);
+    Material INK_SAC = getMaterial("ink_sac", 7184);
+    Material GLOW_INK_SAC = getMaterial("glow_ink_sac", 9686);
+    Material COCOA_BEANS = getMaterial("cocoa_beans", 30186);
+    Material WHITE_DYE = getMaterial("white_dye", 10758);
+    Material ORANGE_DYE = getMaterial("orange_dye", 13866);
+    Material MAGENTA_DYE = getMaterial("magenta_dye", 11788);
+    Material LIGHT_BLUE_DYE = getMaterial("light_blue_dye", 28738);
+    Material YELLOW_DYE = getMaterial("yellow_dye", 5952);
+    Material LIME_DYE = getMaterial("lime_dye", 6147);
+    Material PINK_DYE = getMaterial("pink_dye", 31151);
+    Material GRAY_DYE = getMaterial("gray_dye", 9184);
+    Material LIGHT_GRAY_DYE = getMaterial("light_gray_dye", 27643);
+    Material CYAN_DYE = getMaterial("cyan_dye", 8043);
+    Material PURPLE_DYE = getMaterial("purple_dye", 6347);
+    Material BLUE_DYE = getMaterial("blue_dye", 11588);
+    Material BROWN_DYE = getMaterial("brown_dye", 7648);
+    Material GREEN_DYE = getMaterial("green_dye", 23215);
+    Material RED_DYE = getMaterial("red_dye", 5728);
+    Material BLACK_DYE = getMaterial("black_dye", 6202);
+    Material BONE_MEAL = getMaterial("bone_meal", 32458);
+    Material BONE = getMaterial("bone", 5686);
+    Material SUGAR = getMaterial("sugar", 30638);
+    Material CAKE = getMaterial("cake", 27048);
+    Material WHITE_BED = getMaterial("white_bed", 8185);
+    Material ORANGE_BED = getMaterial("orange_bed", 11194);
+    Material MAGENTA_BED = getMaterial("magenta_bed", 20061);
+    Material LIGHT_BLUE_BED = getMaterial("light_blue_bed", 20957);
+    Material YELLOW_BED = getMaterial("yellow_bed", 30410);
+    Material LIME_BED = getMaterial("lime_bed", 27860);
+    Material PINK_BED = getMaterial("pink_bed", 13795);
+    Material GRAY_BED = getMaterial("gray_bed", 15745);
+    Material LIGHT_GRAY_BED = getMaterial("light_gray_bed", 5090);
+    Material CYAN_BED = getMaterial("cyan_bed", 16746);
+    Material PURPLE_BED = getMaterial("purple_bed", 29755);
+    Material BLUE_BED = getMaterial("blue_bed", 12714);
+    Material BROWN_BED = getMaterial("brown_bed", 26672);
+    Material GREEN_BED = getMaterial("green_bed", 13797);
+    Material RED_BED = getMaterial("red_bed", 30910);
+    Material BLACK_BED = getMaterial("black_bed", 20490);
+    Material COOKIE = getMaterial("cookie", 27431);
+    Material FILLED_MAP = getMaterial("filled_map", 23504);
+    Material SHEARS = getMaterial("shears", 27971);
+    Material MELON_SLICE = getMaterial("melon_slice", 5347);
+    Material DRIED_KELP = getMaterial("dried_kelp", 21042);
+    Material PUMPKIN_SEEDS = getMaterial("pumpkin_seeds", 28985);
+    Material MELON_SEEDS = getMaterial("melon_seeds", 18340);
+    Material BEEF = getMaterial("beef", 4803);
+    Material COOKED_BEEF = getMaterial("cooked_beef", 21595);
+    Material CHICKEN = getMaterial("chicken", 17281);
+    Material COOKED_CHICKEN = getMaterial("cooked_chicken", 16984);
+    Material ROTTEN_FLESH = getMaterial("rotten_flesh", 21591);
+    Material ENDER_PEARL = getMaterial("ender_pearl", 5259);
+    Material BLAZE_ROD = getMaterial("blaze_rod", 8289);
+    Material GHAST_TEAR = getMaterial("ghast_tear", 18222);
+    Material GOLD_NUGGET = getMaterial("gold_nugget", 28814);
+    Material NETHER_WART = getMaterial("nether_wart", 29227);
+    Material POTION = getMaterial("potion", 24020);
+    Material GLASS_BOTTLE = getMaterial("glass_bottle", 6116);
+    Material SPIDER_EYE = getMaterial("spider_eye", 9318);
+    Material FERMENTED_SPIDER_EYE = getMaterial("fermented_spider_eye", 19386);
+    Material BLAZE_POWDER = getMaterial("blaze_powder", 18941);
+    Material MAGMA_CREAM = getMaterial("magma_cream", 25097);
+    Material BREWING_STAND = getMaterial("brewing_stand", 14539);
+    Material CAULDRON = getMaterial("cauldron", 26531);
+    Material ENDER_EYE = getMaterial("ender_eye", 24860);
+    Material GLISTERING_MELON_SLICE = getMaterial("glistering_melon_slice", 20158);
+    Material AXOLOTL_SPAWN_EGG = getMaterial("axolotl_spawn_egg", 30381);
+    Material BAT_SPAWN_EGG = getMaterial("bat_spawn_egg", 14607);
+    Material BEE_SPAWN_EGG = getMaterial("bee_spawn_egg", 22924);
+    Material BLAZE_SPAWN_EGG = getMaterial("blaze_spawn_egg", 4759);
+    Material CAT_SPAWN_EGG = getMaterial("cat_spawn_egg", 29583);
+    Material CAVE_SPIDER_SPAWN_EGG = getMaterial("cave_spider_spawn_egg", 23341);
+    Material CHICKEN_SPAWN_EGG = getMaterial("chicken_spawn_egg", 5462);
+    Material COD_SPAWN_EGG = getMaterial("cod_spawn_egg", 27248);
+    Material COW_SPAWN_EGG = getMaterial("cow_spawn_egg", 14761);
+    Material CREEPER_SPAWN_EGG = getMaterial("creeper_spawn_egg", 9653);
+    Material DOLPHIN_SPAWN_EGG = getMaterial("dolphin_spawn_egg", 20787);
+    Material DONKEY_SPAWN_EGG = getMaterial("donkey_spawn_egg", 14513);
+    Material DROWNED_SPAWN_EGG = getMaterial("drowned_spawn_egg", 19368);
+    Material ELDER_GUARDIAN_SPAWN_EGG = getMaterial("elder_guardian_spawn_egg", 11418);
+    Material ENDERMAN_SPAWN_EGG = getMaterial("enderman_spawn_egg", 29488);
+    Material ENDERMITE_SPAWN_EGG = getMaterial("endermite_spawn_egg", 16617);
+    Material EVOKER_SPAWN_EGG = getMaterial("evoker_spawn_egg", 21271);
+    Material FOX_SPAWN_EGG = getMaterial("fox_spawn_egg", 22376);
+    Material GHAST_SPAWN_EGG = getMaterial("ghast_spawn_egg", 9970);
+    Material GLOW_SQUID_SPAWN_EGG = getMaterial("glow_squid_spawn_egg", 31578);
+    Material GOAT_SPAWN_EGG = getMaterial("goat_spawn_egg", 30639);
+    Material GUARDIAN_SPAWN_EGG = getMaterial("guardian_spawn_egg", 20113);
+    Material HOGLIN_SPAWN_EGG = getMaterial("hoglin_spawn_egg", 14088);
+    Material HORSE_SPAWN_EGG = getMaterial("horse_spawn_egg", 25981);
+    Material HUSK_SPAWN_EGG = getMaterial("husk_spawn_egg", 20178);
+    Material LLAMA_SPAWN_EGG = getMaterial("llama_spawn_egg", 23640);
+    Material MAGMA_CUBE_SPAWN_EGG = getMaterial("magma_cube_spawn_egg", 26638);
+    Material MOOSHROOM_SPAWN_EGG = getMaterial("mooshroom_spawn_egg", 22125);
+    Material MULE_SPAWN_EGG = getMaterial("mule_spawn_egg", 11229);
+    Material OCELOT_SPAWN_EGG = getMaterial("ocelot_spawn_egg", 30080);
+    Material PANDA_SPAWN_EGG = getMaterial("panda_spawn_egg", 23759);
+    Material PARROT_SPAWN_EGG = getMaterial("parrot_spawn_egg", 23614);
+    Material PHANTOM_SPAWN_EGG = getMaterial("phantom_spawn_egg", 24648);
+    Material PIG_SPAWN_EGG = getMaterial("pig_spawn_egg", 22584);
+    Material PIGLIN_SPAWN_EGG = getMaterial("piglin_spawn_egg", 16193);
+    Material PIGLIN_BRUTE_SPAWN_EGG = getMaterial("piglin_brute_spawn_egg", 30230);
+    Material PILLAGER_SPAWN_EGG = getMaterial("pillager_spawn_egg", 28659);
+    Material POLAR_BEAR_SPAWN_EGG = getMaterial("polar_bear_spawn_egg", 17015);
+    Material PUFFERFISH_SPAWN_EGG = getMaterial("pufferfish_spawn_egg", 24570);
+    Material RABBIT_SPAWN_EGG = getMaterial("rabbit_spawn_egg", 26496);
+    Material RAVAGER_SPAWN_EGG = getMaterial("ravager_spawn_egg", 8726);
+    Material SALMON_SPAWN_EGG = getMaterial("salmon_spawn_egg", 18739);
+    Material SHEEP_SPAWN_EGG = getMaterial("sheep_spawn_egg", 24488);
+    Material SHULKER_SPAWN_EGG = getMaterial("shulker_spawn_egg", 31848);
+    Material SILVERFISH_SPAWN_EGG = getMaterial("silverfish_spawn_egg", 14537);
+    Material SKELETON_SPAWN_EGG = getMaterial("skeleton_spawn_egg", 15261);
+    Material SKELETON_HORSE_SPAWN_EGG = getMaterial("skeleton_horse_spawn_egg", 21356);
+    Material SLIME_SPAWN_EGG = getMaterial("slime_spawn_egg", 17196);
+    Material SPIDER_SPAWN_EGG = getMaterial("spider_spawn_egg", 14984);
+    Material SQUID_SPAWN_EGG = getMaterial("squid_spawn_egg", 10682);
+    Material STRAY_SPAWN_EGG = getMaterial("stray_spawn_egg", 30153);
+    Material STRIDER_SPAWN_EGG = getMaterial("strider_spawn_egg", 6203);
+    Material TRADER_LLAMA_SPAWN_EGG = getMaterial("trader_llama_spawn_egg", 8439);
+    Material TROPICAL_FISH_SPAWN_EGG = getMaterial("tropical_fish_spawn_egg", 19713);
+    Material TURTLE_SPAWN_EGG = getMaterial("turtle_spawn_egg", 17324);
+    Material VEX_SPAWN_EGG = getMaterial("vex_spawn_egg", 27751);
+    Material VILLAGER_SPAWN_EGG = getMaterial("villager_spawn_egg", 30348);
+    Material VINDICATOR_SPAWN_EGG = getMaterial("vindicator_spawn_egg", 25324);
+    Material WANDERING_TRADER_SPAWN_EGG = getMaterial("wandering_trader_spawn_egg", 17904);
+    Material WITCH_SPAWN_EGG = getMaterial("witch_spawn_egg", 11837);
+    Material WITHER_SKELETON_SPAWN_EGG = getMaterial("wither_skeleton_spawn_egg", 10073);
+    Material WOLF_SPAWN_EGG = getMaterial("wolf_spawn_egg", 21692);
+    Material ZOGLIN_SPAWN_EGG = getMaterial("zoglin_spawn_egg", 7442);
+    Material ZOMBIE_SPAWN_EGG = getMaterial("zombie_spawn_egg", 5814);
+    Material ZOMBIE_HORSE_SPAWN_EGG = getMaterial("zombie_horse_spawn_egg", 4275);
+    Material ZOMBIE_VILLAGER_SPAWN_EGG = getMaterial("zombie_villager_spawn_egg", 10311);
+    Material ZOMBIFIED_PIGLIN_SPAWN_EGG = getMaterial("zombified_piglin_spawn_egg", 6626);
+    Material EXPERIENCE_BOTTLE = getMaterial("experience_bottle", 12858);
+    Material FIRE_CHARGE = getMaterial("fire_charge", 4842);
+    Material WRITABLE_BOOK = getMaterial("writable_book", 13393);
+    Material WRITTEN_BOOK = getMaterial("written_book", 24164);
+    Material ITEM_FRAME = getMaterial("item_frame", 27318);
+    Material GLOW_ITEM_FRAME = getMaterial("glow_item_frame", 26473);
+    Material FLOWER_POT = getMaterial("flower_pot", 30567);
+    Material CARROT = getMaterial("carrot", 22824);
+    Material POTATO = getMaterial("potato", 21088);
+    Material BAKED_POTATO = getMaterial("baked_potato", 14624);
+    Material POISONOUS_POTATO = getMaterial("poisonous_potato", 32640);
+    Material MAP = getMaterial("map", 21655);
+    Material GOLDEN_CARROT = getMaterial("golden_carrot", 5300);
+    Material SKELETON_SKULL = getMaterial("skeleton_skull", 13270);
+    Material WITHER_SKELETON_SKULL = getMaterial("wither_skeleton_skull", 31487);
+    Material PLAYER_HEAD = getMaterial("player_head", 21174);
+    Material ZOMBIE_HEAD = getMaterial("zombie_head", 9304);
+    Material CREEPER_HEAD = getMaterial("creeper_head", 29146);
+    Material DRAGON_HEAD = getMaterial("dragon_head", 20084);
+    Material NETHER_STAR = getMaterial("nether_star", 12469);
+    Material PUMPKIN_PIE = getMaterial("pumpkin_pie", 28725);
+    Material FIREWORK_ROCKET = getMaterial("firework_rocket", 23841);
+    Material FIREWORK_STAR = getMaterial("firework_star", 12190);
+    Material ENCHANTED_BOOK = getMaterial("enchanted_book", 11741);
+    Material NETHER_BRICK = getMaterial("nether_brick", 19996);
+    Material PRISMARINE_SHARD = getMaterial("prismarine_shard", 10993);
+    Material PRISMARINE_CRYSTALS = getMaterial("prismarine_crystals", 31546);
+    Material RABBIT = getMaterial("rabbit", 23068);
+    Material COOKED_RABBIT = getMaterial("cooked_rabbit", 4454);
+    Material RABBIT_STEW = getMaterial("rabbit_stew", 10611);
+    Material RABBIT_FOOT = getMaterial("rabbit_foot", 13864);
+    Material RABBIT_HIDE = getMaterial("rabbit_hide", 12467);
+    Material ARMOR_STAND = getMaterial("armor_stand", 12852);
+    Material IRON_HORSE_ARMOR = getMaterial("iron_horse_armor", 30108);
+    Material GOLDEN_HORSE_ARMOR = getMaterial("golden_horse_armor", 7996);
+    Material DIAMOND_HORSE_ARMOR = getMaterial("diamond_horse_armor", 10321);
+    Material LEATHER_HORSE_ARMOR = getMaterial("leather_horse_armor", 30667);
+    Material LEAD = getMaterial("lead", 29539);
+    Material NAME_TAG = getMaterial("name_tag", 30731);
+    Material COMMAND_BLOCK_MINECART = getMaterial("command_block_minecart", 7992);
+    Material MUTTON = getMaterial("mutton", 4792);
+    Material COOKED_MUTTON = getMaterial("cooked_mutton", 31447);
+    Material WHITE_BANNER = getMaterial("white_banner", 17562);
+    Material ORANGE_BANNER = getMaterial("orange_banner", 4839);
+    Material MAGENTA_BANNER = getMaterial("magenta_banner", 15591);
+    Material LIGHT_BLUE_BANNER = getMaterial("light_blue_banner", 18060);
+    Material YELLOW_BANNER = getMaterial("yellow_banner", 30382);
+    Material LIME_BANNER = getMaterial("lime_banner", 18887);
+    Material PINK_BANNER = getMaterial("pink_banner", 19439);
+    Material GRAY_BANNER = getMaterial("gray_banner", 12053);
+    Material LIGHT_GRAY_BANNER = getMaterial("light_gray_banner", 11417);
+    Material CYAN_BANNER = getMaterial("cyan_banner", 9839);
+    Material PURPLE_BANNER = getMaterial("purple_banner", 29027);
+    Material BLUE_BANNER = getMaterial("blue_banner", 18481);
+    Material BROWN_BANNER = getMaterial("brown_banner", 11481);
+    Material GREEN_BANNER = getMaterial("green_banner", 10698);
+    Material RED_BANNER = getMaterial("red_banner", 26961);
+    Material BLACK_BANNER = getMaterial("black_banner", 9365);
+    Material END_CRYSTAL = getMaterial("end_crystal", 19090);
+    Material CHORUS_FRUIT = getMaterial("chorus_fruit", 7652);
+    Material POPPED_CHORUS_FRUIT = getMaterial("popped_chorus_fruit", 27844);
+    Material BEETROOT = getMaterial("beetroot", 23305);
+    Material BEETROOT_SEEDS = getMaterial("beetroot_seeds", 21282);
+    Material BEETROOT_SOUP = getMaterial("beetroot_soup", 16036);
+    Material DRAGON_BREATH = getMaterial("dragon_breath", 20154);
+    Material SPLASH_POTION = getMaterial("splash_potion", 30248);
+    Material SPECTRAL_ARROW = getMaterial("spectral_arrow", 4568);
+    Material TIPPED_ARROW = getMaterial("tipped_arrow", 25164);
+    Material LINGERING_POTION = getMaterial("lingering_potion", 25857);
+    Material SHIELD = getMaterial("shield", 29943);
+    Material TOTEM_OF_UNDYING = getMaterial("totem_of_undying", 10139);
+    Material SHULKER_SHELL = getMaterial("shulker_shell", 27848);
+    Material IRON_NUGGET = getMaterial("iron_nugget", 13715);
+    Material KNOWLEDGE_BOOK = getMaterial("knowledge_book", 12646);
+    Material DEBUG_STICK = getMaterial("debug_stick", 24562);
+    Material MUSIC_DISC_13 = getMaterial("music_disc_13", 16359);
+    Material MUSIC_DISC_CAT = getMaterial("music_disc_cat", 16246);
+    Material MUSIC_DISC_BLOCKS = getMaterial("music_disc_blocks", 26667);
+    Material MUSIC_DISC_CHIRP = getMaterial("music_disc_chirp", 19436);
+    Material MUSIC_DISC_FAR = getMaterial("music_disc_far", 31742);
+    Material MUSIC_DISC_MALL = getMaterial("music_disc_mall", 11517);
+    Material MUSIC_DISC_MELLOHI = getMaterial("music_disc_mellohi", 26117);
+    Material MUSIC_DISC_STAL = getMaterial("music_disc_stal", 14989);
+    Material MUSIC_DISC_STRAD = getMaterial("music_disc_strad", 16785);
+    Material MUSIC_DISC_WARD = getMaterial("music_disc_ward", 24026);
+    Material MUSIC_DISC_11 = getMaterial("music_disc_11", 27426);
+    Material MUSIC_DISC_WAIT = getMaterial("music_disc_wait", 26499);
+    Material MUSIC_DISC_PIGSTEP = getMaterial("music_disc_pigstep", 21323);
+    Material TRIDENT = getMaterial("trident", 7534);
+    Material PHANTOM_MEMBRANE = getMaterial("phantom_membrane", 18398);
+    Material NAUTILUS_SHELL = getMaterial("nautilus_shell", 19989);
+    Material HEART_OF_THE_SEA = getMaterial("heart_of_the_sea", 11807);
+    Material CROSSBOW = getMaterial("crossbow", 4340);
+    Material SUSPICIOUS_STEW = getMaterial("suspicious_stew", 8173);
+    Material LOOM = getMaterial("loom", 14276);
+    Material FLOWER_BANNER_PATTERN = getMaterial("flower_banner_pattern", 5762);
+    Material CREEPER_BANNER_PATTERN = getMaterial("creeper_banner_pattern", 15774);
+    Material SKULL_BANNER_PATTERN = getMaterial("skull_banner_pattern", 7680);
+    Material MOJANG_BANNER_PATTERN = getMaterial("mojang_banner_pattern", 11903);
+    Material GLOBE_BANNER_PATTERN = getMaterial("globe_banner_pattern", 27753);
+    Material PIGLIN_BANNER_PATTERN = getMaterial("piglin_banner_pattern", 22028);
+    Material COMPOSTER = getMaterial("composter", 31247);
+    Material BARREL = getMaterial("barrel", 22396);
+    Material SMOKER = getMaterial("smoker", 24781);
+    Material BLAST_FURNACE = getMaterial("blast_furnace", 31157);
+    Material CARTOGRAPHY_TABLE = getMaterial("cartography_table", 28529);
+    Material FLETCHING_TABLE = getMaterial("fletching_table", 30838);
+    Material GRINDSTONE = getMaterial("grindstone", 26260);
+    Material SMITHING_TABLE = getMaterial("smithing_table", 9082);
+    Material STONECUTTER = getMaterial("stonecutter", 25170);
+    Material BELL = getMaterial("bell", 20000);
+    Material LANTERN = getMaterial("lantern", 5992);
+    Material SOUL_LANTERN = getMaterial("soul_lantern", 27778);
+    Material SWEET_BERRIES = getMaterial("sweet_berries", 19747);
+    Material GLOW_BERRIES = getMaterial("glow_berries", 11584);
+    Material CAMPFIRE = getMaterial("campfire", 8488);
+    Material SOUL_CAMPFIRE = getMaterial("soul_campfire", 4238);
+    Material SHROOMLIGHT = getMaterial("shroomlight", 20424);
+    Material HONEYCOMB = getMaterial("honeycomb", 9482);
+    Material BEE_NEST = getMaterial("bee_nest", 8825);
+    Material BEEHIVE = getMaterial("beehive", 11830);
+    Material HONEY_BOTTLE = getMaterial("honey_bottle", 22927);
+    Material HONEYCOMB_BLOCK = getMaterial("honeycomb_block", 28780);
+    Material LODESTONE = getMaterial("lodestone", 23127);
+    Material CRYING_OBSIDIAN = getMaterial("crying_obsidian", 31545);
+    Material BLACKSTONE = getMaterial("blackstone", 7354);
+    Material BLACKSTONE_SLAB = getMaterial("blackstone_slab", 11948);
+    Material BLACKSTONE_STAIRS = getMaterial("blackstone_stairs", 14646);
+    Material GILDED_BLACKSTONE = getMaterial("gilded_blackstone", 8498);
+    Material POLISHED_BLACKSTONE = getMaterial("polished_blackstone", 18144);
+    Material POLISHED_BLACKSTONE_SLAB = getMaterial("polished_blackstone_slab", 23430);
+    Material POLISHED_BLACKSTONE_STAIRS = getMaterial("polished_blackstone_stairs", 8653);
+    Material CHISELED_POLISHED_BLACKSTONE = getMaterial("chiseled_polished_blackstone", 21942);
+    Material POLISHED_BLACKSTONE_BRICKS = getMaterial("polished_blackstone_bricks", 19844);
+    Material POLISHED_BLACKSTONE_BRICK_SLAB = getMaterial("polished_blackstone_brick_slab", 12219);
+    Material POLISHED_BLACKSTONE_BRICK_STAIRS = getMaterial("polished_blackstone_brick_stairs", 17983);
+    Material CRACKED_POLISHED_BLACKSTONE_BRICKS = getMaterial("cracked_polished_blackstone_bricks", 16846);
+    Material RESPAWN_ANCHOR = getMaterial("respawn_anchor", 4099);
+    Material CANDLE = getMaterial("candle", 16122);
+    Material WHITE_CANDLE = getMaterial("white_candle", 26410);
+    Material ORANGE_CANDLE = getMaterial("orange_candle", 22668);
+    Material MAGENTA_CANDLE = getMaterial("magenta_candle", 25467);
+    Material LIGHT_BLUE_CANDLE = getMaterial("light_blue_candle", 28681);
+    Material YELLOW_CANDLE = getMaterial("yellow_candle", 14351);
+    Material LIME_CANDLE = getMaterial("lime_candle", 21778);
+    Material PINK_CANDLE = getMaterial("pink_candle", 28259);
+    Material GRAY_CANDLE = getMaterial("gray_candle", 10721);
+    Material LIGHT_GRAY_CANDLE = getMaterial("light_gray_candle", 10031);
+    Material CYAN_CANDLE = getMaterial("cyan_candle", 24765);
+    Material PURPLE_CANDLE = getMaterial("purple_candle", 19606);
+    Material BLUE_CANDLE = getMaterial("blue_candle", 29047);
+    Material BROWN_CANDLE = getMaterial("brown_candle", 26145);
+    Material GREEN_CANDLE = getMaterial("green_candle", 29756);
+    Material RED_CANDLE = getMaterial("red_candle", 4214);
+    Material BLACK_CANDLE = getMaterial("black_candle", 12617);
+    Material SMALL_AMETHYST_BUD = getMaterial("small_amethyst_bud", 14958);
+    Material MEDIUM_AMETHYST_BUD = getMaterial("medium_amethyst_bud", 8429);
+    Material LARGE_AMETHYST_BUD = getMaterial("large_amethyst_bud", 7279);
+    Material AMETHYST_CLUSTER = getMaterial("amethyst_cluster", 13142);
+    Material POINTED_DRIPSTONE = getMaterial("pointed_dripstone", 18755);
+    Material WATER = getMaterial("water", 24998);
+    Material LAVA = getMaterial("lava", 8415);
+    Material TALL_SEAGRASS = getMaterial("tall_seagrass", 27189);
+    Material PISTON_HEAD = getMaterial("piston_head", 30226);
+    Material MOVING_PISTON = getMaterial("moving_piston", 13831);
+    Material WALL_TORCH = getMaterial("wall_torch", 25890);
+    Material FIRE = getMaterial("fire", 16396);
+    Material SOUL_FIRE = getMaterial("soul_fire", 30163);
+    Material REDSTONE_WIRE = getMaterial("redstone_wire", 25984);
+    Material OAK_WALL_SIGN = getMaterial("oak_wall_sign", 12984);
+    Material SPRUCE_WALL_SIGN = getMaterial("spruce_wall_sign", 7352);
+    Material BIRCH_WALL_SIGN = getMaterial("birch_wall_sign", 9887);
+    Material ACACIA_WALL_SIGN = getMaterial("acacia_wall_sign", 20316);
+    Material JUNGLE_WALL_SIGN = getMaterial("jungle_wall_sign", 29629);
+    Material DARK_OAK_WALL_SIGN = getMaterial("dark_oak_wall_sign", 9508);
+    Material REDSTONE_WALL_TORCH = getMaterial("redstone_wall_torch", 7595);
+    Material SOUL_WALL_TORCH = getMaterial("soul_wall_torch", 27500);
+    Material NETHER_PORTAL = getMaterial("nether_portal", 19469);
+    Material ATTACHED_PUMPKIN_STEM = getMaterial("attached_pumpkin_stem", 12724);
+    Material ATTACHED_MELON_STEM = getMaterial("attached_melon_stem", 30882);
+    Material PUMPKIN_STEM = getMaterial("pumpkin_stem", 19021);
+    Material MELON_STEM = getMaterial("melon_stem", 8247);
+    Material WATER_CAULDRON = getMaterial("water_cauldron", 32008);
+    Material LAVA_CAULDRON = getMaterial("lava_cauldron", 4514);
+    Material POWDER_SNOW_CAULDRON = getMaterial("powder_snow_cauldron", 31571);
+    Material END_PORTAL = getMaterial("end_portal", 16782);
+    Material COCOA = getMaterial("cocoa", 29709);
+    Material TRIPWIRE = getMaterial("tripwire", 8810);
+    Material POTTED_OAK_SAPLING = getMaterial("potted_oak_sapling", 11905);
+    Material POTTED_SPRUCE_SAPLING = getMaterial("potted_spruce_sapling", 29498);
+    Material POTTED_BIRCH_SAPLING = getMaterial("potted_birch_sapling", 32484);
+    Material POTTED_JUNGLE_SAPLING = getMaterial("potted_jungle_sapling", 7525);
+    Material POTTED_ACACIA_SAPLING = getMaterial("potted_acacia_sapling", 14096);
+    Material POTTED_DARK_OAK_SAPLING = getMaterial("potted_dark_oak_sapling", 6486);
+    Material POTTED_FERN = getMaterial("potted_fern", 23315);
+    Material POTTED_DANDELION = getMaterial("potted_dandelion", 9727);
+    Material POTTED_POPPY = getMaterial("potted_poppy", 7457);
+    Material POTTED_BLUE_ORCHID = getMaterial("potted_blue_orchid", 6599);
+    Material POTTED_ALLIUM = getMaterial("potted_allium", 13184);
+    Material POTTED_AZURE_BLUET = getMaterial("potted_azure_bluet", 8754);
+    Material POTTED_RED_TULIP = getMaterial("potted_red_tulip", 28594);
+    Material POTTED_ORANGE_TULIP = getMaterial("potted_orange_tulip", 28807);
+    Material POTTED_WHITE_TULIP = getMaterial("potted_white_tulip", 24330);
+    Material POTTED_PINK_TULIP = getMaterial("potted_pink_tulip", 10089);
+    Material POTTED_OXEYE_DAISY = getMaterial("potted_oxeye_daisy", 19707);
+    Material POTTED_CORNFLOWER = getMaterial("potted_cornflower", 28917);
+    Material POTTED_LILY_OF_THE_VALLEY = getMaterial("potted_lily_of_the_valley", 9364);
+    Material POTTED_WITHER_ROSE = getMaterial("potted_wither_rose", 26876);
+    Material POTTED_RED_MUSHROOM = getMaterial("potted_red_mushroom", 22881);
+    Material POTTED_BROWN_MUSHROOM = getMaterial("potted_brown_mushroom", 14481);
+    Material POTTED_DEAD_BUSH = getMaterial("potted_dead_bush", 13020);
+    Material POTTED_CACTUS = getMaterial("potted_cactus", 8777);
+    Material CARROTS = getMaterial("carrots", 17258);
+    Material POTATOES = getMaterial("potatoes", 10879);
+    Material SKELETON_WALL_SKULL = getMaterial("skeleton_wall_skull", 31650);
+    Material WITHER_SKELETON_WALL_SKULL = getMaterial("wither_skeleton_wall_skull", 9326);
+    Material ZOMBIE_WALL_HEAD = getMaterial("zombie_wall_head", 16296);
+    Material PLAYER_WALL_HEAD = getMaterial("player_wall_head", 13164);
+    Material CREEPER_WALL_HEAD = getMaterial("creeper_wall_head", 30123);
+    Material DRAGON_WALL_HEAD = getMaterial("dragon_wall_head", 19818);
+    Material WHITE_WALL_BANNER = getMaterial("white_wall_banner", 15967);
+    Material ORANGE_WALL_BANNER = getMaterial("orange_wall_banner", 9936);
+    Material MAGENTA_WALL_BANNER = getMaterial("magenta_wall_banner", 23291);
+    Material LIGHT_BLUE_WALL_BANNER = getMaterial("light_blue_wall_banner", 12011);
+    Material YELLOW_WALL_BANNER = getMaterial("yellow_wall_banner", 32004);
+    Material LIME_WALL_BANNER = getMaterial("lime_wall_banner", 21422);
+    Material PINK_WALL_BANNER = getMaterial("pink_wall_banner", 9421);
+    Material GRAY_WALL_BANNER = getMaterial("gray_wall_banner", 24275);
+    Material LIGHT_GRAY_WALL_BANNER = getMaterial("light_gray_wall_banner", 31088);
+    Material CYAN_WALL_BANNER = getMaterial("cyan_wall_banner", 10889);
+    Material PURPLE_WALL_BANNER = getMaterial("purple_wall_banner", 14298);
+    Material BLUE_WALL_BANNER = getMaterial("blue_wall_banner", 17757);
+    Material BROWN_WALL_BANNER = getMaterial("brown_wall_banner", 14731);
+    Material GREEN_WALL_BANNER = getMaterial("green_wall_banner", 15046);
+    Material RED_WALL_BANNER = getMaterial("red_wall_banner", 4378);
+    Material BLACK_WALL_BANNER = getMaterial("black_wall_banner", 4919);
+    Material BEETROOTS = getMaterial("beetroots", 22075);
+    Material END_GATEWAY = getMaterial("end_gateway", 26605);
+    Material FROSTED_ICE = getMaterial("frosted_ice", 21814);
+    Material KELP_PLANT = getMaterial("kelp_plant", 29697);
+    Material DEAD_TUBE_CORAL_WALL_FAN = getMaterial("dead_tube_coral_wall_fan", 5128);
+    Material DEAD_BRAIN_CORAL_WALL_FAN = getMaterial("dead_brain_coral_wall_fan", 23718);
+    Material DEAD_BUBBLE_CORAL_WALL_FAN = getMaterial("dead_bubble_coral_wall_fan", 18453);
+    Material DEAD_FIRE_CORAL_WALL_FAN = getMaterial("dead_fire_coral_wall_fan", 23375);
+    Material DEAD_HORN_CORAL_WALL_FAN = getMaterial("dead_horn_coral_wall_fan", 27550);
+    Material TUBE_CORAL_WALL_FAN = getMaterial("tube_coral_wall_fan", 25282);
+    Material BRAIN_CORAL_WALL_FAN = getMaterial("brain_coral_wall_fan", 22685);
+    Material BUBBLE_CORAL_WALL_FAN = getMaterial("bubble_coral_wall_fan", 20382);
+    Material FIRE_CORAL_WALL_FAN = getMaterial("fire_coral_wall_fan", 20100);
+    Material HORN_CORAL_WALL_FAN = getMaterial("horn_coral_wall_fan", 28883);
+    Material BAMBOO_SAPLING = getMaterial("bamboo_sapling", 8478);
+    Material POTTED_BAMBOO = getMaterial("potted_bamboo", 22542);
+    Material VOID_AIR = getMaterial("void_air", 13668);
+    Material CAVE_AIR = getMaterial("cave_air", 17422);
+    Material BUBBLE_COLUMN = getMaterial("bubble_column", 31612);
+    Material SWEET_BERRY_BUSH = getMaterial("sweet_berry_bush", 11958);
+    Material WEEPING_VINES_PLANT = getMaterial("weeping_vines_plant", 19437);
+    Material TWISTING_VINES_PLANT = getMaterial("twisting_vines_plant", 25338);
+    Material CRIMSON_WALL_SIGN = getMaterial("crimson_wall_sign", 19242);
+    Material WARPED_WALL_SIGN = getMaterial("warped_wall_sign", 13534);
+    Material POTTED_CRIMSON_FUNGUS = getMaterial("potted_crimson_fungus", 5548);
+    Material POTTED_WARPED_FUNGUS = getMaterial("potted_warped_fungus", 30800);
+    Material POTTED_CRIMSON_ROOTS = getMaterial("potted_crimson_roots", 13852);
+    Material POTTED_WARPED_ROOTS = getMaterial("potted_warped_roots", 6403);
+    Material CANDLE_CAKE = getMaterial("candle_cake", 25423);
+    Material WHITE_CANDLE_CAKE = getMaterial("white_candle_cake", 12674);
+    Material ORANGE_CANDLE_CAKE = getMaterial("orange_candle_cake", 24982);
+    Material MAGENTA_CANDLE_CAKE = getMaterial("magenta_candle_cake", 11022);
+    Material LIGHT_BLUE_CANDLE_CAKE = getMaterial("light_blue_candle_cake", 7787);
+    Material YELLOW_CANDLE_CAKE = getMaterial("yellow_candle_cake", 17157);
+    Material LIME_CANDLE_CAKE = getMaterial("lime_candle_cake", 14309);
+    Material PINK_CANDLE_CAKE = getMaterial("pink_candle_cake", 20405);
+    Material GRAY_CANDLE_CAKE = getMaterial("gray_candle_cake", 6777);
+    Material LIGHT_GRAY_CANDLE_CAKE = getMaterial("light_gray_candle_cake", 11318);
+    Material CYAN_CANDLE_CAKE = getMaterial("cyan_candle_cake", 21202);
+    Material PURPLE_CANDLE_CAKE = getMaterial("purple_candle_cake", 22663);
+    Material BLUE_CANDLE_CAKE = getMaterial("blue_candle_cake", 26425);
+    Material BROWN_CANDLE_CAKE = getMaterial("brown_candle_cake", 26024);
+    Material GREEN_CANDLE_CAKE = getMaterial("green_candle_cake", 16334);
+    Material RED_CANDLE_CAKE = getMaterial("red_candle_cake", 24151);
+    Material BLACK_CANDLE_CAKE = getMaterial("black_candle_cake", 15191);
+    Material POWDER_SNOW = getMaterial("powder_snow", 24077);
+    Material CAVE_VINES = getMaterial("cave_vines", 7339);
+    Material CAVE_VINES_PLANT = getMaterial("cave_vines_plant", 30645);
+    Material BIG_DRIPLEAF_STEM = getMaterial("big_dripleaf_stem", 13167);
+    Material POTTED_AZALEA_BUSH = getMaterial("potted_azalea_bush", 20430);
+    Material POTTED_FLOWERING_AZALEA_BUSH = getMaterial("potted_flowering_azalea_bush", 10609);
     // ----- Legacy Separator -----
     @Deprecated
-    LEGACY_AIR(0, 0),
+    Material LEGACY_AIR = Bukkit.getUnsafe().createLegacyMaterial("legacy_air", 0, 0, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_STONE(1),
+    Material LEGACY_STONE = Bukkit.getUnsafe().createLegacyMaterial("legacy_stone", 1, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_GRASS(2),
+    Material LEGACY_GRASS = Bukkit.getUnsafe().createLegacyMaterial("legacy_grass", 2, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_DIRT(3),
+    Material LEGACY_DIRT = Bukkit.getUnsafe().createLegacyMaterial("legacy_dirt", 3, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_COBBLESTONE(4),
+    Material LEGACY_COBBLESTONE = Bukkit.getUnsafe().createLegacyMaterial("legacy_cobblestone", 4, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_WOOD(5, org.bukkit.material.Wood.class),
+    Material LEGACY_WOOD = Bukkit.getUnsafe().createLegacyMaterial("legacy_wood", 5, 64, (short) 0, org.bukkit.material.Wood.class);
     @Deprecated
-    LEGACY_SAPLING(6, org.bukkit.material.Sapling.class),
+    Material LEGACY_SAPLING = Bukkit.getUnsafe().createLegacyMaterial("legacy_sapling", 6, 64, (short) 0, org.bukkit.material.Sapling.class);
     @Deprecated
-    LEGACY_BEDROCK(7),
+    Material LEGACY_BEDROCK = Bukkit.getUnsafe().createLegacyMaterial("legacy_bedrock", 7, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_WATER(8, org.bukkit.material.MaterialData.class),
+    Material LEGACY_WATER = Bukkit.getUnsafe().createLegacyMaterial("legacy_water", 8, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_STATIONARY_WATER(9, org.bukkit.material.MaterialData.class),
+    Material LEGACY_STATIONARY_WATER = Bukkit.getUnsafe().createLegacyMaterial("legacy_stationary_water", 9, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_LAVA(10, org.bukkit.material.MaterialData.class),
+    Material LEGACY_LAVA = Bukkit.getUnsafe().createLegacyMaterial("legacy_lava", 10, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_STATIONARY_LAVA(11, org.bukkit.material.MaterialData.class),
+    Material LEGACY_STATIONARY_LAVA = Bukkit.getUnsafe().createLegacyMaterial("legacy_stationary_lava", 11, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_SAND(12),
+    Material LEGACY_SAND = Bukkit.getUnsafe().createLegacyMaterial("legacy_sand", 12, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_GRAVEL(13),
+    Material LEGACY_GRAVEL = Bukkit.getUnsafe().createLegacyMaterial("legacy_gravel", 13, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_GOLD_ORE(14),
+    Material LEGACY_GOLD_ORE = Bukkit.getUnsafe().createLegacyMaterial("legacy_gold_ore", 14, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_IRON_ORE(15),
+    Material LEGACY_IRON_ORE = Bukkit.getUnsafe().createLegacyMaterial("legacy_iron_ore", 15, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_COAL_ORE(16),
+    Material LEGACY_COAL_ORE = Bukkit.getUnsafe().createLegacyMaterial("legacy_coal_ore", 16, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_LOG(17, org.bukkit.material.Tree.class),
+    Material LEGACY_LOG = Bukkit.getUnsafe().createLegacyMaterial("legacy_log", 17, 64, (short) 0, org.bukkit.material.Tree.class);
     @Deprecated
-    LEGACY_LEAVES(18, org.bukkit.material.Leaves.class),
+    Material LEGACY_LEAVES = Bukkit.getUnsafe().createLegacyMaterial("legacy_leaves", 18, 64, (short) 0, org.bukkit.material.Leaves.class);
     @Deprecated
-    LEGACY_SPONGE(19),
+    Material LEGACY_SPONGE = Bukkit.getUnsafe().createLegacyMaterial("legacy_sponge", 19, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_GLASS(20),
+    Material LEGACY_GLASS = Bukkit.getUnsafe().createLegacyMaterial("legacy_glass", 20, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_LAPIS_ORE(21),
+    Material LEGACY_LAPIS_ORE = Bukkit.getUnsafe().createLegacyMaterial("legacy_lapis_ore", 21, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_LAPIS_BLOCK(22),
+    Material LEGACY_LAPIS_BLOCK = Bukkit.getUnsafe().createLegacyMaterial("legacy_lapis_block", 22, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_DISPENSER(23, org.bukkit.material.Dispenser.class),
+    Material LEGACY_DISPENSER = Bukkit.getUnsafe().createLegacyMaterial("legacy_dispenser", 23, 64, (short) 0, org.bukkit.material.Dispenser.class);
     @Deprecated
-    LEGACY_SANDSTONE(24, org.bukkit.material.Sandstone.class),
+    Material LEGACY_SANDSTONE = Bukkit.getUnsafe().createLegacyMaterial("legacy_sandstone", 24, 64, (short) 0, org.bukkit.material.Sandstone.class);
     @Deprecated
-    LEGACY_NOTE_BLOCK(25),
+    Material LEGACY_NOTE_BLOCK = Bukkit.getUnsafe().createLegacyMaterial("legacy_note_block", 25, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_BED_BLOCK(26, org.bukkit.material.Bed.class),
+    Material LEGACY_BED_BLOCK = Bukkit.getUnsafe().createLegacyMaterial("legacy_bed_block", 26, 64, (short) 0, org.bukkit.material.Bed.class);
     @Deprecated
-    LEGACY_POWERED_RAIL(27, org.bukkit.material.PoweredRail.class),
+    Material LEGACY_POWERED_RAIL = Bukkit.getUnsafe().createLegacyMaterial("legacy_powered_rail", 27, 64, (short) 0, org.bukkit.material.PoweredRail.class);
     @Deprecated
-    LEGACY_DETECTOR_RAIL(28, org.bukkit.material.DetectorRail.class),
+    Material LEGACY_DETECTOR_RAIL = Bukkit.getUnsafe().createLegacyMaterial("legacy_detector_rail", 28, 64, (short) 0, org.bukkit.material.DetectorRail.class);
     @Deprecated
-    LEGACY_PISTON_STICKY_BASE(29, org.bukkit.material.PistonBaseMaterial.class),
+    Material LEGACY_PISTON_STICKY_BASE = Bukkit.getUnsafe().createLegacyMaterial("legacy_piston_sticky_base", 29, 64, (short) 0, org.bukkit.material.PistonBaseMaterial.class);
     @Deprecated
-    LEGACY_WEB(30),
+    Material LEGACY_WEB = Bukkit.getUnsafe().createLegacyMaterial("legacy_web", 30, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_LONG_GRASS(31, org.bukkit.material.LongGrass.class),
+    Material LEGACY_LONG_GRASS = Bukkit.getUnsafe().createLegacyMaterial("legacy_long_grass", 31, 64, (short) 0, org.bukkit.material.LongGrass.class);
     @Deprecated
-    LEGACY_DEAD_BUSH(32),
+    Material LEGACY_DEAD_BUSH = Bukkit.getUnsafe().createLegacyMaterial("legacy_dead_bush", 32, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_PISTON_BASE(33, org.bukkit.material.PistonBaseMaterial.class),
+    Material LEGACY_PISTON_BASE = Bukkit.getUnsafe().createLegacyMaterial("legacy_piston_base", 33, 64, (short) 0, org.bukkit.material.PistonBaseMaterial.class);
     @Deprecated
-    LEGACY_PISTON_EXTENSION(34, org.bukkit.material.PistonExtensionMaterial.class),
+    Material LEGACY_PISTON_EXTENSION = Bukkit.getUnsafe().createLegacyMaterial("legacy_piston_extension", 34, 64, (short) 0, org.bukkit.material.PistonExtensionMaterial.class);
     @Deprecated
-    LEGACY_WOOL(35, org.bukkit.material.Wool.class),
+    Material LEGACY_WOOL = Bukkit.getUnsafe().createLegacyMaterial("legacy_wool", 35, 64, (short) 0, org.bukkit.material.Wool.class);
     @Deprecated
-    LEGACY_PISTON_MOVING_PIECE(36),
+    Material LEGACY_PISTON_MOVING_PIECE = Bukkit.getUnsafe().createLegacyMaterial("legacy_piston_moving_piece", 36, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_YELLOW_FLOWER(37),
+    Material LEGACY_YELLOW_FLOWER = Bukkit.getUnsafe().createLegacyMaterial("legacy_yellow_flower", 37, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_RED_ROSE(38),
+    Material LEGACY_RED_ROSE = Bukkit.getUnsafe().createLegacyMaterial("legacy_red_rose", 38, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_BROWN_MUSHROOM(39),
+    Material LEGACY_BROWN_MUSHROOM = Bukkit.getUnsafe().createLegacyMaterial("legacy_brown_mushroom", 39, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_RED_MUSHROOM(40),
+    Material LEGACY_RED_MUSHROOM = Bukkit.getUnsafe().createLegacyMaterial("legacy_red_mushroom", 40, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_GOLD_BLOCK(41),
+    Material LEGACY_GOLD_BLOCK = Bukkit.getUnsafe().createLegacyMaterial("legacy_gold_block", 41, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_IRON_BLOCK(42),
+    Material LEGACY_IRON_BLOCK = Bukkit.getUnsafe().createLegacyMaterial("legacy_iron_block", 42, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_DOUBLE_STEP(43, org.bukkit.material.Step.class),
+    Material LEGACY_DOUBLE_STEP = Bukkit.getUnsafe().createLegacyMaterial("legacy_double_step", 43, 64, (short) 0, org.bukkit.material.Step.class);
     @Deprecated
-    LEGACY_STEP(44, org.bukkit.material.Step.class),
+    Material LEGACY_STEP = Bukkit.getUnsafe().createLegacyMaterial("legacy_step", 44, 64, (short) 0, org.bukkit.material.Step.class);
     @Deprecated
-    LEGACY_BRICK(45),
+    Material LEGACY_BRICK = Bukkit.getUnsafe().createLegacyMaterial("legacy_brick", 45, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_TNT(46),
+    Material LEGACY_TNT = Bukkit.getUnsafe().createLegacyMaterial("legacy_tnt", 46, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_BOOKSHELF(47),
+    Material LEGACY_BOOKSHELF = Bukkit.getUnsafe().createLegacyMaterial("legacy_bookshelf", 47, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_MOSSY_COBBLESTONE(48),
+    Material LEGACY_MOSSY_COBBLESTONE = Bukkit.getUnsafe().createLegacyMaterial("legacy_mossy_cobblestone", 48, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_OBSIDIAN(49),
+    Material LEGACY_OBSIDIAN = Bukkit.getUnsafe().createLegacyMaterial("legacy_obsidian", 49, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_TORCH(50, org.bukkit.material.Torch.class),
+    Material LEGACY_TORCH = Bukkit.getUnsafe().createLegacyMaterial("legacy_torch", 50, 64, (short) 0, org.bukkit.material.Torch.class);
     @Deprecated
-    LEGACY_FIRE(51),
+    Material LEGACY_FIRE = Bukkit.getUnsafe().createLegacyMaterial("legacy_fire", 51, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_MOB_SPAWNER(52),
+    Material LEGACY_MOB_SPAWNER = Bukkit.getUnsafe().createLegacyMaterial("legacy_mob_spawner", 52, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_WOOD_STAIRS(53, org.bukkit.material.Stairs.class),
+    Material LEGACY_WOOD_STAIRS = Bukkit.getUnsafe().createLegacyMaterial("legacy_wood_stairs", 53, 64, (short) 0, org.bukkit.material.Stairs.class);
     @Deprecated
-    LEGACY_CHEST(54, org.bukkit.material.Chest.class),
+    Material LEGACY_CHEST = Bukkit.getUnsafe().createLegacyMaterial("legacy_chest", 54, 64, (short) 0, org.bukkit.material.Chest.class);
     @Deprecated
-    LEGACY_REDSTONE_WIRE(55, org.bukkit.material.RedstoneWire.class),
+    Material LEGACY_REDSTONE_WIRE = Bukkit.getUnsafe().createLegacyMaterial("legacy_redstone_wire", 55, 64, (short) 0, org.bukkit.material.RedstoneWire.class);
     @Deprecated
-    LEGACY_DIAMOND_ORE(56),
+    Material LEGACY_DIAMOND_ORE = Bukkit.getUnsafe().createLegacyMaterial("legacy_diamond_ore", 56, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_DIAMOND_BLOCK(57),
+    Material LEGACY_DIAMOND_BLOCK = Bukkit.getUnsafe().createLegacyMaterial("legacy_diamond_block", 57, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_WORKBENCH(58),
+    Material LEGACY_WORKBENCH = Bukkit.getUnsafe().createLegacyMaterial("legacy_workbench", 58, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_CROPS(59, org.bukkit.material.Crops.class),
+    Material LEGACY_CROPS = Bukkit.getUnsafe().createLegacyMaterial("legacy_crops", 59, 64, (short) 0, org.bukkit.material.Crops.class);
     @Deprecated
-    LEGACY_SOIL(60, org.bukkit.material.MaterialData.class),
+    Material LEGACY_SOIL = Bukkit.getUnsafe().createLegacyMaterial("legacy_soil", 60, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_FURNACE(61, org.bukkit.material.Furnace.class),
+    Material LEGACY_FURNACE = Bukkit.getUnsafe().createLegacyMaterial("legacy_furnace", 61, 64, (short) 0, org.bukkit.material.Furnace.class);
     @Deprecated
-    LEGACY_BURNING_FURNACE(62, org.bukkit.material.Furnace.class),
+    Material LEGACY_BURNING_FURNACE = Bukkit.getUnsafe().createLegacyMaterial("legacy_burning_furnace", 62, 64, (short) 0, org.bukkit.material.Furnace.class);
     @Deprecated
-    LEGACY_SIGN_POST(63, 64, org.bukkit.material.Sign.class),
+    Material LEGACY_SIGN_POST = Bukkit.getUnsafe().createLegacyMaterial("legacy_sign_post", 63, 64, (short) 0, org.bukkit.material.Sign.class);
     @Deprecated
-    LEGACY_WOODEN_DOOR(64, org.bukkit.material.Door.class),
+    Material LEGACY_WOODEN_DOOR = Bukkit.getUnsafe().createLegacyMaterial("legacy_wooden_door", 64, 64, (short) 0, org.bukkit.material.Door.class);
     @Deprecated
-    LEGACY_LADDER(65, org.bukkit.material.Ladder.class),
+    Material LEGACY_LADDER = Bukkit.getUnsafe().createLegacyMaterial("legacy_ladder", 65, 64, (short) 0, org.bukkit.material.Ladder.class);
     @Deprecated
-    LEGACY_RAILS(66, org.bukkit.material.Rails.class),
+    Material LEGACY_RAILS = Bukkit.getUnsafe().createLegacyMaterial("legacy_rails", 66, 64, (short) 0, org.bukkit.material.Rails.class);
     @Deprecated
-    LEGACY_COBBLESTONE_STAIRS(67, org.bukkit.material.Stairs.class),
+    Material LEGACY_COBBLESTONE_STAIRS = Bukkit.getUnsafe().createLegacyMaterial("legacy_cobblestone_stairs", 67, 64, (short) 0, org.bukkit.material.Stairs.class);
     @Deprecated
-    LEGACY_WALL_SIGN(68, 64, org.bukkit.material.Sign.class),
+    Material LEGACY_WALL_SIGN = Bukkit.getUnsafe().createLegacyMaterial("legacy_wall_sign", 68, 64, (short) 0, org.bukkit.material.Sign.class);
     @Deprecated
-    LEGACY_LEVER(69, org.bukkit.material.Lever.class),
+    Material LEGACY_LEVER = Bukkit.getUnsafe().createLegacyMaterial("legacy_lever", 69, 64, (short) 0, org.bukkit.material.Lever.class);
     @Deprecated
-    LEGACY_STONE_PLATE(70, org.bukkit.material.PressurePlate.class),
+    Material LEGACY_STONE_PLATE = Bukkit.getUnsafe().createLegacyMaterial("legacy_stone_plate", 70, 64, (short) 0, org.bukkit.material.PressurePlate.class);
     @Deprecated
-    LEGACY_IRON_DOOR_BLOCK(71, org.bukkit.material.Door.class),
+    Material LEGACY_IRON_DOOR_BLOCK = Bukkit.getUnsafe().createLegacyMaterial("legacy_iron_door_block", 71, 64, (short) 0, org.bukkit.material.Door.class);
     @Deprecated
-    LEGACY_WOOD_PLATE(72, org.bukkit.material.PressurePlate.class),
+    Material LEGACY_WOOD_PLATE = Bukkit.getUnsafe().createLegacyMaterial("legacy_wood_plate", 72, 64, (short) 0, org.bukkit.material.PressurePlate.class);
     @Deprecated
-    LEGACY_REDSTONE_ORE(73),
+    Material LEGACY_REDSTONE_ORE = Bukkit.getUnsafe().createLegacyMaterial("legacy_redstone_ore", 73, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_GLOWING_REDSTONE_ORE(74),
+    Material LEGACY_GLOWING_REDSTONE_ORE = Bukkit.getUnsafe().createLegacyMaterial("legacy_glowing_redstone_ore", 74, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_REDSTONE_TORCH_OFF(75, org.bukkit.material.RedstoneTorch.class),
+    Material LEGACY_REDSTONE_TORCH_OFF = Bukkit.getUnsafe().createLegacyMaterial("legacy_redstone_torch_off", 75, 64, (short) 0, org.bukkit.material.RedstoneTorch.class);
     @Deprecated
-    LEGACY_REDSTONE_TORCH_ON(76, org.bukkit.material.RedstoneTorch.class),
+    Material LEGACY_REDSTONE_TORCH_ON = Bukkit.getUnsafe().createLegacyMaterial("legacy_redstone_torch_on", 76, 64, (short) 0, org.bukkit.material.RedstoneTorch.class);
     @Deprecated
-    LEGACY_STONE_BUTTON(77, org.bukkit.material.Button.class),
+    Material LEGACY_STONE_BUTTON = Bukkit.getUnsafe().createLegacyMaterial("legacy_stone_button", 77, 64, (short) 0, org.bukkit.material.Button.class);
     @Deprecated
-    LEGACY_SNOW(78),
+    Material LEGACY_SNOW = Bukkit.getUnsafe().createLegacyMaterial("legacy_snow", 78, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_ICE(79),
+    Material LEGACY_ICE = Bukkit.getUnsafe().createLegacyMaterial("legacy_ice", 79, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_SNOW_BLOCK(80),
+    Material LEGACY_SNOW_BLOCK = Bukkit.getUnsafe().createLegacyMaterial("legacy_snow_block", 80, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_CACTUS(81, org.bukkit.material.MaterialData.class),
+    Material LEGACY_CACTUS = Bukkit.getUnsafe().createLegacyMaterial("legacy_cactus", 81, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_CLAY(82),
+    Material LEGACY_CLAY = Bukkit.getUnsafe().createLegacyMaterial("legacy_clay", 82, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_SUGAR_CANE_BLOCK(83, org.bukkit.material.MaterialData.class),
+    Material LEGACY_SUGAR_CANE_BLOCK = Bukkit.getUnsafe().createLegacyMaterial("legacy_sugar_cane_block", 83, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_JUKEBOX(84),
+    Material LEGACY_JUKEBOX = Bukkit.getUnsafe().createLegacyMaterial("legacy_jukebox", 84, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_FENCE(85),
+    Material LEGACY_FENCE = Bukkit.getUnsafe().createLegacyMaterial("legacy_fence", 85, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_PUMPKIN(86, org.bukkit.material.Pumpkin.class),
+    Material LEGACY_PUMPKIN = Bukkit.getUnsafe().createLegacyMaterial("legacy_pumpkin", 86, 64, (short) 0, org.bukkit.material.Pumpkin.class);
     @Deprecated
-    LEGACY_NETHERRACK(87),
+    Material LEGACY_NETHERRACK = Bukkit.getUnsafe().createLegacyMaterial("legacy_netherrack", 87, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_SOUL_SAND(88),
+    Material LEGACY_SOUL_SAND = Bukkit.getUnsafe().createLegacyMaterial("legacy_soul_sand", 88, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_GLOWSTONE(89),
+    Material LEGACY_GLOWSTONE = Bukkit.getUnsafe().createLegacyMaterial("legacy_glowstone", 89, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_PORTAL(90),
+    Material LEGACY_PORTAL = Bukkit.getUnsafe().createLegacyMaterial("legacy_portal", 90, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_JACK_O_LANTERN(91, org.bukkit.material.Pumpkin.class),
+    Material LEGACY_JACK_O_LANTERN = Bukkit.getUnsafe().createLegacyMaterial("legacy_jack_o_lantern", 91, 64, (short) 0, org.bukkit.material.Pumpkin.class);
     @Deprecated
-    LEGACY_CAKE_BLOCK(92, 64, org.bukkit.material.Cake.class),
+    Material LEGACY_CAKE_BLOCK = Bukkit.getUnsafe().createLegacyMaterial("legacy_cake_block", 92, 64, (short) 0, org.bukkit.material.Cake.class);
     @Deprecated
-    LEGACY_DIODE_BLOCK_OFF(93, org.bukkit.material.Diode.class),
+    Material LEGACY_DIODE_BLOCK_OFF = Bukkit.getUnsafe().createLegacyMaterial("legacy_diode_block_off", 93, 64, (short) 0, org.bukkit.material.Diode.class);
     @Deprecated
-    LEGACY_DIODE_BLOCK_ON(94, org.bukkit.material.Diode.class),
+    Material LEGACY_DIODE_BLOCK_ON = Bukkit.getUnsafe().createLegacyMaterial("legacy_diode_block_on", 94, 64, (short) 0, org.bukkit.material.Diode.class);
     @Deprecated
-    LEGACY_STAINED_GLASS(95),
+    Material LEGACY_STAINED_GLASS = Bukkit.getUnsafe().createLegacyMaterial("legacy_stained_glass", 95, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_TRAP_DOOR(96, org.bukkit.material.TrapDoor.class),
+    Material LEGACY_TRAP_DOOR = Bukkit.getUnsafe().createLegacyMaterial("legacy_trap_door", 96, 64, (short) 0, org.bukkit.material.TrapDoor.class);
     @Deprecated
-    LEGACY_MONSTER_EGGS(97, org.bukkit.material.MonsterEggs.class),
+    Material LEGACY_MONSTER_EGGS = Bukkit.getUnsafe().createLegacyMaterial("legacy_monster_eggs", 97, 64, (short) 0, org.bukkit.material.MonsterEggs.class);
     @Deprecated
-    LEGACY_SMOOTH_BRICK(98, org.bukkit.material.SmoothBrick.class),
+    Material LEGACY_SMOOTH_BRICK = Bukkit.getUnsafe().createLegacyMaterial("legacy_smooth_brick", 98, 64, (short) 0, org.bukkit.material.SmoothBrick.class);
     @Deprecated
-    LEGACY_HUGE_MUSHROOM_1(99, org.bukkit.material.Mushroom.class),
+    Material LEGACY_HUGE_MUSHROOM_1 = Bukkit.getUnsafe().createLegacyMaterial("legacy_huge_mushroom_1", 99, 64, (short) 0, org.bukkit.material.Mushroom.class);
     @Deprecated
-    LEGACY_HUGE_MUSHROOM_2(100, org.bukkit.material.Mushroom.class),
+    Material LEGACY_HUGE_MUSHROOM_2 = Bukkit.getUnsafe().createLegacyMaterial("legacy_huge_mushroom_2", 100, 64, (short) 0, org.bukkit.material.Mushroom.class);
     @Deprecated
-    LEGACY_IRON_FENCE(101),
+    Material LEGACY_IRON_FENCE = Bukkit.getUnsafe().createLegacyMaterial("legacy_iron_fence", 101, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_THIN_GLASS(102),
+    Material LEGACY_THIN_GLASS = Bukkit.getUnsafe().createLegacyMaterial("legacy_thin_glass", 102, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_MELON_BLOCK(103),
+    Material LEGACY_MELON_BLOCK = Bukkit.getUnsafe().createLegacyMaterial("legacy_melon_block", 103, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_PUMPKIN_STEM(104, org.bukkit.material.MaterialData.class),
+    Material LEGACY_PUMPKIN_STEM = Bukkit.getUnsafe().createLegacyMaterial("legacy_pumpkin_stem", 104, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_MELON_STEM(105, org.bukkit.material.MaterialData.class),
+    Material LEGACY_MELON_STEM = Bukkit.getUnsafe().createLegacyMaterial("legacy_melon_stem", 105, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_VINE(106, org.bukkit.material.Vine.class),
+    Material LEGACY_VINE = Bukkit.getUnsafe().createLegacyMaterial("legacy_vine", 106, 64, (short) 0, org.bukkit.material.Vine.class);
     @Deprecated
-    LEGACY_FENCE_GATE(107, org.bukkit.material.Gate.class),
+    Material LEGACY_FENCE_GATE = Bukkit.getUnsafe().createLegacyMaterial("legacy_fence_gate", 107, 64, (short) 0, org.bukkit.material.Gate.class);
     @Deprecated
-    LEGACY_BRICK_STAIRS(108, org.bukkit.material.Stairs.class),
+    Material LEGACY_BRICK_STAIRS = Bukkit.getUnsafe().createLegacyMaterial("legacy_brick_stairs", 108, 64, (short) 0, org.bukkit.material.Stairs.class);
     @Deprecated
-    LEGACY_SMOOTH_STAIRS(109, org.bukkit.material.Stairs.class),
+    Material LEGACY_SMOOTH_STAIRS = Bukkit.getUnsafe().createLegacyMaterial("legacy_smooth_stairs", 109, 64, (short) 0, org.bukkit.material.Stairs.class);
     @Deprecated
-    LEGACY_MYCEL(110),
+    Material LEGACY_MYCEL = Bukkit.getUnsafe().createLegacyMaterial("legacy_mycel", 110, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_WATER_LILY(111),
+    Material LEGACY_WATER_LILY = Bukkit.getUnsafe().createLegacyMaterial("legacy_water_lily", 111, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_NETHER_BRICK(112),
+    Material LEGACY_NETHER_BRICK = Bukkit.getUnsafe().createLegacyMaterial("legacy_nether_brick", 112, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_NETHER_FENCE(113),
+    Material LEGACY_NETHER_FENCE = Bukkit.getUnsafe().createLegacyMaterial("legacy_nether_fence", 113, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_NETHER_BRICK_STAIRS(114, org.bukkit.material.Stairs.class),
+    Material LEGACY_NETHER_BRICK_STAIRS = Bukkit.getUnsafe().createLegacyMaterial("legacy_nether_brick_stairs", 114, 64, (short) 0, org.bukkit.material.Stairs.class);
     @Deprecated
-    LEGACY_NETHER_WARTS(115, org.bukkit.material.NetherWarts.class),
+    Material LEGACY_NETHER_WARTS = Bukkit.getUnsafe().createLegacyMaterial("legacy_nether_warts", 115, 64, (short) 0, org.bukkit.material.NetherWarts.class);
     @Deprecated
-    LEGACY_ENCHANTMENT_TABLE(116),
+    Material LEGACY_ENCHANTMENT_TABLE = Bukkit.getUnsafe().createLegacyMaterial("legacy_enchantment_table", 116, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_BREWING_STAND(117, org.bukkit.material.MaterialData.class),
+    Material LEGACY_BREWING_STAND = Bukkit.getUnsafe().createLegacyMaterial("legacy_brewing_stand", 117, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_CAULDRON(118, org.bukkit.material.Cauldron.class),
+    Material LEGACY_CAULDRON = Bukkit.getUnsafe().createLegacyMaterial("legacy_cauldron", 118, 64, (short) 0, org.bukkit.material.Cauldron.class);
     @Deprecated
-    LEGACY_ENDER_PORTAL(119),
+    Material LEGACY_ENDER_PORTAL = Bukkit.getUnsafe().createLegacyMaterial("legacy_ender_portal", 119, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_ENDER_PORTAL_FRAME(120),
+    Material LEGACY_ENDER_PORTAL_FRAME = Bukkit.getUnsafe().createLegacyMaterial("legacy_ender_portal_frame", 120, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_ENDER_STONE(121),
+    Material LEGACY_ENDER_STONE = Bukkit.getUnsafe().createLegacyMaterial("legacy_ender_stone", 121, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_DRAGON_EGG(122),
+    Material LEGACY_DRAGON_EGG = Bukkit.getUnsafe().createLegacyMaterial("legacy_dragon_egg", 122, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_REDSTONE_LAMP_OFF(123),
+    Material LEGACY_REDSTONE_LAMP_OFF = Bukkit.getUnsafe().createLegacyMaterial("legacy_redstone_lamp_off", 123, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_REDSTONE_LAMP_ON(124),
+    Material LEGACY_REDSTONE_LAMP_ON = Bukkit.getUnsafe().createLegacyMaterial("legacy_redstone_lamp_on", 124, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_WOOD_DOUBLE_STEP(125, org.bukkit.material.Wood.class),
+    Material LEGACY_WOOD_DOUBLE_STEP = Bukkit.getUnsafe().createLegacyMaterial("legacy_wood_double_step", 125, 64, (short) 0, org.bukkit.material.Wood.class);
     @Deprecated
-    LEGACY_WOOD_STEP(126, org.bukkit.material.WoodenStep.class),
+    Material LEGACY_WOOD_STEP = Bukkit.getUnsafe().createLegacyMaterial("legacy_wood_step", 126, 64, (short) 0, org.bukkit.material.WoodenStep.class);
     @Deprecated
-    LEGACY_COCOA(127, org.bukkit.material.CocoaPlant.class),
+    Material LEGACY_COCOA = Bukkit.getUnsafe().createLegacyMaterial("legacy_cocoa", 127, 64, (short) 0, org.bukkit.material.CocoaPlant.class);
     @Deprecated
-    LEGACY_SANDSTONE_STAIRS(128, org.bukkit.material.Stairs.class),
+    Material LEGACY_SANDSTONE_STAIRS = Bukkit.getUnsafe().createLegacyMaterial("legacy_sandstone_stairs", 128, 64, (short) 0, org.bukkit.material.Stairs.class);
     @Deprecated
-    LEGACY_EMERALD_ORE(129),
+    Material LEGACY_EMERALD_ORE = Bukkit.getUnsafe().createLegacyMaterial("legacy_emerald_ore", 129, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_ENDER_CHEST(130, org.bukkit.material.EnderChest.class),
+    Material LEGACY_ENDER_CHEST = Bukkit.getUnsafe().createLegacyMaterial("legacy_ender_chest", 130, 64, (short) 0, org.bukkit.material.EnderChest.class);
     @Deprecated
-    LEGACY_TRIPWIRE_HOOK(131, org.bukkit.material.TripwireHook.class),
+    Material LEGACY_TRIPWIRE_HOOK = Bukkit.getUnsafe().createLegacyMaterial("legacy_tripwire_hook", 131, 64, (short) 0, org.bukkit.material.TripwireHook.class);
     @Deprecated
-    LEGACY_TRIPWIRE(132, org.bukkit.material.Tripwire.class),
+    Material LEGACY_TRIPWIRE = Bukkit.getUnsafe().createLegacyMaterial("legacy_tripwire", 132, 64, (short) 0, org.bukkit.material.Tripwire.class);
     @Deprecated
-    LEGACY_EMERALD_BLOCK(133),
+    Material LEGACY_EMERALD_BLOCK = Bukkit.getUnsafe().createLegacyMaterial("legacy_emerald_block", 133, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_SPRUCE_WOOD_STAIRS(134, org.bukkit.material.Stairs.class),
+    Material LEGACY_SPRUCE_WOOD_STAIRS = Bukkit.getUnsafe().createLegacyMaterial("legacy_spruce_wood_stairs", 134, 64, (short) 0, org.bukkit.material.Stairs.class);
     @Deprecated
-    LEGACY_BIRCH_WOOD_STAIRS(135, org.bukkit.material.Stairs.class),
+    Material LEGACY_BIRCH_WOOD_STAIRS = Bukkit.getUnsafe().createLegacyMaterial("legacy_birch_wood_stairs", 135, 64, (short) 0, org.bukkit.material.Stairs.class);
     @Deprecated
-    LEGACY_JUNGLE_WOOD_STAIRS(136, org.bukkit.material.Stairs.class),
+    Material LEGACY_JUNGLE_WOOD_STAIRS = Bukkit.getUnsafe().createLegacyMaterial("legacy_jungle_wood_stairs", 136, 64, (short) 0, org.bukkit.material.Stairs.class);
     @Deprecated
-    LEGACY_COMMAND(137, org.bukkit.material.Command.class),
+    Material LEGACY_COMMAND = Bukkit.getUnsafe().createLegacyMaterial("legacy_command", 137, 64, (short) 0, org.bukkit.material.Command.class);
     @Deprecated
-    LEGACY_BEACON(138),
+    Material LEGACY_BEACON = Bukkit.getUnsafe().createLegacyMaterial("legacy_beacon", 138, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_COBBLE_WALL(139),
+    Material LEGACY_COBBLE_WALL = Bukkit.getUnsafe().createLegacyMaterial("legacy_cobble_wall", 139, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_FLOWER_POT(140, org.bukkit.material.FlowerPot.class),
+    Material LEGACY_FLOWER_POT = Bukkit.getUnsafe().createLegacyMaterial("legacy_flower_pot", 140, 64, (short) 0, org.bukkit.material.FlowerPot.class);
     @Deprecated
-    LEGACY_CARROT(141, org.bukkit.material.Crops.class),
+    Material LEGACY_CARROT = Bukkit.getUnsafe().createLegacyMaterial("legacy_carrot", 141, 64, (short) 0, org.bukkit.material.Crops.class);
     @Deprecated
-    LEGACY_POTATO(142, org.bukkit.material.Crops.class),
+    Material LEGACY_POTATO = Bukkit.getUnsafe().createLegacyMaterial("legacy_potato", 142, 64, (short) 0, org.bukkit.material.Crops.class);
     @Deprecated
-    LEGACY_WOOD_BUTTON(143, org.bukkit.material.Button.class),
+    Material LEGACY_WOOD_BUTTON = Bukkit.getUnsafe().createLegacyMaterial("legacy_wood_button", 143, 64, (short) 0, org.bukkit.material.Button.class);
     @Deprecated
-    LEGACY_SKULL(144, org.bukkit.material.Skull.class),
+    Material LEGACY_SKULL = Bukkit.getUnsafe().createLegacyMaterial("legacy_skull", 144, 64, (short) 0, org.bukkit.material.Skull.class);
     @Deprecated
-    LEGACY_ANVIL(145),
+    Material LEGACY_ANVIL = Bukkit.getUnsafe().createLegacyMaterial("legacy_anvil", 145, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_TRAPPED_CHEST(146, org.bukkit.material.Chest.class),
+    Material LEGACY_TRAPPED_CHEST = Bukkit.getUnsafe().createLegacyMaterial("legacy_trapped_chest", 146, 64, (short) 0, org.bukkit.material.Chest.class);
     @Deprecated
-    LEGACY_GOLD_PLATE(147),
+    Material LEGACY_GOLD_PLATE = Bukkit.getUnsafe().createLegacyMaterial("legacy_gold_plate", 147, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_IRON_PLATE(148),
+    Material LEGACY_IRON_PLATE = Bukkit.getUnsafe().createLegacyMaterial("legacy_iron_plate", 148, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_REDSTONE_COMPARATOR_OFF(149, org.bukkit.material.Comparator.class),
+    Material LEGACY_REDSTONE_COMPARATOR_OFF = Bukkit.getUnsafe().createLegacyMaterial("legacy_redstone_comparator_off", 149, 64, (short) 0, org.bukkit.material.Comparator.class);
     @Deprecated
-    LEGACY_REDSTONE_COMPARATOR_ON(150, org.bukkit.material.Comparator.class),
+    Material LEGACY_REDSTONE_COMPARATOR_ON = Bukkit.getUnsafe().createLegacyMaterial("legacy_redstone_comparator_on", 150, 64, (short) 0, org.bukkit.material.Comparator.class);
     @Deprecated
-    LEGACY_DAYLIGHT_DETECTOR(151),
+    Material LEGACY_DAYLIGHT_DETECTOR = Bukkit.getUnsafe().createLegacyMaterial("legacy_daylight_detector", 151, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_REDSTONE_BLOCK(152),
+    Material LEGACY_REDSTONE_BLOCK = Bukkit.getUnsafe().createLegacyMaterial("legacy_redstone_block", 152, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_QUARTZ_ORE(153),
+    Material LEGACY_QUARTZ_ORE = Bukkit.getUnsafe().createLegacyMaterial("legacy_quartz_ore", 153, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_HOPPER(154, org.bukkit.material.Hopper.class),
+    Material LEGACY_HOPPER = Bukkit.getUnsafe().createLegacyMaterial("legacy_hopper", 154, 64, (short) 0, org.bukkit.material.Hopper.class);
     @Deprecated
-    LEGACY_QUARTZ_BLOCK(155),
+    Material LEGACY_QUARTZ_BLOCK = Bukkit.getUnsafe().createLegacyMaterial("legacy_quartz_block", 155, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_QUARTZ_STAIRS(156, org.bukkit.material.Stairs.class),
+    Material LEGACY_QUARTZ_STAIRS = Bukkit.getUnsafe().createLegacyMaterial("legacy_quartz_stairs", 156, 64, (short) 0, org.bukkit.material.Stairs.class);
     @Deprecated
-    LEGACY_ACTIVATOR_RAIL(157, org.bukkit.material.PoweredRail.class),
+    Material LEGACY_ACTIVATOR_RAIL = Bukkit.getUnsafe().createLegacyMaterial("legacy_activator_rail", 157, 64, (short) 0, org.bukkit.material.PoweredRail.class);
     @Deprecated
-    LEGACY_DROPPER(158, org.bukkit.material.Dispenser.class),
+    Material LEGACY_DROPPER = Bukkit.getUnsafe().createLegacyMaterial("legacy_dropper", 158, 64, (short) 0, org.bukkit.material.Dispenser.class);
     @Deprecated
-    LEGACY_STAINED_CLAY(159),
+    Material LEGACY_STAINED_CLAY = Bukkit.getUnsafe().createLegacyMaterial("legacy_stained_clay", 159, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_STAINED_GLASS_PANE(160),
+    Material LEGACY_STAINED_GLASS_PANE = Bukkit.getUnsafe().createLegacyMaterial("legacy_stained_glass_pane", 160, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_LEAVES_2(161, org.bukkit.material.Leaves.class),
+    Material LEGACY_LEAVES_2 = Bukkit.getUnsafe().createLegacyMaterial("legacy_leaves_2", 161, 64, (short) 0, org.bukkit.material.Leaves.class);
     @Deprecated
-    LEGACY_LOG_2(162, org.bukkit.material.Tree.class),
+    Material LEGACY_LOG_2 = Bukkit.getUnsafe().createLegacyMaterial("legacy_log_2", 162, 64, (short) 0, org.bukkit.material.Tree.class);
     @Deprecated
-    LEGACY_ACACIA_STAIRS(163, org.bukkit.material.Stairs.class),
+    Material LEGACY_ACACIA_STAIRS = Bukkit.getUnsafe().createLegacyMaterial("legacy_acacia_stairs", 163, 64, (short) 0, org.bukkit.material.Stairs.class);
     @Deprecated
-    LEGACY_DARK_OAK_STAIRS(164, org.bukkit.material.Stairs.class),
+    Material LEGACY_DARK_OAK_STAIRS = Bukkit.getUnsafe().createLegacyMaterial("legacy_dark_oak_stairs", 164, 64, (short) 0, org.bukkit.material.Stairs.class);
     @Deprecated
-    LEGACY_SLIME_BLOCK(165),
+    Material LEGACY_SLIME_BLOCK = Bukkit.getUnsafe().createLegacyMaterial("legacy_slime_block", 165, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_BARRIER(166),
+    Material LEGACY_BARRIER = Bukkit.getUnsafe().createLegacyMaterial("legacy_barrier", 166, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_IRON_TRAPDOOR(167, org.bukkit.material.TrapDoor.class),
+    Material LEGACY_IRON_TRAPDOOR = Bukkit.getUnsafe().createLegacyMaterial("legacy_iron_trapdoor", 167, 64, (short) 0, org.bukkit.material.TrapDoor.class);
     @Deprecated
-    LEGACY_PRISMARINE(168),
+    Material LEGACY_PRISMARINE = Bukkit.getUnsafe().createLegacyMaterial("legacy_prismarine", 168, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_SEA_LANTERN(169),
+    Material LEGACY_SEA_LANTERN = Bukkit.getUnsafe().createLegacyMaterial("legacy_sea_lantern", 169, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_HAY_BLOCK(170),
+    Material LEGACY_HAY_BLOCK = Bukkit.getUnsafe().createLegacyMaterial("legacy_hay_block", 170, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_CARPET(171),
+    Material LEGACY_CARPET = Bukkit.getUnsafe().createLegacyMaterial("legacy_carpet", 171, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_HARD_CLAY(172),
+    Material LEGACY_HARD_CLAY = Bukkit.getUnsafe().createLegacyMaterial("legacy_hard_clay", 172, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_COAL_BLOCK(173),
+    Material LEGACY_COAL_BLOCK = Bukkit.getUnsafe().createLegacyMaterial("legacy_coal_block", 173, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_PACKED_ICE(174),
+    Material LEGACY_PACKED_ICE = Bukkit.getUnsafe().createLegacyMaterial("legacy_packed_ice", 174, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_DOUBLE_PLANT(175),
+    Material LEGACY_DOUBLE_PLANT = Bukkit.getUnsafe().createLegacyMaterial("legacy_double_plant", 175, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_STANDING_BANNER(176, org.bukkit.material.Banner.class),
+    Material LEGACY_STANDING_BANNER = Bukkit.getUnsafe().createLegacyMaterial("legacy_standing_banner", 176, 64, (short) 0, org.bukkit.material.Banner.class);
     @Deprecated
-    LEGACY_WALL_BANNER(177, org.bukkit.material.Banner.class),
+    Material LEGACY_WALL_BANNER = Bukkit.getUnsafe().createLegacyMaterial("legacy_wall_banner", 177, 64, (short) 0, org.bukkit.material.Banner.class);
     @Deprecated
-    LEGACY_DAYLIGHT_DETECTOR_INVERTED(178),
+    Material LEGACY_DAYLIGHT_DETECTOR_INVERTED = Bukkit.getUnsafe().createLegacyMaterial("legacy_daylight_detector_inverted", 178, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_RED_SANDSTONE(179),
+    Material LEGACY_RED_SANDSTONE = Bukkit.getUnsafe().createLegacyMaterial("legacy_red_sandstone", 179, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_RED_SANDSTONE_STAIRS(180, org.bukkit.material.Stairs.class),
+    Material LEGACY_RED_SANDSTONE_STAIRS = Bukkit.getUnsafe().createLegacyMaterial("legacy_red_sandstone_stairs", 180, 64, (short) 0, org.bukkit.material.Stairs.class);
     @Deprecated
-    LEGACY_DOUBLE_STONE_SLAB2(181),
+    Material LEGACY_DOUBLE_STONE_SLAB2 = Bukkit.getUnsafe().createLegacyMaterial("legacy_double_stone_slab2", 181, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_STONE_SLAB2(182),
+    Material LEGACY_STONE_SLAB2 = Bukkit.getUnsafe().createLegacyMaterial("legacy_stone_slab2", 182, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_SPRUCE_FENCE_GATE(183, org.bukkit.material.Gate.class),
+    Material LEGACY_SPRUCE_FENCE_GATE = Bukkit.getUnsafe().createLegacyMaterial("legacy_spruce_fence_gate", 183, 64, (short) 0, org.bukkit.material.Gate.class);
     @Deprecated
-    LEGACY_BIRCH_FENCE_GATE(184, org.bukkit.material.Gate.class),
+    Material LEGACY_BIRCH_FENCE_GATE = Bukkit.getUnsafe().createLegacyMaterial("legacy_birch_fence_gate", 184, 64, (short) 0, org.bukkit.material.Gate.class);
     @Deprecated
-    LEGACY_JUNGLE_FENCE_GATE(185, org.bukkit.material.Gate.class),
+    Material LEGACY_JUNGLE_FENCE_GATE = Bukkit.getUnsafe().createLegacyMaterial("legacy_jungle_fence_gate", 185, 64, (short) 0, org.bukkit.material.Gate.class);
     @Deprecated
-    LEGACY_DARK_OAK_FENCE_GATE(186, org.bukkit.material.Gate.class),
+    Material LEGACY_DARK_OAK_FENCE_GATE = Bukkit.getUnsafe().createLegacyMaterial("legacy_dark_oak_fence_gate", 186, 64, (short) 0, org.bukkit.material.Gate.class);
     @Deprecated
-    LEGACY_ACACIA_FENCE_GATE(187, org.bukkit.material.Gate.class),
+    Material LEGACY_ACACIA_FENCE_GATE = Bukkit.getUnsafe().createLegacyMaterial("legacy_acacia_fence_gate", 187, 64, (short) 0, org.bukkit.material.Gate.class);
     @Deprecated
-    LEGACY_SPRUCE_FENCE(188),
+    Material LEGACY_SPRUCE_FENCE = Bukkit.getUnsafe().createLegacyMaterial("legacy_spruce_fence", 188, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_BIRCH_FENCE(189),
+    Material LEGACY_BIRCH_FENCE = Bukkit.getUnsafe().createLegacyMaterial("legacy_birch_fence", 189, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_JUNGLE_FENCE(190),
+    Material LEGACY_JUNGLE_FENCE = Bukkit.getUnsafe().createLegacyMaterial("legacy_jungle_fence", 190, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_DARK_OAK_FENCE(191),
+    Material LEGACY_DARK_OAK_FENCE = Bukkit.getUnsafe().createLegacyMaterial("legacy_dark_oak_fence", 191, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_ACACIA_FENCE(192),
+    Material LEGACY_ACACIA_FENCE = Bukkit.getUnsafe().createLegacyMaterial("legacy_acacia_fence", 192, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_SPRUCE_DOOR(193, org.bukkit.material.Door.class),
+    Material LEGACY_SPRUCE_DOOR = Bukkit.getUnsafe().createLegacyMaterial("legacy_spruce_door", 193, 64, (short) 0, org.bukkit.material.Door.class);
     @Deprecated
-    LEGACY_BIRCH_DOOR(194, org.bukkit.material.Door.class),
+    Material LEGACY_BIRCH_DOOR = Bukkit.getUnsafe().createLegacyMaterial("legacy_birch_door", 194, 64, (short) 0, org.bukkit.material.Door.class);
     @Deprecated
-    LEGACY_JUNGLE_DOOR(195, org.bukkit.material.Door.class),
+    Material LEGACY_JUNGLE_DOOR = Bukkit.getUnsafe().createLegacyMaterial("legacy_jungle_door", 195, 64, (short) 0, org.bukkit.material.Door.class);
     @Deprecated
-    LEGACY_ACACIA_DOOR(196, org.bukkit.material.Door.class),
+    Material LEGACY_ACACIA_DOOR = Bukkit.getUnsafe().createLegacyMaterial("legacy_acacia_door", 196, 64, (short) 0, org.bukkit.material.Door.class);
     @Deprecated
-    LEGACY_DARK_OAK_DOOR(197, org.bukkit.material.Door.class),
+    Material LEGACY_DARK_OAK_DOOR = Bukkit.getUnsafe().createLegacyMaterial("legacy_dark_oak_door", 197, 64, (short) 0, org.bukkit.material.Door.class);
     @Deprecated
-    LEGACY_END_ROD(198),
+    Material LEGACY_END_ROD = Bukkit.getUnsafe().createLegacyMaterial("legacy_end_rod", 198, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_CHORUS_PLANT(199),
+    Material LEGACY_CHORUS_PLANT = Bukkit.getUnsafe().createLegacyMaterial("legacy_chorus_plant", 199, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_CHORUS_FLOWER(200),
+    Material LEGACY_CHORUS_FLOWER = Bukkit.getUnsafe().createLegacyMaterial("legacy_chorus_flower", 200, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_PURPUR_BLOCK(201),
+    Material LEGACY_PURPUR_BLOCK = Bukkit.getUnsafe().createLegacyMaterial("legacy_purpur_block", 201, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_PURPUR_PILLAR(202),
+    Material LEGACY_PURPUR_PILLAR = Bukkit.getUnsafe().createLegacyMaterial("legacy_purpur_pillar", 202, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_PURPUR_STAIRS(203, org.bukkit.material.Stairs.class),
+    Material LEGACY_PURPUR_STAIRS = Bukkit.getUnsafe().createLegacyMaterial("legacy_purpur_stairs", 203, 64, (short) 0, org.bukkit.material.Stairs.class);
     @Deprecated
-    LEGACY_PURPUR_DOUBLE_SLAB(204),
+    Material LEGACY_PURPUR_DOUBLE_SLAB = Bukkit.getUnsafe().createLegacyMaterial("legacy_purpur_double_slab", 204, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_PURPUR_SLAB(205),
+    Material LEGACY_PURPUR_SLAB = Bukkit.getUnsafe().createLegacyMaterial("legacy_purpur_slab", 205, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_END_BRICKS(206),
+    Material LEGACY_END_BRICKS = Bukkit.getUnsafe().createLegacyMaterial("legacy_end_bricks", 206, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_BEETROOT_BLOCK(207, org.bukkit.material.Crops.class),
+    Material LEGACY_BEETROOT_BLOCK = Bukkit.getUnsafe().createLegacyMaterial("legacy_beetroot_block", 207, 64, (short) 0, org.bukkit.material.Crops.class);
     @Deprecated
-    LEGACY_GRASS_PATH(208),
+    Material LEGACY_GRASS_PATH = Bukkit.getUnsafe().createLegacyMaterial("legacy_grass_path", 208, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_END_GATEWAY(209),
+    Material LEGACY_END_GATEWAY = Bukkit.getUnsafe().createLegacyMaterial("legacy_end_gateway", 209, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_COMMAND_REPEATING(210, org.bukkit.material.Command.class),
+    Material LEGACY_COMMAND_REPEATING = Bukkit.getUnsafe().createLegacyMaterial("legacy_command_repeating", 210, 64, (short) 0, org.bukkit.material.Command.class);
     @Deprecated
-    LEGACY_COMMAND_CHAIN(211, org.bukkit.material.Command.class),
+    Material LEGACY_COMMAND_CHAIN = Bukkit.getUnsafe().createLegacyMaterial("legacy_command_chain", 211, 64, (short) 0, org.bukkit.material.Command.class);
     @Deprecated
-    LEGACY_FROSTED_ICE(212),
+    Material LEGACY_FROSTED_ICE = Bukkit.getUnsafe().createLegacyMaterial("legacy_frosted_ice", 212, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_MAGMA(213),
+    Material LEGACY_MAGMA = Bukkit.getUnsafe().createLegacyMaterial("legacy_magma", 213, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_NETHER_WART_BLOCK(214),
+    Material LEGACY_NETHER_WART_BLOCK = Bukkit.getUnsafe().createLegacyMaterial("legacy_nether_wart_block", 214, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_RED_NETHER_BRICK(215),
+    Material LEGACY_RED_NETHER_BRICK = Bukkit.getUnsafe().createLegacyMaterial("legacy_red_nether_brick", 215, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_BONE_BLOCK(216),
+    Material LEGACY_BONE_BLOCK = Bukkit.getUnsafe().createLegacyMaterial("legacy_bone_block", 216, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_STRUCTURE_VOID(217),
+    Material LEGACY_STRUCTURE_VOID = Bukkit.getUnsafe().createLegacyMaterial("legacy_structure_void", 217, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_OBSERVER(218, org.bukkit.material.Observer.class),
+    Material LEGACY_OBSERVER = Bukkit.getUnsafe().createLegacyMaterial("legacy_observer", 218, 64, (short) 0, org.bukkit.material.Observer.class);
     @Deprecated
-    LEGACY_WHITE_SHULKER_BOX(219, 1),
+    Material LEGACY_WHITE_SHULKER_BOX = Bukkit.getUnsafe().createLegacyMaterial("legacy_white_shulker_box", 219, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_ORANGE_SHULKER_BOX(220, 1),
+    Material LEGACY_ORANGE_SHULKER_BOX = Bukkit.getUnsafe().createLegacyMaterial("legacy_orange_shulker_box", 220, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_MAGENTA_SHULKER_BOX(221, 1),
+    Material LEGACY_MAGENTA_SHULKER_BOX = Bukkit.getUnsafe().createLegacyMaterial("legacy_magenta_shulker_box", 221, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_LIGHT_BLUE_SHULKER_BOX(222, 1),
+    Material LEGACY_LIGHT_BLUE_SHULKER_BOX = Bukkit.getUnsafe().createLegacyMaterial("legacy_light_blue_shulker_box", 222, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_YELLOW_SHULKER_BOX(223, 1),
+    Material LEGACY_YELLOW_SHULKER_BOX = Bukkit.getUnsafe().createLegacyMaterial("legacy_yellow_shulker_box", 223, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_LIME_SHULKER_BOX(224, 1),
+    Material LEGACY_LIME_SHULKER_BOX = Bukkit.getUnsafe().createLegacyMaterial("legacy_lime_shulker_box", 224, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_PINK_SHULKER_BOX(225, 1),
+    Material LEGACY_PINK_SHULKER_BOX = Bukkit.getUnsafe().createLegacyMaterial("legacy_pink_shulker_box", 225, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_GRAY_SHULKER_BOX(226, 1),
+    Material LEGACY_GRAY_SHULKER_BOX = Bukkit.getUnsafe().createLegacyMaterial("legacy_gray_shulker_box", 226, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_SILVER_SHULKER_BOX(227, 1),
+    Material LEGACY_SILVER_SHULKER_BOX = Bukkit.getUnsafe().createLegacyMaterial("legacy_silver_shulker_box", 227, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_CYAN_SHULKER_BOX(228, 1),
+    Material LEGACY_CYAN_SHULKER_BOX = Bukkit.getUnsafe().createLegacyMaterial("legacy_cyan_shulker_box", 228, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_PURPLE_SHULKER_BOX(229, 1),
+    Material LEGACY_PURPLE_SHULKER_BOX = Bukkit.getUnsafe().createLegacyMaterial("legacy_purple_shulker_box", 229, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_BLUE_SHULKER_BOX(230, 1),
+    Material LEGACY_BLUE_SHULKER_BOX = Bukkit.getUnsafe().createLegacyMaterial("legacy_blue_shulker_box", 230, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_BROWN_SHULKER_BOX(231, 1),
+    Material LEGACY_BROWN_SHULKER_BOX = Bukkit.getUnsafe().createLegacyMaterial("legacy_brown_shulker_box", 231, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_GREEN_SHULKER_BOX(232, 1),
+    Material LEGACY_GREEN_SHULKER_BOX = Bukkit.getUnsafe().createLegacyMaterial("legacy_green_shulker_box", 232, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_RED_SHULKER_BOX(233, 1),
+    Material LEGACY_RED_SHULKER_BOX = Bukkit.getUnsafe().createLegacyMaterial("legacy_red_shulker_box", 233, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_BLACK_SHULKER_BOX(234, 1),
+    Material LEGACY_BLACK_SHULKER_BOX = Bukkit.getUnsafe().createLegacyMaterial("legacy_black_shulker_box", 234, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_WHITE_GLAZED_TERRACOTTA(235),
+    Material LEGACY_WHITE_GLAZED_TERRACOTTA = Bukkit.getUnsafe().createLegacyMaterial("legacy_white_glazed_terracotta", 235, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_ORANGE_GLAZED_TERRACOTTA(236),
+    Material LEGACY_ORANGE_GLAZED_TERRACOTTA = Bukkit.getUnsafe().createLegacyMaterial("legacy_orange_glazed_terracotta", 236, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_MAGENTA_GLAZED_TERRACOTTA(237),
+    Material LEGACY_MAGENTA_GLAZED_TERRACOTTA = Bukkit.getUnsafe().createLegacyMaterial("legacy_magenta_glazed_terracotta", 237, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_LIGHT_BLUE_GLAZED_TERRACOTTA(238),
+    Material LEGACY_LIGHT_BLUE_GLAZED_TERRACOTTA = Bukkit.getUnsafe().createLegacyMaterial("legacy_light_blue_glazed_terracotta", 238, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_YELLOW_GLAZED_TERRACOTTA(239),
+    Material LEGACY_YELLOW_GLAZED_TERRACOTTA = Bukkit.getUnsafe().createLegacyMaterial("legacy_yellow_glazed_terracotta", 239, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_LIME_GLAZED_TERRACOTTA(240),
+    Material LEGACY_LIME_GLAZED_TERRACOTTA = Bukkit.getUnsafe().createLegacyMaterial("legacy_lime_glazed_terracotta", 240, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_PINK_GLAZED_TERRACOTTA(241),
+    Material LEGACY_PINK_GLAZED_TERRACOTTA = Bukkit.getUnsafe().createLegacyMaterial("legacy_pink_glazed_terracotta", 241, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_GRAY_GLAZED_TERRACOTTA(242),
+    Material LEGACY_GRAY_GLAZED_TERRACOTTA = Bukkit.getUnsafe().createLegacyMaterial("legacy_gray_glazed_terracotta", 242, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_SILVER_GLAZED_TERRACOTTA(243),
+    Material LEGACY_SILVER_GLAZED_TERRACOTTA = Bukkit.getUnsafe().createLegacyMaterial("legacy_silver_glazed_terracotta", 243, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_CYAN_GLAZED_TERRACOTTA(244),
+    Material LEGACY_CYAN_GLAZED_TERRACOTTA = Bukkit.getUnsafe().createLegacyMaterial("legacy_cyan_glazed_terracotta", 244, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_PURPLE_GLAZED_TERRACOTTA(245),
+    Material LEGACY_PURPLE_GLAZED_TERRACOTTA = Bukkit.getUnsafe().createLegacyMaterial("legacy_purple_glazed_terracotta", 245, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_BLUE_GLAZED_TERRACOTTA(246),
+    Material LEGACY_BLUE_GLAZED_TERRACOTTA = Bukkit.getUnsafe().createLegacyMaterial("legacy_blue_glazed_terracotta", 246, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_BROWN_GLAZED_TERRACOTTA(247),
+    Material LEGACY_BROWN_GLAZED_TERRACOTTA = Bukkit.getUnsafe().createLegacyMaterial("legacy_brown_glazed_terracotta", 247, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_GREEN_GLAZED_TERRACOTTA(248),
+    Material LEGACY_GREEN_GLAZED_TERRACOTTA = Bukkit.getUnsafe().createLegacyMaterial("legacy_green_glazed_terracotta", 248, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_RED_GLAZED_TERRACOTTA(249),
+    Material LEGACY_RED_GLAZED_TERRACOTTA = Bukkit.getUnsafe().createLegacyMaterial("legacy_red_glazed_terracotta", 249, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_BLACK_GLAZED_TERRACOTTA(250),
+    Material LEGACY_BLACK_GLAZED_TERRACOTTA = Bukkit.getUnsafe().createLegacyMaterial("legacy_black_glazed_terracotta", 250, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_CONCRETE(251),
+    Material LEGACY_CONCRETE = Bukkit.getUnsafe().createLegacyMaterial("legacy_concrete", 251, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_CONCRETE_POWDER(252),
+    Material LEGACY_CONCRETE_POWDER = Bukkit.getUnsafe().createLegacyMaterial("legacy_concrete_powder", 252, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_STRUCTURE_BLOCK(255),
+    Material LEGACY_STRUCTURE_BLOCK = Bukkit.getUnsafe().createLegacyMaterial("legacy_structure_block", 255, 64, (short) 0, MaterialData.class);
     // ----- Item Separator -----
     @Deprecated
-    LEGACY_IRON_SPADE(256, 1, 250),
+    Material LEGACY_IRON_SPADE = Bukkit.getUnsafe().createLegacyMaterial("legacy_iron_spade", 256, 1, (short) 250, MaterialData.class);
     @Deprecated
-    LEGACY_IRON_PICKAXE(257, 1, 250),
+    Material LEGACY_IRON_PICKAXE = Bukkit.getUnsafe().createLegacyMaterial("legacy_iron_pickaxe", 257, 1, (short) 250, MaterialData.class);
     @Deprecated
-    LEGACY_IRON_AXE(258, 1, 250),
+    Material LEGACY_IRON_AXE = Bukkit.getUnsafe().createLegacyMaterial("legacy_iron_axe", 258, 1, (short) 250, MaterialData.class);
     @Deprecated
-    LEGACY_FLINT_AND_STEEL(259, 1, 64),
+    Material LEGACY_FLINT_AND_STEEL = Bukkit.getUnsafe().createLegacyMaterial("legacy_flint_and_steel", 259, 1, (short) 64, MaterialData.class);
     @Deprecated
-    LEGACY_APPLE(260),
+    Material LEGACY_APPLE = Bukkit.getUnsafe().createLegacyMaterial("legacy_apple", 260, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_BOW(261, 1, 384),
+    Material LEGACY_BOW = Bukkit.getUnsafe().createLegacyMaterial("legacy_bow", 261, 1, (short) 384, MaterialData.class);
     @Deprecated
-    LEGACY_ARROW(262),
+    Material LEGACY_ARROW = Bukkit.getUnsafe().createLegacyMaterial("legacy_arrow", 262, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_COAL(263, org.bukkit.material.Coal.class),
+    Material LEGACY_COAL = Bukkit.getUnsafe().createLegacyMaterial("legacy_coal", 263, 64, (short) 0, org.bukkit.material.Coal.class);
     @Deprecated
-    LEGACY_DIAMOND(264),
+    Material LEGACY_DIAMOND = Bukkit.getUnsafe().createLegacyMaterial("legacy_diamond", 264, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_IRON_INGOT(265),
+    Material LEGACY_IRON_INGOT = Bukkit.getUnsafe().createLegacyMaterial("legacy_iron_ingot", 265, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_GOLD_INGOT(266),
+    Material LEGACY_GOLD_INGOT = Bukkit.getUnsafe().createLegacyMaterial("legacy_gold_ingot", 266, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_IRON_SWORD(267, 1, 250),
+    Material LEGACY_IRON_SWORD = Bukkit.getUnsafe().createLegacyMaterial("legacy_iron_sword", 267, 1, (short) 250, MaterialData.class);
     @Deprecated
-    LEGACY_WOOD_SWORD(268, 1, 59),
+    Material LEGACY_WOOD_SWORD = Bukkit.getUnsafe().createLegacyMaterial("legacy_wood_sword", 268, 1, (short) 59, MaterialData.class);
     @Deprecated
-    LEGACY_WOOD_SPADE(269, 1, 59),
+    Material LEGACY_WOOD_SPADE = Bukkit.getUnsafe().createLegacyMaterial("legacy_wood_spade", 269, 1, (short) 59, MaterialData.class);
     @Deprecated
-    LEGACY_WOOD_PICKAXE(270, 1, 59),
+    Material LEGACY_WOOD_PICKAXE = Bukkit.getUnsafe().createLegacyMaterial("legacy_wood_pickaxe", 270, 1, (short) 59, MaterialData.class);
     @Deprecated
-    LEGACY_WOOD_AXE(271, 1, 59),
+    Material LEGACY_WOOD_AXE = Bukkit.getUnsafe().createLegacyMaterial("legacy_wood_axe", 271, 1, (short) 59, MaterialData.class);
     @Deprecated
-    LEGACY_STONE_SWORD(272, 1, 131),
+    Material LEGACY_STONE_SWORD = Bukkit.getUnsafe().createLegacyMaterial("legacy_stone_sword", 272, 1, (short) 131, MaterialData.class);
     @Deprecated
-    LEGACY_STONE_SPADE(273, 1, 131),
+    Material LEGACY_STONE_SPADE = Bukkit.getUnsafe().createLegacyMaterial("legacy_stone_spade", 273, 1, (short) 131, MaterialData.class);
     @Deprecated
-    LEGACY_STONE_PICKAXE(274, 1, 131),
+    Material LEGACY_STONE_PICKAXE = Bukkit.getUnsafe().createLegacyMaterial("legacy_stone_pickaxe", 274, 1, (short) 131, MaterialData.class);
     @Deprecated
-    LEGACY_STONE_AXE(275, 1, 131),
+    Material LEGACY_STONE_AXE = Bukkit.getUnsafe().createLegacyMaterial("legacy_stone_axe", 275, 1, (short) 131, MaterialData.class);
     @Deprecated
-    LEGACY_DIAMOND_SWORD(276, 1, 1561),
+    Material LEGACY_DIAMOND_SWORD = Bukkit.getUnsafe().createLegacyMaterial("legacy_diamond_sword", 276, 1, (short) 1561, MaterialData.class);
     @Deprecated
-    LEGACY_DIAMOND_SPADE(277, 1, 1561),
+    Material LEGACY_DIAMOND_SPADE = Bukkit.getUnsafe().createLegacyMaterial("legacy_diamond_spade", 277, 1, (short) 1561, MaterialData.class);
     @Deprecated
-    LEGACY_DIAMOND_PICKAXE(278, 1, 1561),
+    Material LEGACY_DIAMOND_PICKAXE = Bukkit.getUnsafe().createLegacyMaterial("legacy_diamond_pickaxe", 278, 1, (short) 1561, MaterialData.class);
     @Deprecated
-    LEGACY_DIAMOND_AXE(279, 1, 1561),
+    Material LEGACY_DIAMOND_AXE = Bukkit.getUnsafe().createLegacyMaterial("legacy_diamond_axe", 279, 1, (short) 1561, MaterialData.class);
     @Deprecated
-    LEGACY_STICK(280),
+    Material LEGACY_STICK = Bukkit.getUnsafe().createLegacyMaterial("legacy_stick", 280, 1, (short) 1561, MaterialData.class);
     @Deprecated
-    LEGACY_BOWL(281),
+    Material LEGACY_BOWL = Bukkit.getUnsafe().createLegacyMaterial("legacy_bowl", 281, 1, (short) 1561, MaterialData.class);
     @Deprecated
-    LEGACY_MUSHROOM_SOUP(282, 1),
+    Material LEGACY_MUSHROOM_SOUP = Bukkit.getUnsafe().createLegacyMaterial("legacy_mushroom_soup", 282, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_GOLD_SWORD(283, 1, 32),
+    Material LEGACY_GOLD_SWORD = Bukkit.getUnsafe().createLegacyMaterial("legacy_gold_sword", 283, 1, (short) 32, MaterialData.class);
     @Deprecated
-    LEGACY_GOLD_SPADE(284, 1, 32),
+    Material LEGACY_GOLD_SPADE = Bukkit.getUnsafe().createLegacyMaterial("legacy_gold_spade", 284, 1, (short) 32, MaterialData.class);
     @Deprecated
-    LEGACY_GOLD_PICKAXE(285, 1, 32),
+    Material LEGACY_GOLD_PICKAXE = Bukkit.getUnsafe().createLegacyMaterial("legacy_gold_pickaxe", 285, 1, (short) 32, MaterialData.class);
     @Deprecated
-    LEGACY_GOLD_AXE(286, 1, 32),
+    Material LEGACY_GOLD_AXE = Bukkit.getUnsafe().createLegacyMaterial("legacy_gold_axe", 286, 1, (short) 32, MaterialData.class);
     @Deprecated
-    LEGACY_STRING(287),
+    Material LEGACY_STRING = Bukkit.getUnsafe().createLegacyMaterial("legacy_string", 287, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_FEATHER(288),
+    Material LEGACY_FEATHER = Bukkit.getUnsafe().createLegacyMaterial("legacy_feather", 288, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_SULPHUR(289),
+    Material LEGACY_SULPHUR = Bukkit.getUnsafe().createLegacyMaterial("legacy_sulphur", 289, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_WOOD_HOE(290, 1, 59),
+    Material LEGACY_WOOD_HOE = Bukkit.getUnsafe().createLegacyMaterial("legacy_wood_hoe", 290, 1, (short) 59, MaterialData.class);
     @Deprecated
-    LEGACY_STONE_HOE(291, 1, 131),
+    Material LEGACY_STONE_HOE = Bukkit.getUnsafe().createLegacyMaterial("legacy_stone_hoe", 291, 1, (short) 131, MaterialData.class);
     @Deprecated
-    LEGACY_IRON_HOE(292, 1, 250),
+    Material LEGACY_IRON_HOE = Bukkit.getUnsafe().createLegacyMaterial("legacy_iron_hoe", 292, 1, (short) 250, MaterialData.class);
     @Deprecated
-    LEGACY_DIAMOND_HOE(293, 1, 1561),
+    Material LEGACY_DIAMOND_HOE = Bukkit.getUnsafe().createLegacyMaterial("legacy_diamond_hoe", 293, 1, (short) 1561, MaterialData.class);
     @Deprecated
-    LEGACY_GOLD_HOE(294, 1, 32),
+    Material LEGACY_GOLD_HOE = Bukkit.getUnsafe().createLegacyMaterial("legacy_gold_hoe", 294, 1, (short) 32, MaterialData.class);
     @Deprecated
-    LEGACY_SEEDS(295),
+    Material LEGACY_SEEDS = Bukkit.getUnsafe().createLegacyMaterial("legacy_seeds", 295, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_WHEAT(296),
+    Material LEGACY_WHEAT = Bukkit.getUnsafe().createLegacyMaterial("legacy_wheat", 296, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_BREAD(297),
+    Material LEGACY_BREAD = Bukkit.getUnsafe().createLegacyMaterial("legacy_bread", 297, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_LEATHER_HELMET(298, 1, 55),
+    Material LEGACY_LEATHER_HELMET = Bukkit.getUnsafe().createLegacyMaterial("legacy_leather_helmet", 298, 1, (short) 55, MaterialData.class);
     @Deprecated
-    LEGACY_LEATHER_CHESTPLATE(299, 1, 80),
+    Material LEGACY_LEATHER_CHESTPLATE = Bukkit.getUnsafe().createLegacyMaterial("legacy_leather_chestplate", 299, 1, (short) 80, MaterialData.class);
     @Deprecated
-    LEGACY_LEATHER_LEGGINGS(300, 1, 75),
+    Material LEGACY_LEATHER_LEGGINGS = Bukkit.getUnsafe().createLegacyMaterial("legacy_leather_leggings", 300, 1, (short) 75, MaterialData.class);
     @Deprecated
-    LEGACY_LEATHER_BOOTS(301, 1, 65),
+    Material LEGACY_LEATHER_BOOTS = Bukkit.getUnsafe().createLegacyMaterial("legacy_leather_boots", 301, 1, (short) 65, MaterialData.class);
     @Deprecated
-    LEGACY_CHAINMAIL_HELMET(302, 1, 165),
+    Material LEGACY_CHAINMAIL_HELMET = Bukkit.getUnsafe().createLegacyMaterial("legacy_chainmail_helmet", 302, 1, (short) 165, MaterialData.class);
     @Deprecated
-    LEGACY_CHAINMAIL_CHESTPLATE(303, 1, 240),
+    Material LEGACY_CHAINMAIL_CHESTPLATE = Bukkit.getUnsafe().createLegacyMaterial("legacy_chainmail_chestplate", 303, 1, (short) 240, MaterialData.class);
     @Deprecated
-    LEGACY_CHAINMAIL_LEGGINGS(304, 1, 225),
+    Material LEGACY_CHAINMAIL_LEGGINGS = Bukkit.getUnsafe().createLegacyMaterial("legacy_chainmail_leggings", 304, 1, (short) 225, MaterialData.class);
     @Deprecated
-    LEGACY_CHAINMAIL_BOOTS(305, 1, 195),
+    Material LEGACY_CHAINMAIL_BOOTS = Bukkit.getUnsafe().createLegacyMaterial("legacy_chainmail_boots", 305, 1, (short) 195, MaterialData.class);
     @Deprecated
-    LEGACY_IRON_HELMET(306, 1, 165),
+    Material LEGACY_IRON_HELMET = Bukkit.getUnsafe().createLegacyMaterial("legacy_iron_helmet", 306, 1, (short) 165, MaterialData.class);
     @Deprecated
-    LEGACY_IRON_CHESTPLATE(307, 1, 240),
+    Material LEGACY_IRON_CHESTPLATE = Bukkit.getUnsafe().createLegacyMaterial("legacy_iron_chestplate", 307, 1, (short) 240, MaterialData.class);
     @Deprecated
-    LEGACY_IRON_LEGGINGS(308, 1, 225),
+    Material LEGACY_IRON_LEGGINGS = Bukkit.getUnsafe().createLegacyMaterial("legacy_iron_leggings", 308, 1, (short) 255, MaterialData.class);
     @Deprecated
-    LEGACY_IRON_BOOTS(309, 1, 195),
+    Material LEGACY_IRON_BOOTS = Bukkit.getUnsafe().createLegacyMaterial("legacy_iron_boots", 309, 1, (short) 195, MaterialData.class);
     @Deprecated
-    LEGACY_DIAMOND_HELMET(310, 1, 363),
+    Material LEGACY_DIAMOND_HELMET = Bukkit.getUnsafe().createLegacyMaterial("legacy_diamond_helmet", 310, 1, (short) 363, MaterialData.class);
     @Deprecated
-    LEGACY_DIAMOND_CHESTPLATE(311, 1, 528),
+    Material LEGACY_DIAMOND_CHESTPLATE = Bukkit.getUnsafe().createLegacyMaterial("legacy_diamond_chestplate", 311, 1, (short) 528, MaterialData.class);
     @Deprecated
-    LEGACY_DIAMOND_LEGGINGS(312, 1, 495),
+    Material LEGACY_DIAMOND_LEGGINGS = Bukkit.getUnsafe().createLegacyMaterial("legacy_diamond_leggings", 312, 1, (short) 495, MaterialData.class);
     @Deprecated
-    LEGACY_DIAMOND_BOOTS(313, 1, 429),
+    Material LEGACY_DIAMOND_BOOTS = Bukkit.getUnsafe().createLegacyMaterial("legacy_diamond_boots", 313, 1, (short) 429, MaterialData.class);
     @Deprecated
-    LEGACY_GOLD_HELMET(314, 1, 77),
+    Material LEGACY_GOLD_HELMET = Bukkit.getUnsafe().createLegacyMaterial("legacy_gold_helmet", 314, 1, (short) 77, MaterialData.class);
     @Deprecated
-    LEGACY_GOLD_CHESTPLATE(315, 1, 112),
+    Material LEGACY_GOLD_CHESTPLATE = Bukkit.getUnsafe().createLegacyMaterial("legacy_gold_chestplate", 315, 1, (short) 112, MaterialData.class);
     @Deprecated
-    LEGACY_GOLD_LEGGINGS(316, 1, 105),
+    Material LEGACY_GOLD_LEGGINGS = Bukkit.getUnsafe().createLegacyMaterial("legacy_gold_leggings", 316, 1, (short) 105, MaterialData.class);
     @Deprecated
-    LEGACY_GOLD_BOOTS(317, 1, 91),
+    Material LEGACY_GOLD_BOOTS = Bukkit.getUnsafe().createLegacyMaterial("legacy_gold_boots", 317, 1, (short) 91, MaterialData.class);
     @Deprecated
-    LEGACY_FLINT(318),
+    Material LEGACY_FLINT = Bukkit.getUnsafe().createLegacyMaterial("legacy_flint", 318, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_PORK(319),
+    Material LEGACY_PORK = Bukkit.getUnsafe().createLegacyMaterial("legacy_pork", 319, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_GRILLED_PORK(320),
+    Material LEGACY_GRILLED_PORK = Bukkit.getUnsafe().createLegacyMaterial("legacy_grilled_pork", 320, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_PAINTING(321),
+    Material LEGACY_PAINTING = Bukkit.getUnsafe().createLegacyMaterial("legacy_painting", 321, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_GOLDEN_APPLE(322),
+    Material LEGACY_GOLDEN_APPLE = Bukkit.getUnsafe().createLegacyMaterial("legacy_golden_apple", 322, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_SIGN(323, 16),
+    Material LEGACY_SIGN = Bukkit.getUnsafe().createLegacyMaterial("legacy_sign", 323, 16, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_WOOD_DOOR(324, 64),
+    Material LEGACY_WOOD_DOOR = Bukkit.getUnsafe().createLegacyMaterial("legacy_wood_door", 324, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_BUCKET(325, 16),
+    Material LEGACY_BUCKET = Bukkit.getUnsafe().createLegacyMaterial("legacy_bucket", 325, 16, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_WATER_BUCKET(326, 1),
+    Material LEGACY_WATER_BUCKET = Bukkit.getUnsafe().createLegacyMaterial("legacy_water_bucket", 326, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_LAVA_BUCKET(327, 1),
+    Material LEGACY_LAVA_BUCKET = Bukkit.getUnsafe().createLegacyMaterial("legacy_lava_bucket", 327, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_MINECART(328, 1),
+    Material LEGACY_MINECART = Bukkit.getUnsafe().createLegacyMaterial("legacy_minecart", 328, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_SADDLE(329, 1),
+    Material LEGACY_SADDLE = Bukkit.getUnsafe().createLegacyMaterial("legacy_saddle", 329, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_IRON_DOOR(330, 64),
+    Material LEGACY_IRON_DOOR = Bukkit.getUnsafe().createLegacyMaterial("legacy_iron_door", 330, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_REDSTONE(331),
+    Material LEGACY_REDSTONE = Bukkit.getUnsafe().createLegacyMaterial("legacy_redstone", 331, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_SNOW_BALL(332, 16),
+    Material LEGACY_SNOW_BALL = Bukkit.getUnsafe().createLegacyMaterial("legacy_snow_ball", 332, 16, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_BOAT(333, 1),
+    Material LEGACY_BOAT = Bukkit.getUnsafe().createLegacyMaterial("legacy_boat", 333, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_LEATHER(334),
+    Material LEGACY_LEATHER = Bukkit.getUnsafe().createLegacyMaterial("legacy_leather", 334, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_MILK_BUCKET(335, 1),
+    Material LEGACY_MILK_BUCKET = Bukkit.getUnsafe().createLegacyMaterial("legacy_milk_bucket", 335, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_CLAY_BRICK(336),
+    Material LEGACY_CLAY_BRICK = Bukkit.getUnsafe().createLegacyMaterial("legacy_clay_brick", 336, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_CLAY_BALL(337),
+    Material LEGACY_CLAY_BALL = Bukkit.getUnsafe().createLegacyMaterial("legacy_clay_ball", 337, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_SUGAR_CANE(338),
+    Material LEGACY_SUGAR_CANE = Bukkit.getUnsafe().createLegacyMaterial("legacy_sugar_cane", 338, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_PAPER(339),
+    Material LEGACY_PAPER = Bukkit.getUnsafe().createLegacyMaterial("legacy_paper", 339, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_BOOK(340),
+    Material LEGACY_BOOK = Bukkit.getUnsafe().createLegacyMaterial("legacy_book", 340, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_SLIME_BALL(341),
+    Material LEGACY_SLIME_BALL = Bukkit.getUnsafe().createLegacyMaterial("legacy_slime_ball", 341, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_STORAGE_MINECART(342, 1),
+    Material LEGACY_STORAGE_MINECART = Bukkit.getUnsafe().createLegacyMaterial("legacy_storage_minecart", 342, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_POWERED_MINECART(343, 1),
+    Material LEGACY_POWERED_MINECART = Bukkit.getUnsafe().createLegacyMaterial("legacy_powered_minecart", 343, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_EGG(344, 16),
+    Material LEGACY_EGG = Bukkit.getUnsafe().createLegacyMaterial("legacy_egg", 344, 16, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_COMPASS(345),
+    Material LEGACY_COMPASS = Bukkit.getUnsafe().createLegacyMaterial("legacy_compass", 345, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_FISHING_ROD(346, 1, 64),
+    Material LEGACY_FISHING_ROD = Bukkit.getUnsafe().createLegacyMaterial("legacy_fishing_rod", 346, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_WATCH(347),
+    Material LEGACY_WATCH = Bukkit.getUnsafe().createLegacyMaterial("legacy_watch", 347, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_GLOWSTONE_DUST(348),
+    Material LEGACY_GLOWSTONE_DUST = Bukkit.getUnsafe().createLegacyMaterial("legacy_glowstone_dust", 348, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_RAW_FISH(349),
+    Material LEGACY_RAW_FISH = Bukkit.getUnsafe().createLegacyMaterial("legacy_raw_fish", 349, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_COOKED_FISH(350),
+    Material LEGACY_COOKED_FISH = Bukkit.getUnsafe().createLegacyMaterial("legacy_cooked_fish", 350, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_INK_SACK(351, org.bukkit.material.Dye.class),
+    Material LEGACY_INK_SACK = Bukkit.getUnsafe().createLegacyMaterial("legacy_ink_sack", 351, 64, (short) 0, org.bukkit.material.Dye.class);
     @Deprecated
-    LEGACY_BONE(352),
+    Material LEGACY_BONE = Bukkit.getUnsafe().createLegacyMaterial("legacy_bone", 352, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_SUGAR(353),
+    Material LEGACY_SUGAR = Bukkit.getUnsafe().createLegacyMaterial("legacy_sugar", 353, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_CAKE(354, 1),
+    Material LEGACY_CAKE = Bukkit.getUnsafe().createLegacyMaterial("legacy_cake", 354, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_BED(355, 1),
+    Material LEGACY_BED = Bukkit.getUnsafe().createLegacyMaterial("legacy_bed", 355, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_DIODE(356),
+    Material LEGACY_DIODE = Bukkit.getUnsafe().createLegacyMaterial("legacy_diode", 356, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_COOKIE(357),
+    Material LEGACY_COOKIE = Bukkit.getUnsafe().createLegacyMaterial("legacy_cookie", 357, 64, (short) 0, MaterialData.class);
     /**
      * @see org.bukkit.map.MapView
      */
     @Deprecated
-    LEGACY_MAP(358, org.bukkit.material.MaterialData.class),
+    Material LEGACY_MAP = Bukkit.getUnsafe().createLegacyMaterial("legacy_map", 358, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_SHEARS(359, 1, 238),
+    Material LEGACY_SHEARS = Bukkit.getUnsafe().createLegacyMaterial("legacy_shears", 359, 1, (short) 238, MaterialData.class);
     @Deprecated
-    LEGACY_MELON(360),
+    Material LEGACY_MELON = Bukkit.getUnsafe().createLegacyMaterial("legacy_melon", 360, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_PUMPKIN_SEEDS(361),
+    Material LEGACY_PUMPKIN_SEEDS = Bukkit.getUnsafe().createLegacyMaterial("legacy_pumpkin_seeds", 361, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_MELON_SEEDS(362),
+    Material LEGACY_MELON_SEEDS = Bukkit.getUnsafe().createLegacyMaterial("legacy_melon_seeds", 362, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_RAW_BEEF(363),
+    Material LEGACY_RAW_BEEF = Bukkit.getUnsafe().createLegacyMaterial("legacy_raw_beef", 363, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_COOKED_BEEF(364),
+    Material LEGACY_COOKED_BEEF = Bukkit.getUnsafe().createLegacyMaterial("legacy_cooked_beef", 364, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_RAW_CHICKEN(365),
+    Material LEGACY_RAW_CHICKEN = Bukkit.getUnsafe().createLegacyMaterial("legacy_raw_chicken", 365, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_COOKED_CHICKEN(366),
+    Material LEGACY_COOKED_CHICKEN = Bukkit.getUnsafe().createLegacyMaterial("legacy_cooked_chicken", 366, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_ROTTEN_FLESH(367),
+    Material LEGACY_ROTTEN_FLESH = Bukkit.getUnsafe().createLegacyMaterial("legacy_rotten_flesh", 367, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_ENDER_PEARL(368, 16),
+    Material LEGACY_ENDER_PEARL = Bukkit.getUnsafe().createLegacyMaterial("legacy_ender_pearl", 368, 16, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_BLAZE_ROD(369),
+    Material LEGACY_BLAZE_ROD = Bukkit.getUnsafe().createLegacyMaterial("legacy_blaze_rod", 369, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_GHAST_TEAR(370),
+    Material LEGACY_GHAST_TEAR = Bukkit.getUnsafe().createLegacyMaterial("legacy_ghast_tear", 370, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_GOLD_NUGGET(371),
+    Material LEGACY_GOLD_NUGGET = Bukkit.getUnsafe().createLegacyMaterial("legacy_gold_nugget", 371, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_NETHER_STALK(372),
+    Material LEGACY_NETHER_STALK = Bukkit.getUnsafe().createLegacyMaterial("legacy_nether_stalk", 372, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_POTION(373, 1, org.bukkit.material.MaterialData.class),
+    Material LEGACY_POTION = Bukkit.getUnsafe().createLegacyMaterial("legacy_potion", 373, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_GLASS_BOTTLE(374),
+    Material LEGACY_GLASS_BOTTLE = Bukkit.getUnsafe().createLegacyMaterial("legacy_glass_bottle", 374, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_SPIDER_EYE(375),
+    Material LEGACY_SPIDER_EYE = Bukkit.getUnsafe().createLegacyMaterial("legacy_spider_eye", 375, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_FERMENTED_SPIDER_EYE(376),
+    Material LEGACY_FERMENTED_SPIDER_EYE = Bukkit.getUnsafe().createLegacyMaterial("legacy_fermented_spider_eye", 376, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_BLAZE_POWDER(377),
+    Material LEGACY_BLAZE_POWDER = Bukkit.getUnsafe().createLegacyMaterial("legacy_blaze_powder", 377, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_MAGMA_CREAM(378),
+    Material LEGACY_MAGMA_CREAM = Bukkit.getUnsafe().createLegacyMaterial("legacy_magma_cream", 378, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_BREWING_STAND_ITEM(379),
+    Material LEGACY_BREWING_STAND_ITEM = Bukkit.getUnsafe().createLegacyMaterial("legacy_brewing_stand_item", 379, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_CAULDRON_ITEM(380),
+    Material LEGACY_CAULDRON_ITEM = Bukkit.getUnsafe().createLegacyMaterial("legacy_cauldron_item", 380, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_EYE_OF_ENDER(381),
+    Material LEGACY_EYE_OF_ENDER = Bukkit.getUnsafe().createLegacyMaterial("legacy_eye_of_ender", 381, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_SPECKLED_MELON(382),
+    Material LEGACY_SPECKLED_MELON = Bukkit.getUnsafe().createLegacyMaterial("legacy_speckled_melon", 382, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_MONSTER_EGG(383, 64, org.bukkit.material.SpawnEgg.class),
+    Material LEGACY_MONSTER_EGG = Bukkit.getUnsafe().createLegacyMaterial("legacy_monster_egg", 383, 64, (short) 0, org.bukkit.material.SpawnEgg.class);
     @Deprecated
-    LEGACY_EXP_BOTTLE(384, 64),
+    Material LEGACY_EXP_BOTTLE = Bukkit.getUnsafe().createLegacyMaterial("legacy_exp_bottle", 384, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_FIREBALL(385, 64),
+    Material LEGACY_FIREBALL = Bukkit.getUnsafe().createLegacyMaterial("legacy_fireball", 385, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_BOOK_AND_QUILL(386, 1),
+    Material LEGACY_BOOK_AND_QUILL = Bukkit.getUnsafe().createLegacyMaterial("legacy_book_and_quill", 386, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_WRITTEN_BOOK(387, 16),
+    Material LEGACY_WRITTEN_BOOK = Bukkit.getUnsafe().createLegacyMaterial("legacy_written_book", 387, 16, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_EMERALD(388, 64),
+    Material LEGACY_EMERALD = Bukkit.getUnsafe().createLegacyMaterial("legacy_emerald", 388, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_ITEM_FRAME(389),
+    Material LEGACY_ITEM_FRAME = Bukkit.getUnsafe().createLegacyMaterial("legacy_item_frame", 389, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_FLOWER_POT_ITEM(390),
+    Material LEGACY_FLOWER_POT_ITEM = Bukkit.getUnsafe().createLegacyMaterial("legacy_flower_pot_item", 390, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_CARROT_ITEM(391),
+    Material LEGACY_CARROT_ITEM = Bukkit.getUnsafe().createLegacyMaterial("legacy_carrot_item", 391, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_POTATO_ITEM(392),
+    Material LEGACY_POTATO_ITEM = Bukkit.getUnsafe().createLegacyMaterial("legacy_potato_item", 392, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_BAKED_POTATO(393),
+    Material LEGACY_BAKED_POTATO = Bukkit.getUnsafe().createLegacyMaterial("legacy_baked_potato", 393, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_POISONOUS_POTATO(394),
+    Material LEGACY_POISONOUS_POTATO = Bukkit.getUnsafe().createLegacyMaterial("legacy_poisonous_potato", 394, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_EMPTY_MAP(395),
+    Material LEGACY_EMPTY_MAP = Bukkit.getUnsafe().createLegacyMaterial("legacy_empty_map", 395, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_GOLDEN_CARROT(396),
+    Material LEGACY_GOLDEN_CARROT = Bukkit.getUnsafe().createLegacyMaterial("legacy_golden_carrot", 396, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_SKULL_ITEM(397),
+    Material LEGACY_SKULL_ITEM = Bukkit.getUnsafe().createLegacyMaterial("legacy_skull_item", 397, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_CARROT_STICK(398, 1, 25),
+    Material LEGACY_CARROT_STICK = Bukkit.getUnsafe().createLegacyMaterial("legacy_carrot_stick", 398, 1, (short) 25, MaterialData.class);
     @Deprecated
-    LEGACY_NETHER_STAR(399),
+    Material LEGACY_NETHER_STAR = Bukkit.getUnsafe().createLegacyMaterial("legacy_nether_star", 399, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_PUMPKIN_PIE(400),
+    Material LEGACY_PUMPKIN_PIE = Bukkit.getUnsafe().createLegacyMaterial("legacy_pumpkin_pie", 400, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_FIREWORK(401),
+    Material LEGACY_FIREWORK = Bukkit.getUnsafe().createLegacyMaterial("legacy_firework", 401, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_FIREWORK_CHARGE(402),
+    Material LEGACY_FIREWORK_CHARGE = Bukkit.getUnsafe().createLegacyMaterial("legacy_firework_charge", 402, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_ENCHANTED_BOOK(403, 1),
+    Material LEGACY_ENCHANTED_BOOK = Bukkit.getUnsafe().createLegacyMaterial("legacy_enchanted_book", 403, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_REDSTONE_COMPARATOR(404),
+    Material LEGACY_REDSTONE_COMPARATOR = Bukkit.getUnsafe().createLegacyMaterial("legacy_redstone_comparator", 404, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_NETHER_BRICK_ITEM(405),
+    Material LEGACY_NETHER_BRICK_ITEM = Bukkit.getUnsafe().createLegacyMaterial("legacy_nether_brick_item", 405, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_QUARTZ(406),
+    Material LEGACY_QUARTZ = Bukkit.getUnsafe().createLegacyMaterial("legacy_quartz", 406, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_EXPLOSIVE_MINECART(407, 1),
+    Material LEGACY_EXPLOSIVE_MINECART = Bukkit.getUnsafe().createLegacyMaterial("legacy_explosive_minecart", 407, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_HOPPER_MINECART(408, 1),
+    Material LEGACY_HOPPER_MINECART = Bukkit.getUnsafe().createLegacyMaterial("legacy_hopper_minecart", 408, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_PRISMARINE_SHARD(409),
+    Material LEGACY_PRISMARINE_SHARD = Bukkit.getUnsafe().createLegacyMaterial("legacy_prismarine_shard", 409, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_PRISMARINE_CRYSTALS(410),
+    Material LEGACY_PRISMARINE_CRYSTALS = Bukkit.getUnsafe().createLegacyMaterial("legacy_prismarine_crystals", 410, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_RABBIT(411),
+    Material LEGACY_RABBIT = Bukkit.getUnsafe().createLegacyMaterial("legacy_rabbit", 411, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_COOKED_RABBIT(412),
+    Material LEGACY_COOKED_RABBIT = Bukkit.getUnsafe().createLegacyMaterial("legacy_cooked_rabbit", 412, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_RABBIT_STEW(413, 1),
+    Material LEGACY_RABBIT_STEW = Bukkit.getUnsafe().createLegacyMaterial("legacy_rabbit_stew", 413, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_RABBIT_FOOT(414),
+    Material LEGACY_RABBIT_FOOT = Bukkit.getUnsafe().createLegacyMaterial("legacy_rabbit_foot", 414, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_RABBIT_HIDE(415),
+    Material LEGACY_RABBIT_HIDE = Bukkit.getUnsafe().createLegacyMaterial("legacy_rabbit_hide", 415, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_ARMOR_STAND(416, 16),
+    Material LEGACY_ARMOR_STAND = Bukkit.getUnsafe().createLegacyMaterial("legacy_armor_stand", 416, 16, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_IRON_BARDING(417, 1),
+    Material LEGACY_IRON_BARDING = Bukkit.getUnsafe().createLegacyMaterial("legacy_iron_barding", 417, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_GOLD_BARDING(418, 1),
+    Material LEGACY_GOLD_BARDING = Bukkit.getUnsafe().createLegacyMaterial("legacy_gold_barding", 418, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_DIAMOND_BARDING(419, 1),
+    Material LEGACY_DIAMOND_BARDING = Bukkit.getUnsafe().createLegacyMaterial("legacy_diamond_barding", 419, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_LEASH(420),
+    Material LEGACY_LEASH = Bukkit.getUnsafe().createLegacyMaterial("legacy_leash", 420, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_NAME_TAG(421),
+    Material LEGACY_NAME_TAG = Bukkit.getUnsafe().createLegacyMaterial("legacy_name_tag", 421, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_COMMAND_MINECART(422, 1),
+    Material LEGACY_COMMAND_MINECART = Bukkit.getUnsafe().createLegacyMaterial("legacy_command_minecart", 422, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_MUTTON(423),
+    Material LEGACY_MUTTON = Bukkit.getUnsafe().createLegacyMaterial("legacy_mutton", 423, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_COOKED_MUTTON(424),
+    Material LEGACY_COOKED_MUTTON = Bukkit.getUnsafe().createLegacyMaterial("legacy_cooked_mutton", 424, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_BANNER(425, 16),
+    Material LEGACY_BANNER = Bukkit.getUnsafe().createLegacyMaterial("legacy_banner", 425, 16, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_END_CRYSTAL(426),
+    Material LEGACY_END_CRYSTAL = Bukkit.getUnsafe().createLegacyMaterial("legacy_end_crystal", 426, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_SPRUCE_DOOR_ITEM(427),
+    Material LEGACY_SPRUCE_DOOR_ITEM = Bukkit.getUnsafe().createLegacyMaterial("legacy_spruce_door_item", 427, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_BIRCH_DOOR_ITEM(428),
+    Material LEGACY_BIRCH_DOOR_ITEM = Bukkit.getUnsafe().createLegacyMaterial("legacy_birch_door_item", 428, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_JUNGLE_DOOR_ITEM(429),
+    Material LEGACY_JUNGLE_DOOR_ITEM = Bukkit.getUnsafe().createLegacyMaterial("legacy_jungle_door_item", 429, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_ACACIA_DOOR_ITEM(430),
+    Material LEGACY_ACACIA_DOOR_ITEM = Bukkit.getUnsafe().createLegacyMaterial("legacy_acacia_door_item", 430, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_DARK_OAK_DOOR_ITEM(431),
+    Material LEGACY_DARK_OAK_DOOR_ITEM = Bukkit.getUnsafe().createLegacyMaterial("legacy_dark_oak_door_item", 431, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_CHORUS_FRUIT(432),
+    Material LEGACY_CHORUS_FRUIT = Bukkit.getUnsafe().createLegacyMaterial("legacy_chorus_fruit", 432, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_CHORUS_FRUIT_POPPED(433),
+    Material LEGACY_CHORUS_FRUIT_POPPED = Bukkit.getUnsafe().createLegacyMaterial("legacy_chorus_fruit_popped", 433, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_BEETROOT(434),
+    Material LEGACY_BEETROOT = Bukkit.getUnsafe().createLegacyMaterial("legacy_beetroot", 434, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_BEETROOT_SEEDS(435),
+    Material LEGACY_BEETROOT_SEEDS = Bukkit.getUnsafe().createLegacyMaterial("legacy_beetroot_seeds", 435, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_BEETROOT_SOUP(436, 1),
+    Material LEGACY_BEETROOT_SOUP = Bukkit.getUnsafe().createLegacyMaterial("legacy_beetroot_soup", 436, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_DRAGONS_BREATH(437),
+    Material LEGACY_DRAGONS_BREATH = Bukkit.getUnsafe().createLegacyMaterial("legacy_dragons_breath", 437, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_SPLASH_POTION(438, 1),
+    Material LEGACY_SPLASH_POTION = Bukkit.getUnsafe().createLegacyMaterial("legacy_splash_potion", 438, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_SPECTRAL_ARROW(439),
+    Material LEGACY_SPECTRAL_ARROW = Bukkit.getUnsafe().createLegacyMaterial("legacy_spectral_arrow", 439, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_TIPPED_ARROW(440),
+    Material LEGACY_TIPPED_ARROW = Bukkit.getUnsafe().createLegacyMaterial("legacy_tipped_arrow", 440, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_LINGERING_POTION(441, 1),
+    Material LEGACY_LINGERING_POTION = Bukkit.getUnsafe().createLegacyMaterial("legacy_lingering_potion", 441, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_SHIELD(442, 1, 336),
+    Material LEGACY_SHIELD = Bukkit.getUnsafe().createLegacyMaterial("legacy_shield", 442, 1, (short) 336, MaterialData.class);
     @Deprecated
-    LEGACY_ELYTRA(443, 1, 431),
+    Material LEGACY_ELYTRA = Bukkit.getUnsafe().createLegacyMaterial("legacy_elytra", 443, 1, (short) 431, MaterialData.class);
     @Deprecated
-    LEGACY_BOAT_SPRUCE(444, 1),
+    Material LEGACY_BOAT_SPRUCE = Bukkit.getUnsafe().createLegacyMaterial("legacy_boat_spruce", 444, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_BOAT_BIRCH(445, 1),
+    Material LEGACY_BOAT_BIRCH = Bukkit.getUnsafe().createLegacyMaterial("legacy_boat_birch", 445, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_BOAT_JUNGLE(446, 1),
+    Material LEGACY_BOAT_JUNGLE = Bukkit.getUnsafe().createLegacyMaterial("legacy_boat_jungle", 446, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_BOAT_ACACIA(447, 1),
+    Material LEGACY_BOAT_ACACIA = Bukkit.getUnsafe().createLegacyMaterial("legacy_boat_acacia", 447, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_BOAT_DARK_OAK(448, 1),
+    Material LEGACY_BOAT_DARK_OAK = Bukkit.getUnsafe().createLegacyMaterial("legacy_boat_dark_oak", 448, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_TOTEM(449, 1),
+    Material LEGACY_TOTEM = Bukkit.getUnsafe().createLegacyMaterial("legacy_totem", 449, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_SHULKER_SHELL(450),
+    Material LEGACY_SHULKER_SHELL = Bukkit.getUnsafe().createLegacyMaterial("legacy_shulker_shell", 450, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_IRON_NUGGET(452),
+    Material LEGACY_IRON_NUGGET = Bukkit.getUnsafe().createLegacyMaterial("legacy_iron_nugget", 452, 64, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_KNOWLEDGE_BOOK(453, 1),
+    Material LEGACY_KNOWLEDGE_BOOK = Bukkit.getUnsafe().createLegacyMaterial("legacy_knowledge_book", 453, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_GOLD_RECORD(2256, 1),
+    Material LEGACY_GOLD_RECORD = Bukkit.getUnsafe().createLegacyMaterial("legacy_gold_record", 2256, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_GREEN_RECORD(2257, 1),
+    Material LEGACY_GREEN_RECORD = Bukkit.getUnsafe().createLegacyMaterial("legacy_green_record", 2257, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_RECORD_3(2258, 1),
+    Material LEGACY_RECORD_3 = Bukkit.getUnsafe().createLegacyMaterial("legacy_record_3", 2258, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_RECORD_4(2259, 1),
+    Material LEGACY_RECORD_4 = Bukkit.getUnsafe().createLegacyMaterial("legacy_record_4", 2259, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_RECORD_5(2260, 1),
+    Material LEGACY_RECORD_5 = Bukkit.getUnsafe().createLegacyMaterial("legacy_record_5", 2260, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_RECORD_6(2261, 1),
+    Material LEGACY_RECORD_6 = Bukkit.getUnsafe().createLegacyMaterial("legacy_record_6", 2261, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_RECORD_7(2262, 1),
+    Material LEGACY_RECORD_7 = Bukkit.getUnsafe().createLegacyMaterial("legacy_record_7", 2262, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_RECORD_8(2263, 1),
+    Material LEGACY_RECORD_8 = Bukkit.getUnsafe().createLegacyMaterial("legacy_record_8", 2263, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_RECORD_9(2264, 1),
+    Material LEGACY_RECORD_9 = Bukkit.getUnsafe().createLegacyMaterial("legacy_record_9", 2264, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_RECORD_10(2265, 1),
+    Material LEGACY_RECORD_10 = Bukkit.getUnsafe().createLegacyMaterial("legacy_record_10", 2265, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_RECORD_11(2266, 1),
+    Material LEGACY_RECORD_11 = Bukkit.getUnsafe().createLegacyMaterial("legacy_record_11", 2266, 1, (short) 0, MaterialData.class);
     @Deprecated
-    LEGACY_RECORD_12(2267, 1),
-    ;
+    Material LEGACY_RECORD_12 = Bukkit.getUnsafe().createLegacyMaterial("legacy_record_12", 2267, 1, (short) 0, MaterialData.class);
     //</editor-fold>
 
     @Deprecated
-    public static final String LEGACY_PREFIX = "LEGACY_";
+    String LEGACY_PREFIX = "LEGACY_";
 
-    private final int id;
-    private final Constructor<? extends MaterialData> ctor;
-    private static final Map<String, Material> BY_NAME = Maps.newHashMap();
-    private final int maxStack;
-    private final short durability;
-    public final Class<?> data;
-    private final boolean legacy;
-    private final NamespacedKey key;
-
-    private Material(final int id) {
-        this(id, 64);
-    }
-
-    private Material(final int id, final int stack) {
-        this(id, stack, MaterialData.class);
-    }
-
-    private Material(final int id, final int stack, final int durability) {
-        this(id, stack, durability, MaterialData.class);
-    }
-
-    private Material(final int id, /*@NotNull*/ final Class<?> data) {
-        this(id, 64, data);
-    }
-
-    private Material(final int id, final int stack, /*@NotNull*/ final Class<?> data) {
-        this(id, stack, 0, data);
-    }
-
-    private Material(final int id, final int stack, final int durability, /*@NotNull*/ final Class<?> data) {
-        this.id = id;
-        this.durability = (short) durability;
-        this.maxStack = stack;
-        this.data = data;
-        this.legacy = this.name().startsWith(LEGACY_PREFIX);
-        this.key = NamespacedKey.minecraft(this.name().toLowerCase(Locale.ROOT));
-        // try to cache the constructor for this material
-        try {
-            if (MaterialData.class.isAssignableFrom(data)) {
-                this.ctor = (Constructor<? extends MaterialData>) data.getConstructor(Material.class, byte.class);
-            } else {
-                this.ctor = null;
-            }
-        } catch (NoSuchMethodException ex) {
-            throw new AssertionError(ex);
-        } catch (SecurityException ex) {
-            throw new AssertionError(ex);
-        }
-    }
-
-    /**
-     * Do not use for any reason.
-     *
-     * @return ID of this material
-     * @deprecated Magic value
-     */
     @Deprecated
-    public int getId() {
-        Validate.isTrue(legacy, "Cannot get ID of Modern Material");
-        return id;
-    }
-
-    /**
-     * Do not use for any reason.
-     *
-     * @return legacy status
-     */
-    @Deprecated
-    public boolean isLegacy() {
-        return legacy;
-    }
-
-    @NotNull
-    @Override
-    public NamespacedKey getKey() {
-        Validate.isTrue(!legacy, "Cannot get key of Legacy Material");
-        return key;
-    }
-
-    /**
-     * Gets the maximum amount of this material that can be held in a stack
-     *
-     * @return Maximum stack size for this material
-     */
-    public int getMaxStackSize() {
-        return maxStack;
-    }
-
-    /**
-     * Gets the maximum durability of this material
-     *
-     * @return Maximum durability for this material
-     */
-    public short getMaxDurability() {
-        return durability;
-    }
-
-    /**
-     * Creates a new {@link BlockData} instance for this Material, with all
-     * properties initialized to unspecified defaults.
-     *
-     * @return new data instance
-     */
-    @NotNull
-    public BlockData createBlockData() {
-        return Bukkit.createBlockData(this);
-    }
-
-    /**
-     * Creates a new {@link BlockData} instance for this Material, with
-     * all properties initialized to unspecified defaults.
-     *
-     * @param consumer consumer to run on new instance before returning
-     * @return new data instance
-     */
-    @NotNull
-    public BlockData createBlockData(@Nullable Consumer<BlockData> consumer) {
-        return Bukkit.createBlockData(this, consumer);
-    }
-
-    /**
-     * Creates a new {@link BlockData} instance for this Material, with all
-     * properties initialized to unspecified defaults, except for those provided
-     * in data.
-     *
-     * @param data data string
-     * @return new data instance
-     * @throws IllegalArgumentException if the specified data is not valid
-     */
-    @NotNull
-    public BlockData createBlockData(@Nullable String data) throws IllegalArgumentException {
-        return Bukkit.createBlockData(this, data);
-    }
-
-    /**
-     * Gets the MaterialData class associated with this Material
-     *
-     * @return MaterialData associated with this Material
-     */
-    @NotNull
-    public Class<? extends MaterialData> getData() {
-        Validate.isTrue(legacy, "Cannot get data class of Modern Material");
-        return ctor.getDeclaringClass();
-    }
-
-    /**
-     * Constructs a new MaterialData relevant for this Material, with the
-     * given initial data
-     *
-     * @param raw Initial data to construct the MaterialData with
-     * @return New MaterialData with the given data
-     * @deprecated Magic value
-     */
-    @Deprecated
-    @NotNull
-    public MaterialData getNewData(final byte raw) {
-        Validate.isTrue(legacy, "Cannot get new data of Modern Material");
-        try {
-            return ctor.newInstance(this, raw);
-        } catch (InstantiationException ex) {
-            final Throwable t = ex.getCause();
-            if (t instanceof RuntimeException) {
-                throw (RuntimeException) t;
-            }
-            if (t instanceof Error) {
-                throw (Error) t;
-            }
-            throw new AssertionError(t);
-        } catch (Throwable t) {
-            throw new AssertionError(t);
-        }
-    }
-
-    /**
-     * Checks if this Material is a placable block
-     *
-     * @return true if this material is a block
-     */
-    public boolean isBlock() {
-        switch (this) {
-            //<editor-fold defaultstate="collapsed" desc="isBlock">
-            case ACACIA_BUTTON:
-            case ACACIA_DOOR:
-            case ACACIA_FENCE:
-            case ACACIA_FENCE_GATE:
-            case ACACIA_LEAVES:
-            case ACACIA_LOG:
-            case ACACIA_PLANKS:
-            case ACACIA_PRESSURE_PLATE:
-            case ACACIA_SAPLING:
-            case ACACIA_SIGN:
-            case ACACIA_SLAB:
-            case ACACIA_STAIRS:
-            case ACACIA_TRAPDOOR:
-            case ACACIA_WALL_SIGN:
-            case ACACIA_WOOD:
-            case ACTIVATOR_RAIL:
-            case AIR:
-            case ALLIUM:
-            case AMETHYST_BLOCK:
-            case AMETHYST_CLUSTER:
-            case ANCIENT_DEBRIS:
-            case ANDESITE:
-            case ANDESITE_SLAB:
-            case ANDESITE_STAIRS:
-            case ANDESITE_WALL:
-            case ANVIL:
-            case ATTACHED_MELON_STEM:
-            case ATTACHED_PUMPKIN_STEM:
-            case AZALEA:
-            case AZALEA_LEAVES:
-            case AZURE_BLUET:
-            case BAMBOO:
-            case BAMBOO_SAPLING:
-            case BARREL:
-            case BARRIER:
-            case BASALT:
-            case BEACON:
-            case BEDROCK:
-            case BEEHIVE:
-            case BEETROOTS:
-            case BEE_NEST:
-            case BELL:
-            case BIG_DRIPLEAF:
-            case BIG_DRIPLEAF_STEM:
-            case BIRCH_BUTTON:
-            case BIRCH_DOOR:
-            case BIRCH_FENCE:
-            case BIRCH_FENCE_GATE:
-            case BIRCH_LEAVES:
-            case BIRCH_LOG:
-            case BIRCH_PLANKS:
-            case BIRCH_PRESSURE_PLATE:
-            case BIRCH_SAPLING:
-            case BIRCH_SIGN:
-            case BIRCH_SLAB:
-            case BIRCH_STAIRS:
-            case BIRCH_TRAPDOOR:
-            case BIRCH_WALL_SIGN:
-            case BIRCH_WOOD:
-            case BLACKSTONE:
-            case BLACKSTONE_SLAB:
-            case BLACKSTONE_STAIRS:
-            case BLACKSTONE_WALL:
-            case BLACK_BANNER:
-            case BLACK_BED:
-            case BLACK_CANDLE:
-            case BLACK_CANDLE_CAKE:
-            case BLACK_CARPET:
-            case BLACK_CONCRETE:
-            case BLACK_CONCRETE_POWDER:
-            case BLACK_GLAZED_TERRACOTTA:
-            case BLACK_SHULKER_BOX:
-            case BLACK_STAINED_GLASS:
-            case BLACK_STAINED_GLASS_PANE:
-            case BLACK_TERRACOTTA:
-            case BLACK_WALL_BANNER:
-            case BLACK_WOOL:
-            case BLAST_FURNACE:
-            case BLUE_BANNER:
-            case BLUE_BED:
-            case BLUE_CANDLE:
-            case BLUE_CANDLE_CAKE:
-            case BLUE_CARPET:
-            case BLUE_CONCRETE:
-            case BLUE_CONCRETE_POWDER:
-            case BLUE_GLAZED_TERRACOTTA:
-            case BLUE_ICE:
-            case BLUE_ORCHID:
-            case BLUE_SHULKER_BOX:
-            case BLUE_STAINED_GLASS:
-            case BLUE_STAINED_GLASS_PANE:
-            case BLUE_TERRACOTTA:
-            case BLUE_WALL_BANNER:
-            case BLUE_WOOL:
-            case BONE_BLOCK:
-            case BOOKSHELF:
-            case BRAIN_CORAL:
-            case BRAIN_CORAL_BLOCK:
-            case BRAIN_CORAL_FAN:
-            case BRAIN_CORAL_WALL_FAN:
-            case BREWING_STAND:
-            case BRICKS:
-            case BRICK_SLAB:
-            case BRICK_STAIRS:
-            case BRICK_WALL:
-            case BROWN_BANNER:
-            case BROWN_BED:
-            case BROWN_CANDLE:
-            case BROWN_CANDLE_CAKE:
-            case BROWN_CARPET:
-            case BROWN_CONCRETE:
-            case BROWN_CONCRETE_POWDER:
-            case BROWN_GLAZED_TERRACOTTA:
-            case BROWN_MUSHROOM:
-            case BROWN_MUSHROOM_BLOCK:
-            case BROWN_SHULKER_BOX:
-            case BROWN_STAINED_GLASS:
-            case BROWN_STAINED_GLASS_PANE:
-            case BROWN_TERRACOTTA:
-            case BROWN_WALL_BANNER:
-            case BROWN_WOOL:
-            case BUBBLE_COLUMN:
-            case BUBBLE_CORAL:
-            case BUBBLE_CORAL_BLOCK:
-            case BUBBLE_CORAL_FAN:
-            case BUBBLE_CORAL_WALL_FAN:
-            case BUDDING_AMETHYST:
-            case CACTUS:
-            case CAKE:
-            case CALCITE:
-            case CAMPFIRE:
-            case CANDLE:
-            case CANDLE_CAKE:
-            case CARROTS:
-            case CARTOGRAPHY_TABLE:
-            case CARVED_PUMPKIN:
-            case CAULDRON:
-            case CAVE_AIR:
-            case CAVE_VINES:
-            case CAVE_VINES_PLANT:
-            case CHAIN:
-            case CHAIN_COMMAND_BLOCK:
-            case CHEST:
-            case CHIPPED_ANVIL:
-            case CHISELED_DEEPSLATE:
-            case CHISELED_NETHER_BRICKS:
-            case CHISELED_POLISHED_BLACKSTONE:
-            case CHISELED_QUARTZ_BLOCK:
-            case CHISELED_RED_SANDSTONE:
-            case CHISELED_SANDSTONE:
-            case CHISELED_STONE_BRICKS:
-            case CHORUS_FLOWER:
-            case CHORUS_PLANT:
-            case CLAY:
-            case COAL_BLOCK:
-            case COAL_ORE:
-            case COARSE_DIRT:
-            case COBBLED_DEEPSLATE:
-            case COBBLED_DEEPSLATE_SLAB:
-            case COBBLED_DEEPSLATE_STAIRS:
-            case COBBLED_DEEPSLATE_WALL:
-            case COBBLESTONE:
-            case COBBLESTONE_SLAB:
-            case COBBLESTONE_STAIRS:
-            case COBBLESTONE_WALL:
-            case COBWEB:
-            case COCOA:
-            case COMMAND_BLOCK:
-            case COMPARATOR:
-            case COMPOSTER:
-            case CONDUIT:
-            case COPPER_BLOCK:
-            case COPPER_ORE:
-            case CORNFLOWER:
-            case CRACKED_DEEPSLATE_BRICKS:
-            case CRACKED_DEEPSLATE_TILES:
-            case CRACKED_NETHER_BRICKS:
-            case CRACKED_POLISHED_BLACKSTONE_BRICKS:
-            case CRACKED_STONE_BRICKS:
-            case CRAFTING_TABLE:
-            case CREEPER_HEAD:
-            case CREEPER_WALL_HEAD:
-            case CRIMSON_BUTTON:
-            case CRIMSON_DOOR:
-            case CRIMSON_FENCE:
-            case CRIMSON_FENCE_GATE:
-            case CRIMSON_FUNGUS:
-            case CRIMSON_HYPHAE:
-            case CRIMSON_NYLIUM:
-            case CRIMSON_PLANKS:
-            case CRIMSON_PRESSURE_PLATE:
-            case CRIMSON_ROOTS:
-            case CRIMSON_SIGN:
-            case CRIMSON_SLAB:
-            case CRIMSON_STAIRS:
-            case CRIMSON_STEM:
-            case CRIMSON_TRAPDOOR:
-            case CRIMSON_WALL_SIGN:
-            case CRYING_OBSIDIAN:
-            case CUT_COPPER:
-            case CUT_COPPER_SLAB:
-            case CUT_COPPER_STAIRS:
-            case CUT_RED_SANDSTONE:
-            case CUT_RED_SANDSTONE_SLAB:
-            case CUT_SANDSTONE:
-            case CUT_SANDSTONE_SLAB:
-            case CYAN_BANNER:
-            case CYAN_BED:
-            case CYAN_CANDLE:
-            case CYAN_CANDLE_CAKE:
-            case CYAN_CARPET:
-            case CYAN_CONCRETE:
-            case CYAN_CONCRETE_POWDER:
-            case CYAN_GLAZED_TERRACOTTA:
-            case CYAN_SHULKER_BOX:
-            case CYAN_STAINED_GLASS:
-            case CYAN_STAINED_GLASS_PANE:
-            case CYAN_TERRACOTTA:
-            case CYAN_WALL_BANNER:
-            case CYAN_WOOL:
-            case DAMAGED_ANVIL:
-            case DANDELION:
-            case DARK_OAK_BUTTON:
-            case DARK_OAK_DOOR:
-            case DARK_OAK_FENCE:
-            case DARK_OAK_FENCE_GATE:
-            case DARK_OAK_LEAVES:
-            case DARK_OAK_LOG:
-            case DARK_OAK_PLANKS:
-            case DARK_OAK_PRESSURE_PLATE:
-            case DARK_OAK_SAPLING:
-            case DARK_OAK_SIGN:
-            case DARK_OAK_SLAB:
-            case DARK_OAK_STAIRS:
-            case DARK_OAK_TRAPDOOR:
-            case DARK_OAK_WALL_SIGN:
-            case DARK_OAK_WOOD:
-            case DARK_PRISMARINE:
-            case DARK_PRISMARINE_SLAB:
-            case DARK_PRISMARINE_STAIRS:
-            case DAYLIGHT_DETECTOR:
-            case DEAD_BRAIN_CORAL:
-            case DEAD_BRAIN_CORAL_BLOCK:
-            case DEAD_BRAIN_CORAL_FAN:
-            case DEAD_BRAIN_CORAL_WALL_FAN:
-            case DEAD_BUBBLE_CORAL:
-            case DEAD_BUBBLE_CORAL_BLOCK:
-            case DEAD_BUBBLE_CORAL_FAN:
-            case DEAD_BUBBLE_CORAL_WALL_FAN:
-            case DEAD_BUSH:
-            case DEAD_FIRE_CORAL:
-            case DEAD_FIRE_CORAL_BLOCK:
-            case DEAD_FIRE_CORAL_FAN:
-            case DEAD_FIRE_CORAL_WALL_FAN:
-            case DEAD_HORN_CORAL:
-            case DEAD_HORN_CORAL_BLOCK:
-            case DEAD_HORN_CORAL_FAN:
-            case DEAD_HORN_CORAL_WALL_FAN:
-            case DEAD_TUBE_CORAL:
-            case DEAD_TUBE_CORAL_BLOCK:
-            case DEAD_TUBE_CORAL_FAN:
-            case DEAD_TUBE_CORAL_WALL_FAN:
-            case DEEPSLATE:
-            case DEEPSLATE_BRICKS:
-            case DEEPSLATE_BRICK_SLAB:
-            case DEEPSLATE_BRICK_STAIRS:
-            case DEEPSLATE_BRICK_WALL:
-            case DEEPSLATE_COAL_ORE:
-            case DEEPSLATE_COPPER_ORE:
-            case DEEPSLATE_DIAMOND_ORE:
-            case DEEPSLATE_EMERALD_ORE:
-            case DEEPSLATE_GOLD_ORE:
-            case DEEPSLATE_IRON_ORE:
-            case DEEPSLATE_LAPIS_ORE:
-            case DEEPSLATE_REDSTONE_ORE:
-            case DEEPSLATE_TILES:
-            case DEEPSLATE_TILE_SLAB:
-            case DEEPSLATE_TILE_STAIRS:
-            case DEEPSLATE_TILE_WALL:
-            case DETECTOR_RAIL:
-            case DIAMOND_BLOCK:
-            case DIAMOND_ORE:
-            case DIORITE:
-            case DIORITE_SLAB:
-            case DIORITE_STAIRS:
-            case DIORITE_WALL:
-            case DIRT:
-            case DIRT_PATH:
-            case DISPENSER:
-            case DRAGON_EGG:
-            case DRAGON_HEAD:
-            case DRAGON_WALL_HEAD:
-            case DRIED_KELP_BLOCK:
-            case DRIPSTONE_BLOCK:
-            case DROPPER:
-            case EMERALD_BLOCK:
-            case EMERALD_ORE:
-            case ENCHANTING_TABLE:
-            case ENDER_CHEST:
-            case END_GATEWAY:
-            case END_PORTAL:
-            case END_PORTAL_FRAME:
-            case END_ROD:
-            case END_STONE:
-            case END_STONE_BRICKS:
-            case END_STONE_BRICK_SLAB:
-            case END_STONE_BRICK_STAIRS:
-            case END_STONE_BRICK_WALL:
-            case EXPOSED_COPPER:
-            case EXPOSED_CUT_COPPER:
-            case EXPOSED_CUT_COPPER_SLAB:
-            case EXPOSED_CUT_COPPER_STAIRS:
-            case FARMLAND:
-            case FERN:
-            case FIRE:
-            case FIRE_CORAL:
-            case FIRE_CORAL_BLOCK:
-            case FIRE_CORAL_FAN:
-            case FIRE_CORAL_WALL_FAN:
-            case FLETCHING_TABLE:
-            case FLOWERING_AZALEA:
-            case FLOWERING_AZALEA_LEAVES:
-            case FLOWER_POT:
-            case FROSTED_ICE:
-            case FURNACE:
-            case GILDED_BLACKSTONE:
-            case GLASS:
-            case GLASS_PANE:
-            case GLOWSTONE:
-            case GLOW_LICHEN:
-            case GOLD_BLOCK:
-            case GOLD_ORE:
-            case GRANITE:
-            case GRANITE_SLAB:
-            case GRANITE_STAIRS:
-            case GRANITE_WALL:
-            case GRASS:
-            case GRASS_BLOCK:
-            case GRAVEL:
-            case GRAY_BANNER:
-            case GRAY_BED:
-            case GRAY_CANDLE:
-            case GRAY_CANDLE_CAKE:
-            case GRAY_CARPET:
-            case GRAY_CONCRETE:
-            case GRAY_CONCRETE_POWDER:
-            case GRAY_GLAZED_TERRACOTTA:
-            case GRAY_SHULKER_BOX:
-            case GRAY_STAINED_GLASS:
-            case GRAY_STAINED_GLASS_PANE:
-            case GRAY_TERRACOTTA:
-            case GRAY_WALL_BANNER:
-            case GRAY_WOOL:
-            case GREEN_BANNER:
-            case GREEN_BED:
-            case GREEN_CANDLE:
-            case GREEN_CANDLE_CAKE:
-            case GREEN_CARPET:
-            case GREEN_CONCRETE:
-            case GREEN_CONCRETE_POWDER:
-            case GREEN_GLAZED_TERRACOTTA:
-            case GREEN_SHULKER_BOX:
-            case GREEN_STAINED_GLASS:
-            case GREEN_STAINED_GLASS_PANE:
-            case GREEN_TERRACOTTA:
-            case GREEN_WALL_BANNER:
-            case GREEN_WOOL:
-            case GRINDSTONE:
-            case HANGING_ROOTS:
-            case HAY_BLOCK:
-            case HEAVY_WEIGHTED_PRESSURE_PLATE:
-            case HONEYCOMB_BLOCK:
-            case HONEY_BLOCK:
-            case HOPPER:
-            case HORN_CORAL:
-            case HORN_CORAL_BLOCK:
-            case HORN_CORAL_FAN:
-            case HORN_CORAL_WALL_FAN:
-            case ICE:
-            case INFESTED_CHISELED_STONE_BRICKS:
-            case INFESTED_COBBLESTONE:
-            case INFESTED_CRACKED_STONE_BRICKS:
-            case INFESTED_DEEPSLATE:
-            case INFESTED_MOSSY_STONE_BRICKS:
-            case INFESTED_STONE:
-            case INFESTED_STONE_BRICKS:
-            case IRON_BARS:
-            case IRON_BLOCK:
-            case IRON_DOOR:
-            case IRON_ORE:
-            case IRON_TRAPDOOR:
-            case JACK_O_LANTERN:
-            case JIGSAW:
-            case JUKEBOX:
-            case JUNGLE_BUTTON:
-            case JUNGLE_DOOR:
-            case JUNGLE_FENCE:
-            case JUNGLE_FENCE_GATE:
-            case JUNGLE_LEAVES:
-            case JUNGLE_LOG:
-            case JUNGLE_PLANKS:
-            case JUNGLE_PRESSURE_PLATE:
-            case JUNGLE_SAPLING:
-            case JUNGLE_SIGN:
-            case JUNGLE_SLAB:
-            case JUNGLE_STAIRS:
-            case JUNGLE_TRAPDOOR:
-            case JUNGLE_WALL_SIGN:
-            case JUNGLE_WOOD:
-            case KELP:
-            case KELP_PLANT:
-            case LADDER:
-            case LANTERN:
-            case LAPIS_BLOCK:
-            case LAPIS_ORE:
-            case LARGE_AMETHYST_BUD:
-            case LARGE_FERN:
-            case LAVA:
-            case LAVA_CAULDRON:
-            case LECTERN:
-            case LEVER:
-            case LIGHT:
-            case LIGHTNING_ROD:
-            case LIGHT_BLUE_BANNER:
-            case LIGHT_BLUE_BED:
-            case LIGHT_BLUE_CANDLE:
-            case LIGHT_BLUE_CANDLE_CAKE:
-            case LIGHT_BLUE_CARPET:
-            case LIGHT_BLUE_CONCRETE:
-            case LIGHT_BLUE_CONCRETE_POWDER:
-            case LIGHT_BLUE_GLAZED_TERRACOTTA:
-            case LIGHT_BLUE_SHULKER_BOX:
-            case LIGHT_BLUE_STAINED_GLASS:
-            case LIGHT_BLUE_STAINED_GLASS_PANE:
-            case LIGHT_BLUE_TERRACOTTA:
-            case LIGHT_BLUE_WALL_BANNER:
-            case LIGHT_BLUE_WOOL:
-            case LIGHT_GRAY_BANNER:
-            case LIGHT_GRAY_BED:
-            case LIGHT_GRAY_CANDLE:
-            case LIGHT_GRAY_CANDLE_CAKE:
-            case LIGHT_GRAY_CARPET:
-            case LIGHT_GRAY_CONCRETE:
-            case LIGHT_GRAY_CONCRETE_POWDER:
-            case LIGHT_GRAY_GLAZED_TERRACOTTA:
-            case LIGHT_GRAY_SHULKER_BOX:
-            case LIGHT_GRAY_STAINED_GLASS:
-            case LIGHT_GRAY_STAINED_GLASS_PANE:
-            case LIGHT_GRAY_TERRACOTTA:
-            case LIGHT_GRAY_WALL_BANNER:
-            case LIGHT_GRAY_WOOL:
-            case LIGHT_WEIGHTED_PRESSURE_PLATE:
-            case LILAC:
-            case LILY_OF_THE_VALLEY:
-            case LILY_PAD:
-            case LIME_BANNER:
-            case LIME_BED:
-            case LIME_CANDLE:
-            case LIME_CANDLE_CAKE:
-            case LIME_CARPET:
-            case LIME_CONCRETE:
-            case LIME_CONCRETE_POWDER:
-            case LIME_GLAZED_TERRACOTTA:
-            case LIME_SHULKER_BOX:
-            case LIME_STAINED_GLASS:
-            case LIME_STAINED_GLASS_PANE:
-            case LIME_TERRACOTTA:
-            case LIME_WALL_BANNER:
-            case LIME_WOOL:
-            case LODESTONE:
-            case LOOM:
-            case MAGENTA_BANNER:
-            case MAGENTA_BED:
-            case MAGENTA_CANDLE:
-            case MAGENTA_CANDLE_CAKE:
-            case MAGENTA_CARPET:
-            case MAGENTA_CONCRETE:
-            case MAGENTA_CONCRETE_POWDER:
-            case MAGENTA_GLAZED_TERRACOTTA:
-            case MAGENTA_SHULKER_BOX:
-            case MAGENTA_STAINED_GLASS:
-            case MAGENTA_STAINED_GLASS_PANE:
-            case MAGENTA_TERRACOTTA:
-            case MAGENTA_WALL_BANNER:
-            case MAGENTA_WOOL:
-            case MAGMA_BLOCK:
-            case MEDIUM_AMETHYST_BUD:
-            case MELON:
-            case MELON_STEM:
-            case MOSSY_COBBLESTONE:
-            case MOSSY_COBBLESTONE_SLAB:
-            case MOSSY_COBBLESTONE_STAIRS:
-            case MOSSY_COBBLESTONE_WALL:
-            case MOSSY_STONE_BRICKS:
-            case MOSSY_STONE_BRICK_SLAB:
-            case MOSSY_STONE_BRICK_STAIRS:
-            case MOSSY_STONE_BRICK_WALL:
-            case MOSS_BLOCK:
-            case MOSS_CARPET:
-            case MOVING_PISTON:
-            case MUSHROOM_STEM:
-            case MYCELIUM:
-            case NETHERITE_BLOCK:
-            case NETHERRACK:
-            case NETHER_BRICKS:
-            case NETHER_BRICK_FENCE:
-            case NETHER_BRICK_SLAB:
-            case NETHER_BRICK_STAIRS:
-            case NETHER_BRICK_WALL:
-            case NETHER_GOLD_ORE:
-            case NETHER_PORTAL:
-            case NETHER_QUARTZ_ORE:
-            case NETHER_SPROUTS:
-            case NETHER_WART:
-            case NETHER_WART_BLOCK:
-            case NOTE_BLOCK:
-            case OAK_BUTTON:
-            case OAK_DOOR:
-            case OAK_FENCE:
-            case OAK_FENCE_GATE:
-            case OAK_LEAVES:
-            case OAK_LOG:
-            case OAK_PLANKS:
-            case OAK_PRESSURE_PLATE:
-            case OAK_SAPLING:
-            case OAK_SIGN:
-            case OAK_SLAB:
-            case OAK_STAIRS:
-            case OAK_TRAPDOOR:
-            case OAK_WALL_SIGN:
-            case OAK_WOOD:
-            case OBSERVER:
-            case OBSIDIAN:
-            case ORANGE_BANNER:
-            case ORANGE_BED:
-            case ORANGE_CANDLE:
-            case ORANGE_CANDLE_CAKE:
-            case ORANGE_CARPET:
-            case ORANGE_CONCRETE:
-            case ORANGE_CONCRETE_POWDER:
-            case ORANGE_GLAZED_TERRACOTTA:
-            case ORANGE_SHULKER_BOX:
-            case ORANGE_STAINED_GLASS:
-            case ORANGE_STAINED_GLASS_PANE:
-            case ORANGE_TERRACOTTA:
-            case ORANGE_TULIP:
-            case ORANGE_WALL_BANNER:
-            case ORANGE_WOOL:
-            case OXEYE_DAISY:
-            case OXIDIZED_COPPER:
-            case OXIDIZED_CUT_COPPER:
-            case OXIDIZED_CUT_COPPER_SLAB:
-            case OXIDIZED_CUT_COPPER_STAIRS:
-            case PACKED_ICE:
-            case PEONY:
-            case PETRIFIED_OAK_SLAB:
-            case PINK_BANNER:
-            case PINK_BED:
-            case PINK_CANDLE:
-            case PINK_CANDLE_CAKE:
-            case PINK_CARPET:
-            case PINK_CONCRETE:
-            case PINK_CONCRETE_POWDER:
-            case PINK_GLAZED_TERRACOTTA:
-            case PINK_SHULKER_BOX:
-            case PINK_STAINED_GLASS:
-            case PINK_STAINED_GLASS_PANE:
-            case PINK_TERRACOTTA:
-            case PINK_TULIP:
-            case PINK_WALL_BANNER:
-            case PINK_WOOL:
-            case PISTON:
-            case PISTON_HEAD:
-            case PLAYER_HEAD:
-            case PLAYER_WALL_HEAD:
-            case PODZOL:
-            case POINTED_DRIPSTONE:
-            case POLISHED_ANDESITE:
-            case POLISHED_ANDESITE_SLAB:
-            case POLISHED_ANDESITE_STAIRS:
-            case POLISHED_BASALT:
-            case POLISHED_BLACKSTONE:
-            case POLISHED_BLACKSTONE_BRICKS:
-            case POLISHED_BLACKSTONE_BRICK_SLAB:
-            case POLISHED_BLACKSTONE_BRICK_STAIRS:
-            case POLISHED_BLACKSTONE_BRICK_WALL:
-            case POLISHED_BLACKSTONE_BUTTON:
-            case POLISHED_BLACKSTONE_PRESSURE_PLATE:
-            case POLISHED_BLACKSTONE_SLAB:
-            case POLISHED_BLACKSTONE_STAIRS:
-            case POLISHED_BLACKSTONE_WALL:
-            case POLISHED_DEEPSLATE:
-            case POLISHED_DEEPSLATE_SLAB:
-            case POLISHED_DEEPSLATE_STAIRS:
-            case POLISHED_DEEPSLATE_WALL:
-            case POLISHED_DIORITE:
-            case POLISHED_DIORITE_SLAB:
-            case POLISHED_DIORITE_STAIRS:
-            case POLISHED_GRANITE:
-            case POLISHED_GRANITE_SLAB:
-            case POLISHED_GRANITE_STAIRS:
-            case POPPY:
-            case POTATOES:
-            case POTTED_ACACIA_SAPLING:
-            case POTTED_ALLIUM:
-            case POTTED_AZALEA_BUSH:
-            case POTTED_AZURE_BLUET:
-            case POTTED_BAMBOO:
-            case POTTED_BIRCH_SAPLING:
-            case POTTED_BLUE_ORCHID:
-            case POTTED_BROWN_MUSHROOM:
-            case POTTED_CACTUS:
-            case POTTED_CORNFLOWER:
-            case POTTED_CRIMSON_FUNGUS:
-            case POTTED_CRIMSON_ROOTS:
-            case POTTED_DANDELION:
-            case POTTED_DARK_OAK_SAPLING:
-            case POTTED_DEAD_BUSH:
-            case POTTED_FERN:
-            case POTTED_FLOWERING_AZALEA_BUSH:
-            case POTTED_JUNGLE_SAPLING:
-            case POTTED_LILY_OF_THE_VALLEY:
-            case POTTED_OAK_SAPLING:
-            case POTTED_ORANGE_TULIP:
-            case POTTED_OXEYE_DAISY:
-            case POTTED_PINK_TULIP:
-            case POTTED_POPPY:
-            case POTTED_RED_MUSHROOM:
-            case POTTED_RED_TULIP:
-            case POTTED_SPRUCE_SAPLING:
-            case POTTED_WARPED_FUNGUS:
-            case POTTED_WARPED_ROOTS:
-            case POTTED_WHITE_TULIP:
-            case POTTED_WITHER_ROSE:
-            case POWDER_SNOW:
-            case POWDER_SNOW_CAULDRON:
-            case POWERED_RAIL:
-            case PRISMARINE:
-            case PRISMARINE_BRICKS:
-            case PRISMARINE_BRICK_SLAB:
-            case PRISMARINE_BRICK_STAIRS:
-            case PRISMARINE_SLAB:
-            case PRISMARINE_STAIRS:
-            case PRISMARINE_WALL:
-            case PUMPKIN:
-            case PUMPKIN_STEM:
-            case PURPLE_BANNER:
-            case PURPLE_BED:
-            case PURPLE_CANDLE:
-            case PURPLE_CANDLE_CAKE:
-            case PURPLE_CARPET:
-            case PURPLE_CONCRETE:
-            case PURPLE_CONCRETE_POWDER:
-            case PURPLE_GLAZED_TERRACOTTA:
-            case PURPLE_SHULKER_BOX:
-            case PURPLE_STAINED_GLASS:
-            case PURPLE_STAINED_GLASS_PANE:
-            case PURPLE_TERRACOTTA:
-            case PURPLE_WALL_BANNER:
-            case PURPLE_WOOL:
-            case PURPUR_BLOCK:
-            case PURPUR_PILLAR:
-            case PURPUR_SLAB:
-            case PURPUR_STAIRS:
-            case QUARTZ_BLOCK:
-            case QUARTZ_BRICKS:
-            case QUARTZ_PILLAR:
-            case QUARTZ_SLAB:
-            case QUARTZ_STAIRS:
-            case RAIL:
-            case RAW_COPPER_BLOCK:
-            case RAW_GOLD_BLOCK:
-            case RAW_IRON_BLOCK:
-            case REDSTONE_BLOCK:
-            case REDSTONE_LAMP:
-            case REDSTONE_ORE:
-            case REDSTONE_TORCH:
-            case REDSTONE_WALL_TORCH:
-            case REDSTONE_WIRE:
-            case RED_BANNER:
-            case RED_BED:
-            case RED_CANDLE:
-            case RED_CANDLE_CAKE:
-            case RED_CARPET:
-            case RED_CONCRETE:
-            case RED_CONCRETE_POWDER:
-            case RED_GLAZED_TERRACOTTA:
-            case RED_MUSHROOM:
-            case RED_MUSHROOM_BLOCK:
-            case RED_NETHER_BRICKS:
-            case RED_NETHER_BRICK_SLAB:
-            case RED_NETHER_BRICK_STAIRS:
-            case RED_NETHER_BRICK_WALL:
-            case RED_SAND:
-            case RED_SANDSTONE:
-            case RED_SANDSTONE_SLAB:
-            case RED_SANDSTONE_STAIRS:
-            case RED_SANDSTONE_WALL:
-            case RED_SHULKER_BOX:
-            case RED_STAINED_GLASS:
-            case RED_STAINED_GLASS_PANE:
-            case RED_TERRACOTTA:
-            case RED_TULIP:
-            case RED_WALL_BANNER:
-            case RED_WOOL:
-            case REPEATER:
-            case REPEATING_COMMAND_BLOCK:
-            case RESPAWN_ANCHOR:
-            case ROOTED_DIRT:
-            case ROSE_BUSH:
-            case SAND:
-            case SANDSTONE:
-            case SANDSTONE_SLAB:
-            case SANDSTONE_STAIRS:
-            case SANDSTONE_WALL:
-            case SCAFFOLDING:
-            case SCULK_SENSOR:
-            case SEAGRASS:
-            case SEA_LANTERN:
-            case SEA_PICKLE:
-            case SHROOMLIGHT:
-            case SHULKER_BOX:
-            case SKELETON_SKULL:
-            case SKELETON_WALL_SKULL:
-            case SLIME_BLOCK:
-            case SMALL_AMETHYST_BUD:
-            case SMALL_DRIPLEAF:
-            case SMITHING_TABLE:
-            case SMOKER:
-            case SMOOTH_BASALT:
-            case SMOOTH_QUARTZ:
-            case SMOOTH_QUARTZ_SLAB:
-            case SMOOTH_QUARTZ_STAIRS:
-            case SMOOTH_RED_SANDSTONE:
-            case SMOOTH_RED_SANDSTONE_SLAB:
-            case SMOOTH_RED_SANDSTONE_STAIRS:
-            case SMOOTH_SANDSTONE:
-            case SMOOTH_SANDSTONE_SLAB:
-            case SMOOTH_SANDSTONE_STAIRS:
-            case SMOOTH_STONE:
-            case SMOOTH_STONE_SLAB:
-            case SNOW:
-            case SNOW_BLOCK:
-            case SOUL_CAMPFIRE:
-            case SOUL_FIRE:
-            case SOUL_LANTERN:
-            case SOUL_SAND:
-            case SOUL_SOIL:
-            case SOUL_TORCH:
-            case SOUL_WALL_TORCH:
-            case SPAWNER:
-            case SPONGE:
-            case SPORE_BLOSSOM:
-            case SPRUCE_BUTTON:
-            case SPRUCE_DOOR:
-            case SPRUCE_FENCE:
-            case SPRUCE_FENCE_GATE:
-            case SPRUCE_LEAVES:
-            case SPRUCE_LOG:
-            case SPRUCE_PLANKS:
-            case SPRUCE_PRESSURE_PLATE:
-            case SPRUCE_SAPLING:
-            case SPRUCE_SIGN:
-            case SPRUCE_SLAB:
-            case SPRUCE_STAIRS:
-            case SPRUCE_TRAPDOOR:
-            case SPRUCE_WALL_SIGN:
-            case SPRUCE_WOOD:
-            case STICKY_PISTON:
-            case STONE:
-            case STONECUTTER:
-            case STONE_BRICKS:
-            case STONE_BRICK_SLAB:
-            case STONE_BRICK_STAIRS:
-            case STONE_BRICK_WALL:
-            case STONE_BUTTON:
-            case STONE_PRESSURE_PLATE:
-            case STONE_SLAB:
-            case STONE_STAIRS:
-            case STRIPPED_ACACIA_LOG:
-            case STRIPPED_ACACIA_WOOD:
-            case STRIPPED_BIRCH_LOG:
-            case STRIPPED_BIRCH_WOOD:
-            case STRIPPED_CRIMSON_HYPHAE:
-            case STRIPPED_CRIMSON_STEM:
-            case STRIPPED_DARK_OAK_LOG:
-            case STRIPPED_DARK_OAK_WOOD:
-            case STRIPPED_JUNGLE_LOG:
-            case STRIPPED_JUNGLE_WOOD:
-            case STRIPPED_OAK_LOG:
-            case STRIPPED_OAK_WOOD:
-            case STRIPPED_SPRUCE_LOG:
-            case STRIPPED_SPRUCE_WOOD:
-            case STRIPPED_WARPED_HYPHAE:
-            case STRIPPED_WARPED_STEM:
-            case STRUCTURE_BLOCK:
-            case STRUCTURE_VOID:
-            case SUGAR_CANE:
-            case SUNFLOWER:
-            case SWEET_BERRY_BUSH:
-            case TALL_GRASS:
-            case TALL_SEAGRASS:
-            case TARGET:
-            case TERRACOTTA:
-            case TINTED_GLASS:
-            case TNT:
-            case TORCH:
-            case TRAPPED_CHEST:
-            case TRIPWIRE:
-            case TRIPWIRE_HOOK:
-            case TUBE_CORAL:
-            case TUBE_CORAL_BLOCK:
-            case TUBE_CORAL_FAN:
-            case TUBE_CORAL_WALL_FAN:
-            case TUFF:
-            case TURTLE_EGG:
-            case TWISTING_VINES:
-            case TWISTING_VINES_PLANT:
-            case VINE:
-            case VOID_AIR:
-            case WALL_TORCH:
-            case WARPED_BUTTON:
-            case WARPED_DOOR:
-            case WARPED_FENCE:
-            case WARPED_FENCE_GATE:
-            case WARPED_FUNGUS:
-            case WARPED_HYPHAE:
-            case WARPED_NYLIUM:
-            case WARPED_PLANKS:
-            case WARPED_PRESSURE_PLATE:
-            case WARPED_ROOTS:
-            case WARPED_SIGN:
-            case WARPED_SLAB:
-            case WARPED_STAIRS:
-            case WARPED_STEM:
-            case WARPED_TRAPDOOR:
-            case WARPED_WALL_SIGN:
-            case WARPED_WART_BLOCK:
-            case WATER:
-            case WATER_CAULDRON:
-            case WAXED_COPPER_BLOCK:
-            case WAXED_CUT_COPPER:
-            case WAXED_CUT_COPPER_SLAB:
-            case WAXED_CUT_COPPER_STAIRS:
-            case WAXED_EXPOSED_COPPER:
-            case WAXED_EXPOSED_CUT_COPPER:
-            case WAXED_EXPOSED_CUT_COPPER_SLAB:
-            case WAXED_EXPOSED_CUT_COPPER_STAIRS:
-            case WAXED_OXIDIZED_COPPER:
-            case WAXED_OXIDIZED_CUT_COPPER:
-            case WAXED_OXIDIZED_CUT_COPPER_SLAB:
-            case WAXED_OXIDIZED_CUT_COPPER_STAIRS:
-            case WAXED_WEATHERED_COPPER:
-            case WAXED_WEATHERED_CUT_COPPER:
-            case WAXED_WEATHERED_CUT_COPPER_SLAB:
-            case WAXED_WEATHERED_CUT_COPPER_STAIRS:
-            case WEATHERED_COPPER:
-            case WEATHERED_CUT_COPPER:
-            case WEATHERED_CUT_COPPER_SLAB:
-            case WEATHERED_CUT_COPPER_STAIRS:
-            case WEEPING_VINES:
-            case WEEPING_VINES_PLANT:
-            case WET_SPONGE:
-            case WHEAT:
-            case WHITE_BANNER:
-            case WHITE_BED:
-            case WHITE_CANDLE:
-            case WHITE_CANDLE_CAKE:
-            case WHITE_CARPET:
-            case WHITE_CONCRETE:
-            case WHITE_CONCRETE_POWDER:
-            case WHITE_GLAZED_TERRACOTTA:
-            case WHITE_SHULKER_BOX:
-            case WHITE_STAINED_GLASS:
-            case WHITE_STAINED_GLASS_PANE:
-            case WHITE_TERRACOTTA:
-            case WHITE_TULIP:
-            case WHITE_WALL_BANNER:
-            case WHITE_WOOL:
-            case WITHER_ROSE:
-            case WITHER_SKELETON_SKULL:
-            case WITHER_SKELETON_WALL_SKULL:
-            case YELLOW_BANNER:
-            case YELLOW_BED:
-            case YELLOW_CANDLE:
-            case YELLOW_CANDLE_CAKE:
-            case YELLOW_CARPET:
-            case YELLOW_CONCRETE:
-            case YELLOW_CONCRETE_POWDER:
-            case YELLOW_GLAZED_TERRACOTTA:
-            case YELLOW_SHULKER_BOX:
-            case YELLOW_STAINED_GLASS:
-            case YELLOW_STAINED_GLASS_PANE:
-            case YELLOW_TERRACOTTA:
-            case YELLOW_WALL_BANNER:
-            case YELLOW_WOOL:
-            case ZOMBIE_HEAD:
-            case ZOMBIE_WALL_HEAD:
-            //</editor-fold>
-                return true;
-            default:
-                return 0 <= id && id < 256;
-        }
-    }
-
-    /**
-     * Checks if this Material is edible.
-     *
-     * @return true if this Material is edible.
-     */
-    public boolean isEdible() {
-        switch (this) {
-            //<editor-fold defaultstate="collapsed" desc="isEdible">
-            case APPLE:
-            case BAKED_POTATO:
-            case BEEF:
-            case BEETROOT:
-            case BEETROOT_SOUP:
-            case BREAD:
-            case CARROT:
-            case CHICKEN:
-            case CHORUS_FRUIT:
-            case COD:
-            case COOKED_BEEF:
-            case COOKED_CHICKEN:
-            case COOKED_COD:
-            case COOKED_MUTTON:
-            case COOKED_PORKCHOP:
-            case COOKED_RABBIT:
-            case COOKED_SALMON:
-            case COOKIE:
-            case DRIED_KELP:
-            case ENCHANTED_GOLDEN_APPLE:
-            case GLOW_BERRIES:
-            case GOLDEN_APPLE:
-            case GOLDEN_CARROT:
-            case HONEY_BOTTLE:
-            case MELON_SLICE:
-            case MUSHROOM_STEW:
-            case MUTTON:
-            case POISONOUS_POTATO:
-            case PORKCHOP:
-            case POTATO:
-            case PUFFERFISH:
-            case PUMPKIN_PIE:
-            case RABBIT:
-            case RABBIT_STEW:
-            case ROTTEN_FLESH:
-            case SALMON:
-            case SPIDER_EYE:
-            case SUSPICIOUS_STEW:
-            case SWEET_BERRIES:
-            case TROPICAL_FISH:
-            // ----- Legacy Separator -----
-            case LEGACY_BREAD:
-            case LEGACY_CARROT_ITEM:
-            case LEGACY_BAKED_POTATO:
-            case LEGACY_POTATO_ITEM:
-            case LEGACY_POISONOUS_POTATO:
-            case LEGACY_GOLDEN_CARROT:
-            case LEGACY_PUMPKIN_PIE:
-            case LEGACY_COOKIE:
-            case LEGACY_MELON:
-            case LEGACY_MUSHROOM_SOUP:
-            case LEGACY_RAW_CHICKEN:
-            case LEGACY_COOKED_CHICKEN:
-            case LEGACY_RAW_BEEF:
-            case LEGACY_COOKED_BEEF:
-            case LEGACY_RAW_FISH:
-            case LEGACY_COOKED_FISH:
-            case LEGACY_PORK:
-            case LEGACY_GRILLED_PORK:
-            case LEGACY_APPLE:
-            case LEGACY_GOLDEN_APPLE:
-            case LEGACY_ROTTEN_FLESH:
-            case LEGACY_SPIDER_EYE:
-            case LEGACY_RABBIT:
-            case LEGACY_COOKED_RABBIT:
-            case LEGACY_RABBIT_STEW:
-            case LEGACY_MUTTON:
-            case LEGACY_COOKED_MUTTON:
-            case LEGACY_BEETROOT:
-            case LEGACY_CHORUS_FRUIT:
-            case LEGACY_BEETROOT_SOUP:
-            //</editor-fold>
-                return true;
-            default:
-                return false;
-        }
+    static Material getMaterial(@NotNull String key, int id) {
+        NamespacedKey namespacedKey = NamespacedKey.minecraft(key);
+        Material material = Registry.MATERIAL.get(namespacedKey);
+        Preconditions.checkNotNull(material, "No Material found for %s. This is a bug.", namespacedKey);
+        return material;
     }
 
     /**
@@ -5106,7 +2198,7 @@ public enum Material implements Keyed {
      * @return Material if found, or null
      */
     @Nullable
-    public static Material getMaterial(@NotNull final String name) {
+    static Material getMaterial(@NotNull final String name) {
         return getMaterial(name, false);
     }
 
@@ -5126,17 +2218,21 @@ public enum Material implements Keyed {
      * @return Material if found, or null
      */
     @Nullable
-    public static Material getMaterial(@NotNull String name, boolean legacyName) {
+    static Material getMaterial(@NotNull String name, boolean legacyName) {
         if (legacyName) {
             if (!name.startsWith(LEGACY_PREFIX)) {
                 name = LEGACY_PREFIX + name;
             }
 
-            Material match = BY_NAME.get(name);
+            Material match = Bukkit.getUnsafe().getLegacyMaterial(name);
             return Bukkit.getUnsafe().fromLegacy(match);
         }
 
-        return BY_NAME.get(name);
+        if (name.startsWith(LEGACY_PREFIX)) {
+            return Bukkit.getUnsafe().getLegacyMaterial(name);
+        } else {
+            return Registry.MATERIAL.get(NamespacedKey.fromString(name.toLowerCase(java.util.Locale.ENGLISH)));
+        }
     }
 
     /**
@@ -5150,7 +2246,7 @@ public enum Material implements Keyed {
      * @return Material if found, or null
      */
     @Nullable
-    public static Material matchMaterial(@NotNull final String name) {
+    static Material matchMaterial(@NotNull final String name) {
         return matchMaterial(name, false);
     }
 
@@ -5167,7 +2263,7 @@ public enum Material implements Keyed {
      * @return Material if found, or null
      */
     @Nullable
-    public static Material matchMaterial(@NotNull final String name, boolean legacyName) {
+    static Material matchMaterial(@NotNull final String name, boolean legacyName) {
         Validate.notNull(name, "Name cannot be null");
 
         String filtered = name;
@@ -5181,964 +2277,132 @@ public enum Material implements Keyed {
         return getMaterial(filtered, legacyName);
     }
 
-    static {
-        for (Material material : values()) {
-            BY_NAME.put(material.name(), material);
-        }
-    }
+    /**
+     * Do not use for any reason.
+     *
+     * @return ID of this material
+     * @deprecated Magic value
+     */
+    @Deprecated
+    int getId();
+
+    /**
+     * Do not use for any reason.
+     *
+     * @return legacy status
+     */
+    @Deprecated
+    boolean isLegacy();
+
+    /**
+     * Gets the maximum amount of this material that can be held in a stack
+     *
+     * @return Maximum stack size for this material
+     */
+    @Deprecated // only for Items
+    int getMaxStackSize();
+
+    /**
+     * Gets the maximum durability of this material
+     *
+     * @return Maximum durability for this material
+     */
+    @Deprecated // only for Items
+    short getMaxDurability();
+
+    /**
+     * Creates a new {@link BlockData} instance for this Material, with all
+     * properties initialized to unspecified defaults.
+     *
+     * @return new data instance
+     */
+    @NotNull
+    @Deprecated // only for Blocks
+    BlockData createBlockData();
+
+    /**
+     * Creates a new {@link BlockData} instance for this Material, with
+     * all properties initialized to unspecified defaults.
+     *
+     * @param consumer consumer to run on new instance before returning
+     * @return new data instance
+     */
+    @NotNull
+    @Deprecated // only for Blocks
+    BlockData createBlockData(@Nullable Consumer<BlockData> consumer);
+
+    /**
+     * Creates a new {@link BlockData} instance for this Material, with all
+     * properties initialized to unspecified defaults, except for those provided
+     * in data.
+     *
+     * @param data data string
+     * @return new data instance
+     * @throws IllegalArgumentException if the specified data is not valid
+     */
+    @NotNull
+    @Deprecated // only for Blocks
+    BlockData createBlockData(@Nullable String data);
+
+    /**
+     * Gets the MaterialData class associated with this Material
+     *
+     * @return MaterialData associated with this Material
+     */
+    @NotNull
+    @Deprecated
+    Class<? extends MaterialData> getData();
+
+    /**
+     * Constructs a new MaterialData relevant for this Material, with the
+     * given initial data
+     *
+     * @param raw Initial data to construct the MaterialData with
+     * @return New MaterialData with the given data
+     * @deprecated Magic value
+     */
+    @Deprecated
+    @NotNull
+    MaterialData getNewData(final byte raw);
+
+    /**
+     * Checks if this Material is a placable block
+     *
+     * @return true if this material is a block
+     */
+    boolean isBlock();
+
+    @NotNull // TODO
+    BlockType<?> asBlockType();
+
+    /**
+     * Checks if this Material is edible.
+     *
+     * @return true if this Material is edible.
+     */
+    @Deprecated // only for items
+    boolean isEdible();
 
     /**
      * @return True if this material represents a playable music disk.
      */
-    public boolean isRecord() {
-        switch (this) {
-            //<editor-fold defaultstate="collapsed" desc="isRecord">
-            case MUSIC_DISC_11:
-            case MUSIC_DISC_13:
-            case MUSIC_DISC_BLOCKS:
-            case MUSIC_DISC_CAT:
-            case MUSIC_DISC_CHIRP:
-            case MUSIC_DISC_FAR:
-            case MUSIC_DISC_MALL:
-            case MUSIC_DISC_MELLOHI:
-            case MUSIC_DISC_PIGSTEP:
-            case MUSIC_DISC_STAL:
-            case MUSIC_DISC_STRAD:
-            case MUSIC_DISC_WAIT:
-            case MUSIC_DISC_WARD:
-            //</editor-fold>
-                return true;
-            default:
-                return id >= LEGACY_GOLD_RECORD.id && id <= LEGACY_RECORD_12.id;
-        }
-    }
+    @Deprecated // only for items
+    boolean isRecord();
 
     /**
      * Check if the material is a block and solid (can be built upon)
      *
      * @return True if this material is a block and solid
      */
-    public boolean isSolid() {
-        if (!isBlock() || id == 0) {
-            return false;
-        }
-        switch (this) {
-            //<editor-fold defaultstate="collapsed" desc="isSolid">
-            case ACACIA_DOOR:
-            case ACACIA_FENCE:
-            case ACACIA_FENCE_GATE:
-            case ACACIA_LEAVES:
-            case ACACIA_LOG:
-            case ACACIA_PLANKS:
-            case ACACIA_PRESSURE_PLATE:
-            case ACACIA_SIGN:
-            case ACACIA_SLAB:
-            case ACACIA_STAIRS:
-            case ACACIA_TRAPDOOR:
-            case ACACIA_WALL_SIGN:
-            case ACACIA_WOOD:
-            case AMETHYST_BLOCK:
-            case AMETHYST_CLUSTER:
-            case ANCIENT_DEBRIS:
-            case ANDESITE:
-            case ANDESITE_SLAB:
-            case ANDESITE_STAIRS:
-            case ANDESITE_WALL:
-            case ANVIL:
-            case AZALEA_LEAVES:
-            case BAMBOO:
-            case BARREL:
-            case BARRIER:
-            case BASALT:
-            case BEACON:
-            case BEDROCK:
-            case BEEHIVE:
-            case BEE_NEST:
-            case BELL:
-            case BIRCH_DOOR:
-            case BIRCH_FENCE:
-            case BIRCH_FENCE_GATE:
-            case BIRCH_LEAVES:
-            case BIRCH_LOG:
-            case BIRCH_PLANKS:
-            case BIRCH_PRESSURE_PLATE:
-            case BIRCH_SIGN:
-            case BIRCH_SLAB:
-            case BIRCH_STAIRS:
-            case BIRCH_TRAPDOOR:
-            case BIRCH_WALL_SIGN:
-            case BIRCH_WOOD:
-            case BLACKSTONE:
-            case BLACKSTONE_SLAB:
-            case BLACKSTONE_STAIRS:
-            case BLACKSTONE_WALL:
-            case BLACK_BANNER:
-            case BLACK_BED:
-            case BLACK_CANDLE_CAKE:
-            case BLACK_CONCRETE:
-            case BLACK_CONCRETE_POWDER:
-            case BLACK_GLAZED_TERRACOTTA:
-            case BLACK_SHULKER_BOX:
-            case BLACK_STAINED_GLASS:
-            case BLACK_STAINED_GLASS_PANE:
-            case BLACK_TERRACOTTA:
-            case BLACK_WALL_BANNER:
-            case BLACK_WOOL:
-            case BLAST_FURNACE:
-            case BLUE_BANNER:
-            case BLUE_BED:
-            case BLUE_CANDLE_CAKE:
-            case BLUE_CONCRETE:
-            case BLUE_CONCRETE_POWDER:
-            case BLUE_GLAZED_TERRACOTTA:
-            case BLUE_ICE:
-            case BLUE_SHULKER_BOX:
-            case BLUE_STAINED_GLASS:
-            case BLUE_STAINED_GLASS_PANE:
-            case BLUE_TERRACOTTA:
-            case BLUE_WALL_BANNER:
-            case BLUE_WOOL:
-            case BONE_BLOCK:
-            case BOOKSHELF:
-            case BRAIN_CORAL_BLOCK:
-            case BREWING_STAND:
-            case BRICKS:
-            case BRICK_SLAB:
-            case BRICK_STAIRS:
-            case BRICK_WALL:
-            case BROWN_BANNER:
-            case BROWN_BED:
-            case BROWN_CANDLE_CAKE:
-            case BROWN_CONCRETE:
-            case BROWN_CONCRETE_POWDER:
-            case BROWN_GLAZED_TERRACOTTA:
-            case BROWN_MUSHROOM_BLOCK:
-            case BROWN_SHULKER_BOX:
-            case BROWN_STAINED_GLASS:
-            case BROWN_STAINED_GLASS_PANE:
-            case BROWN_TERRACOTTA:
-            case BROWN_WALL_BANNER:
-            case BROWN_WOOL:
-            case BUBBLE_CORAL_BLOCK:
-            case BUDDING_AMETHYST:
-            case CACTUS:
-            case CAKE:
-            case CALCITE:
-            case CAMPFIRE:
-            case CANDLE_CAKE:
-            case CARTOGRAPHY_TABLE:
-            case CARVED_PUMPKIN:
-            case CAULDRON:
-            case CHAIN:
-            case CHAIN_COMMAND_BLOCK:
-            case CHEST:
-            case CHIPPED_ANVIL:
-            case CHISELED_DEEPSLATE:
-            case CHISELED_NETHER_BRICKS:
-            case CHISELED_POLISHED_BLACKSTONE:
-            case CHISELED_QUARTZ_BLOCK:
-            case CHISELED_RED_SANDSTONE:
-            case CHISELED_SANDSTONE:
-            case CHISELED_STONE_BRICKS:
-            case CLAY:
-            case COAL_BLOCK:
-            case COAL_ORE:
-            case COARSE_DIRT:
-            case COBBLED_DEEPSLATE:
-            case COBBLED_DEEPSLATE_SLAB:
-            case COBBLED_DEEPSLATE_STAIRS:
-            case COBBLED_DEEPSLATE_WALL:
-            case COBBLESTONE:
-            case COBBLESTONE_SLAB:
-            case COBBLESTONE_STAIRS:
-            case COBBLESTONE_WALL:
-            case COMMAND_BLOCK:
-            case COMPOSTER:
-            case CONDUIT:
-            case COPPER_BLOCK:
-            case COPPER_ORE:
-            case CRACKED_DEEPSLATE_BRICKS:
-            case CRACKED_DEEPSLATE_TILES:
-            case CRACKED_NETHER_BRICKS:
-            case CRACKED_POLISHED_BLACKSTONE_BRICKS:
-            case CRACKED_STONE_BRICKS:
-            case CRAFTING_TABLE:
-            case CRIMSON_DOOR:
-            case CRIMSON_FENCE:
-            case CRIMSON_FENCE_GATE:
-            case CRIMSON_HYPHAE:
-            case CRIMSON_NYLIUM:
-            case CRIMSON_PLANKS:
-            case CRIMSON_PRESSURE_PLATE:
-            case CRIMSON_SIGN:
-            case CRIMSON_SLAB:
-            case CRIMSON_STAIRS:
-            case CRIMSON_STEM:
-            case CRIMSON_TRAPDOOR:
-            case CRIMSON_WALL_SIGN:
-            case CRYING_OBSIDIAN:
-            case CUT_COPPER:
-            case CUT_COPPER_SLAB:
-            case CUT_COPPER_STAIRS:
-            case CUT_RED_SANDSTONE:
-            case CUT_RED_SANDSTONE_SLAB:
-            case CUT_SANDSTONE:
-            case CUT_SANDSTONE_SLAB:
-            case CYAN_BANNER:
-            case CYAN_BED:
-            case CYAN_CANDLE_CAKE:
-            case CYAN_CONCRETE:
-            case CYAN_CONCRETE_POWDER:
-            case CYAN_GLAZED_TERRACOTTA:
-            case CYAN_SHULKER_BOX:
-            case CYAN_STAINED_GLASS:
-            case CYAN_STAINED_GLASS_PANE:
-            case CYAN_TERRACOTTA:
-            case CYAN_WALL_BANNER:
-            case CYAN_WOOL:
-            case DAMAGED_ANVIL:
-            case DARK_OAK_DOOR:
-            case DARK_OAK_FENCE:
-            case DARK_OAK_FENCE_GATE:
-            case DARK_OAK_LEAVES:
-            case DARK_OAK_LOG:
-            case DARK_OAK_PLANKS:
-            case DARK_OAK_PRESSURE_PLATE:
-            case DARK_OAK_SIGN:
-            case DARK_OAK_SLAB:
-            case DARK_OAK_STAIRS:
-            case DARK_OAK_TRAPDOOR:
-            case DARK_OAK_WALL_SIGN:
-            case DARK_OAK_WOOD:
-            case DARK_PRISMARINE:
-            case DARK_PRISMARINE_SLAB:
-            case DARK_PRISMARINE_STAIRS:
-            case DAYLIGHT_DETECTOR:
-            case DEAD_BRAIN_CORAL:
-            case DEAD_BRAIN_CORAL_BLOCK:
-            case DEAD_BRAIN_CORAL_FAN:
-            case DEAD_BRAIN_CORAL_WALL_FAN:
-            case DEAD_BUBBLE_CORAL:
-            case DEAD_BUBBLE_CORAL_BLOCK:
-            case DEAD_BUBBLE_CORAL_FAN:
-            case DEAD_BUBBLE_CORAL_WALL_FAN:
-            case DEAD_FIRE_CORAL:
-            case DEAD_FIRE_CORAL_BLOCK:
-            case DEAD_FIRE_CORAL_FAN:
-            case DEAD_FIRE_CORAL_WALL_FAN:
-            case DEAD_HORN_CORAL:
-            case DEAD_HORN_CORAL_BLOCK:
-            case DEAD_HORN_CORAL_FAN:
-            case DEAD_HORN_CORAL_WALL_FAN:
-            case DEAD_TUBE_CORAL:
-            case DEAD_TUBE_CORAL_BLOCK:
-            case DEAD_TUBE_CORAL_FAN:
-            case DEAD_TUBE_CORAL_WALL_FAN:
-            case DEEPSLATE:
-            case DEEPSLATE_BRICKS:
-            case DEEPSLATE_BRICK_SLAB:
-            case DEEPSLATE_BRICK_STAIRS:
-            case DEEPSLATE_BRICK_WALL:
-            case DEEPSLATE_COAL_ORE:
-            case DEEPSLATE_COPPER_ORE:
-            case DEEPSLATE_DIAMOND_ORE:
-            case DEEPSLATE_EMERALD_ORE:
-            case DEEPSLATE_GOLD_ORE:
-            case DEEPSLATE_IRON_ORE:
-            case DEEPSLATE_LAPIS_ORE:
-            case DEEPSLATE_REDSTONE_ORE:
-            case DEEPSLATE_TILES:
-            case DEEPSLATE_TILE_SLAB:
-            case DEEPSLATE_TILE_STAIRS:
-            case DEEPSLATE_TILE_WALL:
-            case DIAMOND_BLOCK:
-            case DIAMOND_ORE:
-            case DIORITE:
-            case DIORITE_SLAB:
-            case DIORITE_STAIRS:
-            case DIORITE_WALL:
-            case DIRT:
-            case DIRT_PATH:
-            case DISPENSER:
-            case DRAGON_EGG:
-            case DRIED_KELP_BLOCK:
-            case DRIPSTONE_BLOCK:
-            case DROPPER:
-            case EMERALD_BLOCK:
-            case EMERALD_ORE:
-            case ENCHANTING_TABLE:
-            case ENDER_CHEST:
-            case END_PORTAL_FRAME:
-            case END_STONE:
-            case END_STONE_BRICKS:
-            case END_STONE_BRICK_SLAB:
-            case END_STONE_BRICK_STAIRS:
-            case END_STONE_BRICK_WALL:
-            case EXPOSED_COPPER:
-            case EXPOSED_CUT_COPPER:
-            case EXPOSED_CUT_COPPER_SLAB:
-            case EXPOSED_CUT_COPPER_STAIRS:
-            case FARMLAND:
-            case FIRE_CORAL_BLOCK:
-            case FLETCHING_TABLE:
-            case FLOWERING_AZALEA_LEAVES:
-            case FROSTED_ICE:
-            case FURNACE:
-            case GILDED_BLACKSTONE:
-            case GLASS:
-            case GLASS_PANE:
-            case GLOWSTONE:
-            case GOLD_BLOCK:
-            case GOLD_ORE:
-            case GRANITE:
-            case GRANITE_SLAB:
-            case GRANITE_STAIRS:
-            case GRANITE_WALL:
-            case GRASS_BLOCK:
-            case GRAVEL:
-            case GRAY_BANNER:
-            case GRAY_BED:
-            case GRAY_CANDLE_CAKE:
-            case GRAY_CONCRETE:
-            case GRAY_CONCRETE_POWDER:
-            case GRAY_GLAZED_TERRACOTTA:
-            case GRAY_SHULKER_BOX:
-            case GRAY_STAINED_GLASS:
-            case GRAY_STAINED_GLASS_PANE:
-            case GRAY_TERRACOTTA:
-            case GRAY_WALL_BANNER:
-            case GRAY_WOOL:
-            case GREEN_BANNER:
-            case GREEN_BED:
-            case GREEN_CANDLE_CAKE:
-            case GREEN_CONCRETE:
-            case GREEN_CONCRETE_POWDER:
-            case GREEN_GLAZED_TERRACOTTA:
-            case GREEN_SHULKER_BOX:
-            case GREEN_STAINED_GLASS:
-            case GREEN_STAINED_GLASS_PANE:
-            case GREEN_TERRACOTTA:
-            case GREEN_WALL_BANNER:
-            case GREEN_WOOL:
-            case GRINDSTONE:
-            case HAY_BLOCK:
-            case HEAVY_WEIGHTED_PRESSURE_PLATE:
-            case HONEYCOMB_BLOCK:
-            case HONEY_BLOCK:
-            case HOPPER:
-            case HORN_CORAL_BLOCK:
-            case ICE:
-            case INFESTED_CHISELED_STONE_BRICKS:
-            case INFESTED_COBBLESTONE:
-            case INFESTED_CRACKED_STONE_BRICKS:
-            case INFESTED_DEEPSLATE:
-            case INFESTED_MOSSY_STONE_BRICKS:
-            case INFESTED_STONE:
-            case INFESTED_STONE_BRICKS:
-            case IRON_BARS:
-            case IRON_BLOCK:
-            case IRON_DOOR:
-            case IRON_ORE:
-            case IRON_TRAPDOOR:
-            case JACK_O_LANTERN:
-            case JIGSAW:
-            case JUKEBOX:
-            case JUNGLE_DOOR:
-            case JUNGLE_FENCE:
-            case JUNGLE_FENCE_GATE:
-            case JUNGLE_LEAVES:
-            case JUNGLE_LOG:
-            case JUNGLE_PLANKS:
-            case JUNGLE_PRESSURE_PLATE:
-            case JUNGLE_SIGN:
-            case JUNGLE_SLAB:
-            case JUNGLE_STAIRS:
-            case JUNGLE_TRAPDOOR:
-            case JUNGLE_WALL_SIGN:
-            case JUNGLE_WOOD:
-            case LANTERN:
-            case LAPIS_BLOCK:
-            case LAPIS_ORE:
-            case LARGE_AMETHYST_BUD:
-            case LAVA_CAULDRON:
-            case LECTERN:
-            case LIGHTNING_ROD:
-            case LIGHT_BLUE_BANNER:
-            case LIGHT_BLUE_BED:
-            case LIGHT_BLUE_CANDLE_CAKE:
-            case LIGHT_BLUE_CONCRETE:
-            case LIGHT_BLUE_CONCRETE_POWDER:
-            case LIGHT_BLUE_GLAZED_TERRACOTTA:
-            case LIGHT_BLUE_SHULKER_BOX:
-            case LIGHT_BLUE_STAINED_GLASS:
-            case LIGHT_BLUE_STAINED_GLASS_PANE:
-            case LIGHT_BLUE_TERRACOTTA:
-            case LIGHT_BLUE_WALL_BANNER:
-            case LIGHT_BLUE_WOOL:
-            case LIGHT_GRAY_BANNER:
-            case LIGHT_GRAY_BED:
-            case LIGHT_GRAY_CANDLE_CAKE:
-            case LIGHT_GRAY_CONCRETE:
-            case LIGHT_GRAY_CONCRETE_POWDER:
-            case LIGHT_GRAY_GLAZED_TERRACOTTA:
-            case LIGHT_GRAY_SHULKER_BOX:
-            case LIGHT_GRAY_STAINED_GLASS:
-            case LIGHT_GRAY_STAINED_GLASS_PANE:
-            case LIGHT_GRAY_TERRACOTTA:
-            case LIGHT_GRAY_WALL_BANNER:
-            case LIGHT_GRAY_WOOL:
-            case LIGHT_WEIGHTED_PRESSURE_PLATE:
-            case LIME_BANNER:
-            case LIME_BED:
-            case LIME_CANDLE_CAKE:
-            case LIME_CONCRETE:
-            case LIME_CONCRETE_POWDER:
-            case LIME_GLAZED_TERRACOTTA:
-            case LIME_SHULKER_BOX:
-            case LIME_STAINED_GLASS:
-            case LIME_STAINED_GLASS_PANE:
-            case LIME_TERRACOTTA:
-            case LIME_WALL_BANNER:
-            case LIME_WOOL:
-            case LODESTONE:
-            case LOOM:
-            case MAGENTA_BANNER:
-            case MAGENTA_BED:
-            case MAGENTA_CANDLE_CAKE:
-            case MAGENTA_CONCRETE:
-            case MAGENTA_CONCRETE_POWDER:
-            case MAGENTA_GLAZED_TERRACOTTA:
-            case MAGENTA_SHULKER_BOX:
-            case MAGENTA_STAINED_GLASS:
-            case MAGENTA_STAINED_GLASS_PANE:
-            case MAGENTA_TERRACOTTA:
-            case MAGENTA_WALL_BANNER:
-            case MAGENTA_WOOL:
-            case MAGMA_BLOCK:
-            case MEDIUM_AMETHYST_BUD:
-            case MELON:
-            case MOSSY_COBBLESTONE:
-            case MOSSY_COBBLESTONE_SLAB:
-            case MOSSY_COBBLESTONE_STAIRS:
-            case MOSSY_COBBLESTONE_WALL:
-            case MOSSY_STONE_BRICKS:
-            case MOSSY_STONE_BRICK_SLAB:
-            case MOSSY_STONE_BRICK_STAIRS:
-            case MOSSY_STONE_BRICK_WALL:
-            case MOSS_BLOCK:
-            case MOVING_PISTON:
-            case MUSHROOM_STEM:
-            case MYCELIUM:
-            case NETHERITE_BLOCK:
-            case NETHERRACK:
-            case NETHER_BRICKS:
-            case NETHER_BRICK_FENCE:
-            case NETHER_BRICK_SLAB:
-            case NETHER_BRICK_STAIRS:
-            case NETHER_BRICK_WALL:
-            case NETHER_GOLD_ORE:
-            case NETHER_QUARTZ_ORE:
-            case NETHER_WART_BLOCK:
-            case NOTE_BLOCK:
-            case OAK_DOOR:
-            case OAK_FENCE:
-            case OAK_FENCE_GATE:
-            case OAK_LEAVES:
-            case OAK_LOG:
-            case OAK_PLANKS:
-            case OAK_PRESSURE_PLATE:
-            case OAK_SIGN:
-            case OAK_SLAB:
-            case OAK_STAIRS:
-            case OAK_TRAPDOOR:
-            case OAK_WALL_SIGN:
-            case OAK_WOOD:
-            case OBSERVER:
-            case OBSIDIAN:
-            case ORANGE_BANNER:
-            case ORANGE_BED:
-            case ORANGE_CANDLE_CAKE:
-            case ORANGE_CONCRETE:
-            case ORANGE_CONCRETE_POWDER:
-            case ORANGE_GLAZED_TERRACOTTA:
-            case ORANGE_SHULKER_BOX:
-            case ORANGE_STAINED_GLASS:
-            case ORANGE_STAINED_GLASS_PANE:
-            case ORANGE_TERRACOTTA:
-            case ORANGE_WALL_BANNER:
-            case ORANGE_WOOL:
-            case OXIDIZED_COPPER:
-            case OXIDIZED_CUT_COPPER:
-            case OXIDIZED_CUT_COPPER_SLAB:
-            case OXIDIZED_CUT_COPPER_STAIRS:
-            case PACKED_ICE:
-            case PETRIFIED_OAK_SLAB:
-            case PINK_BANNER:
-            case PINK_BED:
-            case PINK_CANDLE_CAKE:
-            case PINK_CONCRETE:
-            case PINK_CONCRETE_POWDER:
-            case PINK_GLAZED_TERRACOTTA:
-            case PINK_SHULKER_BOX:
-            case PINK_STAINED_GLASS:
-            case PINK_STAINED_GLASS_PANE:
-            case PINK_TERRACOTTA:
-            case PINK_WALL_BANNER:
-            case PINK_WOOL:
-            case PISTON:
-            case PISTON_HEAD:
-            case PODZOL:
-            case POINTED_DRIPSTONE:
-            case POLISHED_ANDESITE:
-            case POLISHED_ANDESITE_SLAB:
-            case POLISHED_ANDESITE_STAIRS:
-            case POLISHED_BASALT:
-            case POLISHED_BLACKSTONE:
-            case POLISHED_BLACKSTONE_BRICKS:
-            case POLISHED_BLACKSTONE_BRICK_SLAB:
-            case POLISHED_BLACKSTONE_BRICK_STAIRS:
-            case POLISHED_BLACKSTONE_BRICK_WALL:
-            case POLISHED_BLACKSTONE_PRESSURE_PLATE:
-            case POLISHED_BLACKSTONE_SLAB:
-            case POLISHED_BLACKSTONE_STAIRS:
-            case POLISHED_BLACKSTONE_WALL:
-            case POLISHED_DEEPSLATE:
-            case POLISHED_DEEPSLATE_SLAB:
-            case POLISHED_DEEPSLATE_STAIRS:
-            case POLISHED_DEEPSLATE_WALL:
-            case POLISHED_DIORITE:
-            case POLISHED_DIORITE_SLAB:
-            case POLISHED_DIORITE_STAIRS:
-            case POLISHED_GRANITE:
-            case POLISHED_GRANITE_SLAB:
-            case POLISHED_GRANITE_STAIRS:
-            case POWDER_SNOW_CAULDRON:
-            case PRISMARINE:
-            case PRISMARINE_BRICKS:
-            case PRISMARINE_BRICK_SLAB:
-            case PRISMARINE_BRICK_STAIRS:
-            case PRISMARINE_SLAB:
-            case PRISMARINE_STAIRS:
-            case PRISMARINE_WALL:
-            case PUMPKIN:
-            case PURPLE_BANNER:
-            case PURPLE_BED:
-            case PURPLE_CANDLE_CAKE:
-            case PURPLE_CONCRETE:
-            case PURPLE_CONCRETE_POWDER:
-            case PURPLE_GLAZED_TERRACOTTA:
-            case PURPLE_SHULKER_BOX:
-            case PURPLE_STAINED_GLASS:
-            case PURPLE_STAINED_GLASS_PANE:
-            case PURPLE_TERRACOTTA:
-            case PURPLE_WALL_BANNER:
-            case PURPLE_WOOL:
-            case PURPUR_BLOCK:
-            case PURPUR_PILLAR:
-            case PURPUR_SLAB:
-            case PURPUR_STAIRS:
-            case QUARTZ_BLOCK:
-            case QUARTZ_BRICKS:
-            case QUARTZ_PILLAR:
-            case QUARTZ_SLAB:
-            case QUARTZ_STAIRS:
-            case RAW_COPPER_BLOCK:
-            case RAW_GOLD_BLOCK:
-            case RAW_IRON_BLOCK:
-            case REDSTONE_BLOCK:
-            case REDSTONE_LAMP:
-            case REDSTONE_ORE:
-            case RED_BANNER:
-            case RED_BED:
-            case RED_CANDLE_CAKE:
-            case RED_CONCRETE:
-            case RED_CONCRETE_POWDER:
-            case RED_GLAZED_TERRACOTTA:
-            case RED_MUSHROOM_BLOCK:
-            case RED_NETHER_BRICKS:
-            case RED_NETHER_BRICK_SLAB:
-            case RED_NETHER_BRICK_STAIRS:
-            case RED_NETHER_BRICK_WALL:
-            case RED_SAND:
-            case RED_SANDSTONE:
-            case RED_SANDSTONE_SLAB:
-            case RED_SANDSTONE_STAIRS:
-            case RED_SANDSTONE_WALL:
-            case RED_SHULKER_BOX:
-            case RED_STAINED_GLASS:
-            case RED_STAINED_GLASS_PANE:
-            case RED_TERRACOTTA:
-            case RED_WALL_BANNER:
-            case RED_WOOL:
-            case REPEATING_COMMAND_BLOCK:
-            case RESPAWN_ANCHOR:
-            case ROOTED_DIRT:
-            case SAND:
-            case SANDSTONE:
-            case SANDSTONE_SLAB:
-            case SANDSTONE_STAIRS:
-            case SANDSTONE_WALL:
-            case SCULK_SENSOR:
-            case SEA_LANTERN:
-            case SHROOMLIGHT:
-            case SHULKER_BOX:
-            case SLIME_BLOCK:
-            case SMALL_AMETHYST_BUD:
-            case SMITHING_TABLE:
-            case SMOKER:
-            case SMOOTH_BASALT:
-            case SMOOTH_QUARTZ:
-            case SMOOTH_QUARTZ_SLAB:
-            case SMOOTH_QUARTZ_STAIRS:
-            case SMOOTH_RED_SANDSTONE:
-            case SMOOTH_RED_SANDSTONE_SLAB:
-            case SMOOTH_RED_SANDSTONE_STAIRS:
-            case SMOOTH_SANDSTONE:
-            case SMOOTH_SANDSTONE_SLAB:
-            case SMOOTH_SANDSTONE_STAIRS:
-            case SMOOTH_STONE:
-            case SMOOTH_STONE_SLAB:
-            case SNOW_BLOCK:
-            case SOUL_CAMPFIRE:
-            case SOUL_LANTERN:
-            case SOUL_SAND:
-            case SOUL_SOIL:
-            case SPAWNER:
-            case SPONGE:
-            case SPRUCE_DOOR:
-            case SPRUCE_FENCE:
-            case SPRUCE_FENCE_GATE:
-            case SPRUCE_LEAVES:
-            case SPRUCE_LOG:
-            case SPRUCE_PLANKS:
-            case SPRUCE_PRESSURE_PLATE:
-            case SPRUCE_SIGN:
-            case SPRUCE_SLAB:
-            case SPRUCE_STAIRS:
-            case SPRUCE_TRAPDOOR:
-            case SPRUCE_WALL_SIGN:
-            case SPRUCE_WOOD:
-            case STICKY_PISTON:
-            case STONE:
-            case STONECUTTER:
-            case STONE_BRICKS:
-            case STONE_BRICK_SLAB:
-            case STONE_BRICK_STAIRS:
-            case STONE_BRICK_WALL:
-            case STONE_PRESSURE_PLATE:
-            case STONE_SLAB:
-            case STONE_STAIRS:
-            case STRIPPED_ACACIA_LOG:
-            case STRIPPED_ACACIA_WOOD:
-            case STRIPPED_BIRCH_LOG:
-            case STRIPPED_BIRCH_WOOD:
-            case STRIPPED_CRIMSON_HYPHAE:
-            case STRIPPED_CRIMSON_STEM:
-            case STRIPPED_DARK_OAK_LOG:
-            case STRIPPED_DARK_OAK_WOOD:
-            case STRIPPED_JUNGLE_LOG:
-            case STRIPPED_JUNGLE_WOOD:
-            case STRIPPED_OAK_LOG:
-            case STRIPPED_OAK_WOOD:
-            case STRIPPED_SPRUCE_LOG:
-            case STRIPPED_SPRUCE_WOOD:
-            case STRIPPED_WARPED_HYPHAE:
-            case STRIPPED_WARPED_STEM:
-            case STRUCTURE_BLOCK:
-            case TARGET:
-            case TERRACOTTA:
-            case TINTED_GLASS:
-            case TNT:
-            case TRAPPED_CHEST:
-            case TUBE_CORAL_BLOCK:
-            case TUFF:
-            case TURTLE_EGG:
-            case WARPED_DOOR:
-            case WARPED_FENCE:
-            case WARPED_FENCE_GATE:
-            case WARPED_HYPHAE:
-            case WARPED_NYLIUM:
-            case WARPED_PLANKS:
-            case WARPED_PRESSURE_PLATE:
-            case WARPED_SIGN:
-            case WARPED_SLAB:
-            case WARPED_STAIRS:
-            case WARPED_STEM:
-            case WARPED_TRAPDOOR:
-            case WARPED_WALL_SIGN:
-            case WARPED_WART_BLOCK:
-            case WATER_CAULDRON:
-            case WAXED_COPPER_BLOCK:
-            case WAXED_CUT_COPPER:
-            case WAXED_CUT_COPPER_SLAB:
-            case WAXED_CUT_COPPER_STAIRS:
-            case WAXED_EXPOSED_COPPER:
-            case WAXED_EXPOSED_CUT_COPPER:
-            case WAXED_EXPOSED_CUT_COPPER_SLAB:
-            case WAXED_EXPOSED_CUT_COPPER_STAIRS:
-            case WAXED_OXIDIZED_COPPER:
-            case WAXED_OXIDIZED_CUT_COPPER:
-            case WAXED_OXIDIZED_CUT_COPPER_SLAB:
-            case WAXED_OXIDIZED_CUT_COPPER_STAIRS:
-            case WAXED_WEATHERED_COPPER:
-            case WAXED_WEATHERED_CUT_COPPER:
-            case WAXED_WEATHERED_CUT_COPPER_SLAB:
-            case WAXED_WEATHERED_CUT_COPPER_STAIRS:
-            case WEATHERED_COPPER:
-            case WEATHERED_CUT_COPPER:
-            case WEATHERED_CUT_COPPER_SLAB:
-            case WEATHERED_CUT_COPPER_STAIRS:
-            case WET_SPONGE:
-            case WHITE_BANNER:
-            case WHITE_BED:
-            case WHITE_CANDLE_CAKE:
-            case WHITE_CONCRETE:
-            case WHITE_CONCRETE_POWDER:
-            case WHITE_GLAZED_TERRACOTTA:
-            case WHITE_SHULKER_BOX:
-            case WHITE_STAINED_GLASS:
-            case WHITE_STAINED_GLASS_PANE:
-            case WHITE_TERRACOTTA:
-            case WHITE_WALL_BANNER:
-            case WHITE_WOOL:
-            case YELLOW_BANNER:
-            case YELLOW_BED:
-            case YELLOW_CANDLE_CAKE:
-            case YELLOW_CONCRETE:
-            case YELLOW_CONCRETE_POWDER:
-            case YELLOW_GLAZED_TERRACOTTA:
-            case YELLOW_SHULKER_BOX:
-            case YELLOW_STAINED_GLASS:
-            case YELLOW_STAINED_GLASS_PANE:
-            case YELLOW_TERRACOTTA:
-            case YELLOW_WALL_BANNER:
-            case YELLOW_WOOL:
-            // ----- Legacy Separator -----
-            case LEGACY_STONE:
-            case LEGACY_GRASS:
-            case LEGACY_DIRT:
-            case LEGACY_COBBLESTONE:
-            case LEGACY_WOOD:
-            case LEGACY_BEDROCK:
-            case LEGACY_SAND:
-            case LEGACY_GRAVEL:
-            case LEGACY_GOLD_ORE:
-            case LEGACY_IRON_ORE:
-            case LEGACY_COAL_ORE:
-            case LEGACY_LOG:
-            case LEGACY_LEAVES:
-            case LEGACY_SPONGE:
-            case LEGACY_GLASS:
-            case LEGACY_LAPIS_ORE:
-            case LEGACY_LAPIS_BLOCK:
-            case LEGACY_DISPENSER:
-            case LEGACY_SANDSTONE:
-            case LEGACY_NOTE_BLOCK:
-            case LEGACY_BED_BLOCK:
-            case LEGACY_PISTON_STICKY_BASE:
-            case LEGACY_PISTON_BASE:
-            case LEGACY_PISTON_EXTENSION:
-            case LEGACY_WOOL:
-            case LEGACY_PISTON_MOVING_PIECE:
-            case LEGACY_GOLD_BLOCK:
-            case LEGACY_IRON_BLOCK:
-            case LEGACY_DOUBLE_STEP:
-            case LEGACY_STEP:
-            case LEGACY_BRICK:
-            case LEGACY_TNT:
-            case LEGACY_BOOKSHELF:
-            case LEGACY_MOSSY_COBBLESTONE:
-            case LEGACY_OBSIDIAN:
-            case LEGACY_MOB_SPAWNER:
-            case LEGACY_WOOD_STAIRS:
-            case LEGACY_CHEST:
-            case LEGACY_DIAMOND_ORE:
-            case LEGACY_DIAMOND_BLOCK:
-            case LEGACY_WORKBENCH:
-            case LEGACY_SOIL:
-            case LEGACY_FURNACE:
-            case LEGACY_BURNING_FURNACE:
-            case LEGACY_SIGN_POST:
-            case LEGACY_WOODEN_DOOR:
-            case LEGACY_COBBLESTONE_STAIRS:
-            case LEGACY_WALL_SIGN:
-            case LEGACY_STONE_PLATE:
-            case LEGACY_IRON_DOOR_BLOCK:
-            case LEGACY_WOOD_PLATE:
-            case LEGACY_REDSTONE_ORE:
-            case LEGACY_GLOWING_REDSTONE_ORE:
-            case LEGACY_ICE:
-            case LEGACY_SNOW_BLOCK:
-            case LEGACY_CACTUS:
-            case LEGACY_CLAY:
-            case LEGACY_JUKEBOX:
-            case LEGACY_FENCE:
-            case LEGACY_PUMPKIN:
-            case LEGACY_NETHERRACK:
-            case LEGACY_SOUL_SAND:
-            case LEGACY_GLOWSTONE:
-            case LEGACY_JACK_O_LANTERN:
-            case LEGACY_CAKE_BLOCK:
-            case LEGACY_STAINED_GLASS:
-            case LEGACY_TRAP_DOOR:
-            case LEGACY_MONSTER_EGGS:
-            case LEGACY_SMOOTH_BRICK:
-            case LEGACY_HUGE_MUSHROOM_1:
-            case LEGACY_HUGE_MUSHROOM_2:
-            case LEGACY_IRON_FENCE:
-            case LEGACY_THIN_GLASS:
-            case LEGACY_MELON_BLOCK:
-            case LEGACY_FENCE_GATE:
-            case LEGACY_BRICK_STAIRS:
-            case LEGACY_SMOOTH_STAIRS:
-            case LEGACY_MYCEL:
-            case LEGACY_NETHER_BRICK:
-            case LEGACY_NETHER_FENCE:
-            case LEGACY_NETHER_BRICK_STAIRS:
-            case LEGACY_ENCHANTMENT_TABLE:
-            case LEGACY_BREWING_STAND:
-            case LEGACY_CAULDRON:
-            case LEGACY_ENDER_PORTAL_FRAME:
-            case LEGACY_ENDER_STONE:
-            case LEGACY_DRAGON_EGG:
-            case LEGACY_REDSTONE_LAMP_OFF:
-            case LEGACY_REDSTONE_LAMP_ON:
-            case LEGACY_WOOD_DOUBLE_STEP:
-            case LEGACY_WOOD_STEP:
-            case LEGACY_SANDSTONE_STAIRS:
-            case LEGACY_EMERALD_ORE:
-            case LEGACY_ENDER_CHEST:
-            case LEGACY_EMERALD_BLOCK:
-            case LEGACY_SPRUCE_WOOD_STAIRS:
-            case LEGACY_BIRCH_WOOD_STAIRS:
-            case LEGACY_JUNGLE_WOOD_STAIRS:
-            case LEGACY_COMMAND:
-            case LEGACY_BEACON:
-            case LEGACY_COBBLE_WALL:
-            case LEGACY_ANVIL:
-            case LEGACY_TRAPPED_CHEST:
-            case LEGACY_GOLD_PLATE:
-            case LEGACY_IRON_PLATE:
-            case LEGACY_DAYLIGHT_DETECTOR:
-            case LEGACY_REDSTONE_BLOCK:
-            case LEGACY_QUARTZ_ORE:
-            case LEGACY_HOPPER:
-            case LEGACY_QUARTZ_BLOCK:
-            case LEGACY_QUARTZ_STAIRS:
-            case LEGACY_DROPPER:
-            case LEGACY_STAINED_CLAY:
-            case LEGACY_HAY_BLOCK:
-            case LEGACY_HARD_CLAY:
-            case LEGACY_COAL_BLOCK:
-            case LEGACY_STAINED_GLASS_PANE:
-            case LEGACY_LEAVES_2:
-            case LEGACY_LOG_2:
-            case LEGACY_ACACIA_STAIRS:
-            case LEGACY_DARK_OAK_STAIRS:
-            case LEGACY_PACKED_ICE:
-            case LEGACY_RED_SANDSTONE:
-            case LEGACY_SLIME_BLOCK:
-            case LEGACY_BARRIER:
-            case LEGACY_IRON_TRAPDOOR:
-            case LEGACY_PRISMARINE:
-            case LEGACY_SEA_LANTERN:
-            case LEGACY_DOUBLE_STONE_SLAB2:
-            case LEGACY_RED_SANDSTONE_STAIRS:
-            case LEGACY_STONE_SLAB2:
-            case LEGACY_SPRUCE_FENCE_GATE:
-            case LEGACY_BIRCH_FENCE_GATE:
-            case LEGACY_JUNGLE_FENCE_GATE:
-            case LEGACY_DARK_OAK_FENCE_GATE:
-            case LEGACY_ACACIA_FENCE_GATE:
-            case LEGACY_SPRUCE_FENCE:
-            case LEGACY_BIRCH_FENCE:
-            case LEGACY_JUNGLE_FENCE:
-            case LEGACY_DARK_OAK_FENCE:
-            case LEGACY_ACACIA_FENCE:
-            case LEGACY_STANDING_BANNER:
-            case LEGACY_WALL_BANNER:
-            case LEGACY_DAYLIGHT_DETECTOR_INVERTED:
-            case LEGACY_SPRUCE_DOOR:
-            case LEGACY_BIRCH_DOOR:
-            case LEGACY_JUNGLE_DOOR:
-            case LEGACY_ACACIA_DOOR:
-            case LEGACY_DARK_OAK_DOOR:
-            case LEGACY_PURPUR_BLOCK:
-            case LEGACY_PURPUR_PILLAR:
-            case LEGACY_PURPUR_STAIRS:
-            case LEGACY_PURPUR_DOUBLE_SLAB:
-            case LEGACY_PURPUR_SLAB:
-            case LEGACY_END_BRICKS:
-            case LEGACY_GRASS_PATH:
-            case LEGACY_STRUCTURE_BLOCK:
-            case LEGACY_COMMAND_REPEATING:
-            case LEGACY_COMMAND_CHAIN:
-            case LEGACY_FROSTED_ICE:
-            case LEGACY_MAGMA:
-            case LEGACY_NETHER_WART_BLOCK:
-            case LEGACY_RED_NETHER_BRICK:
-            case LEGACY_BONE_BLOCK:
-            case LEGACY_OBSERVER:
-            case LEGACY_WHITE_SHULKER_BOX:
-            case LEGACY_ORANGE_SHULKER_BOX:
-            case LEGACY_MAGENTA_SHULKER_BOX:
-            case LEGACY_LIGHT_BLUE_SHULKER_BOX:
-            case LEGACY_YELLOW_SHULKER_BOX:
-            case LEGACY_LIME_SHULKER_BOX:
-            case LEGACY_PINK_SHULKER_BOX:
-            case LEGACY_GRAY_SHULKER_BOX:
-            case LEGACY_SILVER_SHULKER_BOX:
-            case LEGACY_CYAN_SHULKER_BOX:
-            case LEGACY_PURPLE_SHULKER_BOX:
-            case LEGACY_BLUE_SHULKER_BOX:
-            case LEGACY_BROWN_SHULKER_BOX:
-            case LEGACY_GREEN_SHULKER_BOX:
-            case LEGACY_RED_SHULKER_BOX:
-            case LEGACY_BLACK_SHULKER_BOX:
-            case LEGACY_WHITE_GLAZED_TERRACOTTA:
-            case LEGACY_ORANGE_GLAZED_TERRACOTTA:
-            case LEGACY_MAGENTA_GLAZED_TERRACOTTA:
-            case LEGACY_LIGHT_BLUE_GLAZED_TERRACOTTA:
-            case LEGACY_YELLOW_GLAZED_TERRACOTTA:
-            case LEGACY_LIME_GLAZED_TERRACOTTA:
-            case LEGACY_PINK_GLAZED_TERRACOTTA:
-            case LEGACY_GRAY_GLAZED_TERRACOTTA:
-            case LEGACY_SILVER_GLAZED_TERRACOTTA:
-            case LEGACY_CYAN_GLAZED_TERRACOTTA:
-            case LEGACY_PURPLE_GLAZED_TERRACOTTA:
-            case LEGACY_BLUE_GLAZED_TERRACOTTA:
-            case LEGACY_BROWN_GLAZED_TERRACOTTA:
-            case LEGACY_GREEN_GLAZED_TERRACOTTA:
-            case LEGACY_RED_GLAZED_TERRACOTTA:
-            case LEGACY_BLACK_GLAZED_TERRACOTTA:
-            case LEGACY_CONCRETE:
-            case LEGACY_CONCRETE_POWDER:
-            //</editor-fold>
-                return true;
-            default:
-                return false;
-        }
-    }
+    @Deprecated // only for blocks
+    boolean isSolid();
 
     /**
      * Check if the material is an air block.
      *
      * @return True if this material is an air block.
-     */
-    public boolean isAir() {
-        switch (this) {
-            //<editor-fold defaultstate="collapsed" desc="isAir">
-            case AIR:
-            case CAVE_AIR:
-            case VOID_AIR:
-            // ----- Legacy Separator -----
-            case LEGACY_AIR:
-                //</editor-fold>
-                return true;
-            default:
-                return false;
-        }
-    }
+     */ // TODO CHECK
+    boolean isAir();
 
     /**
      * Check if the material is a block and does not block any light
@@ -6148,1617 +2412,56 @@ public enum Material implements Keyed {
      * linked to the underlying server. Contributions welcome.
      */
     @Deprecated
-    public boolean isTransparent() {
-        if (!isBlock()) {
-            return false;
-        }
-        switch (this) {
-            //<editor-fold defaultstate="collapsed" desc="isTransparent">
-            case ACACIA_BUTTON:
-            case ACACIA_SAPLING:
-            case ACTIVATOR_RAIL:
-            case AIR:
-            case ALLIUM:
-            case ATTACHED_MELON_STEM:
-            case ATTACHED_PUMPKIN_STEM:
-            case AZURE_BLUET:
-            case BARRIER:
-            case BEETROOTS:
-            case BIRCH_BUTTON:
-            case BIRCH_SAPLING:
-            case BLACK_CARPET:
-            case BLUE_CARPET:
-            case BLUE_ORCHID:
-            case BROWN_CARPET:
-            case BROWN_MUSHROOM:
-            case CARROTS:
-            case CAVE_AIR:
-            case CHORUS_FLOWER:
-            case CHORUS_PLANT:
-            case COCOA:
-            case COMPARATOR:
-            case CREEPER_HEAD:
-            case CREEPER_WALL_HEAD:
-            case CYAN_CARPET:
-            case DANDELION:
-            case DARK_OAK_BUTTON:
-            case DARK_OAK_SAPLING:
-            case DEAD_BUSH:
-            case DETECTOR_RAIL:
-            case DRAGON_HEAD:
-            case DRAGON_WALL_HEAD:
-            case END_GATEWAY:
-            case END_PORTAL:
-            case END_ROD:
-            case FERN:
-            case FIRE:
-            case FLOWER_POT:
-            case GRASS:
-            case GRAY_CARPET:
-            case GREEN_CARPET:
-            case JUNGLE_BUTTON:
-            case JUNGLE_SAPLING:
-            case LADDER:
-            case LARGE_FERN:
-            case LEVER:
-            case LIGHT_BLUE_CARPET:
-            case LIGHT_GRAY_CARPET:
-            case LILAC:
-            case LILY_PAD:
-            case LIME_CARPET:
-            case MAGENTA_CARPET:
-            case MELON_STEM:
-            case NETHER_PORTAL:
-            case NETHER_WART:
-            case OAK_BUTTON:
-            case OAK_SAPLING:
-            case ORANGE_CARPET:
-            case ORANGE_TULIP:
-            case OXEYE_DAISY:
-            case PEONY:
-            case PINK_CARPET:
-            case PINK_TULIP:
-            case PLAYER_HEAD:
-            case PLAYER_WALL_HEAD:
-            case POPPY:
-            case POTATOES:
-            case POTTED_ACACIA_SAPLING:
-            case POTTED_ALLIUM:
-            case POTTED_AZALEA_BUSH:
-            case POTTED_AZURE_BLUET:
-            case POTTED_BIRCH_SAPLING:
-            case POTTED_BLUE_ORCHID:
-            case POTTED_BROWN_MUSHROOM:
-            case POTTED_CACTUS:
-            case POTTED_DANDELION:
-            case POTTED_DARK_OAK_SAPLING:
-            case POTTED_DEAD_BUSH:
-            case POTTED_FERN:
-            case POTTED_FLOWERING_AZALEA_BUSH:
-            case POTTED_JUNGLE_SAPLING:
-            case POTTED_OAK_SAPLING:
-            case POTTED_ORANGE_TULIP:
-            case POTTED_OXEYE_DAISY:
-            case POTTED_PINK_TULIP:
-            case POTTED_POPPY:
-            case POTTED_RED_MUSHROOM:
-            case POTTED_RED_TULIP:
-            case POTTED_SPRUCE_SAPLING:
-            case POTTED_WHITE_TULIP:
-            case POWERED_RAIL:
-            case PUMPKIN_STEM:
-            case PURPLE_CARPET:
-            case RAIL:
-            case REDSTONE_TORCH:
-            case REDSTONE_WALL_TORCH:
-            case REDSTONE_WIRE:
-            case RED_CARPET:
-            case RED_MUSHROOM:
-            case RED_TULIP:
-            case REPEATER:
-            case ROSE_BUSH:
-            case SKELETON_SKULL:
-            case SKELETON_WALL_SKULL:
-            case SNOW:
-            case SPRUCE_BUTTON:
-            case SPRUCE_SAPLING:
-            case STONE_BUTTON:
-            case STRUCTURE_VOID:
-            case SUGAR_CANE:
-            case SUNFLOWER:
-            case TALL_GRASS:
-            case TORCH:
-            case TRIPWIRE:
-            case TRIPWIRE_HOOK:
-            case VINE:
-            case VOID_AIR:
-            case WALL_TORCH:
-            case WHEAT:
-            case WHITE_CARPET:
-            case WHITE_TULIP:
-            case WITHER_SKELETON_SKULL:
-            case WITHER_SKELETON_WALL_SKULL:
-            case YELLOW_CARPET:
-            case ZOMBIE_HEAD:
-            case ZOMBIE_WALL_HEAD:
-            // ----- Legacy Separator -----
-            case LEGACY_AIR:
-            case LEGACY_SAPLING:
-            case LEGACY_POWERED_RAIL:
-            case LEGACY_DETECTOR_RAIL:
-            case LEGACY_LONG_GRASS:
-            case LEGACY_DEAD_BUSH:
-            case LEGACY_YELLOW_FLOWER:
-            case LEGACY_RED_ROSE:
-            case LEGACY_BROWN_MUSHROOM:
-            case LEGACY_RED_MUSHROOM:
-            case LEGACY_TORCH:
-            case LEGACY_FIRE:
-            case LEGACY_REDSTONE_WIRE:
-            case LEGACY_CROPS:
-            case LEGACY_LADDER:
-            case LEGACY_RAILS:
-            case LEGACY_LEVER:
-            case LEGACY_REDSTONE_TORCH_OFF:
-            case LEGACY_REDSTONE_TORCH_ON:
-            case LEGACY_STONE_BUTTON:
-            case LEGACY_SNOW:
-            case LEGACY_SUGAR_CANE_BLOCK:
-            case LEGACY_PORTAL:
-            case LEGACY_DIODE_BLOCK_OFF:
-            case LEGACY_DIODE_BLOCK_ON:
-            case LEGACY_PUMPKIN_STEM:
-            case LEGACY_MELON_STEM:
-            case LEGACY_VINE:
-            case LEGACY_WATER_LILY:
-            case LEGACY_NETHER_WARTS:
-            case LEGACY_ENDER_PORTAL:
-            case LEGACY_COCOA:
-            case LEGACY_TRIPWIRE_HOOK:
-            case LEGACY_TRIPWIRE:
-            case LEGACY_FLOWER_POT:
-            case LEGACY_CARROT:
-            case LEGACY_POTATO:
-            case LEGACY_WOOD_BUTTON:
-            case LEGACY_SKULL:
-            case LEGACY_REDSTONE_COMPARATOR_OFF:
-            case LEGACY_REDSTONE_COMPARATOR_ON:
-            case LEGACY_ACTIVATOR_RAIL:
-            case LEGACY_CARPET:
-            case LEGACY_DOUBLE_PLANT:
-            case LEGACY_END_ROD:
-            case LEGACY_CHORUS_PLANT:
-            case LEGACY_CHORUS_FLOWER:
-            case LEGACY_BEETROOT_BLOCK:
-            case LEGACY_END_GATEWAY:
-            case LEGACY_STRUCTURE_VOID:
-            //</editor-fold>
-                return true;
-            default:
-                return false;
-        }
-    }
+    boolean isTransparent();
 
     /**
      * Check if the material is a block and can catch fire
      *
      * @return True if this material is a block and can catch fire
      */
-    public boolean isFlammable() {
-        if (!isBlock()) {
-            return false;
-        }
-        switch (this) {
-            //<editor-fold defaultstate="collapsed" desc="isFlammable">
-            case ACACIA_DOOR:
-            case ACACIA_FENCE:
-            case ACACIA_FENCE_GATE:
-            case ACACIA_LEAVES:
-            case ACACIA_LOG:
-            case ACACIA_PLANKS:
-            case ACACIA_PRESSURE_PLATE:
-            case ACACIA_SIGN:
-            case ACACIA_SLAB:
-            case ACACIA_STAIRS:
-            case ACACIA_TRAPDOOR:
-            case ACACIA_WALL_SIGN:
-            case ACACIA_WOOD:
-            case AZALEA_LEAVES:
-            case BAMBOO:
-            case BAMBOO_SAPLING:
-            case BARREL:
-            case BEEHIVE:
-            case BEE_NEST:
-            case BIRCH_DOOR:
-            case BIRCH_FENCE:
-            case BIRCH_FENCE_GATE:
-            case BIRCH_LEAVES:
-            case BIRCH_LOG:
-            case BIRCH_PLANKS:
-            case BIRCH_PRESSURE_PLATE:
-            case BIRCH_SIGN:
-            case BIRCH_SLAB:
-            case BIRCH_STAIRS:
-            case BIRCH_TRAPDOOR:
-            case BIRCH_WALL_SIGN:
-            case BIRCH_WOOD:
-            case BLACK_BANNER:
-            case BLACK_BED:
-            case BLACK_CARPET:
-            case BLACK_WALL_BANNER:
-            case BLACK_WOOL:
-            case BLUE_BANNER:
-            case BLUE_BED:
-            case BLUE_CARPET:
-            case BLUE_WALL_BANNER:
-            case BLUE_WOOL:
-            case BOOKSHELF:
-            case BROWN_BANNER:
-            case BROWN_BED:
-            case BROWN_CARPET:
-            case BROWN_MUSHROOM_BLOCK:
-            case BROWN_WALL_BANNER:
-            case BROWN_WOOL:
-            case CAMPFIRE:
-            case CARTOGRAPHY_TABLE:
-            case CHEST:
-            case COMPOSTER:
-            case CRAFTING_TABLE:
-            case CYAN_BANNER:
-            case CYAN_BED:
-            case CYAN_CARPET:
-            case CYAN_WALL_BANNER:
-            case CYAN_WOOL:
-            case DARK_OAK_DOOR:
-            case DARK_OAK_FENCE:
-            case DARK_OAK_FENCE_GATE:
-            case DARK_OAK_LEAVES:
-            case DARK_OAK_LOG:
-            case DARK_OAK_PLANKS:
-            case DARK_OAK_PRESSURE_PLATE:
-            case DARK_OAK_SIGN:
-            case DARK_OAK_SLAB:
-            case DARK_OAK_STAIRS:
-            case DARK_OAK_TRAPDOOR:
-            case DARK_OAK_WALL_SIGN:
-            case DARK_OAK_WOOD:
-            case DAYLIGHT_DETECTOR:
-            case DEAD_BUSH:
-            case FERN:
-            case FLETCHING_TABLE:
-            case FLOWERING_AZALEA_LEAVES:
-            case GLOW_LICHEN:
-            case GRASS:
-            case GRAY_BANNER:
-            case GRAY_BED:
-            case GRAY_CARPET:
-            case GRAY_WALL_BANNER:
-            case GRAY_WOOL:
-            case GREEN_BANNER:
-            case GREEN_BED:
-            case GREEN_CARPET:
-            case GREEN_WALL_BANNER:
-            case GREEN_WOOL:
-            case HANGING_ROOTS:
-            case JUKEBOX:
-            case JUNGLE_DOOR:
-            case JUNGLE_FENCE:
-            case JUNGLE_FENCE_GATE:
-            case JUNGLE_LEAVES:
-            case JUNGLE_LOG:
-            case JUNGLE_PLANKS:
-            case JUNGLE_PRESSURE_PLATE:
-            case JUNGLE_SIGN:
-            case JUNGLE_SLAB:
-            case JUNGLE_STAIRS:
-            case JUNGLE_TRAPDOOR:
-            case JUNGLE_WALL_SIGN:
-            case JUNGLE_WOOD:
-            case LARGE_FERN:
-            case LECTERN:
-            case LIGHT_BLUE_BANNER:
-            case LIGHT_BLUE_BED:
-            case LIGHT_BLUE_CARPET:
-            case LIGHT_BLUE_WALL_BANNER:
-            case LIGHT_BLUE_WOOL:
-            case LIGHT_GRAY_BANNER:
-            case LIGHT_GRAY_BED:
-            case LIGHT_GRAY_CARPET:
-            case LIGHT_GRAY_WALL_BANNER:
-            case LIGHT_GRAY_WOOL:
-            case LILAC:
-            case LIME_BANNER:
-            case LIME_BED:
-            case LIME_CARPET:
-            case LIME_WALL_BANNER:
-            case LIME_WOOL:
-            case LOOM:
-            case MAGENTA_BANNER:
-            case MAGENTA_BED:
-            case MAGENTA_CARPET:
-            case MAGENTA_WALL_BANNER:
-            case MAGENTA_WOOL:
-            case MUSHROOM_STEM:
-            case NOTE_BLOCK:
-            case OAK_DOOR:
-            case OAK_FENCE:
-            case OAK_FENCE_GATE:
-            case OAK_LEAVES:
-            case OAK_LOG:
-            case OAK_PLANKS:
-            case OAK_PRESSURE_PLATE:
-            case OAK_SIGN:
-            case OAK_SLAB:
-            case OAK_STAIRS:
-            case OAK_TRAPDOOR:
-            case OAK_WALL_SIGN:
-            case OAK_WOOD:
-            case ORANGE_BANNER:
-            case ORANGE_BED:
-            case ORANGE_CARPET:
-            case ORANGE_WALL_BANNER:
-            case ORANGE_WOOL:
-            case PEONY:
-            case PINK_BANNER:
-            case PINK_BED:
-            case PINK_CARPET:
-            case PINK_WALL_BANNER:
-            case PINK_WOOL:
-            case PURPLE_BANNER:
-            case PURPLE_BED:
-            case PURPLE_CARPET:
-            case PURPLE_WALL_BANNER:
-            case PURPLE_WOOL:
-            case RED_BANNER:
-            case RED_BED:
-            case RED_CARPET:
-            case RED_MUSHROOM_BLOCK:
-            case RED_WALL_BANNER:
-            case RED_WOOL:
-            case ROSE_BUSH:
-            case SMITHING_TABLE:
-            case SOUL_CAMPFIRE:
-            case SPRUCE_DOOR:
-            case SPRUCE_FENCE:
-            case SPRUCE_FENCE_GATE:
-            case SPRUCE_LEAVES:
-            case SPRUCE_LOG:
-            case SPRUCE_PLANKS:
-            case SPRUCE_PRESSURE_PLATE:
-            case SPRUCE_SIGN:
-            case SPRUCE_SLAB:
-            case SPRUCE_STAIRS:
-            case SPRUCE_TRAPDOOR:
-            case SPRUCE_WALL_SIGN:
-            case SPRUCE_WOOD:
-            case STRIPPED_ACACIA_LOG:
-            case STRIPPED_ACACIA_WOOD:
-            case STRIPPED_BIRCH_LOG:
-            case STRIPPED_BIRCH_WOOD:
-            case STRIPPED_DARK_OAK_LOG:
-            case STRIPPED_DARK_OAK_WOOD:
-            case STRIPPED_JUNGLE_LOG:
-            case STRIPPED_JUNGLE_WOOD:
-            case STRIPPED_OAK_LOG:
-            case STRIPPED_OAK_WOOD:
-            case STRIPPED_SPRUCE_LOG:
-            case STRIPPED_SPRUCE_WOOD:
-            case SUNFLOWER:
-            case TALL_GRASS:
-            case TNT:
-            case TRAPPED_CHEST:
-            case VINE:
-            case WHITE_BANNER:
-            case WHITE_BED:
-            case WHITE_CARPET:
-            case WHITE_WALL_BANNER:
-            case WHITE_WOOL:
-            case YELLOW_BANNER:
-            case YELLOW_BED:
-            case YELLOW_CARPET:
-            case YELLOW_WALL_BANNER:
-            case YELLOW_WOOL:
-            // ----- Legacy Separator -----
-            case LEGACY_WOOD:
-            case LEGACY_LOG:
-            case LEGACY_LEAVES:
-            case LEGACY_NOTE_BLOCK:
-            case LEGACY_BED_BLOCK:
-            case LEGACY_LONG_GRASS:
-            case LEGACY_DEAD_BUSH:
-            case LEGACY_WOOL:
-            case LEGACY_TNT:
-            case LEGACY_BOOKSHELF:
-            case LEGACY_WOOD_STAIRS:
-            case LEGACY_CHEST:
-            case LEGACY_WORKBENCH:
-            case LEGACY_SIGN_POST:
-            case LEGACY_WOODEN_DOOR:
-            case LEGACY_WALL_SIGN:
-            case LEGACY_WOOD_PLATE:
-            case LEGACY_JUKEBOX:
-            case LEGACY_FENCE:
-            case LEGACY_TRAP_DOOR:
-            case LEGACY_HUGE_MUSHROOM_1:
-            case LEGACY_HUGE_MUSHROOM_2:
-            case LEGACY_VINE:
-            case LEGACY_FENCE_GATE:
-            case LEGACY_WOOD_DOUBLE_STEP:
-            case LEGACY_WOOD_STEP:
-            case LEGACY_SPRUCE_WOOD_STAIRS:
-            case LEGACY_BIRCH_WOOD_STAIRS:
-            case LEGACY_JUNGLE_WOOD_STAIRS:
-            case LEGACY_TRAPPED_CHEST:
-            case LEGACY_DAYLIGHT_DETECTOR:
-            case LEGACY_CARPET:
-            case LEGACY_LEAVES_2:
-            case LEGACY_LOG_2:
-            case LEGACY_ACACIA_STAIRS:
-            case LEGACY_DARK_OAK_STAIRS:
-            case LEGACY_DOUBLE_PLANT:
-            case LEGACY_SPRUCE_FENCE_GATE:
-            case LEGACY_BIRCH_FENCE_GATE:
-            case LEGACY_JUNGLE_FENCE_GATE:
-            case LEGACY_DARK_OAK_FENCE_GATE:
-            case LEGACY_ACACIA_FENCE_GATE:
-            case LEGACY_SPRUCE_FENCE:
-            case LEGACY_BIRCH_FENCE:
-            case LEGACY_JUNGLE_FENCE:
-            case LEGACY_DARK_OAK_FENCE:
-            case LEGACY_ACACIA_FENCE:
-            case LEGACY_STANDING_BANNER:
-            case LEGACY_WALL_BANNER:
-            case LEGACY_DAYLIGHT_DETECTOR_INVERTED:
-            case LEGACY_SPRUCE_DOOR:
-            case LEGACY_BIRCH_DOOR:
-            case LEGACY_JUNGLE_DOOR:
-            case LEGACY_ACACIA_DOOR:
-            case LEGACY_DARK_OAK_DOOR:
-            //</editor-fold>
-                return true;
-            default:
-                return false;
-        }
-    }
+    @Deprecated // only for blocks
+    boolean isFlammable();
 
     /**
      * Check if the material is a block and can burn away
      *
      * @return True if this material is a block and can burn away
      */
-    public boolean isBurnable() {
-        if (!isBlock()) {
-            return false;
-        }
-        switch (this) {
-            //<editor-fold defaultstate="collapsed" desc="isBurnable">
-            case ACACIA_FENCE:
-            case ACACIA_FENCE_GATE:
-            case ACACIA_LEAVES:
-            case ACACIA_LOG:
-            case ACACIA_PLANKS:
-            case ACACIA_SLAB:
-            case ACACIA_STAIRS:
-            case ACACIA_WOOD:
-            case ALLIUM:
-            case AZALEA:
-            case AZALEA_LEAVES:
-            case AZURE_BLUET:
-            case BAMBOO:
-            case BEEHIVE:
-            case BEE_NEST:
-            case BIG_DRIPLEAF:
-            case BIG_DRIPLEAF_STEM:
-            case BIRCH_FENCE:
-            case BIRCH_FENCE_GATE:
-            case BIRCH_LEAVES:
-            case BIRCH_LOG:
-            case BIRCH_PLANKS:
-            case BIRCH_SLAB:
-            case BIRCH_STAIRS:
-            case BIRCH_WOOD:
-            case BLACK_CARPET:
-            case BLACK_WOOL:
-            case BLUE_CARPET:
-            case BLUE_ORCHID:
-            case BLUE_WOOL:
-            case BOOKSHELF:
-            case BROWN_CARPET:
-            case BROWN_WOOL:
-            case CAVE_VINES:
-            case CAVE_VINES_PLANT:
-            case COAL_BLOCK:
-            case COMPOSTER:
-            case CORNFLOWER:
-            case CYAN_CARPET:
-            case CYAN_WOOL:
-            case DANDELION:
-            case DARK_OAK_FENCE:
-            case DARK_OAK_FENCE_GATE:
-            case DARK_OAK_LEAVES:
-            case DARK_OAK_LOG:
-            case DARK_OAK_PLANKS:
-            case DARK_OAK_SLAB:
-            case DARK_OAK_STAIRS:
-            case DARK_OAK_WOOD:
-            case DEAD_BUSH:
-            case DRIED_KELP_BLOCK:
-            case FERN:
-            case FLOWERING_AZALEA:
-            case FLOWERING_AZALEA_LEAVES:
-            case GLOW_LICHEN:
-            case GRASS:
-            case GRAY_CARPET:
-            case GRAY_WOOL:
-            case GREEN_CARPET:
-            case GREEN_WOOL:
-            case HANGING_ROOTS:
-            case HAY_BLOCK:
-            case JUNGLE_FENCE:
-            case JUNGLE_FENCE_GATE:
-            case JUNGLE_LEAVES:
-            case JUNGLE_LOG:
-            case JUNGLE_PLANKS:
-            case JUNGLE_SLAB:
-            case JUNGLE_STAIRS:
-            case JUNGLE_WOOD:
-            case LARGE_FERN:
-            case LECTERN:
-            case LIGHT_BLUE_CARPET:
-            case LIGHT_BLUE_WOOL:
-            case LIGHT_GRAY_CARPET:
-            case LIGHT_GRAY_WOOL:
-            case LILAC:
-            case LILY_OF_THE_VALLEY:
-            case LIME_CARPET:
-            case LIME_WOOL:
-            case MAGENTA_CARPET:
-            case MAGENTA_WOOL:
-            case OAK_FENCE:
-            case OAK_FENCE_GATE:
-            case OAK_LEAVES:
-            case OAK_LOG:
-            case OAK_PLANKS:
-            case OAK_SLAB:
-            case OAK_STAIRS:
-            case OAK_WOOD:
-            case ORANGE_CARPET:
-            case ORANGE_TULIP:
-            case ORANGE_WOOL:
-            case OXEYE_DAISY:
-            case PEONY:
-            case PINK_CARPET:
-            case PINK_TULIP:
-            case PINK_WOOL:
-            case POPPY:
-            case PURPLE_CARPET:
-            case PURPLE_WOOL:
-            case RED_CARPET:
-            case RED_TULIP:
-            case RED_WOOL:
-            case ROSE_BUSH:
-            case SCAFFOLDING:
-            case SMALL_DRIPLEAF:
-            case SPORE_BLOSSOM:
-            case SPRUCE_FENCE:
-            case SPRUCE_FENCE_GATE:
-            case SPRUCE_LEAVES:
-            case SPRUCE_LOG:
-            case SPRUCE_PLANKS:
-            case SPRUCE_SLAB:
-            case SPRUCE_STAIRS:
-            case SPRUCE_WOOD:
-            case STRIPPED_ACACIA_LOG:
-            case STRIPPED_ACACIA_WOOD:
-            case STRIPPED_BIRCH_LOG:
-            case STRIPPED_BIRCH_WOOD:
-            case STRIPPED_DARK_OAK_LOG:
-            case STRIPPED_DARK_OAK_WOOD:
-            case STRIPPED_JUNGLE_LOG:
-            case STRIPPED_JUNGLE_WOOD:
-            case STRIPPED_OAK_LOG:
-            case STRIPPED_OAK_WOOD:
-            case STRIPPED_SPRUCE_LOG:
-            case STRIPPED_SPRUCE_WOOD:
-            case SUNFLOWER:
-            case SWEET_BERRY_BUSH:
-            case TALL_GRASS:
-            case TARGET:
-            case TNT:
-            case VINE:
-            case WHITE_CARPET:
-            case WHITE_TULIP:
-            case WHITE_WOOL:
-            case WITHER_ROSE:
-            case YELLOW_CARPET:
-            case YELLOW_WOOL:
-            // ----- Legacy Separator -----
-            case LEGACY_WOOD:
-            case LEGACY_LOG:
-            case LEGACY_LEAVES:
-            case LEGACY_LONG_GRASS:
-            case LEGACY_WOOL:
-            case LEGACY_YELLOW_FLOWER:
-            case LEGACY_RED_ROSE:
-            case LEGACY_TNT:
-            case LEGACY_BOOKSHELF:
-            case LEGACY_WOOD_STAIRS:
-            case LEGACY_FENCE:
-            case LEGACY_VINE:
-            case LEGACY_WOOD_DOUBLE_STEP:
-            case LEGACY_WOOD_STEP:
-            case LEGACY_SPRUCE_WOOD_STAIRS:
-            case LEGACY_BIRCH_WOOD_STAIRS:
-            case LEGACY_JUNGLE_WOOD_STAIRS:
-            case LEGACY_HAY_BLOCK:
-            case LEGACY_COAL_BLOCK:
-            case LEGACY_LEAVES_2:
-            case LEGACY_LOG_2:
-            case LEGACY_CARPET:
-            case LEGACY_DOUBLE_PLANT:
-            case LEGACY_DEAD_BUSH:
-            case LEGACY_FENCE_GATE:
-            case LEGACY_SPRUCE_FENCE_GATE:
-            case LEGACY_BIRCH_FENCE_GATE:
-            case LEGACY_JUNGLE_FENCE_GATE:
-            case LEGACY_DARK_OAK_FENCE_GATE:
-            case LEGACY_ACACIA_FENCE_GATE:
-            case LEGACY_SPRUCE_FENCE:
-            case LEGACY_BIRCH_FENCE:
-            case LEGACY_JUNGLE_FENCE:
-            case LEGACY_DARK_OAK_FENCE:
-            case LEGACY_ACACIA_FENCE:
-            case LEGACY_ACACIA_STAIRS:
-            case LEGACY_DARK_OAK_STAIRS:
-            //</editor-fold>
-                return true;
-            default:
-                return false;
-        }
-    }
+    @Deprecated // only for blocks
+    boolean isBurnable();
 
     /**
      * Checks if this Material can be used as fuel in a Furnace
      *
      * @return true if this Material can be used as fuel.
      */
-    public boolean isFuel() {
-        switch (this) {
-            //<editor-fold defaultstate="collapsed" desc="isFuel">
-            case ACACIA_BOAT:
-            case ACACIA_BUTTON:
-            case ACACIA_DOOR:
-            case ACACIA_FENCE:
-            case ACACIA_FENCE_GATE:
-            case ACACIA_LOG:
-            case ACACIA_PLANKS:
-            case ACACIA_PRESSURE_PLATE:
-            case ACACIA_SAPLING:
-            case ACACIA_SIGN:
-            case ACACIA_SLAB:
-            case ACACIA_STAIRS:
-            case ACACIA_TRAPDOOR:
-            case ACACIA_WOOD:
-            case AZALEA:
-            case BAMBOO:
-            case BARREL:
-            case BIRCH_BOAT:
-            case BIRCH_BUTTON:
-            case BIRCH_DOOR:
-            case BIRCH_FENCE:
-            case BIRCH_FENCE_GATE:
-            case BIRCH_LOG:
-            case BIRCH_PLANKS:
-            case BIRCH_PRESSURE_PLATE:
-            case BIRCH_SAPLING:
-            case BIRCH_SIGN:
-            case BIRCH_SLAB:
-            case BIRCH_STAIRS:
-            case BIRCH_TRAPDOOR:
-            case BIRCH_WOOD:
-            case BLACK_BANNER:
-            case BLACK_CARPET:
-            case BLACK_WOOL:
-            case BLAZE_ROD:
-            case BLUE_BANNER:
-            case BLUE_CARPET:
-            case BLUE_WOOL:
-            case BOOKSHELF:
-            case BOW:
-            case BOWL:
-            case BROWN_BANNER:
-            case BROWN_CARPET:
-            case BROWN_WOOL:
-            case CARTOGRAPHY_TABLE:
-            case CHARCOAL:
-            case CHEST:
-            case COAL:
-            case COAL_BLOCK:
-            case COMPOSTER:
-            case CRAFTING_TABLE:
-            case CROSSBOW:
-            case CYAN_BANNER:
-            case CYAN_CARPET:
-            case CYAN_WOOL:
-            case DARK_OAK_BOAT:
-            case DARK_OAK_BUTTON:
-            case DARK_OAK_DOOR:
-            case DARK_OAK_FENCE:
-            case DARK_OAK_FENCE_GATE:
-            case DARK_OAK_LOG:
-            case DARK_OAK_PLANKS:
-            case DARK_OAK_PRESSURE_PLATE:
-            case DARK_OAK_SAPLING:
-            case DARK_OAK_SIGN:
-            case DARK_OAK_SLAB:
-            case DARK_OAK_STAIRS:
-            case DARK_OAK_TRAPDOOR:
-            case DARK_OAK_WOOD:
-            case DAYLIGHT_DETECTOR:
-            case DEAD_BUSH:
-            case DRIED_KELP_BLOCK:
-            case FISHING_ROD:
-            case FLETCHING_TABLE:
-            case FLOWERING_AZALEA:
-            case GRAY_BANNER:
-            case GRAY_CARPET:
-            case GRAY_WOOL:
-            case GREEN_BANNER:
-            case GREEN_CARPET:
-            case GREEN_WOOL:
-            case JUKEBOX:
-            case JUNGLE_BOAT:
-            case JUNGLE_BUTTON:
-            case JUNGLE_DOOR:
-            case JUNGLE_FENCE:
-            case JUNGLE_FENCE_GATE:
-            case JUNGLE_LOG:
-            case JUNGLE_PLANKS:
-            case JUNGLE_PRESSURE_PLATE:
-            case JUNGLE_SAPLING:
-            case JUNGLE_SIGN:
-            case JUNGLE_SLAB:
-            case JUNGLE_STAIRS:
-            case JUNGLE_TRAPDOOR:
-            case JUNGLE_WOOD:
-            case LADDER:
-            case LAVA_BUCKET:
-            case LECTERN:
-            case LIGHT_BLUE_BANNER:
-            case LIGHT_BLUE_CARPET:
-            case LIGHT_BLUE_WOOL:
-            case LIGHT_GRAY_BANNER:
-            case LIGHT_GRAY_CARPET:
-            case LIGHT_GRAY_WOOL:
-            case LIME_BANNER:
-            case LIME_CARPET:
-            case LIME_WOOL:
-            case LOOM:
-            case MAGENTA_BANNER:
-            case MAGENTA_CARPET:
-            case MAGENTA_WOOL:
-            case NOTE_BLOCK:
-            case OAK_BOAT:
-            case OAK_BUTTON:
-            case OAK_DOOR:
-            case OAK_FENCE:
-            case OAK_FENCE_GATE:
-            case OAK_LOG:
-            case OAK_PLANKS:
-            case OAK_PRESSURE_PLATE:
-            case OAK_SAPLING:
-            case OAK_SIGN:
-            case OAK_SLAB:
-            case OAK_STAIRS:
-            case OAK_TRAPDOOR:
-            case OAK_WOOD:
-            case ORANGE_BANNER:
-            case ORANGE_CARPET:
-            case ORANGE_WOOL:
-            case PINK_BANNER:
-            case PINK_CARPET:
-            case PINK_WOOL:
-            case PURPLE_BANNER:
-            case PURPLE_CARPET:
-            case PURPLE_WOOL:
-            case RED_BANNER:
-            case RED_CARPET:
-            case RED_WOOL:
-            case SCAFFOLDING:
-            case SMITHING_TABLE:
-            case SPRUCE_BOAT:
-            case SPRUCE_BUTTON:
-            case SPRUCE_DOOR:
-            case SPRUCE_FENCE:
-            case SPRUCE_FENCE_GATE:
-            case SPRUCE_LOG:
-            case SPRUCE_PLANKS:
-            case SPRUCE_PRESSURE_PLATE:
-            case SPRUCE_SAPLING:
-            case SPRUCE_SIGN:
-            case SPRUCE_SLAB:
-            case SPRUCE_STAIRS:
-            case SPRUCE_TRAPDOOR:
-            case SPRUCE_WOOD:
-            case STICK:
-            case STRIPPED_ACACIA_LOG:
-            case STRIPPED_ACACIA_WOOD:
-            case STRIPPED_BIRCH_LOG:
-            case STRIPPED_BIRCH_WOOD:
-            case STRIPPED_DARK_OAK_LOG:
-            case STRIPPED_DARK_OAK_WOOD:
-            case STRIPPED_JUNGLE_LOG:
-            case STRIPPED_JUNGLE_WOOD:
-            case STRIPPED_OAK_LOG:
-            case STRIPPED_OAK_WOOD:
-            case STRIPPED_SPRUCE_LOG:
-            case STRIPPED_SPRUCE_WOOD:
-            case TRAPPED_CHEST:
-            case WHITE_BANNER:
-            case WHITE_CARPET:
-            case WHITE_WOOL:
-            case WOODEN_AXE:
-            case WOODEN_HOE:
-            case WOODEN_PICKAXE:
-            case WOODEN_SHOVEL:
-            case WOODEN_SWORD:
-            case YELLOW_BANNER:
-            case YELLOW_CARPET:
-            case YELLOW_WOOL:
-            // ----- Legacy Separator -----
-            case LEGACY_LAVA_BUCKET:
-            case LEGACY_COAL_BLOCK:
-            case LEGACY_BLAZE_ROD:
-            case LEGACY_COAL:
-            case LEGACY_BOAT:
-            case LEGACY_BOAT_ACACIA:
-            case LEGACY_BOAT_BIRCH:
-            case LEGACY_BOAT_DARK_OAK:
-            case LEGACY_BOAT_JUNGLE:
-            case LEGACY_BOAT_SPRUCE:
-            case LEGACY_LOG:
-            case LEGACY_LOG_2:
-            case LEGACY_WOOD:
-            case LEGACY_WOOD_PLATE:
-            case LEGACY_FENCE:
-            case LEGACY_ACACIA_FENCE:
-            case LEGACY_BIRCH_FENCE:
-            case LEGACY_DARK_OAK_FENCE:
-            case LEGACY_JUNGLE_FENCE:
-            case LEGACY_SPRUCE_FENCE:
-            case LEGACY_FENCE_GATE:
-            case LEGACY_ACACIA_FENCE_GATE:
-            case LEGACY_BIRCH_FENCE_GATE:
-            case LEGACY_DARK_OAK_FENCE_GATE:
-            case LEGACY_JUNGLE_FENCE_GATE:
-            case LEGACY_SPRUCE_FENCE_GATE:
-            case LEGACY_WOOD_STAIRS:
-            case LEGACY_ACACIA_STAIRS:
-            case LEGACY_BIRCH_WOOD_STAIRS:
-            case LEGACY_DARK_OAK_STAIRS:
-            case LEGACY_JUNGLE_WOOD_STAIRS:
-            case LEGACY_SPRUCE_WOOD_STAIRS:
-            case LEGACY_TRAP_DOOR:
-            case LEGACY_WORKBENCH:
-            case LEGACY_BOOKSHELF:
-            case LEGACY_CHEST:
-            case LEGACY_TRAPPED_CHEST:
-            case LEGACY_DAYLIGHT_DETECTOR:
-            case LEGACY_JUKEBOX:
-            case LEGACY_NOTE_BLOCK:
-            case LEGACY_BANNER:
-            case LEGACY_FISHING_ROD:
-            case LEGACY_LADDER:
-            case LEGACY_WOOD_SWORD:
-            case LEGACY_WOOD_PICKAXE:
-            case LEGACY_WOOD_AXE:
-            case LEGACY_WOOD_SPADE:
-            case LEGACY_WOOD_HOE:
-            case LEGACY_BOW:
-            case LEGACY_SIGN:
-            case LEGACY_WOOD_DOOR:
-            case LEGACY_ACACIA_DOOR_ITEM:
-            case LEGACY_BIRCH_DOOR_ITEM:
-            case LEGACY_DARK_OAK_DOOR_ITEM:
-            case LEGACY_JUNGLE_DOOR_ITEM:
-            case LEGACY_SPRUCE_DOOR_ITEM:
-            case LEGACY_WOOD_STEP:
-            case LEGACY_SAPLING:
-            case LEGACY_STICK:
-            case LEGACY_WOOD_BUTTON:
-            case LEGACY_WOOL:
-            case LEGACY_CARPET:
-            case LEGACY_BOWL:
-            //</editor-fold>
-                return true;
-            default:
-                return false;
-        }
-    }
+    @Deprecated // only for items
+    boolean isFuel();
 
     /**
      * Check if the material is a block and completely blocks vision
      *
      * @return True if this material is a block and completely blocks vision
      */
-    public boolean isOccluding() {
-        if (!isBlock()) {
-            return false;
-        }
-        switch (this) {
-            //<editor-fold defaultstate="collapsed" desc="isOccluding">
-            case ACACIA_LOG:
-            case ACACIA_PLANKS:
-            case ACACIA_WOOD:
-            case AMETHYST_BLOCK:
-            case ANCIENT_DEBRIS:
-            case ANDESITE:
-            case BARREL:
-            case BARRIER:
-            case BASALT:
-            case BEDROCK:
-            case BEEHIVE:
-            case BEE_NEST:
-            case BIRCH_LOG:
-            case BIRCH_PLANKS:
-            case BIRCH_WOOD:
-            case BLACKSTONE:
-            case BLACK_CONCRETE:
-            case BLACK_CONCRETE_POWDER:
-            case BLACK_GLAZED_TERRACOTTA:
-            case BLACK_SHULKER_BOX:
-            case BLACK_TERRACOTTA:
-            case BLACK_WOOL:
-            case BLAST_FURNACE:
-            case BLUE_CONCRETE:
-            case BLUE_CONCRETE_POWDER:
-            case BLUE_GLAZED_TERRACOTTA:
-            case BLUE_ICE:
-            case BLUE_SHULKER_BOX:
-            case BLUE_TERRACOTTA:
-            case BLUE_WOOL:
-            case BONE_BLOCK:
-            case BOOKSHELF:
-            case BRAIN_CORAL_BLOCK:
-            case BRICKS:
-            case BROWN_CONCRETE:
-            case BROWN_CONCRETE_POWDER:
-            case BROWN_GLAZED_TERRACOTTA:
-            case BROWN_MUSHROOM_BLOCK:
-            case BROWN_SHULKER_BOX:
-            case BROWN_TERRACOTTA:
-            case BROWN_WOOL:
-            case BUBBLE_CORAL_BLOCK:
-            case BUDDING_AMETHYST:
-            case CALCITE:
-            case CARTOGRAPHY_TABLE:
-            case CARVED_PUMPKIN:
-            case CHAIN_COMMAND_BLOCK:
-            case CHISELED_DEEPSLATE:
-            case CHISELED_NETHER_BRICKS:
-            case CHISELED_POLISHED_BLACKSTONE:
-            case CHISELED_QUARTZ_BLOCK:
-            case CHISELED_RED_SANDSTONE:
-            case CHISELED_SANDSTONE:
-            case CHISELED_STONE_BRICKS:
-            case CLAY:
-            case COAL_BLOCK:
-            case COAL_ORE:
-            case COARSE_DIRT:
-            case COBBLED_DEEPSLATE:
-            case COBBLESTONE:
-            case COMMAND_BLOCK:
-            case COPPER_BLOCK:
-            case COPPER_ORE:
-            case CRACKED_DEEPSLATE_BRICKS:
-            case CRACKED_DEEPSLATE_TILES:
-            case CRACKED_NETHER_BRICKS:
-            case CRACKED_POLISHED_BLACKSTONE_BRICKS:
-            case CRACKED_STONE_BRICKS:
-            case CRAFTING_TABLE:
-            case CRIMSON_HYPHAE:
-            case CRIMSON_NYLIUM:
-            case CRIMSON_PLANKS:
-            case CRIMSON_STEM:
-            case CRYING_OBSIDIAN:
-            case CUT_COPPER:
-            case CUT_RED_SANDSTONE:
-            case CUT_SANDSTONE:
-            case CYAN_CONCRETE:
-            case CYAN_CONCRETE_POWDER:
-            case CYAN_GLAZED_TERRACOTTA:
-            case CYAN_SHULKER_BOX:
-            case CYAN_TERRACOTTA:
-            case CYAN_WOOL:
-            case DARK_OAK_LOG:
-            case DARK_OAK_PLANKS:
-            case DARK_OAK_WOOD:
-            case DARK_PRISMARINE:
-            case DEAD_BRAIN_CORAL_BLOCK:
-            case DEAD_BUBBLE_CORAL_BLOCK:
-            case DEAD_FIRE_CORAL_BLOCK:
-            case DEAD_HORN_CORAL_BLOCK:
-            case DEAD_TUBE_CORAL_BLOCK:
-            case DEEPSLATE:
-            case DEEPSLATE_BRICKS:
-            case DEEPSLATE_COAL_ORE:
-            case DEEPSLATE_COPPER_ORE:
-            case DEEPSLATE_DIAMOND_ORE:
-            case DEEPSLATE_EMERALD_ORE:
-            case DEEPSLATE_GOLD_ORE:
-            case DEEPSLATE_IRON_ORE:
-            case DEEPSLATE_LAPIS_ORE:
-            case DEEPSLATE_REDSTONE_ORE:
-            case DEEPSLATE_TILES:
-            case DIAMOND_BLOCK:
-            case DIAMOND_ORE:
-            case DIORITE:
-            case DIRT:
-            case DISPENSER:
-            case DRIED_KELP_BLOCK:
-            case DRIPSTONE_BLOCK:
-            case DROPPER:
-            case EMERALD_BLOCK:
-            case EMERALD_ORE:
-            case END_STONE:
-            case END_STONE_BRICKS:
-            case EXPOSED_COPPER:
-            case EXPOSED_CUT_COPPER:
-            case FIRE_CORAL_BLOCK:
-            case FLETCHING_TABLE:
-            case FURNACE:
-            case GILDED_BLACKSTONE:
-            case GOLD_BLOCK:
-            case GOLD_ORE:
-            case GRANITE:
-            case GRASS_BLOCK:
-            case GRAVEL:
-            case GRAY_CONCRETE:
-            case GRAY_CONCRETE_POWDER:
-            case GRAY_GLAZED_TERRACOTTA:
-            case GRAY_SHULKER_BOX:
-            case GRAY_TERRACOTTA:
-            case GRAY_WOOL:
-            case GREEN_CONCRETE:
-            case GREEN_CONCRETE_POWDER:
-            case GREEN_GLAZED_TERRACOTTA:
-            case GREEN_SHULKER_BOX:
-            case GREEN_TERRACOTTA:
-            case GREEN_WOOL:
-            case HAY_BLOCK:
-            case HONEYCOMB_BLOCK:
-            case HORN_CORAL_BLOCK:
-            case INFESTED_CHISELED_STONE_BRICKS:
-            case INFESTED_COBBLESTONE:
-            case INFESTED_CRACKED_STONE_BRICKS:
-            case INFESTED_DEEPSLATE:
-            case INFESTED_MOSSY_STONE_BRICKS:
-            case INFESTED_STONE:
-            case INFESTED_STONE_BRICKS:
-            case IRON_BLOCK:
-            case IRON_ORE:
-            case JACK_O_LANTERN:
-            case JIGSAW:
-            case JUKEBOX:
-            case JUNGLE_LOG:
-            case JUNGLE_PLANKS:
-            case JUNGLE_WOOD:
-            case LAPIS_BLOCK:
-            case LAPIS_ORE:
-            case LIGHT_BLUE_CONCRETE:
-            case LIGHT_BLUE_CONCRETE_POWDER:
-            case LIGHT_BLUE_GLAZED_TERRACOTTA:
-            case LIGHT_BLUE_SHULKER_BOX:
-            case LIGHT_BLUE_TERRACOTTA:
-            case LIGHT_BLUE_WOOL:
-            case LIGHT_GRAY_CONCRETE:
-            case LIGHT_GRAY_CONCRETE_POWDER:
-            case LIGHT_GRAY_GLAZED_TERRACOTTA:
-            case LIGHT_GRAY_SHULKER_BOX:
-            case LIGHT_GRAY_TERRACOTTA:
-            case LIGHT_GRAY_WOOL:
-            case LIME_CONCRETE:
-            case LIME_CONCRETE_POWDER:
-            case LIME_GLAZED_TERRACOTTA:
-            case LIME_SHULKER_BOX:
-            case LIME_TERRACOTTA:
-            case LIME_WOOL:
-            case LODESTONE:
-            case LOOM:
-            case MAGENTA_CONCRETE:
-            case MAGENTA_CONCRETE_POWDER:
-            case MAGENTA_GLAZED_TERRACOTTA:
-            case MAGENTA_SHULKER_BOX:
-            case MAGENTA_TERRACOTTA:
-            case MAGENTA_WOOL:
-            case MAGMA_BLOCK:
-            case MELON:
-            case MOSSY_COBBLESTONE:
-            case MOSSY_STONE_BRICKS:
-            case MOSS_BLOCK:
-            case MUSHROOM_STEM:
-            case MYCELIUM:
-            case NETHERITE_BLOCK:
-            case NETHERRACK:
-            case NETHER_BRICKS:
-            case NETHER_GOLD_ORE:
-            case NETHER_QUARTZ_ORE:
-            case NETHER_WART_BLOCK:
-            case NOTE_BLOCK:
-            case OAK_LOG:
-            case OAK_PLANKS:
-            case OAK_WOOD:
-            case OBSIDIAN:
-            case ORANGE_CONCRETE:
-            case ORANGE_CONCRETE_POWDER:
-            case ORANGE_GLAZED_TERRACOTTA:
-            case ORANGE_SHULKER_BOX:
-            case ORANGE_TERRACOTTA:
-            case ORANGE_WOOL:
-            case OXIDIZED_COPPER:
-            case OXIDIZED_CUT_COPPER:
-            case PACKED_ICE:
-            case PINK_CONCRETE:
-            case PINK_CONCRETE_POWDER:
-            case PINK_GLAZED_TERRACOTTA:
-            case PINK_SHULKER_BOX:
-            case PINK_TERRACOTTA:
-            case PINK_WOOL:
-            case PODZOL:
-            case POLISHED_ANDESITE:
-            case POLISHED_BASALT:
-            case POLISHED_BLACKSTONE:
-            case POLISHED_BLACKSTONE_BRICKS:
-            case POLISHED_DEEPSLATE:
-            case POLISHED_DIORITE:
-            case POLISHED_GRANITE:
-            case PRISMARINE:
-            case PRISMARINE_BRICKS:
-            case PUMPKIN:
-            case PURPLE_CONCRETE:
-            case PURPLE_CONCRETE_POWDER:
-            case PURPLE_GLAZED_TERRACOTTA:
-            case PURPLE_SHULKER_BOX:
-            case PURPLE_TERRACOTTA:
-            case PURPLE_WOOL:
-            case PURPUR_BLOCK:
-            case PURPUR_PILLAR:
-            case QUARTZ_BLOCK:
-            case QUARTZ_BRICKS:
-            case QUARTZ_PILLAR:
-            case RAW_COPPER_BLOCK:
-            case RAW_GOLD_BLOCK:
-            case RAW_IRON_BLOCK:
-            case REDSTONE_LAMP:
-            case REDSTONE_ORE:
-            case RED_CONCRETE:
-            case RED_CONCRETE_POWDER:
-            case RED_GLAZED_TERRACOTTA:
-            case RED_MUSHROOM_BLOCK:
-            case RED_NETHER_BRICKS:
-            case RED_SAND:
-            case RED_SANDSTONE:
-            case RED_SHULKER_BOX:
-            case RED_TERRACOTTA:
-            case RED_WOOL:
-            case REPEATING_COMMAND_BLOCK:
-            case RESPAWN_ANCHOR:
-            case ROOTED_DIRT:
-            case SAND:
-            case SANDSTONE:
-            case SHROOMLIGHT:
-            case SHULKER_BOX:
-            case SLIME_BLOCK:
-            case SMITHING_TABLE:
-            case SMOKER:
-            case SMOOTH_BASALT:
-            case SMOOTH_QUARTZ:
-            case SMOOTH_RED_SANDSTONE:
-            case SMOOTH_SANDSTONE:
-            case SMOOTH_STONE:
-            case SNOW_BLOCK:
-            case SOUL_SAND:
-            case SOUL_SOIL:
-            case SPAWNER:
-            case SPONGE:
-            case SPRUCE_LOG:
-            case SPRUCE_PLANKS:
-            case SPRUCE_WOOD:
-            case STONE:
-            case STONE_BRICKS:
-            case STRIPPED_ACACIA_LOG:
-            case STRIPPED_ACACIA_WOOD:
-            case STRIPPED_BIRCH_LOG:
-            case STRIPPED_BIRCH_WOOD:
-            case STRIPPED_CRIMSON_HYPHAE:
-            case STRIPPED_CRIMSON_STEM:
-            case STRIPPED_DARK_OAK_LOG:
-            case STRIPPED_DARK_OAK_WOOD:
-            case STRIPPED_JUNGLE_LOG:
-            case STRIPPED_JUNGLE_WOOD:
-            case STRIPPED_OAK_LOG:
-            case STRIPPED_OAK_WOOD:
-            case STRIPPED_SPRUCE_LOG:
-            case STRIPPED_SPRUCE_WOOD:
-            case STRIPPED_WARPED_HYPHAE:
-            case STRIPPED_WARPED_STEM:
-            case STRUCTURE_BLOCK:
-            case TARGET:
-            case TERRACOTTA:
-            case TUBE_CORAL_BLOCK:
-            case TUFF:
-            case WARPED_HYPHAE:
-            case WARPED_NYLIUM:
-            case WARPED_PLANKS:
-            case WARPED_STEM:
-            case WARPED_WART_BLOCK:
-            case WAXED_COPPER_BLOCK:
-            case WAXED_CUT_COPPER:
-            case WAXED_EXPOSED_COPPER:
-            case WAXED_EXPOSED_CUT_COPPER:
-            case WAXED_OXIDIZED_COPPER:
-            case WAXED_OXIDIZED_CUT_COPPER:
-            case WAXED_WEATHERED_COPPER:
-            case WAXED_WEATHERED_CUT_COPPER:
-            case WEATHERED_COPPER:
-            case WEATHERED_CUT_COPPER:
-            case WET_SPONGE:
-            case WHITE_CONCRETE:
-            case WHITE_CONCRETE_POWDER:
-            case WHITE_GLAZED_TERRACOTTA:
-            case WHITE_SHULKER_BOX:
-            case WHITE_TERRACOTTA:
-            case WHITE_WOOL:
-            case YELLOW_CONCRETE:
-            case YELLOW_CONCRETE_POWDER:
-            case YELLOW_GLAZED_TERRACOTTA:
-            case YELLOW_SHULKER_BOX:
-            case YELLOW_TERRACOTTA:
-            case YELLOW_WOOL:
-            // ----- Legacy Separator -----
-            case LEGACY_STONE:
-            case LEGACY_GRASS:
-            case LEGACY_DIRT:
-            case LEGACY_COBBLESTONE:
-            case LEGACY_WOOD:
-            case LEGACY_BEDROCK:
-            case LEGACY_SAND:
-            case LEGACY_GRAVEL:
-            case LEGACY_GOLD_ORE:
-            case LEGACY_IRON_ORE:
-            case LEGACY_COAL_ORE:
-            case LEGACY_LOG:
-            case LEGACY_SPONGE:
-            case LEGACY_LAPIS_ORE:
-            case LEGACY_LAPIS_BLOCK:
-            case LEGACY_DISPENSER:
-            case LEGACY_SANDSTONE:
-            case LEGACY_NOTE_BLOCK:
-            case LEGACY_WOOL:
-            case LEGACY_GOLD_BLOCK:
-            case LEGACY_IRON_BLOCK:
-            case LEGACY_DOUBLE_STEP:
-            case LEGACY_BRICK:
-            case LEGACY_BOOKSHELF:
-            case LEGACY_MOSSY_COBBLESTONE:
-            case LEGACY_OBSIDIAN:
-            case LEGACY_MOB_SPAWNER:
-            case LEGACY_DIAMOND_ORE:
-            case LEGACY_DIAMOND_BLOCK:
-            case LEGACY_WORKBENCH:
-            case LEGACY_FURNACE:
-            case LEGACY_BURNING_FURNACE:
-            case LEGACY_REDSTONE_ORE:
-            case LEGACY_GLOWING_REDSTONE_ORE:
-            case LEGACY_SNOW_BLOCK:
-            case LEGACY_CLAY:
-            case LEGACY_JUKEBOX:
-            case LEGACY_PUMPKIN:
-            case LEGACY_NETHERRACK:
-            case LEGACY_SOUL_SAND:
-            case LEGACY_JACK_O_LANTERN:
-            case LEGACY_MONSTER_EGGS:
-            case LEGACY_SMOOTH_BRICK:
-            case LEGACY_HUGE_MUSHROOM_1:
-            case LEGACY_HUGE_MUSHROOM_2:
-            case LEGACY_MELON_BLOCK:
-            case LEGACY_MYCEL:
-            case LEGACY_NETHER_BRICK:
-            case LEGACY_ENDER_STONE:
-            case LEGACY_REDSTONE_LAMP_OFF:
-            case LEGACY_REDSTONE_LAMP_ON:
-            case LEGACY_WOOD_DOUBLE_STEP:
-            case LEGACY_EMERALD_ORE:
-            case LEGACY_EMERALD_BLOCK:
-            case LEGACY_COMMAND:
-            case LEGACY_QUARTZ_ORE:
-            case LEGACY_QUARTZ_BLOCK:
-            case LEGACY_DROPPER:
-            case LEGACY_STAINED_CLAY:
-            case LEGACY_HAY_BLOCK:
-            case LEGACY_HARD_CLAY:
-            case LEGACY_COAL_BLOCK:
-            case LEGACY_LOG_2:
-            case LEGACY_PACKED_ICE:
-            case LEGACY_SLIME_BLOCK:
-            case LEGACY_BARRIER:
-            case LEGACY_PRISMARINE:
-            case LEGACY_RED_SANDSTONE:
-            case LEGACY_DOUBLE_STONE_SLAB2:
-            case LEGACY_PURPUR_BLOCK:
-            case LEGACY_PURPUR_PILLAR:
-            case LEGACY_PURPUR_DOUBLE_SLAB:
-            case LEGACY_END_BRICKS:
-            case LEGACY_STRUCTURE_BLOCK:
-            case LEGACY_COMMAND_REPEATING:
-            case LEGACY_COMMAND_CHAIN:
-            case LEGACY_MAGMA:
-            case LEGACY_NETHER_WART_BLOCK:
-            case LEGACY_RED_NETHER_BRICK:
-            case LEGACY_BONE_BLOCK:
-            case LEGACY_WHITE_GLAZED_TERRACOTTA:
-            case LEGACY_ORANGE_GLAZED_TERRACOTTA:
-            case LEGACY_MAGENTA_GLAZED_TERRACOTTA:
-            case LEGACY_LIGHT_BLUE_GLAZED_TERRACOTTA:
-            case LEGACY_YELLOW_GLAZED_TERRACOTTA:
-            case LEGACY_LIME_GLAZED_TERRACOTTA:
-            case LEGACY_PINK_GLAZED_TERRACOTTA:
-            case LEGACY_GRAY_GLAZED_TERRACOTTA:
-            case LEGACY_SILVER_GLAZED_TERRACOTTA:
-            case LEGACY_CYAN_GLAZED_TERRACOTTA:
-            case LEGACY_PURPLE_GLAZED_TERRACOTTA:
-            case LEGACY_BLUE_GLAZED_TERRACOTTA:
-            case LEGACY_BROWN_GLAZED_TERRACOTTA:
-            case LEGACY_GREEN_GLAZED_TERRACOTTA:
-            case LEGACY_RED_GLAZED_TERRACOTTA:
-            case LEGACY_BLACK_GLAZED_TERRACOTTA:
-            case LEGACY_CONCRETE:
-            case LEGACY_CONCRETE_POWDER:
-            //</editor-fold>
-                return true;
-            default:
-                return false;
-        }
-    }
+    @Deprecated // only for blocks
+    boolean isOccluding();
 
     /**
      * @return True if this material is affected by gravity.
      */
-    public boolean hasGravity() {
-        if (!isBlock()) {
-            return false;
-        }
-        switch (this) {
-            //<editor-fold defaultstate="collapsed" desc="hasGravity">
-            case ANVIL:
-            case BLACK_CONCRETE_POWDER:
-            case BLUE_CONCRETE_POWDER:
-            case BROWN_CONCRETE_POWDER:
-            case CHIPPED_ANVIL:
-            case CYAN_CONCRETE_POWDER:
-            case DAMAGED_ANVIL:
-            case DRAGON_EGG:
-            case GRAVEL:
-            case GRAY_CONCRETE_POWDER:
-            case GREEN_CONCRETE_POWDER:
-            case LIGHT_BLUE_CONCRETE_POWDER:
-            case LIGHT_GRAY_CONCRETE_POWDER:
-            case LIME_CONCRETE_POWDER:
-            case MAGENTA_CONCRETE_POWDER:
-            case ORANGE_CONCRETE_POWDER:
-            case PINK_CONCRETE_POWDER:
-            case PURPLE_CONCRETE_POWDER:
-            case RED_CONCRETE_POWDER:
-            case RED_SAND:
-            case SAND:
-            case WHITE_CONCRETE_POWDER:
-            case YELLOW_CONCRETE_POWDER:
-            // ----- Legacy Separator -----
-            case LEGACY_SAND:
-            case LEGACY_GRAVEL:
-            case LEGACY_ANVIL:
-            case LEGACY_CONCRETE_POWDER:
-            //</editor-fold>
-                return true;
-            default:
-                return false;
-        }
-    }
+    @Deprecated // only for blocks
+    boolean hasGravity();
 
     /**
      * Checks if this Material is an obtainable item.
      *
      * @return true if this material is an item
      */
-    public boolean isItem() {
-        switch (this) {
-            //<editor-fold defaultstate="collapsed" desc="isItem">
-            case ACACIA_WALL_SIGN:
-            case ATTACHED_MELON_STEM:
-            case ATTACHED_PUMPKIN_STEM:
-            case BAMBOO_SAPLING:
-            case BEETROOTS:
-            case BIG_DRIPLEAF_STEM:
-            case BIRCH_WALL_SIGN:
-            case BLACK_CANDLE_CAKE:
-            case BLACK_WALL_BANNER:
-            case BLUE_CANDLE_CAKE:
-            case BLUE_WALL_BANNER:
-            case BRAIN_CORAL_WALL_FAN:
-            case BROWN_CANDLE_CAKE:
-            case BROWN_WALL_BANNER:
-            case BUBBLE_COLUMN:
-            case BUBBLE_CORAL_WALL_FAN:
-            case CANDLE_CAKE:
-            case CARROTS:
-            case CAVE_AIR:
-            case CAVE_VINES:
-            case CAVE_VINES_PLANT:
-            case COCOA:
-            case CREEPER_WALL_HEAD:
-            case CRIMSON_WALL_SIGN:
-            case CYAN_CANDLE_CAKE:
-            case CYAN_WALL_BANNER:
-            case DARK_OAK_WALL_SIGN:
-            case DEAD_BRAIN_CORAL_WALL_FAN:
-            case DEAD_BUBBLE_CORAL_WALL_FAN:
-            case DEAD_FIRE_CORAL_WALL_FAN:
-            case DEAD_HORN_CORAL_WALL_FAN:
-            case DEAD_TUBE_CORAL_WALL_FAN:
-            case DRAGON_WALL_HEAD:
-            case END_GATEWAY:
-            case END_PORTAL:
-            case FIRE:
-            case FIRE_CORAL_WALL_FAN:
-            case FROSTED_ICE:
-            case GRAY_CANDLE_CAKE:
-            case GRAY_WALL_BANNER:
-            case GREEN_CANDLE_CAKE:
-            case GREEN_WALL_BANNER:
-            case HORN_CORAL_WALL_FAN:
-            case JUNGLE_WALL_SIGN:
-            case KELP_PLANT:
-            case LAVA:
-            case LAVA_CAULDRON:
-            case LIGHT_BLUE_CANDLE_CAKE:
-            case LIGHT_BLUE_WALL_BANNER:
-            case LIGHT_GRAY_CANDLE_CAKE:
-            case LIGHT_GRAY_WALL_BANNER:
-            case LIME_CANDLE_CAKE:
-            case LIME_WALL_BANNER:
-            case MAGENTA_CANDLE_CAKE:
-            case MAGENTA_WALL_BANNER:
-            case MELON_STEM:
-            case MOVING_PISTON:
-            case NETHER_PORTAL:
-            case OAK_WALL_SIGN:
-            case ORANGE_CANDLE_CAKE:
-            case ORANGE_WALL_BANNER:
-            case PINK_CANDLE_CAKE:
-            case PINK_WALL_BANNER:
-            case PISTON_HEAD:
-            case PLAYER_WALL_HEAD:
-            case POTATOES:
-            case POTTED_ACACIA_SAPLING:
-            case POTTED_ALLIUM:
-            case POTTED_AZALEA_BUSH:
-            case POTTED_AZURE_BLUET:
-            case POTTED_BAMBOO:
-            case POTTED_BIRCH_SAPLING:
-            case POTTED_BLUE_ORCHID:
-            case POTTED_BROWN_MUSHROOM:
-            case POTTED_CACTUS:
-            case POTTED_CORNFLOWER:
-            case POTTED_CRIMSON_FUNGUS:
-            case POTTED_CRIMSON_ROOTS:
-            case POTTED_DANDELION:
-            case POTTED_DARK_OAK_SAPLING:
-            case POTTED_DEAD_BUSH:
-            case POTTED_FERN:
-            case POTTED_FLOWERING_AZALEA_BUSH:
-            case POTTED_JUNGLE_SAPLING:
-            case POTTED_LILY_OF_THE_VALLEY:
-            case POTTED_OAK_SAPLING:
-            case POTTED_ORANGE_TULIP:
-            case POTTED_OXEYE_DAISY:
-            case POTTED_PINK_TULIP:
-            case POTTED_POPPY:
-            case POTTED_RED_MUSHROOM:
-            case POTTED_RED_TULIP:
-            case POTTED_SPRUCE_SAPLING:
-            case POTTED_WARPED_FUNGUS:
-            case POTTED_WARPED_ROOTS:
-            case POTTED_WHITE_TULIP:
-            case POTTED_WITHER_ROSE:
-            case POWDER_SNOW:
-            case POWDER_SNOW_CAULDRON:
-            case PUMPKIN_STEM:
-            case PURPLE_CANDLE_CAKE:
-            case PURPLE_WALL_BANNER:
-            case REDSTONE_WALL_TORCH:
-            case REDSTONE_WIRE:
-            case RED_CANDLE_CAKE:
-            case RED_WALL_BANNER:
-            case SKELETON_WALL_SKULL:
-            case SOUL_FIRE:
-            case SOUL_WALL_TORCH:
-            case SPRUCE_WALL_SIGN:
-            case SWEET_BERRY_BUSH:
-            case TALL_SEAGRASS:
-            case TRIPWIRE:
-            case TUBE_CORAL_WALL_FAN:
-            case TWISTING_VINES_PLANT:
-            case VOID_AIR:
-            case WALL_TORCH:
-            case WARPED_WALL_SIGN:
-            case WATER:
-            case WATER_CAULDRON:
-            case WEEPING_VINES_PLANT:
-            case WHITE_CANDLE_CAKE:
-            case WHITE_WALL_BANNER:
-            case WITHER_SKELETON_WALL_SKULL:
-            case YELLOW_CANDLE_CAKE:
-            case YELLOW_WALL_BANNER:
-            case ZOMBIE_WALL_HEAD:
-            // ----- Legacy Separator -----
-            case LEGACY_ACACIA_DOOR:
-            case LEGACY_BED_BLOCK:
-            case LEGACY_BEETROOT_BLOCK:
-            case LEGACY_BIRCH_DOOR:
-            case LEGACY_BREWING_STAND:
-            case LEGACY_BURNING_FURNACE:
-            case LEGACY_CAKE_BLOCK:
-            case LEGACY_CARROT:
-            case LEGACY_CAULDRON:
-            case LEGACY_COCOA:
-            case LEGACY_CROPS:
-            case LEGACY_DARK_OAK_DOOR:
-            case LEGACY_DAYLIGHT_DETECTOR_INVERTED:
-            case LEGACY_DIODE_BLOCK_OFF:
-            case LEGACY_DIODE_BLOCK_ON:
-            case LEGACY_DOUBLE_STEP:
-            case LEGACY_DOUBLE_STONE_SLAB2:
-            case LEGACY_ENDER_PORTAL:
-            case LEGACY_END_GATEWAY:
-            case LEGACY_FIRE:
-            case LEGACY_FLOWER_POT:
-            case LEGACY_FROSTED_ICE:
-            case LEGACY_GLOWING_REDSTONE_ORE:
-            case LEGACY_IRON_DOOR_BLOCK:
-            case LEGACY_JUNGLE_DOOR:
-            case LEGACY_LAVA:
-            case LEGACY_MELON_STEM:
-            case LEGACY_NETHER_WARTS:
-            case LEGACY_PISTON_EXTENSION:
-            case LEGACY_PISTON_MOVING_PIECE:
-            case LEGACY_PORTAL:
-            case LEGACY_POTATO:
-            case LEGACY_PUMPKIN_STEM:
-            case LEGACY_PURPUR_DOUBLE_SLAB:
-            case LEGACY_REDSTONE_COMPARATOR_OFF:
-            case LEGACY_REDSTONE_COMPARATOR_ON:
-            case LEGACY_REDSTONE_LAMP_ON:
-            case LEGACY_REDSTONE_TORCH_OFF:
-            case LEGACY_REDSTONE_WIRE:
-            case LEGACY_SIGN_POST:
-            case LEGACY_SKULL:
-            case LEGACY_SPRUCE_DOOR:
-            case LEGACY_STANDING_BANNER:
-            case LEGACY_STATIONARY_LAVA:
-            case LEGACY_STATIONARY_WATER:
-            case LEGACY_SUGAR_CANE_BLOCK:
-            case LEGACY_TRIPWIRE:
-            case LEGACY_WALL_BANNER:
-            case LEGACY_WALL_SIGN:
-            case LEGACY_WATER:
-            case LEGACY_WOODEN_DOOR:
-            case LEGACY_WOOD_DOUBLE_STEP:
-            //</editor-fold>
-                return false;
-            default:
-                return true;
-        }
-    }
+    boolean isItem();
+
+    @Contract("-> this") // TODO
+    @NotNull
+    ItemType asItemType();
 
     /**
      * Checks if this Material can be interacted with.
@@ -7776,281 +2479,7 @@ public enum Material implements Keyed {
      *
      * @return true if this material can be interacted with.
      */
-    public boolean isInteractable() {
-        switch (this) {
-            // <editor-fold defaultstate="collapsed" desc="isInteractable">
-            case ACACIA_BUTTON:
-            case ACACIA_DOOR:
-            case ACACIA_FENCE:
-            case ACACIA_FENCE_GATE:
-            case ACACIA_SIGN:
-            case ACACIA_STAIRS:
-            case ACACIA_TRAPDOOR:
-            case ACACIA_WALL_SIGN:
-            case ANDESITE_STAIRS:
-            case ANVIL:
-            case BARREL:
-            case BEACON:
-            case BEEHIVE:
-            case BEE_NEST:
-            case BELL:
-            case BIRCH_BUTTON:
-            case BIRCH_DOOR:
-            case BIRCH_FENCE:
-            case BIRCH_FENCE_GATE:
-            case BIRCH_SIGN:
-            case BIRCH_STAIRS:
-            case BIRCH_TRAPDOOR:
-            case BIRCH_WALL_SIGN:
-            case BLACKSTONE_STAIRS:
-            case BLACK_BED:
-            case BLACK_CANDLE:
-            case BLACK_CANDLE_CAKE:
-            case BLACK_SHULKER_BOX:
-            case BLAST_FURNACE:
-            case BLUE_BED:
-            case BLUE_CANDLE:
-            case BLUE_CANDLE_CAKE:
-            case BLUE_SHULKER_BOX:
-            case BREWING_STAND:
-            case BRICK_STAIRS:
-            case BROWN_BED:
-            case BROWN_CANDLE:
-            case BROWN_CANDLE_CAKE:
-            case BROWN_SHULKER_BOX:
-            case CAKE:
-            case CAMPFIRE:
-            case CANDLE:
-            case CANDLE_CAKE:
-            case CARTOGRAPHY_TABLE:
-            case CAULDRON:
-            case CAVE_VINES:
-            case CAVE_VINES_PLANT:
-            case CHAIN_COMMAND_BLOCK:
-            case CHEST:
-            case CHIPPED_ANVIL:
-            case COBBLED_DEEPSLATE_STAIRS:
-            case COBBLESTONE_STAIRS:
-            case COMMAND_BLOCK:
-            case COMPARATOR:
-            case COMPOSTER:
-            case CRAFTING_TABLE:
-            case CRIMSON_BUTTON:
-            case CRIMSON_DOOR:
-            case CRIMSON_FENCE:
-            case CRIMSON_FENCE_GATE:
-            case CRIMSON_SIGN:
-            case CRIMSON_STAIRS:
-            case CRIMSON_TRAPDOOR:
-            case CRIMSON_WALL_SIGN:
-            case CUT_COPPER_STAIRS:
-            case CYAN_BED:
-            case CYAN_CANDLE:
-            case CYAN_CANDLE_CAKE:
-            case CYAN_SHULKER_BOX:
-            case DAMAGED_ANVIL:
-            case DARK_OAK_BUTTON:
-            case DARK_OAK_DOOR:
-            case DARK_OAK_FENCE:
-            case DARK_OAK_FENCE_GATE:
-            case DARK_OAK_SIGN:
-            case DARK_OAK_STAIRS:
-            case DARK_OAK_TRAPDOOR:
-            case DARK_OAK_WALL_SIGN:
-            case DARK_PRISMARINE_STAIRS:
-            case DAYLIGHT_DETECTOR:
-            case DEEPSLATE_BRICK_STAIRS:
-            case DEEPSLATE_REDSTONE_ORE:
-            case DEEPSLATE_TILE_STAIRS:
-            case DIORITE_STAIRS:
-            case DISPENSER:
-            case DRAGON_EGG:
-            case DROPPER:
-            case ENCHANTING_TABLE:
-            case ENDER_CHEST:
-            case END_STONE_BRICK_STAIRS:
-            case EXPOSED_CUT_COPPER_STAIRS:
-            case FLETCHING_TABLE:
-            case FLOWER_POT:
-            case FURNACE:
-            case GRANITE_STAIRS:
-            case GRAY_BED:
-            case GRAY_CANDLE:
-            case GRAY_CANDLE_CAKE:
-            case GRAY_SHULKER_BOX:
-            case GREEN_BED:
-            case GREEN_CANDLE:
-            case GREEN_CANDLE_CAKE:
-            case GREEN_SHULKER_BOX:
-            case GRINDSTONE:
-            case HOPPER:
-            case IRON_DOOR:
-            case IRON_TRAPDOOR:
-            case JIGSAW:
-            case JUKEBOX:
-            case JUNGLE_BUTTON:
-            case JUNGLE_DOOR:
-            case JUNGLE_FENCE:
-            case JUNGLE_FENCE_GATE:
-            case JUNGLE_SIGN:
-            case JUNGLE_STAIRS:
-            case JUNGLE_TRAPDOOR:
-            case JUNGLE_WALL_SIGN:
-            case LAVA_CAULDRON:
-            case LECTERN:
-            case LEVER:
-            case LIGHT:
-            case LIGHT_BLUE_BED:
-            case LIGHT_BLUE_CANDLE:
-            case LIGHT_BLUE_CANDLE_CAKE:
-            case LIGHT_BLUE_SHULKER_BOX:
-            case LIGHT_GRAY_BED:
-            case LIGHT_GRAY_CANDLE:
-            case LIGHT_GRAY_CANDLE_CAKE:
-            case LIGHT_GRAY_SHULKER_BOX:
-            case LIME_BED:
-            case LIME_CANDLE:
-            case LIME_CANDLE_CAKE:
-            case LIME_SHULKER_BOX:
-            case LOOM:
-            case MAGENTA_BED:
-            case MAGENTA_CANDLE:
-            case MAGENTA_CANDLE_CAKE:
-            case MAGENTA_SHULKER_BOX:
-            case MOSSY_COBBLESTONE_STAIRS:
-            case MOSSY_STONE_BRICK_STAIRS:
-            case MOVING_PISTON:
-            case NETHER_BRICK_FENCE:
-            case NETHER_BRICK_STAIRS:
-            case NOTE_BLOCK:
-            case OAK_BUTTON:
-            case OAK_DOOR:
-            case OAK_FENCE:
-            case OAK_FENCE_GATE:
-            case OAK_SIGN:
-            case OAK_STAIRS:
-            case OAK_TRAPDOOR:
-            case OAK_WALL_SIGN:
-            case ORANGE_BED:
-            case ORANGE_CANDLE:
-            case ORANGE_CANDLE_CAKE:
-            case ORANGE_SHULKER_BOX:
-            case OXIDIZED_CUT_COPPER_STAIRS:
-            case PINK_BED:
-            case PINK_CANDLE:
-            case PINK_CANDLE_CAKE:
-            case PINK_SHULKER_BOX:
-            case POLISHED_ANDESITE_STAIRS:
-            case POLISHED_BLACKSTONE_BRICK_STAIRS:
-            case POLISHED_BLACKSTONE_BUTTON:
-            case POLISHED_BLACKSTONE_STAIRS:
-            case POLISHED_DEEPSLATE_STAIRS:
-            case POLISHED_DIORITE_STAIRS:
-            case POLISHED_GRANITE_STAIRS:
-            case POTTED_ACACIA_SAPLING:
-            case POTTED_ALLIUM:
-            case POTTED_AZALEA_BUSH:
-            case POTTED_AZURE_BLUET:
-            case POTTED_BAMBOO:
-            case POTTED_BIRCH_SAPLING:
-            case POTTED_BLUE_ORCHID:
-            case POTTED_BROWN_MUSHROOM:
-            case POTTED_CACTUS:
-            case POTTED_CORNFLOWER:
-            case POTTED_CRIMSON_FUNGUS:
-            case POTTED_CRIMSON_ROOTS:
-            case POTTED_DANDELION:
-            case POTTED_DARK_OAK_SAPLING:
-            case POTTED_DEAD_BUSH:
-            case POTTED_FERN:
-            case POTTED_FLOWERING_AZALEA_BUSH:
-            case POTTED_JUNGLE_SAPLING:
-            case POTTED_LILY_OF_THE_VALLEY:
-            case POTTED_OAK_SAPLING:
-            case POTTED_ORANGE_TULIP:
-            case POTTED_OXEYE_DAISY:
-            case POTTED_PINK_TULIP:
-            case POTTED_POPPY:
-            case POTTED_RED_MUSHROOM:
-            case POTTED_RED_TULIP:
-            case POTTED_SPRUCE_SAPLING:
-            case POTTED_WARPED_FUNGUS:
-            case POTTED_WARPED_ROOTS:
-            case POTTED_WHITE_TULIP:
-            case POTTED_WITHER_ROSE:
-            case POWDER_SNOW_CAULDRON:
-            case PRISMARINE_BRICK_STAIRS:
-            case PRISMARINE_STAIRS:
-            case PUMPKIN:
-            case PURPLE_BED:
-            case PURPLE_CANDLE:
-            case PURPLE_CANDLE_CAKE:
-            case PURPLE_SHULKER_BOX:
-            case PURPUR_STAIRS:
-            case QUARTZ_STAIRS:
-            case REDSTONE_ORE:
-            case REDSTONE_WIRE:
-            case RED_BED:
-            case RED_CANDLE:
-            case RED_CANDLE_CAKE:
-            case RED_NETHER_BRICK_STAIRS:
-            case RED_SANDSTONE_STAIRS:
-            case RED_SHULKER_BOX:
-            case REPEATER:
-            case REPEATING_COMMAND_BLOCK:
-            case RESPAWN_ANCHOR:
-            case SANDSTONE_STAIRS:
-            case SHULKER_BOX:
-            case SMITHING_TABLE:
-            case SMOKER:
-            case SMOOTH_QUARTZ_STAIRS:
-            case SMOOTH_RED_SANDSTONE_STAIRS:
-            case SMOOTH_SANDSTONE_STAIRS:
-            case SOUL_CAMPFIRE:
-            case SPRUCE_BUTTON:
-            case SPRUCE_DOOR:
-            case SPRUCE_FENCE:
-            case SPRUCE_FENCE_GATE:
-            case SPRUCE_SIGN:
-            case SPRUCE_STAIRS:
-            case SPRUCE_TRAPDOOR:
-            case SPRUCE_WALL_SIGN:
-            case STONECUTTER:
-            case STONE_BRICK_STAIRS:
-            case STONE_BUTTON:
-            case STONE_STAIRS:
-            case STRUCTURE_BLOCK:
-            case SWEET_BERRY_BUSH:
-            case TNT:
-            case TRAPPED_CHEST:
-            case WARPED_BUTTON:
-            case WARPED_DOOR:
-            case WARPED_FENCE:
-            case WARPED_FENCE_GATE:
-            case WARPED_SIGN:
-            case WARPED_STAIRS:
-            case WARPED_TRAPDOOR:
-            case WARPED_WALL_SIGN:
-            case WATER_CAULDRON:
-            case WAXED_CUT_COPPER_STAIRS:
-            case WAXED_EXPOSED_CUT_COPPER_STAIRS:
-            case WAXED_OXIDIZED_CUT_COPPER_STAIRS:
-            case WAXED_WEATHERED_CUT_COPPER_STAIRS:
-            case WEATHERED_CUT_COPPER_STAIRS:
-            case WHITE_BED:
-            case WHITE_CANDLE:
-            case WHITE_CANDLE_CAKE:
-            case WHITE_SHULKER_BOX:
-            case YELLOW_BED:
-            case YELLOW_CANDLE:
-            case YELLOW_CANDLE_CAKE:
-            case YELLOW_SHULKER_BOX:
-                // </editor-fold>
-                return true;
-            default:
-                return false;
-        }
-    }
+    boolean isInteractable();
 
     /**
      * Obtains the block's hardness level (also known as "strength").
@@ -8061,794 +2490,8 @@ public enum Material implements Keyed {
      *
      * @return the hardness of that material.
      */
-    public float getHardness() {
-        Validate.isTrue(isBlock(), "The Material is not a block!");
-        switch (this) {
-            // <editor-fold defaultstate="collapsed" desc="getBlockHardness">
-            case BARRIER:
-            case BEDROCK:
-            case CHAIN_COMMAND_BLOCK:
-            case COMMAND_BLOCK:
-            case END_GATEWAY:
-            case END_PORTAL:
-            case END_PORTAL_FRAME:
-            case JIGSAW:
-            case LIGHT:
-            case MOVING_PISTON:
-            case NETHER_PORTAL:
-            case REPEATING_COMMAND_BLOCK:
-            case STRUCTURE_BLOCK:
-                return -1.0F;
-            case BIG_DRIPLEAF:
-            case BIG_DRIPLEAF_STEM:
-            case BLACK_CANDLE:
-            case BLACK_CARPET:
-            case BLUE_CANDLE:
-            case BLUE_CARPET:
-            case BROWN_CANDLE:
-            case BROWN_CARPET:
-            case CANDLE:
-            case CYAN_CANDLE:
-            case CYAN_CARPET:
-            case GRAY_CANDLE:
-            case GRAY_CARPET:
-            case GREEN_CANDLE:
-            case GREEN_CARPET:
-            case LIGHT_BLUE_CANDLE:
-            case LIGHT_BLUE_CARPET:
-            case LIGHT_GRAY_CANDLE:
-            case LIGHT_GRAY_CARPET:
-            case LIME_CANDLE:
-            case LIME_CARPET:
-            case MAGENTA_CANDLE:
-            case MAGENTA_CARPET:
-            case MOSS_BLOCK:
-            case MOSS_CARPET:
-            case ORANGE_CANDLE:
-            case ORANGE_CARPET:
-            case PINK_CANDLE:
-            case PINK_CARPET:
-            case PURPLE_CANDLE:
-            case PURPLE_CARPET:
-            case RED_CANDLE:
-            case RED_CARPET:
-            case SNOW:
-            case WHITE_CANDLE:
-            case WHITE_CARPET:
-            case YELLOW_CANDLE:
-            case YELLOW_CARPET:
-                return 0.1F;
-            case ACACIA_LEAVES:
-            case AZALEA_LEAVES:
-            case BIRCH_LEAVES:
-            case BLACK_BED:
-            case BLUE_BED:
-            case BROWN_BED:
-            case BROWN_MUSHROOM_BLOCK:
-            case COCOA:
-            case CYAN_BED:
-            case DARK_OAK_LEAVES:
-            case DAYLIGHT_DETECTOR:
-            case FLOWERING_AZALEA_LEAVES:
-            case GLOW_LICHEN:
-            case GRAY_BED:
-            case GREEN_BED:
-            case JUNGLE_LEAVES:
-            case LIGHT_BLUE_BED:
-            case LIGHT_GRAY_BED:
-            case LIME_BED:
-            case MAGENTA_BED:
-            case MUSHROOM_STEM:
-            case OAK_LEAVES:
-            case ORANGE_BED:
-            case PINK_BED:
-            case PURPLE_BED:
-            case RED_BED:
-            case RED_MUSHROOM_BLOCK:
-            case SNOW_BLOCK:
-            case SPRUCE_LEAVES:
-            case VINE:
-            case WHITE_BED:
-            case YELLOW_BED:
-                return 0.2F;
-            case POWDER_SNOW:
-                return 0.25F;
-            case BEE_NEST:
-            case BLACK_STAINED_GLASS:
-            case BLACK_STAINED_GLASS_PANE:
-            case BLUE_STAINED_GLASS:
-            case BLUE_STAINED_GLASS_PANE:
-            case BROWN_STAINED_GLASS:
-            case BROWN_STAINED_GLASS_PANE:
-            case CYAN_STAINED_GLASS:
-            case CYAN_STAINED_GLASS_PANE:
-            case GLASS:
-            case GLASS_PANE:
-            case GLOWSTONE:
-            case GRAY_STAINED_GLASS:
-            case GRAY_STAINED_GLASS_PANE:
-            case GREEN_STAINED_GLASS:
-            case GREEN_STAINED_GLASS_PANE:
-            case LIGHT_BLUE_STAINED_GLASS:
-            case LIGHT_BLUE_STAINED_GLASS_PANE:
-            case LIGHT_GRAY_STAINED_GLASS:
-            case LIGHT_GRAY_STAINED_GLASS_PANE:
-            case LIME_STAINED_GLASS:
-            case LIME_STAINED_GLASS_PANE:
-            case MAGENTA_STAINED_GLASS:
-            case MAGENTA_STAINED_GLASS_PANE:
-            case ORANGE_STAINED_GLASS:
-            case ORANGE_STAINED_GLASS_PANE:
-            case PINK_STAINED_GLASS:
-            case PINK_STAINED_GLASS_PANE:
-            case PURPLE_STAINED_GLASS:
-            case PURPLE_STAINED_GLASS_PANE:
-            case REDSTONE_LAMP:
-            case RED_STAINED_GLASS:
-            case RED_STAINED_GLASS_PANE:
-            case SEA_LANTERN:
-            case TINTED_GLASS:
-            case WHITE_STAINED_GLASS:
-            case WHITE_STAINED_GLASS_PANE:
-            case YELLOW_STAINED_GLASS:
-            case YELLOW_STAINED_GLASS_PANE:
-                return 0.3F;
-            case CACTUS:
-            case CHORUS_FLOWER:
-            case CHORUS_PLANT:
-            case CRIMSON_NYLIUM:
-            case LADDER:
-            case NETHERRACK:
-            case WARPED_NYLIUM:
-                return 0.4F;
-            case ACACIA_BUTTON:
-            case ACACIA_PRESSURE_PLATE:
-            case BIRCH_BUTTON:
-            case BIRCH_PRESSURE_PLATE:
-            case BLACK_CANDLE_CAKE:
-            case BLACK_CONCRETE_POWDER:
-            case BLUE_CANDLE_CAKE:
-            case BLUE_CONCRETE_POWDER:
-            case BREWING_STAND:
-            case BROWN_CANDLE_CAKE:
-            case BROWN_CONCRETE_POWDER:
-            case CAKE:
-            case CANDLE_CAKE:
-            case COARSE_DIRT:
-            case CRIMSON_BUTTON:
-            case CRIMSON_PRESSURE_PLATE:
-            case CYAN_CANDLE_CAKE:
-            case CYAN_CONCRETE_POWDER:
-            case DARK_OAK_BUTTON:
-            case DARK_OAK_PRESSURE_PLATE:
-            case DIRT:
-            case DRIED_KELP_BLOCK:
-            case FROSTED_ICE:
-            case GRAY_CANDLE_CAKE:
-            case GRAY_CONCRETE_POWDER:
-            case GREEN_CANDLE_CAKE:
-            case GREEN_CONCRETE_POWDER:
-            case HAY_BLOCK:
-            case HEAVY_WEIGHTED_PRESSURE_PLATE:
-            case ICE:
-            case JUNGLE_BUTTON:
-            case JUNGLE_PRESSURE_PLATE:
-            case LEVER:
-            case LIGHT_BLUE_CANDLE_CAKE:
-            case LIGHT_BLUE_CONCRETE_POWDER:
-            case LIGHT_GRAY_CANDLE_CAKE:
-            case LIGHT_GRAY_CONCRETE_POWDER:
-            case LIGHT_WEIGHTED_PRESSURE_PLATE:
-            case LIME_CANDLE_CAKE:
-            case LIME_CONCRETE_POWDER:
-            case MAGENTA_CANDLE_CAKE:
-            case MAGENTA_CONCRETE_POWDER:
-            case MAGMA_BLOCK:
-            case OAK_BUTTON:
-            case OAK_PRESSURE_PLATE:
-            case ORANGE_CANDLE_CAKE:
-            case ORANGE_CONCRETE_POWDER:
-            case PACKED_ICE:
-            case PINK_CANDLE_CAKE:
-            case PINK_CONCRETE_POWDER:
-            case PODZOL:
-            case POLISHED_BLACKSTONE_BUTTON:
-            case POLISHED_BLACKSTONE_PRESSURE_PLATE:
-            case PURPLE_CANDLE_CAKE:
-            case PURPLE_CONCRETE_POWDER:
-            case RED_CANDLE_CAKE:
-            case RED_CONCRETE_POWDER:
-            case RED_SAND:
-            case ROOTED_DIRT:
-            case SAND:
-            case SOUL_SAND:
-            case SOUL_SOIL:
-            case SPRUCE_BUTTON:
-            case SPRUCE_PRESSURE_PLATE:
-            case STONE_BUTTON:
-            case STONE_PRESSURE_PLATE:
-            case TARGET:
-            case TURTLE_EGG:
-            case WARPED_BUTTON:
-            case WARPED_PRESSURE_PLATE:
-            case WHITE_CANDLE_CAKE:
-            case WHITE_CONCRETE_POWDER:
-            case YELLOW_CANDLE_CAKE:
-            case YELLOW_CONCRETE_POWDER:
-                return 0.5F;
-            case BEEHIVE:
-            case CLAY:
-            case COMPOSTER:
-            case FARMLAND:
-            case GRASS_BLOCK:
-            case GRAVEL:
-            case HONEYCOMB_BLOCK:
-            case MYCELIUM:
-            case SPONGE:
-            case WET_SPONGE:
-                return 0.6F;
-            case DIRT_PATH:
-                return 0.65F;
-            case ACTIVATOR_RAIL:
-            case DETECTOR_RAIL:
-            case POWERED_RAIL:
-            case RAIL:
-                return 0.7F;
-            case CALCITE:
-            case INFESTED_CHISELED_STONE_BRICKS:
-            case INFESTED_CRACKED_STONE_BRICKS:
-            case INFESTED_MOSSY_STONE_BRICKS:
-            case INFESTED_STONE:
-            case INFESTED_STONE_BRICKS:
-                return 0.75F;
-            case BLACK_WOOL:
-            case BLUE_WOOL:
-            case BROWN_WOOL:
-            case CHISELED_QUARTZ_BLOCK:
-            case CHISELED_RED_SANDSTONE:
-            case CHISELED_SANDSTONE:
-            case CUT_RED_SANDSTONE:
-            case CUT_SANDSTONE:
-            case CYAN_WOOL:
-            case GRAY_WOOL:
-            case GREEN_WOOL:
-            case LIGHT_BLUE_WOOL:
-            case LIGHT_GRAY_WOOL:
-            case LIME_WOOL:
-            case MAGENTA_WOOL:
-            case NOTE_BLOCK:
-            case ORANGE_WOOL:
-            case PINK_WOOL:
-            case PURPLE_WOOL:
-            case QUARTZ_BLOCK:
-            case QUARTZ_BRICKS:
-            case QUARTZ_PILLAR:
-            case QUARTZ_STAIRS:
-            case RED_SANDSTONE:
-            case RED_SANDSTONE_STAIRS:
-            case RED_SANDSTONE_WALL:
-            case RED_WOOL:
-            case SANDSTONE:
-            case SANDSTONE_STAIRS:
-            case SANDSTONE_WALL:
-            case WHITE_WOOL:
-            case YELLOW_WOOL:
-                return 0.8F;
-            case ACACIA_SIGN:
-            case ACACIA_WALL_SIGN:
-            case BAMBOO:
-            case BAMBOO_SAPLING:
-            case BIRCH_SIGN:
-            case BIRCH_WALL_SIGN:
-            case BLACK_BANNER:
-            case BLACK_WALL_BANNER:
-            case BLUE_BANNER:
-            case BLUE_WALL_BANNER:
-            case BROWN_BANNER:
-            case BROWN_WALL_BANNER:
-            case CARVED_PUMPKIN:
-            case CREEPER_HEAD:
-            case CREEPER_WALL_HEAD:
-            case CRIMSON_SIGN:
-            case CRIMSON_WALL_SIGN:
-            case CYAN_BANNER:
-            case CYAN_WALL_BANNER:
-            case DARK_OAK_SIGN:
-            case DARK_OAK_WALL_SIGN:
-            case DRAGON_HEAD:
-            case DRAGON_WALL_HEAD:
-            case GRAY_BANNER:
-            case GRAY_WALL_BANNER:
-            case GREEN_BANNER:
-            case GREEN_WALL_BANNER:
-            case INFESTED_COBBLESTONE:
-            case JACK_O_LANTERN:
-            case JUNGLE_SIGN:
-            case JUNGLE_WALL_SIGN:
-            case LIGHT_BLUE_BANNER:
-            case LIGHT_BLUE_WALL_BANNER:
-            case LIGHT_GRAY_BANNER:
-            case LIGHT_GRAY_WALL_BANNER:
-            case LIME_BANNER:
-            case LIME_WALL_BANNER:
-            case MAGENTA_BANNER:
-            case MAGENTA_WALL_BANNER:
-            case MELON:
-            case NETHER_WART_BLOCK:
-            case OAK_SIGN:
-            case OAK_WALL_SIGN:
-            case ORANGE_BANNER:
-            case ORANGE_WALL_BANNER:
-            case PINK_BANNER:
-            case PINK_WALL_BANNER:
-            case PLAYER_HEAD:
-            case PLAYER_WALL_HEAD:
-            case PUMPKIN:
-            case PURPLE_BANNER:
-            case PURPLE_WALL_BANNER:
-            case RED_BANNER:
-            case RED_WALL_BANNER:
-            case SHROOMLIGHT:
-            case SKELETON_SKULL:
-            case SKELETON_WALL_SKULL:
-            case SPRUCE_SIGN:
-            case SPRUCE_WALL_SIGN:
-            case WARPED_SIGN:
-            case WARPED_WALL_SIGN:
-            case WARPED_WART_BLOCK:
-            case WHITE_BANNER:
-            case WHITE_WALL_BANNER:
-            case WITHER_SKELETON_SKULL:
-            case WITHER_SKELETON_WALL_SKULL:
-            case YELLOW_BANNER:
-            case YELLOW_WALL_BANNER:
-            case ZOMBIE_HEAD:
-            case ZOMBIE_WALL_HEAD:
-                return 1.0F;
-            case BASALT:
-            case BLACK_TERRACOTTA:
-            case BLUE_TERRACOTTA:
-            case BROWN_TERRACOTTA:
-            case CYAN_TERRACOTTA:
-            case GRAY_TERRACOTTA:
-            case GREEN_TERRACOTTA:
-            case LIGHT_BLUE_TERRACOTTA:
-            case LIGHT_GRAY_TERRACOTTA:
-            case LIME_TERRACOTTA:
-            case MAGENTA_TERRACOTTA:
-            case ORANGE_TERRACOTTA:
-            case PINK_TERRACOTTA:
-            case POLISHED_BASALT:
-            case PURPLE_TERRACOTTA:
-            case RED_TERRACOTTA:
-            case SMOOTH_BASALT:
-            case TERRACOTTA:
-            case WHITE_TERRACOTTA:
-            case YELLOW_TERRACOTTA:
-                return 1.25F;
-            case BLACK_GLAZED_TERRACOTTA:
-            case BLUE_GLAZED_TERRACOTTA:
-            case BROWN_GLAZED_TERRACOTTA:
-            case CYAN_GLAZED_TERRACOTTA:
-            case GRAY_GLAZED_TERRACOTTA:
-            case GREEN_GLAZED_TERRACOTTA:
-            case LIGHT_BLUE_GLAZED_TERRACOTTA:
-            case LIGHT_GRAY_GLAZED_TERRACOTTA:
-            case LIME_GLAZED_TERRACOTTA:
-            case MAGENTA_GLAZED_TERRACOTTA:
-            case ORANGE_GLAZED_TERRACOTTA:
-            case PINK_GLAZED_TERRACOTTA:
-            case PURPLE_GLAZED_TERRACOTTA:
-            case RED_GLAZED_TERRACOTTA:
-            case WHITE_GLAZED_TERRACOTTA:
-            case YELLOW_GLAZED_TERRACOTTA:
-                return 1.4F;
-            case AMETHYST_BLOCK:
-            case AMETHYST_CLUSTER:
-            case ANDESITE:
-            case ANDESITE_SLAB:
-            case ANDESITE_STAIRS:
-            case ANDESITE_WALL:
-            case BLACKSTONE:
-            case BLACKSTONE_STAIRS:
-            case BLACKSTONE_WALL:
-            case BOOKSHELF:
-            case BRAIN_CORAL_BLOCK:
-            case BUBBLE_CORAL_BLOCK:
-            case BUDDING_AMETHYST:
-            case CHISELED_POLISHED_BLACKSTONE:
-            case CHISELED_STONE_BRICKS:
-            case CRACKED_POLISHED_BLACKSTONE_BRICKS:
-            case CRACKED_STONE_BRICKS:
-            case DARK_PRISMARINE:
-            case DARK_PRISMARINE_SLAB:
-            case DARK_PRISMARINE_STAIRS:
-            case DEAD_BRAIN_CORAL_BLOCK:
-            case DEAD_BUBBLE_CORAL_BLOCK:
-            case DEAD_FIRE_CORAL_BLOCK:
-            case DEAD_HORN_CORAL_BLOCK:
-            case DEAD_TUBE_CORAL_BLOCK:
-            case DIORITE:
-            case DIORITE_SLAB:
-            case DIORITE_STAIRS:
-            case DIORITE_WALL:
-            case DRIPSTONE_BLOCK:
-            case FIRE_CORAL_BLOCK:
-            case GILDED_BLACKSTONE:
-            case GRANITE:
-            case GRANITE_SLAB:
-            case GRANITE_STAIRS:
-            case GRANITE_WALL:
-            case HORN_CORAL_BLOCK:
-            case INFESTED_DEEPSLATE:
-            case LARGE_AMETHYST_BUD:
-            case MEDIUM_AMETHYST_BUD:
-            case MOSSY_STONE_BRICKS:
-            case MOSSY_STONE_BRICK_SLAB:
-            case MOSSY_STONE_BRICK_STAIRS:
-            case MOSSY_STONE_BRICK_WALL:
-            case PISTON:
-            case PISTON_HEAD:
-            case POINTED_DRIPSTONE:
-            case POLISHED_ANDESITE:
-            case POLISHED_ANDESITE_SLAB:
-            case POLISHED_ANDESITE_STAIRS:
-            case POLISHED_BLACKSTONE_BRICKS:
-            case POLISHED_BLACKSTONE_BRICK_STAIRS:
-            case POLISHED_BLACKSTONE_BRICK_WALL:
-            case POLISHED_DIORITE:
-            case POLISHED_DIORITE_SLAB:
-            case POLISHED_DIORITE_STAIRS:
-            case POLISHED_GRANITE:
-            case POLISHED_GRANITE_SLAB:
-            case POLISHED_GRANITE_STAIRS:
-            case PRISMARINE:
-            case PRISMARINE_BRICKS:
-            case PRISMARINE_BRICK_SLAB:
-            case PRISMARINE_BRICK_STAIRS:
-            case PRISMARINE_SLAB:
-            case PRISMARINE_STAIRS:
-            case PRISMARINE_WALL:
-            case PURPUR_BLOCK:
-            case PURPUR_PILLAR:
-            case PURPUR_STAIRS:
-            case SCULK_SENSOR:
-            case SMALL_AMETHYST_BUD:
-            case STICKY_PISTON:
-            case STONE:
-            case STONE_BRICKS:
-            case STONE_BRICK_STAIRS:
-            case STONE_BRICK_WALL:
-            case STONE_STAIRS:
-            case TUBE_CORAL_BLOCK:
-            case TUFF:
-                return 1.5F;
-            case BLACK_CONCRETE:
-            case BLUE_CONCRETE:
-            case BROWN_CONCRETE:
-            case CYAN_CONCRETE:
-            case GRAY_CONCRETE:
-            case GREEN_CONCRETE:
-            case LIGHT_BLUE_CONCRETE:
-            case LIGHT_GRAY_CONCRETE:
-            case LIME_CONCRETE:
-            case MAGENTA_CONCRETE:
-            case ORANGE_CONCRETE:
-            case PINK_CONCRETE:
-            case PURPLE_CONCRETE:
-            case RED_CONCRETE:
-            case WHITE_CONCRETE:
-            case YELLOW_CONCRETE:
-                return 1.8F;
-            case ACACIA_FENCE:
-            case ACACIA_FENCE_GATE:
-            case ACACIA_LOG:
-            case ACACIA_PLANKS:
-            case ACACIA_SLAB:
-            case ACACIA_STAIRS:
-            case ACACIA_WOOD:
-            case BIRCH_FENCE:
-            case BIRCH_FENCE_GATE:
-            case BIRCH_LOG:
-            case BIRCH_PLANKS:
-            case BIRCH_SLAB:
-            case BIRCH_STAIRS:
-            case BIRCH_WOOD:
-            case BLACKSTONE_SLAB:
-            case BLACK_SHULKER_BOX:
-            case BLUE_SHULKER_BOX:
-            case BONE_BLOCK:
-            case BRICKS:
-            case BRICK_SLAB:
-            case BRICK_STAIRS:
-            case BRICK_WALL:
-            case BROWN_SHULKER_BOX:
-            case CAMPFIRE:
-            case CAULDRON:
-            case CHISELED_NETHER_BRICKS:
-            case COBBLESTONE:
-            case COBBLESTONE_SLAB:
-            case COBBLESTONE_STAIRS:
-            case COBBLESTONE_WALL:
-            case CRACKED_NETHER_BRICKS:
-            case CRIMSON_FENCE:
-            case CRIMSON_FENCE_GATE:
-            case CRIMSON_HYPHAE:
-            case CRIMSON_PLANKS:
-            case CRIMSON_SLAB:
-            case CRIMSON_STAIRS:
-            case CRIMSON_STEM:
-            case CUT_RED_SANDSTONE_SLAB:
-            case CUT_SANDSTONE_SLAB:
-            case CYAN_SHULKER_BOX:
-            case DARK_OAK_FENCE:
-            case DARK_OAK_FENCE_GATE:
-            case DARK_OAK_LOG:
-            case DARK_OAK_PLANKS:
-            case DARK_OAK_SLAB:
-            case DARK_OAK_STAIRS:
-            case DARK_OAK_WOOD:
-            case GRAY_SHULKER_BOX:
-            case GREEN_SHULKER_BOX:
-            case GRINDSTONE:
-            case JUKEBOX:
-            case JUNGLE_FENCE:
-            case JUNGLE_FENCE_GATE:
-            case JUNGLE_LOG:
-            case JUNGLE_PLANKS:
-            case JUNGLE_SLAB:
-            case JUNGLE_STAIRS:
-            case JUNGLE_WOOD:
-            case LAVA_CAULDRON:
-            case LIGHT_BLUE_SHULKER_BOX:
-            case LIGHT_GRAY_SHULKER_BOX:
-            case LIME_SHULKER_BOX:
-            case MAGENTA_SHULKER_BOX:
-            case MOSSY_COBBLESTONE:
-            case MOSSY_COBBLESTONE_SLAB:
-            case MOSSY_COBBLESTONE_STAIRS:
-            case MOSSY_COBBLESTONE_WALL:
-            case NETHER_BRICKS:
-            case NETHER_BRICK_FENCE:
-            case NETHER_BRICK_SLAB:
-            case NETHER_BRICK_STAIRS:
-            case NETHER_BRICK_WALL:
-            case OAK_FENCE:
-            case OAK_FENCE_GATE:
-            case OAK_LOG:
-            case OAK_PLANKS:
-            case OAK_SLAB:
-            case OAK_STAIRS:
-            case OAK_WOOD:
-            case ORANGE_SHULKER_BOX:
-            case PETRIFIED_OAK_SLAB:
-            case PINK_SHULKER_BOX:
-            case POLISHED_BLACKSTONE:
-            case POLISHED_BLACKSTONE_BRICK_SLAB:
-            case POLISHED_BLACKSTONE_SLAB:
-            case POLISHED_BLACKSTONE_STAIRS:
-            case POLISHED_BLACKSTONE_WALL:
-            case POWDER_SNOW_CAULDRON:
-            case PURPLE_SHULKER_BOX:
-            case PURPUR_SLAB:
-            case QUARTZ_SLAB:
-            case RED_NETHER_BRICKS:
-            case RED_NETHER_BRICK_SLAB:
-            case RED_NETHER_BRICK_STAIRS:
-            case RED_NETHER_BRICK_WALL:
-            case RED_SANDSTONE_SLAB:
-            case RED_SHULKER_BOX:
-            case SANDSTONE_SLAB:
-            case SHULKER_BOX:
-            case SMOOTH_QUARTZ:
-            case SMOOTH_QUARTZ_SLAB:
-            case SMOOTH_QUARTZ_STAIRS:
-            case SMOOTH_RED_SANDSTONE:
-            case SMOOTH_RED_SANDSTONE_SLAB:
-            case SMOOTH_RED_SANDSTONE_STAIRS:
-            case SMOOTH_SANDSTONE:
-            case SMOOTH_SANDSTONE_SLAB:
-            case SMOOTH_SANDSTONE_STAIRS:
-            case SMOOTH_STONE:
-            case SMOOTH_STONE_SLAB:
-            case SOUL_CAMPFIRE:
-            case SPRUCE_FENCE:
-            case SPRUCE_FENCE_GATE:
-            case SPRUCE_LOG:
-            case SPRUCE_PLANKS:
-            case SPRUCE_SLAB:
-            case SPRUCE_STAIRS:
-            case SPRUCE_WOOD:
-            case STONE_BRICK_SLAB:
-            case STONE_SLAB:
-            case STRIPPED_ACACIA_LOG:
-            case STRIPPED_ACACIA_WOOD:
-            case STRIPPED_BIRCH_LOG:
-            case STRIPPED_BIRCH_WOOD:
-            case STRIPPED_CRIMSON_HYPHAE:
-            case STRIPPED_CRIMSON_STEM:
-            case STRIPPED_DARK_OAK_LOG:
-            case STRIPPED_DARK_OAK_WOOD:
-            case STRIPPED_JUNGLE_LOG:
-            case STRIPPED_JUNGLE_WOOD:
-            case STRIPPED_OAK_LOG:
-            case STRIPPED_OAK_WOOD:
-            case STRIPPED_SPRUCE_LOG:
-            case STRIPPED_SPRUCE_WOOD:
-            case STRIPPED_WARPED_HYPHAE:
-            case STRIPPED_WARPED_STEM:
-            case WARPED_FENCE:
-            case WARPED_FENCE_GATE:
-            case WARPED_HYPHAE:
-            case WARPED_PLANKS:
-            case WARPED_SLAB:
-            case WARPED_STAIRS:
-            case WARPED_STEM:
-            case WATER_CAULDRON:
-            case WHITE_SHULKER_BOX:
-            case YELLOW_SHULKER_BOX:
-                return 2.0F;
-            case BARREL:
-            case CARTOGRAPHY_TABLE:
-            case CHEST:
-            case CRAFTING_TABLE:
-            case FLETCHING_TABLE:
-            case LECTERN:
-            case LOOM:
-            case SMITHING_TABLE:
-            case TRAPPED_CHEST:
-                return 2.5F;
-            case BLUE_ICE:
-                return 2.8F;
-            case ACACIA_DOOR:
-            case ACACIA_TRAPDOOR:
-            case BEACON:
-            case BIRCH_DOOR:
-            case BIRCH_TRAPDOOR:
-            case COAL_ORE:
-            case CONDUIT:
-            case COPPER_BLOCK:
-            case COPPER_ORE:
-            case CRIMSON_DOOR:
-            case CRIMSON_TRAPDOOR:
-            case CUT_COPPER:
-            case CUT_COPPER_SLAB:
-            case CUT_COPPER_STAIRS:
-            case DARK_OAK_DOOR:
-            case DARK_OAK_TRAPDOOR:
-            case DEEPSLATE:
-            case DIAMOND_ORE:
-            case DRAGON_EGG:
-            case EMERALD_ORE:
-            case END_STONE:
-            case END_STONE_BRICKS:
-            case END_STONE_BRICK_SLAB:
-            case END_STONE_BRICK_STAIRS:
-            case END_STONE_BRICK_WALL:
-            case EXPOSED_COPPER:
-            case EXPOSED_CUT_COPPER:
-            case EXPOSED_CUT_COPPER_SLAB:
-            case EXPOSED_CUT_COPPER_STAIRS:
-            case GOLD_BLOCK:
-            case GOLD_ORE:
-            case HOPPER:
-            case IRON_ORE:
-            case JUNGLE_DOOR:
-            case JUNGLE_TRAPDOOR:
-            case LAPIS_BLOCK:
-            case LAPIS_ORE:
-            case LIGHTNING_ROD:
-            case NETHER_GOLD_ORE:
-            case NETHER_QUARTZ_ORE:
-            case OAK_DOOR:
-            case OAK_TRAPDOOR:
-            case OBSERVER:
-            case OXIDIZED_COPPER:
-            case OXIDIZED_CUT_COPPER:
-            case OXIDIZED_CUT_COPPER_SLAB:
-            case OXIDIZED_CUT_COPPER_STAIRS:
-            case REDSTONE_ORE:
-            case SPRUCE_DOOR:
-            case SPRUCE_TRAPDOOR:
-            case WARPED_DOOR:
-            case WARPED_TRAPDOOR:
-            case WAXED_COPPER_BLOCK:
-            case WAXED_CUT_COPPER:
-            case WAXED_CUT_COPPER_SLAB:
-            case WAXED_CUT_COPPER_STAIRS:
-            case WAXED_EXPOSED_COPPER:
-            case WAXED_EXPOSED_CUT_COPPER:
-            case WAXED_EXPOSED_CUT_COPPER_SLAB:
-            case WAXED_EXPOSED_CUT_COPPER_STAIRS:
-            case WAXED_OXIDIZED_COPPER:
-            case WAXED_OXIDIZED_CUT_COPPER:
-            case WAXED_OXIDIZED_CUT_COPPER_SLAB:
-            case WAXED_OXIDIZED_CUT_COPPER_STAIRS:
-            case WAXED_WEATHERED_COPPER:
-            case WAXED_WEATHERED_CUT_COPPER:
-            case WAXED_WEATHERED_CUT_COPPER_SLAB:
-            case WAXED_WEATHERED_CUT_COPPER_STAIRS:
-            case WEATHERED_COPPER:
-            case WEATHERED_CUT_COPPER:
-            case WEATHERED_CUT_COPPER_SLAB:
-            case WEATHERED_CUT_COPPER_STAIRS:
-                return 3.0F;
-            case BLAST_FURNACE:
-            case CHISELED_DEEPSLATE:
-            case COBBLED_DEEPSLATE:
-            case COBBLED_DEEPSLATE_SLAB:
-            case COBBLED_DEEPSLATE_STAIRS:
-            case COBBLED_DEEPSLATE_WALL:
-            case CRACKED_DEEPSLATE_BRICKS:
-            case CRACKED_DEEPSLATE_TILES:
-            case DEEPSLATE_BRICKS:
-            case DEEPSLATE_BRICK_SLAB:
-            case DEEPSLATE_BRICK_STAIRS:
-            case DEEPSLATE_BRICK_WALL:
-            case DEEPSLATE_TILES:
-            case DEEPSLATE_TILE_SLAB:
-            case DEEPSLATE_TILE_STAIRS:
-            case DEEPSLATE_TILE_WALL:
-            case DISPENSER:
-            case DROPPER:
-            case FURNACE:
-            case LANTERN:
-            case LODESTONE:
-            case POLISHED_DEEPSLATE:
-            case POLISHED_DEEPSLATE_SLAB:
-            case POLISHED_DEEPSLATE_STAIRS:
-            case POLISHED_DEEPSLATE_WALL:
-            case SMOKER:
-            case SOUL_LANTERN:
-            case STONECUTTER:
-                return 3.5F;
-            case COBWEB:
-                return 4.0F;
-            case DEEPSLATE_COAL_ORE:
-            case DEEPSLATE_COPPER_ORE:
-            case DEEPSLATE_DIAMOND_ORE:
-            case DEEPSLATE_EMERALD_ORE:
-            case DEEPSLATE_GOLD_ORE:
-            case DEEPSLATE_IRON_ORE:
-            case DEEPSLATE_LAPIS_ORE:
-            case DEEPSLATE_REDSTONE_ORE:
-                return 4.5F;
-            case ANVIL:
-            case BELL:
-            case CHAIN:
-            case CHIPPED_ANVIL:
-            case COAL_BLOCK:
-            case DAMAGED_ANVIL:
-            case DIAMOND_BLOCK:
-            case EMERALD_BLOCK:
-            case ENCHANTING_TABLE:
-            case IRON_BARS:
-            case IRON_BLOCK:
-            case IRON_DOOR:
-            case IRON_TRAPDOOR:
-            case RAW_COPPER_BLOCK:
-            case RAW_GOLD_BLOCK:
-            case RAW_IRON_BLOCK:
-            case REDSTONE_BLOCK:
-            case SPAWNER:
-                return 5.0F;
-            case ENDER_CHEST:
-                return 22.5F;
-            case ANCIENT_DEBRIS:
-                return 30.0F;
-            case CRYING_OBSIDIAN:
-            case NETHERITE_BLOCK:
-            case OBSIDIAN:
-            case RESPAWN_ANCHOR:
-                return 50.0F;
-            case LAVA:
-            case WATER:
-                return 100.0F;
-            default:
-                return 0F;
-            // </editor-fold>
-        }
-    }
+    @Deprecated // only for blocks
+    float getHardness();
 
     /**
      * Obtains the blast resistance value (also known as block "durability").
@@ -8860,794 +2503,8 @@ public enum Material implements Keyed {
      *
      * @return the blast resistance of that material.
      */
-    public float getBlastResistance() {
-        Validate.isTrue(isBlock(), "The Material is not a block!");
-        switch (this) {
-            // <editor-fold defaultstate="collapsed" desc="getBlastResistance">
-            case BIG_DRIPLEAF:
-            case BIG_DRIPLEAF_STEM:
-            case BLACK_CANDLE:
-            case BLACK_CARPET:
-            case BLUE_CANDLE:
-            case BLUE_CARPET:
-            case BROWN_CANDLE:
-            case BROWN_CARPET:
-            case CANDLE:
-            case CYAN_CANDLE:
-            case CYAN_CARPET:
-            case GRAY_CANDLE:
-            case GRAY_CARPET:
-            case GREEN_CANDLE:
-            case GREEN_CARPET:
-            case LIGHT_BLUE_CANDLE:
-            case LIGHT_BLUE_CARPET:
-            case LIGHT_GRAY_CANDLE:
-            case LIGHT_GRAY_CARPET:
-            case LIME_CANDLE:
-            case LIME_CARPET:
-            case MAGENTA_CANDLE:
-            case MAGENTA_CARPET:
-            case MOSS_BLOCK:
-            case MOSS_CARPET:
-            case ORANGE_CANDLE:
-            case ORANGE_CARPET:
-            case PINK_CANDLE:
-            case PINK_CARPET:
-            case PURPLE_CANDLE:
-            case PURPLE_CARPET:
-            case RED_CANDLE:
-            case RED_CARPET:
-            case SNOW:
-            case WHITE_CANDLE:
-            case WHITE_CARPET:
-            case YELLOW_CANDLE:
-            case YELLOW_CARPET:
-                return 0.1F;
-            case ACACIA_LEAVES:
-            case AZALEA_LEAVES:
-            case BIRCH_LEAVES:
-            case BLACK_BED:
-            case BLUE_BED:
-            case BROWN_BED:
-            case BROWN_MUSHROOM_BLOCK:
-            case CYAN_BED:
-            case DARK_OAK_LEAVES:
-            case DAYLIGHT_DETECTOR:
-            case FLOWERING_AZALEA_LEAVES:
-            case GLOW_LICHEN:
-            case GRAY_BED:
-            case GREEN_BED:
-            case JUNGLE_LEAVES:
-            case LIGHT_BLUE_BED:
-            case LIGHT_GRAY_BED:
-            case LIME_BED:
-            case MAGENTA_BED:
-            case MUSHROOM_STEM:
-            case OAK_LEAVES:
-            case ORANGE_BED:
-            case PINK_BED:
-            case PURPLE_BED:
-            case RED_BED:
-            case RED_MUSHROOM_BLOCK:
-            case SNOW_BLOCK:
-            case SPRUCE_LEAVES:
-            case VINE:
-            case WHITE_BED:
-            case YELLOW_BED:
-                return 0.2F;
-            case POWDER_SNOW:
-                return 0.25F;
-            case BEE_NEST:
-            case BLACK_STAINED_GLASS:
-            case BLACK_STAINED_GLASS_PANE:
-            case BLUE_STAINED_GLASS:
-            case BLUE_STAINED_GLASS_PANE:
-            case BROWN_STAINED_GLASS:
-            case BROWN_STAINED_GLASS_PANE:
-            case CYAN_STAINED_GLASS:
-            case CYAN_STAINED_GLASS_PANE:
-            case GLASS:
-            case GLASS_PANE:
-            case GLOWSTONE:
-            case GRAY_STAINED_GLASS:
-            case GRAY_STAINED_GLASS_PANE:
-            case GREEN_STAINED_GLASS:
-            case GREEN_STAINED_GLASS_PANE:
-            case LIGHT_BLUE_STAINED_GLASS:
-            case LIGHT_BLUE_STAINED_GLASS_PANE:
-            case LIGHT_GRAY_STAINED_GLASS:
-            case LIGHT_GRAY_STAINED_GLASS_PANE:
-            case LIME_STAINED_GLASS:
-            case LIME_STAINED_GLASS_PANE:
-            case MAGENTA_STAINED_GLASS:
-            case MAGENTA_STAINED_GLASS_PANE:
-            case ORANGE_STAINED_GLASS:
-            case ORANGE_STAINED_GLASS_PANE:
-            case PINK_STAINED_GLASS:
-            case PINK_STAINED_GLASS_PANE:
-            case PURPLE_STAINED_GLASS:
-            case PURPLE_STAINED_GLASS_PANE:
-            case REDSTONE_LAMP:
-            case RED_STAINED_GLASS:
-            case RED_STAINED_GLASS_PANE:
-            case SEA_LANTERN:
-            case TINTED_GLASS:
-            case WHITE_STAINED_GLASS:
-            case WHITE_STAINED_GLASS_PANE:
-            case YELLOW_STAINED_GLASS:
-            case YELLOW_STAINED_GLASS_PANE:
-                return 0.3F;
-            case CACTUS:
-            case CHORUS_FLOWER:
-            case CHORUS_PLANT:
-            case CRIMSON_NYLIUM:
-            case LADDER:
-            case NETHERRACK:
-            case WARPED_NYLIUM:
-                return 0.4F;
-            case ACACIA_BUTTON:
-            case ACACIA_PRESSURE_PLATE:
-            case BIRCH_BUTTON:
-            case BIRCH_PRESSURE_PLATE:
-            case BLACK_CANDLE_CAKE:
-            case BLACK_CONCRETE_POWDER:
-            case BLUE_CANDLE_CAKE:
-            case BLUE_CONCRETE_POWDER:
-            case BREWING_STAND:
-            case BROWN_CANDLE_CAKE:
-            case BROWN_CONCRETE_POWDER:
-            case CAKE:
-            case CANDLE_CAKE:
-            case COARSE_DIRT:
-            case CRIMSON_BUTTON:
-            case CRIMSON_PRESSURE_PLATE:
-            case CYAN_CANDLE_CAKE:
-            case CYAN_CONCRETE_POWDER:
-            case DARK_OAK_BUTTON:
-            case DARK_OAK_PRESSURE_PLATE:
-            case DIRT:
-            case FROSTED_ICE:
-            case GRAY_CANDLE_CAKE:
-            case GRAY_CONCRETE_POWDER:
-            case GREEN_CANDLE_CAKE:
-            case GREEN_CONCRETE_POWDER:
-            case HAY_BLOCK:
-            case HEAVY_WEIGHTED_PRESSURE_PLATE:
-            case ICE:
-            case JUNGLE_BUTTON:
-            case JUNGLE_PRESSURE_PLATE:
-            case LEVER:
-            case LIGHT_BLUE_CANDLE_CAKE:
-            case LIGHT_BLUE_CONCRETE_POWDER:
-            case LIGHT_GRAY_CANDLE_CAKE:
-            case LIGHT_GRAY_CONCRETE_POWDER:
-            case LIGHT_WEIGHTED_PRESSURE_PLATE:
-            case LIME_CANDLE_CAKE:
-            case LIME_CONCRETE_POWDER:
-            case MAGENTA_CANDLE_CAKE:
-            case MAGENTA_CONCRETE_POWDER:
-            case MAGMA_BLOCK:
-            case OAK_BUTTON:
-            case OAK_PRESSURE_PLATE:
-            case ORANGE_CANDLE_CAKE:
-            case ORANGE_CONCRETE_POWDER:
-            case PACKED_ICE:
-            case PINK_CANDLE_CAKE:
-            case PINK_CONCRETE_POWDER:
-            case PODZOL:
-            case POLISHED_BLACKSTONE_BUTTON:
-            case POLISHED_BLACKSTONE_PRESSURE_PLATE:
-            case PURPLE_CANDLE_CAKE:
-            case PURPLE_CONCRETE_POWDER:
-            case RED_CANDLE_CAKE:
-            case RED_CONCRETE_POWDER:
-            case RED_SAND:
-            case ROOTED_DIRT:
-            case SAND:
-            case SOUL_SAND:
-            case SOUL_SOIL:
-            case SPRUCE_BUTTON:
-            case SPRUCE_PRESSURE_PLATE:
-            case STONE_BUTTON:
-            case STONE_PRESSURE_PLATE:
-            case TARGET:
-            case TURTLE_EGG:
-            case WARPED_BUTTON:
-            case WARPED_PRESSURE_PLATE:
-            case WHITE_CANDLE_CAKE:
-            case WHITE_CONCRETE_POWDER:
-            case YELLOW_CANDLE_CAKE:
-            case YELLOW_CONCRETE_POWDER:
-                return 0.5F;
-            case BEEHIVE:
-            case CLAY:
-            case COMPOSTER:
-            case FARMLAND:
-            case GRASS_BLOCK:
-            case GRAVEL:
-            case HONEYCOMB_BLOCK:
-            case MYCELIUM:
-            case SPONGE:
-            case WET_SPONGE:
-                return 0.6F;
-            case DIRT_PATH:
-                return 0.65F;
-            case ACTIVATOR_RAIL:
-            case DETECTOR_RAIL:
-            case POWERED_RAIL:
-            case RAIL:
-                return 0.7F;
-            case CALCITE:
-            case INFESTED_CHISELED_STONE_BRICKS:
-            case INFESTED_COBBLESTONE:
-            case INFESTED_CRACKED_STONE_BRICKS:
-            case INFESTED_DEEPSLATE:
-            case INFESTED_MOSSY_STONE_BRICKS:
-            case INFESTED_STONE:
-            case INFESTED_STONE_BRICKS:
-                return 0.75F;
-            case BLACK_WOOL:
-            case BLUE_WOOL:
-            case BROWN_WOOL:
-            case CHISELED_QUARTZ_BLOCK:
-            case CHISELED_RED_SANDSTONE:
-            case CHISELED_SANDSTONE:
-            case CUT_RED_SANDSTONE:
-            case CUT_SANDSTONE:
-            case CYAN_WOOL:
-            case GRAY_WOOL:
-            case GREEN_WOOL:
-            case LIGHT_BLUE_WOOL:
-            case LIGHT_GRAY_WOOL:
-            case LIME_WOOL:
-            case MAGENTA_WOOL:
-            case NOTE_BLOCK:
-            case ORANGE_WOOL:
-            case PINK_WOOL:
-            case PURPLE_WOOL:
-            case QUARTZ_BLOCK:
-            case QUARTZ_BRICKS:
-            case QUARTZ_PILLAR:
-            case QUARTZ_STAIRS:
-            case RED_SANDSTONE:
-            case RED_SANDSTONE_STAIRS:
-            case RED_SANDSTONE_WALL:
-            case RED_WOOL:
-            case SANDSTONE:
-            case SANDSTONE_STAIRS:
-            case SANDSTONE_WALL:
-            case WHITE_WOOL:
-            case YELLOW_WOOL:
-                return 0.8F;
-            case ACACIA_SIGN:
-            case ACACIA_WALL_SIGN:
-            case BAMBOO:
-            case BAMBOO_SAPLING:
-            case BIRCH_SIGN:
-            case BIRCH_WALL_SIGN:
-            case BLACK_BANNER:
-            case BLACK_WALL_BANNER:
-            case BLUE_BANNER:
-            case BLUE_WALL_BANNER:
-            case BROWN_BANNER:
-            case BROWN_WALL_BANNER:
-            case CARVED_PUMPKIN:
-            case CREEPER_HEAD:
-            case CREEPER_WALL_HEAD:
-            case CRIMSON_SIGN:
-            case CRIMSON_WALL_SIGN:
-            case CYAN_BANNER:
-            case CYAN_WALL_BANNER:
-            case DARK_OAK_SIGN:
-            case DARK_OAK_WALL_SIGN:
-            case DRAGON_HEAD:
-            case DRAGON_WALL_HEAD:
-            case DRIPSTONE_BLOCK:
-            case GRAY_BANNER:
-            case GRAY_WALL_BANNER:
-            case GREEN_BANNER:
-            case GREEN_WALL_BANNER:
-            case JACK_O_LANTERN:
-            case JUNGLE_SIGN:
-            case JUNGLE_WALL_SIGN:
-            case LIGHT_BLUE_BANNER:
-            case LIGHT_BLUE_WALL_BANNER:
-            case LIGHT_GRAY_BANNER:
-            case LIGHT_GRAY_WALL_BANNER:
-            case LIME_BANNER:
-            case LIME_WALL_BANNER:
-            case MAGENTA_BANNER:
-            case MAGENTA_WALL_BANNER:
-            case MELON:
-            case NETHER_WART_BLOCK:
-            case OAK_SIGN:
-            case OAK_WALL_SIGN:
-            case ORANGE_BANNER:
-            case ORANGE_WALL_BANNER:
-            case PINK_BANNER:
-            case PINK_WALL_BANNER:
-            case PLAYER_HEAD:
-            case PLAYER_WALL_HEAD:
-            case PUMPKIN:
-            case PURPLE_BANNER:
-            case PURPLE_WALL_BANNER:
-            case RED_BANNER:
-            case RED_WALL_BANNER:
-            case SHROOMLIGHT:
-            case SKELETON_SKULL:
-            case SKELETON_WALL_SKULL:
-            case SPRUCE_SIGN:
-            case SPRUCE_WALL_SIGN:
-            case WARPED_SIGN:
-            case WARPED_WALL_SIGN:
-            case WARPED_WART_BLOCK:
-            case WHITE_BANNER:
-            case WHITE_WALL_BANNER:
-            case WITHER_SKELETON_SKULL:
-            case WITHER_SKELETON_WALL_SKULL:
-            case YELLOW_BANNER:
-            case YELLOW_WALL_BANNER:
-            case ZOMBIE_HEAD:
-            case ZOMBIE_WALL_HEAD:
-                return 1.0F;
-            case BLACK_GLAZED_TERRACOTTA:
-            case BLUE_GLAZED_TERRACOTTA:
-            case BROWN_GLAZED_TERRACOTTA:
-            case CYAN_GLAZED_TERRACOTTA:
-            case GRAY_GLAZED_TERRACOTTA:
-            case GREEN_GLAZED_TERRACOTTA:
-            case LIGHT_BLUE_GLAZED_TERRACOTTA:
-            case LIGHT_GRAY_GLAZED_TERRACOTTA:
-            case LIME_GLAZED_TERRACOTTA:
-            case MAGENTA_GLAZED_TERRACOTTA:
-            case ORANGE_GLAZED_TERRACOTTA:
-            case PINK_GLAZED_TERRACOTTA:
-            case PURPLE_GLAZED_TERRACOTTA:
-            case RED_GLAZED_TERRACOTTA:
-            case WHITE_GLAZED_TERRACOTTA:
-            case YELLOW_GLAZED_TERRACOTTA:
-                return 1.4F;
-            case AMETHYST_BLOCK:
-            case AMETHYST_CLUSTER:
-            case BOOKSHELF:
-            case BUDDING_AMETHYST:
-            case LARGE_AMETHYST_BUD:
-            case MEDIUM_AMETHYST_BUD:
-            case PISTON:
-            case PISTON_HEAD:
-            case SCULK_SENSOR:
-            case SMALL_AMETHYST_BUD:
-            case STICKY_PISTON:
-                return 1.5F;
-            case BLACK_CONCRETE:
-            case BLUE_CONCRETE:
-            case BROWN_CONCRETE:
-            case CYAN_CONCRETE:
-            case GRAY_CONCRETE:
-            case GREEN_CONCRETE:
-            case LIGHT_BLUE_CONCRETE:
-            case LIGHT_GRAY_CONCRETE:
-            case LIME_CONCRETE:
-            case MAGENTA_CONCRETE:
-            case ORANGE_CONCRETE:
-            case PINK_CONCRETE:
-            case PURPLE_CONCRETE:
-            case RED_CONCRETE:
-            case WHITE_CONCRETE:
-            case YELLOW_CONCRETE:
-                return 1.8F;
-            case ACACIA_LOG:
-            case ACACIA_WOOD:
-            case BIRCH_LOG:
-            case BIRCH_WOOD:
-            case BLACK_SHULKER_BOX:
-            case BLUE_SHULKER_BOX:
-            case BONE_BLOCK:
-            case BROWN_SHULKER_BOX:
-            case CAMPFIRE:
-            case CAULDRON:
-            case CRIMSON_HYPHAE:
-            case CRIMSON_STEM:
-            case CYAN_SHULKER_BOX:
-            case DARK_OAK_LOG:
-            case DARK_OAK_WOOD:
-            case GRAY_SHULKER_BOX:
-            case GREEN_SHULKER_BOX:
-            case JUNGLE_LOG:
-            case JUNGLE_WOOD:
-            case LAVA_CAULDRON:
-            case LIGHT_BLUE_SHULKER_BOX:
-            case LIGHT_GRAY_SHULKER_BOX:
-            case LIME_SHULKER_BOX:
-            case MAGENTA_SHULKER_BOX:
-            case OAK_LOG:
-            case OAK_WOOD:
-            case ORANGE_SHULKER_BOX:
-            case PINK_SHULKER_BOX:
-            case POWDER_SNOW_CAULDRON:
-            case PURPLE_SHULKER_BOX:
-            case RED_SHULKER_BOX:
-            case SHULKER_BOX:
-            case SOUL_CAMPFIRE:
-            case SPRUCE_LOG:
-            case SPRUCE_WOOD:
-            case STRIPPED_ACACIA_LOG:
-            case STRIPPED_ACACIA_WOOD:
-            case STRIPPED_BIRCH_LOG:
-            case STRIPPED_BIRCH_WOOD:
-            case STRIPPED_CRIMSON_HYPHAE:
-            case STRIPPED_CRIMSON_STEM:
-            case STRIPPED_DARK_OAK_LOG:
-            case STRIPPED_DARK_OAK_WOOD:
-            case STRIPPED_JUNGLE_LOG:
-            case STRIPPED_JUNGLE_WOOD:
-            case STRIPPED_OAK_LOG:
-            case STRIPPED_OAK_WOOD:
-            case STRIPPED_SPRUCE_LOG:
-            case STRIPPED_SPRUCE_WOOD:
-            case STRIPPED_WARPED_HYPHAE:
-            case STRIPPED_WARPED_STEM:
-            case WARPED_HYPHAE:
-            case WARPED_STEM:
-            case WATER_CAULDRON:
-            case WHITE_SHULKER_BOX:
-            case YELLOW_SHULKER_BOX:
-                return 2.0F;
-            case BARREL:
-            case CARTOGRAPHY_TABLE:
-            case CHEST:
-            case CRAFTING_TABLE:
-            case DRIED_KELP_BLOCK:
-            case FLETCHING_TABLE:
-            case LECTERN:
-            case LOOM:
-            case SMITHING_TABLE:
-            case TRAPPED_CHEST:
-                return 2.5F;
-            case BLUE_ICE:
-                return 2.8F;
-            case ACACIA_DOOR:
-            case ACACIA_FENCE:
-            case ACACIA_FENCE_GATE:
-            case ACACIA_PLANKS:
-            case ACACIA_SLAB:
-            case ACACIA_STAIRS:
-            case ACACIA_TRAPDOOR:
-            case BEACON:
-            case BIRCH_DOOR:
-            case BIRCH_FENCE:
-            case BIRCH_FENCE_GATE:
-            case BIRCH_PLANKS:
-            case BIRCH_SLAB:
-            case BIRCH_STAIRS:
-            case BIRCH_TRAPDOOR:
-            case COAL_ORE:
-            case COCOA:
-            case CONDUIT:
-            case COPPER_ORE:
-            case CRIMSON_DOOR:
-            case CRIMSON_FENCE:
-            case CRIMSON_FENCE_GATE:
-            case CRIMSON_PLANKS:
-            case CRIMSON_SLAB:
-            case CRIMSON_STAIRS:
-            case CRIMSON_TRAPDOOR:
-            case DARK_OAK_DOOR:
-            case DARK_OAK_FENCE:
-            case DARK_OAK_FENCE_GATE:
-            case DARK_OAK_PLANKS:
-            case DARK_OAK_SLAB:
-            case DARK_OAK_STAIRS:
-            case DARK_OAK_TRAPDOOR:
-            case DEEPSLATE_COAL_ORE:
-            case DEEPSLATE_COPPER_ORE:
-            case DEEPSLATE_DIAMOND_ORE:
-            case DEEPSLATE_EMERALD_ORE:
-            case DEEPSLATE_GOLD_ORE:
-            case DEEPSLATE_IRON_ORE:
-            case DEEPSLATE_LAPIS_ORE:
-            case DEEPSLATE_REDSTONE_ORE:
-            case DIAMOND_ORE:
-            case EMERALD_ORE:
-            case GOLD_ORE:
-            case IRON_ORE:
-            case JUNGLE_DOOR:
-            case JUNGLE_FENCE:
-            case JUNGLE_FENCE_GATE:
-            case JUNGLE_PLANKS:
-            case JUNGLE_SLAB:
-            case JUNGLE_STAIRS:
-            case JUNGLE_TRAPDOOR:
-            case LAPIS_BLOCK:
-            case LAPIS_ORE:
-            case NETHER_GOLD_ORE:
-            case NETHER_QUARTZ_ORE:
-            case OAK_DOOR:
-            case OAK_FENCE:
-            case OAK_FENCE_GATE:
-            case OAK_PLANKS:
-            case OAK_SLAB:
-            case OAK_STAIRS:
-            case OAK_TRAPDOOR:
-            case OBSERVER:
-            case POINTED_DRIPSTONE:
-            case REDSTONE_ORE:
-            case SPRUCE_DOOR:
-            case SPRUCE_FENCE:
-            case SPRUCE_FENCE_GATE:
-            case SPRUCE_PLANKS:
-            case SPRUCE_SLAB:
-            case SPRUCE_STAIRS:
-            case SPRUCE_TRAPDOOR:
-            case WARPED_DOOR:
-            case WARPED_FENCE:
-            case WARPED_FENCE_GATE:
-            case WARPED_PLANKS:
-            case WARPED_SLAB:
-            case WARPED_STAIRS:
-            case WARPED_TRAPDOOR:
-                return 3.0F;
-            case BLAST_FURNACE:
-            case DISPENSER:
-            case DROPPER:
-            case FURNACE:
-            case LANTERN:
-            case LODESTONE:
-            case SMOKER:
-            case SOUL_LANTERN:
-            case STONECUTTER:
-                return 3.5F;
-            case COBWEB:
-                return 4.0F;
-            case BASALT:
-            case BLACK_TERRACOTTA:
-            case BLUE_TERRACOTTA:
-            case BROWN_TERRACOTTA:
-            case CYAN_TERRACOTTA:
-            case GRAY_TERRACOTTA:
-            case GREEN_TERRACOTTA:
-            case LIGHT_BLUE_TERRACOTTA:
-            case LIGHT_GRAY_TERRACOTTA:
-            case LIME_TERRACOTTA:
-            case MAGENTA_TERRACOTTA:
-            case ORANGE_TERRACOTTA:
-            case PINK_TERRACOTTA:
-            case POLISHED_BASALT:
-            case PURPLE_TERRACOTTA:
-            case RED_TERRACOTTA:
-            case SMOOTH_BASALT:
-            case TERRACOTTA:
-            case WHITE_TERRACOTTA:
-            case YELLOW_TERRACOTTA:
-                return 4.2F;
-            case HOPPER:
-                return 4.8F;
-            case BELL:
-            case IRON_DOOR:
-            case IRON_TRAPDOOR:
-            case SPAWNER:
-                return 5.0F;
-            case ANDESITE:
-            case ANDESITE_SLAB:
-            case ANDESITE_STAIRS:
-            case ANDESITE_WALL:
-            case BLACKSTONE:
-            case BLACKSTONE_SLAB:
-            case BLACKSTONE_STAIRS:
-            case BLACKSTONE_WALL:
-            case BRAIN_CORAL_BLOCK:
-            case BRICKS:
-            case BRICK_SLAB:
-            case BRICK_STAIRS:
-            case BRICK_WALL:
-            case BUBBLE_CORAL_BLOCK:
-            case CHAIN:
-            case CHISELED_DEEPSLATE:
-            case CHISELED_NETHER_BRICKS:
-            case CHISELED_POLISHED_BLACKSTONE:
-            case CHISELED_STONE_BRICKS:
-            case COAL_BLOCK:
-            case COBBLED_DEEPSLATE:
-            case COBBLED_DEEPSLATE_SLAB:
-            case COBBLED_DEEPSLATE_STAIRS:
-            case COBBLED_DEEPSLATE_WALL:
-            case COBBLESTONE:
-            case COBBLESTONE_SLAB:
-            case COBBLESTONE_STAIRS:
-            case COBBLESTONE_WALL:
-            case COPPER_BLOCK:
-            case CRACKED_DEEPSLATE_BRICKS:
-            case CRACKED_DEEPSLATE_TILES:
-            case CRACKED_NETHER_BRICKS:
-            case CRACKED_POLISHED_BLACKSTONE_BRICKS:
-            case CRACKED_STONE_BRICKS:
-            case CUT_COPPER:
-            case CUT_COPPER_SLAB:
-            case CUT_COPPER_STAIRS:
-            case CUT_RED_SANDSTONE_SLAB:
-            case CUT_SANDSTONE_SLAB:
-            case DARK_PRISMARINE:
-            case DARK_PRISMARINE_SLAB:
-            case DARK_PRISMARINE_STAIRS:
-            case DEAD_BRAIN_CORAL_BLOCK:
-            case DEAD_BUBBLE_CORAL_BLOCK:
-            case DEAD_FIRE_CORAL_BLOCK:
-            case DEAD_HORN_CORAL_BLOCK:
-            case DEAD_TUBE_CORAL_BLOCK:
-            case DEEPSLATE:
-            case DEEPSLATE_BRICKS:
-            case DEEPSLATE_BRICK_SLAB:
-            case DEEPSLATE_BRICK_STAIRS:
-            case DEEPSLATE_BRICK_WALL:
-            case DEEPSLATE_TILES:
-            case DEEPSLATE_TILE_SLAB:
-            case DEEPSLATE_TILE_STAIRS:
-            case DEEPSLATE_TILE_WALL:
-            case DIAMOND_BLOCK:
-            case DIORITE:
-            case DIORITE_SLAB:
-            case DIORITE_STAIRS:
-            case DIORITE_WALL:
-            case EMERALD_BLOCK:
-            case EXPOSED_COPPER:
-            case EXPOSED_CUT_COPPER:
-            case EXPOSED_CUT_COPPER_SLAB:
-            case EXPOSED_CUT_COPPER_STAIRS:
-            case FIRE_CORAL_BLOCK:
-            case GILDED_BLACKSTONE:
-            case GOLD_BLOCK:
-            case GRANITE:
-            case GRANITE_SLAB:
-            case GRANITE_STAIRS:
-            case GRANITE_WALL:
-            case GRINDSTONE:
-            case HORN_CORAL_BLOCK:
-            case IRON_BARS:
-            case IRON_BLOCK:
-            case JUKEBOX:
-            case LIGHTNING_ROD:
-            case MOSSY_COBBLESTONE:
-            case MOSSY_COBBLESTONE_SLAB:
-            case MOSSY_COBBLESTONE_STAIRS:
-            case MOSSY_COBBLESTONE_WALL:
-            case MOSSY_STONE_BRICKS:
-            case MOSSY_STONE_BRICK_SLAB:
-            case MOSSY_STONE_BRICK_STAIRS:
-            case MOSSY_STONE_BRICK_WALL:
-            case NETHER_BRICKS:
-            case NETHER_BRICK_FENCE:
-            case NETHER_BRICK_SLAB:
-            case NETHER_BRICK_STAIRS:
-            case NETHER_BRICK_WALL:
-            case OXIDIZED_COPPER:
-            case OXIDIZED_CUT_COPPER:
-            case OXIDIZED_CUT_COPPER_SLAB:
-            case OXIDIZED_CUT_COPPER_STAIRS:
-            case PETRIFIED_OAK_SLAB:
-            case POLISHED_ANDESITE:
-            case POLISHED_ANDESITE_SLAB:
-            case POLISHED_ANDESITE_STAIRS:
-            case POLISHED_BLACKSTONE:
-            case POLISHED_BLACKSTONE_BRICKS:
-            case POLISHED_BLACKSTONE_BRICK_SLAB:
-            case POLISHED_BLACKSTONE_BRICK_STAIRS:
-            case POLISHED_BLACKSTONE_BRICK_WALL:
-            case POLISHED_BLACKSTONE_SLAB:
-            case POLISHED_BLACKSTONE_STAIRS:
-            case POLISHED_BLACKSTONE_WALL:
-            case POLISHED_DEEPSLATE:
-            case POLISHED_DEEPSLATE_SLAB:
-            case POLISHED_DEEPSLATE_STAIRS:
-            case POLISHED_DEEPSLATE_WALL:
-            case POLISHED_DIORITE:
-            case POLISHED_DIORITE_SLAB:
-            case POLISHED_DIORITE_STAIRS:
-            case POLISHED_GRANITE:
-            case POLISHED_GRANITE_SLAB:
-            case POLISHED_GRANITE_STAIRS:
-            case PRISMARINE:
-            case PRISMARINE_BRICKS:
-            case PRISMARINE_BRICK_SLAB:
-            case PRISMARINE_BRICK_STAIRS:
-            case PRISMARINE_SLAB:
-            case PRISMARINE_STAIRS:
-            case PRISMARINE_WALL:
-            case PURPUR_BLOCK:
-            case PURPUR_PILLAR:
-            case PURPUR_SLAB:
-            case PURPUR_STAIRS:
-            case QUARTZ_SLAB:
-            case RAW_COPPER_BLOCK:
-            case RAW_GOLD_BLOCK:
-            case RAW_IRON_BLOCK:
-            case REDSTONE_BLOCK:
-            case RED_NETHER_BRICKS:
-            case RED_NETHER_BRICK_SLAB:
-            case RED_NETHER_BRICK_STAIRS:
-            case RED_NETHER_BRICK_WALL:
-            case RED_SANDSTONE_SLAB:
-            case SANDSTONE_SLAB:
-            case SMOOTH_QUARTZ:
-            case SMOOTH_QUARTZ_SLAB:
-            case SMOOTH_QUARTZ_STAIRS:
-            case SMOOTH_RED_SANDSTONE:
-            case SMOOTH_RED_SANDSTONE_SLAB:
-            case SMOOTH_RED_SANDSTONE_STAIRS:
-            case SMOOTH_SANDSTONE:
-            case SMOOTH_SANDSTONE_SLAB:
-            case SMOOTH_SANDSTONE_STAIRS:
-            case SMOOTH_STONE:
-            case SMOOTH_STONE_SLAB:
-            case STONE:
-            case STONE_BRICKS:
-            case STONE_BRICK_SLAB:
-            case STONE_BRICK_STAIRS:
-            case STONE_BRICK_WALL:
-            case STONE_SLAB:
-            case STONE_STAIRS:
-            case TUBE_CORAL_BLOCK:
-            case TUFF:
-            case WAXED_COPPER_BLOCK:
-            case WAXED_CUT_COPPER:
-            case WAXED_CUT_COPPER_SLAB:
-            case WAXED_CUT_COPPER_STAIRS:
-            case WAXED_EXPOSED_COPPER:
-            case WAXED_EXPOSED_CUT_COPPER:
-            case WAXED_EXPOSED_CUT_COPPER_SLAB:
-            case WAXED_EXPOSED_CUT_COPPER_STAIRS:
-            case WAXED_OXIDIZED_COPPER:
-            case WAXED_OXIDIZED_CUT_COPPER:
-            case WAXED_OXIDIZED_CUT_COPPER_SLAB:
-            case WAXED_OXIDIZED_CUT_COPPER_STAIRS:
-            case WAXED_WEATHERED_COPPER:
-            case WAXED_WEATHERED_CUT_COPPER:
-            case WAXED_WEATHERED_CUT_COPPER_SLAB:
-            case WAXED_WEATHERED_CUT_COPPER_STAIRS:
-            case WEATHERED_COPPER:
-            case WEATHERED_CUT_COPPER:
-            case WEATHERED_CUT_COPPER_SLAB:
-            case WEATHERED_CUT_COPPER_STAIRS:
-                return 6.0F;
-            case DRAGON_EGG:
-            case END_STONE:
-            case END_STONE_BRICKS:
-            case END_STONE_BRICK_SLAB:
-            case END_STONE_BRICK_STAIRS:
-            case END_STONE_BRICK_WALL:
-                return 9.0F;
-            case LAVA:
-            case WATER:
-                return 100.0F;
-            case ENDER_CHEST:
-                return 600.0F;
-            case ANCIENT_DEBRIS:
-            case ANVIL:
-            case CHIPPED_ANVIL:
-            case CRYING_OBSIDIAN:
-            case DAMAGED_ANVIL:
-            case ENCHANTING_TABLE:
-            case NETHERITE_BLOCK:
-            case OBSIDIAN:
-            case RESPAWN_ANCHOR:
-                return 1200.0F;
-            case BEDROCK:
-            case CHAIN_COMMAND_BLOCK:
-            case COMMAND_BLOCK:
-            case END_GATEWAY:
-            case END_PORTAL:
-            case END_PORTAL_FRAME:
-            case JIGSAW:
-            case REPEATING_COMMAND_BLOCK:
-            case STRUCTURE_BLOCK:
-                return 3600000.0F;
-            case BARRIER:
-            case LIGHT:
-                return 3600000.8F;
-            default:
-                return 0;
-            // </editor-fold>
-        }
-    }
+    @Deprecated // only for blocks
+    float getBlastResistance();
 
     /**
      * Returns a value that represents how 'slippery' the block is.
@@ -9661,23 +2518,8 @@ public enum Material implements Keyed {
      *
      * @return the slipperiness of this block
      */
-    public float getSlipperiness() {
-        Validate.isTrue(isBlock(), "The Material is not a block!");
-        switch (this) {
-            // <editor-fold defaultstate="collapsed" desc="getSlipperiness">
-            default:
-                return 0.6F;
-            case SLIME_BLOCK:
-                return 0.8F;
-            case FROSTED_ICE:
-            case ICE:
-            case PACKED_ICE:
-                return 0.98F;
-            case BLUE_ICE:
-                return 0.989F;
-            // </editor-fold>
-        }
-    }
+    @Deprecated // only for blocks
+    float getSlipperiness();
 
     /**
      * Determines the remaining item in a crafting grid after crafting with this
@@ -9688,22 +2530,8 @@ public enum Material implements Keyed {
      * @return the item left behind when crafting, or null if nothing is.
      */
     @Nullable
-    public Material getCraftingRemainingItem() {
-        Validate.isTrue(isItem(), "The Material is not an item!");
-        switch (this) {
-            // <editor-fold defaultstate="collapsed" desc="getCraftingRemainingItem">
-            case WATER_BUCKET:
-            case LAVA_BUCKET:
-            case MILK_BUCKET:
-                return BUCKET;
-            case DRAGON_BREATH:
-            case HONEY_BOTTLE:
-                return GLASS_BOTTLE;
-            default:
-                return null;
-            // </editor-fold>
-        }
-    }
+    @Deprecated // only for items
+    Material getCraftingRemainingItem();
 
     /**
      * Get the best suitable slot for this Material.
@@ -9713,52 +2541,30 @@ public enum Material implements Keyed {
      * @return the best EquipmentSlot for this Material
      */
     @NotNull
-    public EquipmentSlot getEquipmentSlot() {
-        Validate.isTrue(isItem(), "The Material is not an item!");
-        switch (this) {
-            // <editor-fold defaultstate="collapsed" desc="getEquipmentSlot">
-            case CARVED_PUMPKIN:
-            case CHAINMAIL_HELMET:
-            case CREEPER_HEAD:
-            case DIAMOND_HELMET:
-            case DRAGON_HEAD:
-            case GOLDEN_HELMET:
-            case IRON_HELMET:
-            case LEATHER_HELMET:
-            case NETHERITE_HELMET:
-            case PLAYER_HEAD:
-            case SKELETON_SKULL:
-            case TURTLE_HELMET:
-            case WITHER_SKELETON_SKULL:
-            case ZOMBIE_HEAD:
-                return EquipmentSlot.HEAD;
-            case CHAINMAIL_CHESTPLATE:
-            case DIAMOND_CHESTPLATE:
-            case ELYTRA:
-            case GOLDEN_CHESTPLATE:
-            case IRON_CHESTPLATE:
-            case LEATHER_CHESTPLATE:
-            case NETHERITE_CHESTPLATE:
-                return EquipmentSlot.CHEST;
-            case CHAINMAIL_LEGGINGS:
-            case DIAMOND_LEGGINGS:
-            case GOLDEN_LEGGINGS:
-            case IRON_LEGGINGS:
-            case LEATHER_LEGGINGS:
-            case NETHERITE_LEGGINGS:
-                return EquipmentSlot.LEGS;
-            case CHAINMAIL_BOOTS:
-            case DIAMOND_BOOTS:
-            case GOLDEN_BOOTS:
-            case IRON_BOOTS:
-            case LEATHER_BOOTS:
-            case NETHERITE_BOOTS:
-                return EquipmentSlot.FEET;
-            case SHIELD:
-                return EquipmentSlot.OFF_HAND;
-            default:
-                return EquipmentSlot.HAND;
-            // </editor-fold>
-        }
-    }
+    @Deprecated // only for items
+    EquipmentSlot getEquipmentSlot();
+
+    /**
+     * @param other to compare to.
+     * @return negative if this old enum is lower, zero if equal and positive if higher than the given old enum.
+     * @deprecated only for backwards compatibility, old enums can not be compared.
+     */
+    @Deprecated
+    @Override
+    public abstract int compareTo(@NotNull Material other);
+
+    /**
+     * @return the name of the old enum.
+     * @deprecated only for backwards compatibility.
+     */
+    @NotNull
+    @Deprecated
+    public abstract String name();
+
+    /**
+     * @return the ordinal of the old enum.
+     * @deprecated only for backwards compatibility, it is not guaranteed that an old enum always has the same ordinal.
+     */
+    @Deprecated
+    public abstract int ordinal();
 }

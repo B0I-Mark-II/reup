@@ -1,9 +1,5 @@
 package org.bukkit;
 
-import com.google.common.collect.ImmutableMap;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -12,98 +8,65 @@ import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.SimplePluginManager;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
-public final class TestServer implements InvocationHandler {
-    private static interface MethodHandler {
-        Object handle(TestServer server, Object[] args);
-    }
-
-    private static final Map<Method, MethodHandler> methods;
+public final class TestServer {
 
     static {
         try {
-            ImmutableMap.Builder<Method, MethodHandler> methodMap = ImmutableMap.builder();
-            methodMap.put(
-                    Server.class.getMethod("isPrimaryThread"),
-                    new MethodHandler() {
-                        @Override
-                        public Object handle(TestServer server, Object[] args) {
-                            return Thread.currentThread().equals(server.creatingThread);
-                        }
-                    }
-                );
-            methodMap.put(
-                    Server.class.getMethod("getPluginManager"),
-                    new MethodHandler() {
-                        @Override
-                        public Object handle(TestServer server, Object[] args) {
-                            return server.pluginManager;
-                        }
-                    }
-                );
-            methodMap.put(
-                    Server.class.getMethod("getLogger"),
-                    new MethodHandler() {
-                        final Logger logger = Logger.getLogger(TestServer.class.getCanonicalName());
-                        @Override
-                        public Object handle(TestServer server, Object[] args) {
-                            return logger;
-                        }
-                    }
-                );
-            methodMap.put(
-                    Server.class.getMethod("getName"),
-                    new MethodHandler() {
-                        @Override
-                        public Object handle(TestServer server, Object[] args) {
-                            return TestServer.class.getSimpleName();
-                        }
-                    }
-                );
-            methodMap.put(
-                    Server.class.getMethod("getVersion"),
-                    new MethodHandler() {
-                        @Override
-                        public Object handle(TestServer server, Object[] args) {
-                            return "Version_" + TestServer.class.getPackage().getImplementationVersion();
-                        }
-                    }
-                );
-            methodMap.put(
-                    Server.class.getMethod("getBukkitVersion"),
-                    new MethodHandler() {
-                        @Override
-                        public Object handle(TestServer server, Object[] args) {
-                            return "BukkitVersion_" + TestServer.class.getPackage().getImplementationVersion();
-                        }
-                    }
-                );
-            methodMap.put(
-                    Server.class.getMethod("getRegistry", Class.class),
-                    new MethodHandler() {
-                        private final Map<Class<? extends Keyed>, Registry<?>> registers = new HashMap<>();
-                        @Override
-                        public Object handle(TestServer server, Object[] args) {
-
-                            return registers.computeIfAbsent((Class<? extends Keyed>) args[0], aClass -> new Registry<Keyed>() {
-                                private final Map<NamespacedKey, Keyed> cache = new HashMap<>();
-                                @Override
-                                public Keyed get(NamespacedKey key) {
-                                    return cache.computeIfAbsent(key, key2 -> Mockito.mock(aClass));
-                                }
-
-                                @Override
-                                public Iterator<Keyed> iterator() {
-                                    throw new UnsupportedOperationException("Not supported");
-                                }
-                            });
-                        }
-                    }
-            );
-            methods = methodMap.build();
-
             TestServer server = new TestServer();
-            Server instance = Proxy.getProxyClass(Server.class.getClassLoader(), Server.class).asSubclass(Server.class).getConstructor(InvocationHandler.class).newInstance(server);
+            Server instance = Mockito.mock(Server.class);
+
+            Mockito.when(instance.isPrimaryThread()).then(mock -> Thread.currentThread().equals(server.creatingThread));
+
+            Mockito.when(instance.getPluginManager()).then(mock -> server.pluginManager);
+
+            Mockito.when(instance.getLogger()).then(new Answer<Logger>() {
+                final Logger logger = Logger.getLogger(TestServer.class.getCanonicalName());
+                @Override
+                public Logger answer(InvocationOnMock invocationOnMock) {
+                    return logger;
+                }
+            });
+
+            Mockito.when(instance.getName()).then(mock -> TestServer.class.getSimpleName());
+
+            Mockito.when(instance.getVersion()).then(mock -> "Version_" + TestServer.class.getPackage().getImplementationVersion());
+
+            Mockito.when(instance.getBukkitVersion()).then(mock -> "BukkitVersion_" + TestServer.class.getPackage().getImplementationVersion());
+
+            Mockito.when(instance.getRegistry(Mockito.any())).then(new Answer<Object>() {
+                private final Map<Class<? extends Keyed>, Registry<?>> registers = new HashMap<>();
+                @Override
+                public Object answer(InvocationOnMock invocationOnMock) {
+                    return registers.computeIfAbsent(invocationOnMock.getArgument(0), aClass -> new Registry<Keyed>() {
+                        private final Map<NamespacedKey, Keyed> cache = new HashMap<>();
+                        @Override
+                        public Keyed get(NamespacedKey key) {
+                            return cache.computeIfAbsent(key, key2 -> Mockito.mock(aClass));
+                        }
+
+                        @Override
+                        public Iterator<Keyed> iterator() {
+                            throw new UnsupportedOperationException("Not supported");
+                        }
+                    });
+                }
+            });
+
+            UnsafeValues unsafeValues = Mockito.mock(UnsafeValues.class);
+
+            Mockito.when(unsafeValues.createLegacyMaterial(Mockito.any(), Mockito.anyInt(), Mockito.anyInt(), Mockito.anyShort(), Mockito.any())).then(new Answer<Object>() {
+                Map<String, Material> materials = new HashMap<>();
+                @Override
+                public Object answer(InvocationOnMock invocationOnMock) {
+                    return materials.computeIfAbsent(invocationOnMock.getArgument(0), name -> Mockito.mock(Material.class, name));
+                }
+            });
+
+            Mockito.when(instance.getUnsafe()).then(mock -> unsafeValues);
+
             Bukkit.setServer(instance);
             server.pluginManager = new SimplePluginManager(instance, new SimpleCommandMap(instance));
         } catch (Throwable t) {
@@ -119,14 +82,5 @@ public final class TestServer implements InvocationHandler {
 
     public static Server getInstance() {
         return Bukkit.getServer();
-    }
-
-    @Override
-    public Object invoke(Object proxy, Method method, Object[] args) {
-        MethodHandler handler = methods.get(method);
-        if (handler != null) {
-            return handler.handle(this, args);
-        }
-        throw new UnsupportedOperationException(String.valueOf(method));
     }
 }

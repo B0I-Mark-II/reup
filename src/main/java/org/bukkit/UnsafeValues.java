@@ -69,4 +69,9 @@ public interface UnsafeValues {
      * @return true if a file matching this key was found and deleted
      */
     boolean removeAdvancement(NamespacedKey key);
+
+    Material getLegacyMaterial(String name);
+
+    @Deprecated
+    Material createLegacyMaterial(String name, int id, int maxStackSize, short maxDurability, Class<? extends MaterialData> materialData);
 }

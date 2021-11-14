@@ -10,6 +10,7 @@ import org.bukkit.TestServer;
 public abstract class AbstractTestingBase {
 
     static {
+        System.out.println("Beginning");
         TestServer.setup();
     }
 }

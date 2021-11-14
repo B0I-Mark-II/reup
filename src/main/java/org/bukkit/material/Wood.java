@@ -71,22 +71,23 @@ public class Wood extends MaterialData {
      * @return TreeSpecies of this wood block
      */
     public TreeSpecies getSpecies() {
-        switch (getItemType()) {
-            case LEGACY_WOOD:
-            case LEGACY_WOOD_DOUBLE_STEP:
-                return TreeSpecies.getByData((byte) getData());
-            case LEGACY_LOG:
-            case LEGACY_LEAVES:
-                return TreeSpecies.getByData((byte) (getData() & 0x3));
-            case LEGACY_LOG_2:
-            case LEGACY_LEAVES_2:
-                return TreeSpecies.getByData((byte) ((getData() & 0x3) | 0x4));
-            case LEGACY_SAPLING:
-            case LEGACY_WOOD_STEP:
-                return TreeSpecies.getByData((byte) (getData() & 0x7));
-            default:
-                throw new IllegalArgumentException("Invalid block type for tree species");
+        if (getItemType() == Material.LEGACY_WOOD || getItemType() == Material.LEGACY_WOOD_DOUBLE_STEP) {
+            return TreeSpecies.getByData((byte) getData());
         }
+
+        if (getItemType() == Material.LEGACY_LOG || getItemType() == Material.LEGACY_LEAVES) {
+            return TreeSpecies.getByData((byte) (getData() & 0x3));
+        }
+
+        if (getItemType() == Material.LEGACY_LOG_2 || getItemType() == Material.LEGACY_LEAVES_2) {
+            return TreeSpecies.getByData((byte) ((getData() & 0x3) | 0x4));
+        }
+
+        if (getItemType() == Material.LEGACY_SAPLING || getItemType() == Material.LEGACY_WOOD_STEP) {
+            return TreeSpecies.getByData((byte) (getData() & 0x7));
+        }
+
+        throw new IllegalArgumentException("Invalid block type for tree species");
     }
 
     /**
@@ -102,22 +103,20 @@ public class Wood extends MaterialData {
             case REDWOOD:
             case BIRCH:
             case JUNGLE:
-                switch (type) {
-                    case LEGACY_LOG_2:
-                        return Material.LEGACY_LOG;
-                    case LEGACY_LEAVES_2:
-                        return Material.LEGACY_LEAVES;
-                    default:
+                if (type == Material.LEGACY_LOG_2) {
+                    return Material.LEGACY_LOG;
+                }
+                if (type == Material.LEGACY_LEAVES_2) {
+                    return Material.LEGACY_LEAVES;
                 }
                 break;
             case ACACIA:
             case DARK_OAK:
-                switch (type) {
-                    case LEGACY_LOG:
-                        return Material.LEGACY_LOG_2;
-                    case LEGACY_LEAVES:
-                        return Material.LEGACY_LEAVES_2;
-                    default:
+                if (type == Material.LEGACY_LOG) {
+                    return Material.LEGACY_LOG_2;
+                }
+                if (type == Material.LEGACY_LEAVES) {
+                    return Material.LEGACY_LEAVES_2;
                 }
                 break;
         }
@@ -131,42 +130,44 @@ public class Wood extends MaterialData {
      */
     public void setSpecies(final TreeSpecies species) {
         boolean firstType = false;
-        switch (getItemType()) {
-            case LEGACY_WOOD:
-            case LEGACY_WOOD_DOUBLE_STEP:
-                setData(species.getData());
-                break;
-            case LEGACY_LOG:
-            case LEGACY_LEAVES:
-                firstType = true;
-            // fall through to next switch statement below
-            case LEGACY_LOG_2:
-            case LEGACY_LEAVES_2:
-                switch (species) {
-                    case GENERIC:
-                    case REDWOOD:
-                    case BIRCH:
-                    case JUNGLE:
-                        if (!firstType) {
-                            throw new IllegalArgumentException("Invalid tree species for block type, use block type 2 instead");
-                        }
-                        break;
-                    case ACACIA:
-                    case DARK_OAK:
-                        if (firstType) {
-                            throw new IllegalArgumentException("Invalid tree species for block type 2, use block type instead");
-                        }
-                        break;
-                }
-                setData((byte) ((getData() & 0xC) | (species.getData() & 0x3)));
-                break;
-            case LEGACY_SAPLING:
-            case LEGACY_WOOD_STEP:
-                setData((byte) ((getData() & 0x8) | species.getData()));
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid block type for tree species");
+
+        if (getItemType() == Material.LEGACY_WOOD || getItemType() == Material.LEGACY_WOOD_DOUBLE_STEP) {
+            setData(species.getData());
+            return;
         }
+
+        if (getItemType() == Material.LEGACY_LOG || getItemType() == Material.LEGACY_LEAVES) {
+            firstType = true;
+            // fall through to next switch statement below
+        }
+
+        if (getItemType() == Material.LEGACY_LOG || getItemType() == Material.LEGACY_LEAVES || getItemType() == Material.LEGACY_LOG_2 || getItemType() == Material.LEGACY_LEAVES_2) {
+            switch (species) {
+                case GENERIC:
+                case REDWOOD:
+                case BIRCH:
+                case JUNGLE:
+                    if (!firstType) {
+                        throw new IllegalArgumentException("Invalid tree species for block type, use block type 2 instead");
+                    }
+                    break;
+                case ACACIA:
+                case DARK_OAK:
+                    if (firstType) {
+                        throw new IllegalArgumentException("Invalid tree species for block type 2, use block type instead");
+                    }
+                    break;
+            }
+            setData((byte) ((getData() & 0xC) | (species.getData() & 0x3)));
+            return;
+        }
+
+        if (getItemType() == Material.LEGACY_SAPLING || getItemType() == Material.LEGACY_WOOD_STEP) {
+            setData((byte) ((getData() & 0x8) | species.getData()));
+            return;
+        }
+
+        throw new IllegalArgumentException("Invalid block type for tree species");
     }
 
     @Override
