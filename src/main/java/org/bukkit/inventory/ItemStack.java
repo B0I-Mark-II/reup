@@ -455,7 +455,7 @@ public class ItemStack implements Cloneable, ConfigurationSerializable {
         Map<String, Object> result = new LinkedHashMap<String, Object>();
 
         result.put("v", Bukkit.getUnsafe().getDataVersion()); // Include version to indicate we are using modern material names (or LEGACY prefix)
-        result.put("type", getType().getKey());
+        result.put("type", getType().getKey().toString());
 
         if (getAmount() != 1) {
             result.put("amount", getAmount());

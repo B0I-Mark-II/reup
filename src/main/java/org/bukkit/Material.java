@@ -2278,6 +2278,22 @@ public interface Material extends Keyed, Comparable<Material> {
     }
 
     /**
+     * @param name of the material.
+     * @return the material with the given name.
+     * @deprecated only for backwards compatibility, use {@link Registry#get(NamespacedKey)} instead.
+     */
+    @NotNull
+    @Deprecated
+    public static Material valueOf(@NotNull String name) {
+        Material material = Registry.MATERIAL.get(NamespacedKey.fromString(name.toLowerCase()));
+        if (material == null) {
+            material = Bukkit.getUnsafe().getLegacyMaterial(name);
+        }
+        Preconditions.checkArgument(material != null, "No Material found with the name %s", name);
+        return material;
+    }
+
+    /**
      * Do not use for any reason.
      *
      * @return ID of this material
