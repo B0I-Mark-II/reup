@@ -9,6 +9,7 @@ import org.bukkit.Color;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,166 +22,166 @@ public abstract class PotionEffectType implements Keyed {
     /**
      * Increases movement speed.
      */
-    public static final PotionEffectType SPEED = getPotionEffectType("speed", 1);
+    public static final PotionEffectType SPEED = getPotionEffectType(1, "speed");
 
     /**
      * Decreases movement speed.
      */
-    public static final PotionEffectType SLOWNESS = getPotionEffectType("slowness", 2);
+    public static final PotionEffectType SLOWNESS = getPotionEffectType(2, "slowness");
 
     /**
      * Increases dig speed.
      */
-    public static final PotionEffectType HASTE = getPotionEffectType("haste", 3);
+    public static final PotionEffectType HASTE = getPotionEffectType(3, "haste");
 
     /**
      * Decreases dig speed.
      */
-    public static final PotionEffectType MINING_FATIGUE = getPotionEffectType("mining_fatigue", 4);
+    public static final PotionEffectType MINING_FATIGUE = getPotionEffectType(4, "mining_fatigue");
 
     /**
      * Increases damage dealt.
      */
-    public static final PotionEffectType STRENGTH = getPotionEffectType("strength", 5);
+    public static final PotionEffectType STRENGTH = getPotionEffectType(5, "strength");
 
     /**
      * Heals an entity.
      */
-    public static final PotionEffectType INSTANT_HEALTH = getPotionEffectType("instant_health", 6);
+    public static final PotionEffectType INSTANT_HEALTH = getPotionEffectType(6, "instant_health");
 
     /**
      * Hurts an entity.
      */
-    public static final PotionEffectType INSTANT_DAMAGE = getPotionEffectType("instant_damage", 7);
+    public static final PotionEffectType INSTANT_DAMAGE = getPotionEffectType(7, "instant_damage");
 
     /**
      * Increases jump height.
      */
-    public static final PotionEffectType JUMP_BOOST = getPotionEffectType("jump_boost", 8);
+    public static final PotionEffectType JUMP_BOOST = getPotionEffectType(8, "jump_boost");
 
     /**
      * Warps vision on the client.
      */
-    public static final PotionEffectType NAUSEA = getPotionEffectType("nausea", 9);
+    public static final PotionEffectType NAUSEA = getPotionEffectType(9, "nausea");
 
     /**
      * Regenerates health.
      */
-    public static final PotionEffectType REGENERATION = getPotionEffectType("regeneration", 10);
+    public static final PotionEffectType REGENERATION = getPotionEffectType(10, "regeneration");
 
     /**
      * Decreases damage dealt to an entity.
      */
-    public static final PotionEffectType RESISTANCE = getPotionEffectType("resistance", 11);
+    public static final PotionEffectType RESISTANCE = getPotionEffectType(11, "resistance");
 
     /**
      * Stops fire damage.
      */
-    public static final PotionEffectType FIRE_RESISTANCE = getPotionEffectType("fire_resistance", 12);
+    public static final PotionEffectType FIRE_RESISTANCE = getPotionEffectType(12, "fire_resistance");
 
     /**
      * Allows breathing underwater.
      */
-    public static final PotionEffectType WATER_BREATHING = getPotionEffectType("water_breathing", 13);
+    public static final PotionEffectType WATER_BREATHING = getPotionEffectType(13, "water_breathing");
 
     /**
      * Grants invisibility.
      */
-    public static final PotionEffectType INVISIBILITY = getPotionEffectType("invisibility", 14);
+    public static final PotionEffectType INVISIBILITY = getPotionEffectType(14, "invisibility");
 
     /**
      * Blinds an entity.
      */
-    public static final PotionEffectType BLINDNESS = getPotionEffectType("blindness", 15);
+    public static final PotionEffectType BLINDNESS = getPotionEffectType(15, "blindness");
 
     /**
      * Allows an entity to see in the dark.
      */
-    public static final PotionEffectType NIGHT_VISION = getPotionEffectType("night_vision", 16);
+    public static final PotionEffectType NIGHT_VISION = getPotionEffectType(16, "night_vision");
 
     /**
      * Increases hunger.
      */
-    public static final PotionEffectType HUNGER = getPotionEffectType("hunger", 17);
+    public static final PotionEffectType HUNGER = getPotionEffectType(17, "hunger");
 
     /**
      * Decreases damage dealt by an entity.
      */
-    public static final PotionEffectType WEAKNESS = getPotionEffectType("weakness", 18);
+    public static final PotionEffectType WEAKNESS = getPotionEffectType(18, "weakness");
 
     /**
      * Deals damage to an entity over time.
      */
-    public static final PotionEffectType POISON = getPotionEffectType("poison", 19);
+    public static final PotionEffectType POISON = getPotionEffectType(19, "poison");
 
     /**
      * Deals damage to an entity over time and gives the health to the
      * shooter.
      */
-    public static final PotionEffectType WITHER = getPotionEffectType("wither", 20);
+    public static final PotionEffectType WITHER = getPotionEffectType(20, "wither");
 
     /**
      * Increases the maximum health of an entity.
      */
-    public static final PotionEffectType HEALTH_BOOST = getPotionEffectType("health_boost", 21);
+    public static final PotionEffectType HEALTH_BOOST = getPotionEffectType(21, "health_boost");
 
     /**
      * Increases the maximum health of an entity with health that cannot be
      * regenerated, but is refilled every 30 seconds.
      */
-    public static final PotionEffectType ABSORPTION = getPotionEffectType("absorption", 22);
+    public static final PotionEffectType ABSORPTION = getPotionEffectType(22, "absorption");
 
     /**
      * Increases the food level of an entity each tick.
      */
-    public static final PotionEffectType SATURATION = getPotionEffectType("saturation", 23);
+    public static final PotionEffectType SATURATION = getPotionEffectType(23, "saturation");
 
     /**
      * Outlines the entity so that it can be seen from afar.
      */
-    public static final PotionEffectType GLOWING = getPotionEffectType("glowing", 24);
+    public static final PotionEffectType GLOWING = getPotionEffectType(24, "glowing");
 
     /**
      * Causes the entity to float into the air.
      */
-    public static final PotionEffectType LEVITATION = getPotionEffectType("levitation", 25);
+    public static final PotionEffectType LEVITATION = getPotionEffectType(25, "levitation");
 
     /**
      * Loot table luck.
      */
-    public static final PotionEffectType LUCK = getPotionEffectType("luck", 26);
+    public static final PotionEffectType LUCK = getPotionEffectType(26, "luck");
 
     /**
      * Loot table unluck.
      */
-    public static final PotionEffectType UNLUCK = getPotionEffectType("unluck", 27);
+    public static final PotionEffectType UNLUCK = getPotionEffectType(27, "unluck");
 
     /**
      * Slows entity fall rate.
      */
-    public static final PotionEffectType SLOW_FALLING = getPotionEffectType("slow_falling", 28);
+    public static final PotionEffectType SLOW_FALLING = getPotionEffectType(28, "slow_falling");
 
     /**
      * Effects granted by a nearby conduit. Includes enhanced underwater abilities.
      */
-    public static final PotionEffectType CONDUIT_POWER = getPotionEffectType("conduit_power", 29);
+    public static final PotionEffectType CONDUIT_POWER = getPotionEffectType(29, "conduit_power");
 
     /**
      * Squee'ek uh'k kk'kkkk squeek eee'eek.
      */
-    public static final PotionEffectType DOLPHINS_GRACE = getPotionEffectType("dolphins_grace", 30);
+    public static final PotionEffectType DOLPHINS_GRACE = getPotionEffectType(30, "dolphins_grace");
 
     /**
      * oof.
      */
-    public static final PotionEffectType BAD_OMEN = getPotionEffectType("bad_omen", 31);
+    public static final PotionEffectType BAD_OMEN = getPotionEffectType(31, "bad_omen");
 
     /**
      * \o/.
      */
-    public static final PotionEffectType HERO_OF_THE_VILLAGE = getPotionEffectType("hero_of_the_village", 32);
+    public static final PotionEffectType HERO_OF_THE_VILLAGE = getPotionEffectType(32, "hero_of_the_village");
 
-    private static PotionEffectType getPotionEffectType(@NotNull String key, int typeId) {
+    private static PotionEffectType getPotionEffectType(int typeId, @NotNull String key) {
         NamespacedKey namespacedKey = NamespacedKey.minecraft(key);
         PotionEffectType potionEffectType = Registry.POTION_EFFECT_TYPE.get(namespacedKey);
         Preconditions.checkNotNull(potionEffectType, "No PotionEffectType found for %s. This is a bug.", namespacedKey);
@@ -246,6 +247,18 @@ public abstract class PotionEffectType implements Keyed {
     @NotNull
     @Deprecated
     public abstract String getName();
+
+    /**
+     * Gets the PotionEffectType at the specified key
+     *
+     * @param key key to fetch
+     * @return Resulting PotionEffectType, or null if not found
+     */
+    @Contract("null -> null")
+    @Nullable
+    public static PotionEffectType getByKey(@Nullable NamespacedKey key) {
+        return Registry.POTION_EFFECT_TYPE.get(key);
+    }
 
     /**
      * Gets the effect type specified by the unique id.

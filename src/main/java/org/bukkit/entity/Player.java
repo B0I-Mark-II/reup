@@ -21,6 +21,7 @@ import org.bukkit.conversations.Conversable;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.player.PlayerResourcePackStatusEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.map.MapView;
 import org.bukkit.plugin.Plugin;
@@ -460,24 +461,15 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
     public void sendBlockDamage(@NotNull Location loc, float progress);
 
     /**
-     * Send a chunk change. This fakes a chunk change packet for a user at a
-     * certain location. The updated cuboid must be entirely within a single
-     * chunk. This will not actually change the world in any way.
-     * <p>
-     * At least one of the dimensions of the cuboid must be even. The size of
-     * the data buffer must be 2.5*sx*sy*sz and formatted in accordance with
-     * the Packet51 format.
+     * Send the equipment change of an entity. This fakes the equipment change
+     * of an entity for a user. This will not actually change the inventory of
+     * the specified entity in any way.
      *
-     * @param loc The location of the cuboid
-     * @param sx The x size of the cuboid
-     * @param sy The y size of the cuboid
-     * @param sz The z size of the cuboid
-     * @param data The data to be sent
-     * @return true if the chunk change packet was sent
-     * @deprecated Magic value
+     * @param entity The entity that the player will see the change for
+     * @param slot The slot of the spoofed equipment change
+     * @param item The ItemStack to display for the player
      */
-    @Deprecated
-    public boolean sendChunkChange(@NotNull Location loc, int sx, int sy, int sz, @NotNull byte[] data);
+    public void sendEquipmentChange(@NotNull LivingEntity entity, @NotNull EquipmentSlot slot, @NotNull ItemStack item);
 
     /**
      * Send a sign change. This fakes a sign change packet for a user at
@@ -777,6 +769,39 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      *     player
      */
     public boolean canSee(@NotNull Player player);
+
+    /**
+     * Visually hides an entity from this player.
+     *
+     * @param plugin Plugin that wants to hide the entity
+     * @param entity Entity to hide
+     * @deprecated draft API
+     */
+    @Deprecated
+    public void hideEntity(@NotNull Plugin plugin, @NotNull Entity entity);
+
+    /**
+     * Allows this player to see an entity that was previously hidden. If
+     * another another plugin had hidden the entity too, then the entity will
+     * remain hidden until the other plugin calls this method too.
+     *
+     * @param plugin Plugin that wants to show the entity
+     * @param entity Entity to show
+     * @deprecated draft API
+     */
+    @Deprecated
+    public void showEntity(@NotNull Plugin plugin, @NotNull Entity entity);
+
+    /**
+     * Checks to see if an entity has been visually hidden from this player.
+     *
+     * @param entity Entity to check
+     * @return True if the provided entity is not being hidden from this
+     *     player
+     * @deprecated draft API
+     */
+    @Deprecated
+    public boolean canSee(@NotNull Entity entity);
 
     /**
      * Checks to see if this player is currently flying or not.
@@ -1275,13 +1300,13 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
     /**
      * Gets the player's estimated ping in milliseconds.
      *
-     * In Vanilla this value represents the average of the response time to the
-     * last four application layer ping packets sent. This value does not
-     * represent the network round trip time and as such may have less
-     * granularity and be impacted by other sources. For these reasons it
-     * <b>should not</b> be used for anti-cheat purposes. Its recommended use is
-     * only as a <b>qualitative</b> indicator of connection quality (Vanilla
-     * uses it for this purpose in the tab list).
+     * In Vanilla this value represents a weighted average of the response time
+     * to application layer ping packets sent. This value does not represent the
+     * network round trip time and as such may have less granularity and be
+     * impacted by other sources. For these reasons it <b>should not</b> be used
+     * for anti-cheat purposes. Its recommended use is only as a
+     * <b>qualitative</b> indicator of connection quality (Vanilla uses it for
+     * this purpose in the tab list).
      *
      * @return player ping
      */
@@ -1315,4 +1340,19 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      * @param book The book to open for this player
      */
     public void openBook(@NotNull ItemStack book);
+
+    /**
+     * Shows the demo screen to the player, this screen is normally only seen in
+     * the demo version of the game.
+     * <br>
+     * Servers can modify the text on this screen using a resource pack.
+     */
+    public void showDemoScreen();
+
+    /**
+     * Gets whether the player has the "Allow Server Listings" setting enabled.
+     *
+     * @return whether the player allows server listings
+     */
+    public boolean isAllowingServerListings();
 }

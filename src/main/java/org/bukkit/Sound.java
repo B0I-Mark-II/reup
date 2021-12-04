@@ -232,6 +232,7 @@ public abstract class Sound extends OldEnum<Sound> implements Keyed {
     public static final Sound BLOCK_GRAVEL_PLACE = getSound("block.gravel.place");
     public static final Sound BLOCK_GRAVEL_STEP = getSound("block.gravel.step");
     public static final Sound BLOCK_GRINDSTONE_USE = getSound("block.grindstone.use");
+    public static final Sound BLOCK_GROWING_PLANT_CROP = getSound("block.growing_plant.crop");
     public static final Sound BLOCK_HANGING_ROOTS_BREAK = getSound("block.hanging_roots.break");
     public static final Sound BLOCK_HANGING_ROOTS_FALL = getSound("block.hanging_roots.fall");
     public static final Sound BLOCK_HANGING_ROOTS_HIT = getSound("block.hanging_roots.hit");
@@ -1133,6 +1134,9 @@ public abstract class Sound extends OldEnum<Sound> implements Keyed {
     public static final Sound ITEM_BUCKET_FILL_FISH = getSound("item.bucket.fill_fish");
     public static final Sound ITEM_BUCKET_FILL_LAVA = getSound("item.bucket.fill_lava");
     public static final Sound ITEM_BUCKET_FILL_POWDER_SNOW = getSound("item.bucket.fill_powder_snow");
+    public static final Sound ITEM_BUNDLE_DROP_CONTENTS = getSound("item.bundle.drop_contents");
+    public static final Sound ITEM_BUNDLE_INSERT = getSound("item.bundle.insert");
+    public static final Sound ITEM_BUNDLE_REMOVE_ONE = getSound("item.bundle.remove_one");
     public static final Sound ITEM_CHORUS_FRUIT_TELEPORT = getSound("item.chorus_fruit.teleport");
     public static final Sound ITEM_CROP_PLANT = getSound("item.crop.plant");
     public static final Sound ITEM_CROSSBOW_HIT = getSound("item.crossbow.hit");
@@ -1178,6 +1182,7 @@ public abstract class Sound extends OldEnum<Sound> implements Keyed {
     public static final Sound MUSIC_DISC_FAR = getSound("music_disc.far");
     public static final Sound MUSIC_DISC_MALL = getSound("music_disc.mall");
     public static final Sound MUSIC_DISC_MELLOHI = getSound("music_disc.mellohi");
+    public static final Sound MUSIC_DISC_OTHERSIDE = getSound("music_disc.otherside");
     public static final Sound MUSIC_DISC_PIGSTEP = getSound("music_disc.pigstep");
     public static final Sound MUSIC_DISC_STAL = getSound("music_disc.stal");
     public static final Sound MUSIC_DISC_STRAD = getSound("music_disc.strad");
@@ -1192,6 +1197,14 @@ public abstract class Sound extends OldEnum<Sound> implements Keyed {
     public static final Sound MUSIC_NETHER_NETHER_WASTES = getSound("music.nether.nether_wastes");
     public static final Sound MUSIC_NETHER_SOUL_SAND_VALLEY = getSound("music.nether.soul_sand_valley");
     public static final Sound MUSIC_NETHER_WARPED_FOREST = getSound("music.nether.warped_forest");
+    public static final Sound MUSIC_OVERWORLD_DRIPSTONE_CAVES = getSound("music.overworld.dripstone_caves");
+    public static final Sound MUSIC_OVERWORLD_FROZEN_PEAKS = getSound("music.overworld.frozen_peaks");
+    public static final Sound MUSIC_OVERWORLD_GROVE = getSound("music.overworld.grove");
+    public static final Sound MUSIC_OVERWORLD_JAGGED_PEAKS = getSound("music.overworld.jagged_peaks");
+    public static final Sound MUSIC_OVERWORLD_LUSH_CAVES = getSound("music.overworld.lush_caves");
+    public static final Sound MUSIC_OVERWORLD_MEADOW = getSound("music.overworld.meadow");
+    public static final Sound MUSIC_OVERWORLD_SNOWY_SLOPES = getSound("music.overworld.snowy_slopes");
+    public static final Sound MUSIC_OVERWORLD_STONY_PEAKS = getSound("music.overworld.stony_peaks");
     public static final Sound MUSIC_UNDER_WATER = getSound("music.under_water");
     public static final Sound PARTICLE_SOUL_ESCAPE = getSound("particle.soul_escape");
     public static final Sound UI_BUTTON_CLICK = getSound("ui.button.click");

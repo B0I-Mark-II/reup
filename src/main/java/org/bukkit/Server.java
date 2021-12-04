@@ -150,6 +150,13 @@ public interface Server extends PluginMessageRecipient {
     public int getViewDistance();
 
     /**
+     * Get the simulation distance from this server.
+     *
+     * @return the simulation distance from this server.
+     */
+    public int getSimulationDistance();
+
+    /**
      * Get the IP that this server is bound to, or empty string if not
      * specified.
      *
@@ -760,6 +767,13 @@ public interface Server extends PluginMessageRecipient {
      * @param value new spawn radius, or 0 if none
      */
     public void setSpawnRadius(int value);
+
+    /**
+     * Gets whether the Server hide online players in server status.
+     *
+     * @return true if the server hide online players, false otherwise
+     */
+    public boolean getHideOnlinePlayers();
 
     /**
      * Gets whether the Server is in online mode or not.

@@ -179,6 +179,15 @@ public final class Bukkit {
     }
 
     /**
+     * Get the simulation distance from this server.
+     *
+     * @return the simulation distance from this server.
+     */
+    public static int getSimulationDistance() {
+        return server.getSimulationDistance();
+    }
+
+    /**
      * Get the IP that this server is bound to, or empty string if not
      * specified.
      *
@@ -901,6 +910,15 @@ public final class Bukkit {
      */
     public static void setSpawnRadius(int value) {
         server.setSpawnRadius(value);
+    }
+
+    /**
+     * Gets whether the Server hide online players in server status.
+     *
+     * @return true if the server hide online players, false otherwise
+     */
+    public static boolean getHideOnlinePlayers() {
+        return server.getHideOnlinePlayers();
     }
 
     /**

@@ -1044,6 +1044,7 @@ public interface Material extends Keyed, Comparable<Material> {
     Material MUSIC_DISC_WARD = getMaterial("music_disc_ward");
     Material MUSIC_DISC_11 = getMaterial("music_disc_11");
     Material MUSIC_DISC_WAIT = getMaterial("music_disc_wait");
+    Material MUSIC_DISC_OTHERSIDE = getMaterial("music_disc_otherside");
     Material MUSIC_DISC_PIGSTEP = getMaterial("music_disc_pigstep");
     Material TRIDENT = getMaterial("trident");
     Material PHANTOM_MEMBRANE = getMaterial("phantom_membrane");
