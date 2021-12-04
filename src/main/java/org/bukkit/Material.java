@@ -2221,6 +2221,10 @@ public interface Material extends Keyed, Comparable<Material> {
             return Bukkit.getUnsafe().fromLegacy(match);
         }
 
+        if (name == null) {
+            return null;
+        }
+
         if (name.startsWith(LEGACY_PREFIX)) {
             return Bukkit.getUnsafe().getLegacyMaterial(name);
         } else {

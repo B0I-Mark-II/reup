@@ -1034,6 +1034,7 @@ public interface ItemType extends Material {
     ItemType MUSIC_DISC_WARD = asItemType(Material.MUSIC_DISC_WARD);
     ItemType MUSIC_DISC_11 = asItemType(Material.MUSIC_DISC_11);
     ItemType MUSIC_DISC_WAIT = asItemType(Material.MUSIC_DISC_WAIT);
+    ItemType MUSIC_DISC_OTHERSIDE = asItemType(Material.MUSIC_DISC_OTHERSIDE);
     ItemType MUSIC_DISC_PIGSTEP = asItemType(Material.MUSIC_DISC_PIGSTEP);
     ItemType TRIDENT = asItemType(Material.TRIDENT);
     ItemType PHANTOM_MEMBRANE = asItemType(Material.PHANTOM_MEMBRANE);

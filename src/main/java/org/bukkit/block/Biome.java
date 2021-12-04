@@ -19,7 +19,7 @@ public abstract class Biome extends OldEnum<Biome> implements Keyed {
     public static final Biome OCEAN = getBiome("ocean");
     public static final Biome PLAINS = getBiome("plains");
     public static final Biome DESERT = getBiome("desert");
-    public static final Biome WINDSWEPT_HILLS = getBiome("windswept_Hills");
+    public static final Biome WINDSWEPT_HILLS = getBiome("windswept_hills");
     public static final Biome FOREST = getBiome("forest");
     public static final Biome TAIGA = getBiome("taiga");
     public static final Biome SWAMP = getBiome("swamp");
