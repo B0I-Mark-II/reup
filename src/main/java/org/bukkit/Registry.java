@@ -114,7 +114,7 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
      *
      * @see Statistic
      */
-    Registry<Statistic> STATISTIC = new SimpleRegistry<>(Statistic.class);
+    Registry<Statistic> STATISTIC = Objects.requireNonNull(Bukkit.getRegistry(Statistic.class), "No registry present for Statistic. This is a bug.");
     /**
      * Sound keys.
      *
