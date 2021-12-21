@@ -112,6 +112,16 @@ public abstract class ConfigurationSectionTest extends AbstractTestingBase {
     }
 
     @Test
+    public void testContainsDoesNotCreateSection() {
+        ConfigurationSection section = getConfigurationSection();
+        section.addDefault("notExistingSection.Value", "Test String");
+
+        assertFalse(section.contains("notExistingSection", true));
+        assertFalse(section.contains("notExistingSection.Value", true));
+        assertFalse(section.contains("notExistingSection", true));
+    }
+
+    @Test
     public void testIsSet() {
         ConfigurationSection section = getConfigurationSection();
 
