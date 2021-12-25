@@ -1,6 +1,9 @@
 package org.bukkit.inventory;
 
+import com.google.common.collect.Multimap;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -1173,4 +1176,18 @@ public interface ItemType extends Material {
      */
     @NotNull
     EquipmentSlot getEquipmentSlot();
+
+    /**
+     * Return an immutable copy of all default {@link Attribute}s and their
+     * {@link AttributeModifier}s for a given {@link EquipmentSlot}.
+     *
+     * Default attributes are those that are always preset on some items, such
+     * as the attack damage on weapons or the armor value on armor.
+     *
+     * @param slot the {@link EquipmentSlot} to check
+     * @return the immutable {@link Multimap} with the respective default
+     * Attributes and modifiers, or an empty map if no attributes are set.
+     */
+    @NotNull
+    Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot slot);
 }

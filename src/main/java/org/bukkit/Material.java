@@ -2657,13 +2657,13 @@ public interface Material extends Keyed, Comparable<Material> {
      * @param slot the {@link EquipmentSlot} to check
      * @return the immutable {@link Multimap} with the respective default
      * Attributes and modifiers, or an empty map if no attributes are set.
+     * @see Material#asItemType()
+     * @see ItemType#getDefaultAttributeModifiers()
+     * @deprecated Can only get default attribute modifiers from ItemType
      */
     @NotNull
-    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot slot) {
-        Validate.isTrue(isItem(), "The Material is not an item!");
-
-        return Bukkit.getUnsafe().getDefaultAttributeModifiers(this, slot);
-    }
+    @Deprecated
+    Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot slot);
 
     /**
      * @param other to compare to.
