@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.junit.Test;
 
 public class YamlConfigurationTest extends FileConfigurationTest {
@@ -86,6 +87,90 @@ public class YamlConfigurationTest extends FileConfigurationTest {
 
         String result = config.saveToString();
         String expected = "section:\n         key: 1\n";
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void testAnchorNode() throws InvalidConfigurationException {
+        YamlConfiguration config = getConfig();
+        String content = "effects:\n"
+                + "  eff1: &novaEarth\n"
+                + "    position: special\n"
+                + "    effect: nova\n"
+                + "  eff2: *novaEarth\n"
+                + "  eff3: *novaEarth";
+        config.loadFromString(content);
+
+        String expected = "effects:\n"
+                + "  eff1:\n"
+                + "    position: special\n"
+                + "    effect: nova\n"
+                + "  eff2:\n"
+                + "    position: special\n"
+                + "    effect: nova\n"
+                + "  eff3:\n"
+                + "    position: special\n"
+                + "    effect: nova\n";
+        assertEquals(expected, config.saveToString());
+    }
+
+    @Test
+    public void testMergeNode() throws InvalidConfigurationException {
+        YamlConfiguration config = getConfig();
+        String content = "effects:\n"
+                + "  eff1: &novaEarth\n"
+                + "    position: special\n"
+                + "    effect: nova\n"
+                + "  eff2: \n"
+                + "    <<: *novaEarth\n"
+                + "    height-offset: 0\n"
+                + "  eff3: \n"
+                + "    <<: *novaEarth\n"
+                + "    height-offset: 2";
+        config.loadFromString(content);
+
+        String expected = "effects:\n"
+                + "  eff1:\n"
+                + "    position: special\n"
+                + "    effect: nova\n"
+                + "  eff2:\n"
+                + "    position: special\n"
+                + "    effect: nova\n"
+                + "    height-offset: 0\n"
+                + "  eff3:\n"
+                + "    position: special\n"
+                + "    effect: nova\n"
+                + "    height-offset: 2\n";
+        assertEquals(expected, config.saveToString());
+    }
+
+    @Test
+    public void test100Comments() throws InvalidConfigurationException {
+        StringBuilder commentBuilder = new StringBuilder();
+        for (int i = 0; i < 100; i++) {
+            commentBuilder.append("# Comment ").append(i).append("\n");
+        }
+
+        final String data = ""
+                + commentBuilder
+                + "simpleKey: simpleValue\n"
+                + "\n";
+
+        YamlConfiguration config = getConfig();
+        config.loadFromString(data);
+
+        String result = config.saveToString();
+        assertEquals(data, result);
+    }
+
+    @Test
+    public void testOnlyHeader() {
+        YamlConfiguration config = getConfig();
+        config.options().header("# Test");
+
+        String result = config.saveToString();
+        String expected = "# # Test\n\n{}\n";
 
         assertEquals(expected, result);
     }
