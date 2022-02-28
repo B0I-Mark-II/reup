@@ -27,6 +27,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.SpawnCategory;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.generator.ChunkGenerator;
@@ -45,6 +46,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.messaging.Messenger;
 import org.bukkit.plugin.messaging.PluginMessageRecipient;
+import org.bukkit.profile.PlayerProfile;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.structure.StructureManager;
@@ -340,7 +342,9 @@ public interface Server extends PluginMessageRecipient {
      * Minecraft default: 400.
      *
      * @return the default ticks per animal spawns value
+     * @deprecated Deprecated in favor of {@link #getTicksPerSpawns(SpawnCategory)}
      */
+    @Deprecated
     public int getTicksPerAnimalSpawns();
 
     /**
@@ -361,7 +365,9 @@ public interface Server extends PluginMessageRecipient {
      * Minecraft default: 1.
      *
      * @return the default ticks per monsters spawn value
+     * @deprecated Deprecated in favor of {@link #getTicksPerSpawns(SpawnCategory)}
      */
+    @Deprecated
     public int getTicksPerMonsterSpawns();
 
     /**
@@ -381,7 +387,9 @@ public interface Server extends PluginMessageRecipient {
      * Minecraft default: 1.
      *
      * @return the default ticks per water mobs spawn value
+     * @deprecated Deprecated in favor of {@link #getTicksPerSpawns(SpawnCategory)}
      */
+    @Deprecated
     public int getTicksPerWaterSpawns();
 
     /**
@@ -401,7 +409,9 @@ public interface Server extends PluginMessageRecipient {
      * Minecraft default: 1.
      *
      * @return the default ticks per water ambient mobs spawn value
+     * @deprecated Deprecated in favor of {@link #getTicksPerSpawns(SpawnCategory)}
      */
+    @Deprecated
     public int getTicksPerWaterAmbientSpawns();
 
     /**
@@ -421,7 +431,9 @@ public interface Server extends PluginMessageRecipient {
      * Minecraft default: 1.
      *
      * @return the default ticks per water underground creature spawn value
+     * @deprecated Deprecated in favor of {@link #getTicksPerSpawns(SpawnCategory)}
      */
+    @Deprecated
     public int getTicksPerWaterUndergroundCreatureSpawns();
 
     /**
@@ -441,8 +453,33 @@ public interface Server extends PluginMessageRecipient {
      * Minecraft default: 1.
      *
      * @return the default ticks per ambient mobs spawn value
+     * @deprecated Deprecated in favor of {@link #getTicksPerSpawns(SpawnCategory)}
      */
+    @Deprecated
     public int getTicksPerAmbientSpawns();
+
+    /**
+     * Gets the default ticks per {@link SpawnCategory} spawns value.
+     * <p>
+     * <b>Example Usage:</b>
+     * <ul>
+     * <li>A value of 1 will mean the server will attempt to spawn {@link SpawnCategory} mobs
+     *     every tick.
+     * <li>A value of 400 will mean the server will attempt to spawn {@link SpawnCategory} mobs
+     *     every 400th tick.
+     * <li>A value below 0 will be reset back to Minecraft's default.
+     * </ul>
+     * <p>
+     * <b>Note:</b> If set to 0, {@link SpawnCategory} mobs spawning will be disabled.
+     * <p>
+     * Minecraft default: 1.
+     * <br>
+     * <b>Note: </b> the {@link SpawnCategory#MISC} are not consider.
+     *
+     * @param spawnCategory the category of spawn
+     * @return the default ticks per {@link SpawnCategory} mobs spawn value
+     */
+    public int getTicksPerSpawns(@NotNull SpawnCategory spawnCategory);
 
     /**
      * Gets a player object by the given username.
@@ -881,6 +918,39 @@ public interface Server extends PluginMessageRecipient {
     public OfflinePlayer getOfflinePlayer(@NotNull UUID id);
 
     /**
+     * Creates a new {@link PlayerProfile}.
+     *
+     * @param uniqueId the unique id
+     * @param name the name
+     * @return the new PlayerProfile
+     * @throws IllegalArgumentException if both the unique id is
+     * <code>null</code> and the name is <code>null</code> or blank
+     */
+    @NotNull
+    PlayerProfile createPlayerProfile(@Nullable UUID uniqueId, @Nullable String name);
+
+    /**
+     * Creates a new {@link PlayerProfile}.
+     *
+     * @param uniqueId the unique id
+     * @return the new PlayerProfile
+     * @throws IllegalArgumentException if the unique id is <code>null</code>
+     */
+    @NotNull
+    PlayerProfile createPlayerProfile(@NotNull UUID uniqueId);
+
+    /**
+     * Creates a new {@link PlayerProfile}.
+     *
+     * @param name the name
+     * @return the new PlayerProfile
+     * @throws IllegalArgumentException if the name is <code>null</code> or
+     * blank
+     */
+    @NotNull
+    PlayerProfile createPlayerProfile(@NotNull String name);
+
+    /**
      * Gets a set containing all current IPs that are banned.
      *
      * @return a set containing banned IP addresses
@@ -1078,7 +1148,9 @@ public interface Server extends PluginMessageRecipient {
      * chunk.
      *
      * @return the monster spawn limit
+     * @deprecated Deprecated in favor of {@link #getSpawnLimit(SpawnCategory)}
      */
+    @Deprecated
     int getMonsterSpawnLimit();
 
     /**
@@ -1086,7 +1158,9 @@ public interface Server extends PluginMessageRecipient {
      * chunk.
      *
      * @return the animal spawn limit
+     * @deprecated Deprecated in favor of {@link #getSpawnLimit(SpawnCategory)}
      */
+    @Deprecated
     int getAnimalSpawnLimit();
 
     /**
@@ -1094,7 +1168,9 @@ public interface Server extends PluginMessageRecipient {
      * a chunk.
      *
      * @return the water animal spawn limit
+     * @deprecated Deprecated in favor of {@link #getSpawnLimit(SpawnCategory)}
      */
+    @Deprecated
     int getWaterAnimalSpawnLimit();
 
     /**
@@ -1102,14 +1178,18 @@ public interface Server extends PluginMessageRecipient {
      * in a chunk.
      *
      * @return the water ambient spawn limit
+     * @deprecated Deprecated in favor of {@link #getSpawnLimit(SpawnCategory)}
      */
+    @Deprecated
     int getWaterAmbientSpawnLimit();
 
     /**
      * Get user-specified limit for number of water creature underground that can spawn
      * in a chunk.
      * @return the water underground creature limit
+     * @deprecated Deprecated in favor of {@link #getSpawnLimit(SpawnCategory)}
      */
+    @Deprecated
     int getWaterUndergroundCreatureSpawnLimit();
 
     /**
@@ -1117,8 +1197,21 @@ public interface Server extends PluginMessageRecipient {
      * a chunk.
      *
      * @return the ambient spawn limit
+     * @deprecated Deprecated in favor of {@link #getSpawnLimit(SpawnCategory)}
      */
+    @Deprecated
     int getAmbientSpawnLimit();
+
+    /**
+     * Gets user-specified limit for number of {@link SpawnCategory} mobs that can spawn in
+     * a chunk.
+     *
+     * <b>Note: the {@link SpawnCategory#MISC} are not consider.</b>
+     *
+     * @param spawnCategory the category spawn
+     * @return the {@link SpawnCategory} spawn limit
+     */
+    int getSpawnLimit(@NotNull SpawnCategory spawnCategory);
 
     /**
      * Checks the current thread against the expected primary thread for the
