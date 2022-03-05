@@ -8,6 +8,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.BlockType;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.inventory.CreativeCategory;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemType;
 import org.bukkit.material.MaterialData;
@@ -2688,4 +2689,14 @@ public interface Material extends Keyed, Comparable<Material> {
      */
     @Deprecated
     public abstract int ordinal();
+
+    /**
+     * Get the {@link CreativeCategory} to which this material belongs.
+     *
+     * @return the creative category. null if does not belong to a category
+     */
+    @Nullable
+    public CreativeCategory getCreativeCategory() {
+        return Bukkit.getUnsafe().getCreativeCategory(this);
+    }
 }
