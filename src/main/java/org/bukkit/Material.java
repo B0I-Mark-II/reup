@@ -2667,6 +2667,18 @@ public interface Material extends Keyed, Comparable<Material> {
     Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot slot);
 
     /**
+     * Get the {@link CreativeCategory} to which this material belongs.
+     *
+     * @return the creative category. null if does not belong to a category
+     * @see Material#asItemType()
+     * @see ItemType#getCreativeCategory()
+     * @deprecated Can only get creative category from ItemType
+     */
+    @Nullable
+    @Deprecated
+    CreativeCategory getCreativeCategory();
+
+    /**
      * @param other to compare to.
      * @return negative if this old enum is lower, zero if equal and positive if higher than the given old enum.
      * @deprecated only for backwards compatibility, old enums can not be compared.
@@ -2689,14 +2701,4 @@ public interface Material extends Keyed, Comparable<Material> {
      */
     @Deprecated
     public abstract int ordinal();
-
-    /**
-     * Get the {@link CreativeCategory} to which this material belongs.
-     *
-     * @return the creative category. null if does not belong to a category
-     */
-    @Nullable
-    public CreativeCategory getCreativeCategory() {
-        return Bukkit.getUnsafe().getCreativeCategory(this);
-    }
 }

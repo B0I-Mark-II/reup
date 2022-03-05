@@ -2,7 +2,6 @@ package org.bukkit;
 
 import org.bukkit.advancement.Advancement;
 import org.bukkit.block.data.BlockData;
-import org.bukkit.inventory.CreativeCategory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.InvalidPluginException;
@@ -75,6 +74,4 @@ public interface UnsafeValues {
 
     @Deprecated
     Material createLegacyMaterial(String name, int id, int maxStackSize, short maxDurability, Class<? extends MaterialData> materialData);
-
-    CreativeCategory getCreativeCategory(Material material);
 }

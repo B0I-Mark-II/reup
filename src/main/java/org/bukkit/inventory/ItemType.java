@@ -1190,4 +1190,12 @@ public interface ItemType extends Material {
      */
     @NotNull
     Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot slot);
+
+    /**
+     * Get the {@link CreativeCategory} to which this material belongs.
+     *
+     * @return the creative category. null if does not belong to a category
+     */
+    @Nullable
+    CreativeCategory getCreativeCategory();
 }
