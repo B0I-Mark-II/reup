@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * A simple wrapper for ease of selecting {@link Enchantment}s
- * @deprecated only for backwards compatibility, PotionEffectTypeWrapper is no longer used.
+ * @deprecated only for backwards compatibility, EnchantmentWrapper is no longer used.
  */
 @Deprecated
 public class EnchantmentWrapper extends Enchantment {
