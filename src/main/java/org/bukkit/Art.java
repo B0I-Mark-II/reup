@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import java.util.Map;
-import org.apache.commons.lang.Validate;
 import org.bukkit.util.OldEnum;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -43,6 +42,10 @@ public abstract class Art extends OldEnum<Art> implements Keyed {
     public static final Art BURNING_SKULL = getArt("burning_skull");
     public static final Art SKELETON = getArt("skeleton");
     public static final Art DONKEY_KONG = getArt("donkey_kong");
+    public static final Art EARTH = getArt("earth");
+    public static final Art WIND = getArt("wind");
+    public static final Art WATER = getArt("water");
+    public static final Art FIRE = getArt("fire");
 
     @NotNull
     private static Art getArt(@NotNull String key) {
@@ -63,7 +66,7 @@ public abstract class Art extends OldEnum<Art> implements Keyed {
      */
     @Nullable
     public static Art getByName(@NotNull String name) {
-        Validate.notNull(name, "Name cannot be null");
+        Preconditions.checkArgument(name != null, "Name cannot be null");
 
         return Registry.ART.get(NamespacedKey.fromString(name.toLowerCase(java.util.Locale.ENGLISH)));
     }

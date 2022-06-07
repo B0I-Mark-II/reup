@@ -7,6 +7,7 @@ import java.util.List;
 import org.bukkit.material.Colorable;
 import org.bukkit.material.Dye;
 import org.bukkit.material.Wool;
+import org.bukkit.support.AbstractTestingBase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -14,7 +15,7 @@ import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
 @RunWith(Parameterized.class)
-public class DyeColorTest {
+public class DyeColorTest extends AbstractTestingBase {
 
     @Parameters(name = "{index}: {0}")
     public static List<Object[]> data() {

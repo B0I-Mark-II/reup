@@ -206,6 +206,11 @@ public abstract class Enchantment implements Keyed {
      */
     public static final Enchantment SOUL_SPEED = getEnchantment("soul_speed");
 
+    /**
+     * Walk quicker while sneaking
+     */
+    public static final Enchantment SWIFT_SNEAK = getEnchantment("swift_sneak");
+
     @NotNull
     private static Enchantment getEnchantment(@NotNull String key) {
         NamespacedKey namespacedKey = NamespacedKey.minecraft(key);

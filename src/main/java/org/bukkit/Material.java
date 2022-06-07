@@ -3,7 +3,6 @@ package org.bukkit;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Multimap;
 import java.util.function.Consumer;
-import org.apache.commons.lang.Validate;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.BlockType;
@@ -40,6 +39,7 @@ public interface Material extends Keyed, Comparable<Material> {
     Material COARSE_DIRT = getMaterial("coarse_dirt");
     Material PODZOL = getMaterial("podzol");
     Material ROOTED_DIRT = getMaterial("rooted_dirt");
+    Material MUD = getMaterial("mud");
     Material CRIMSON_NYLIUM = getMaterial("crimson_nylium");
     Material WARPED_NYLIUM = getMaterial("warped_nylium");
     Material COBBLESTONE = getMaterial("cobblestone");
@@ -49,6 +49,7 @@ public interface Material extends Keyed, Comparable<Material> {
     Material JUNGLE_PLANKS = getMaterial("jungle_planks");
     Material ACACIA_PLANKS = getMaterial("acacia_planks");
     Material DARK_OAK_PLANKS = getMaterial("dark_oak_planks");
+    Material MANGROVE_PLANKS = getMaterial("mangrove_planks");
     Material CRIMSON_PLANKS = getMaterial("crimson_planks");
     Material WARPED_PLANKS = getMaterial("warped_planks");
     Material OAK_SAPLING = getMaterial("oak_sapling");
@@ -57,6 +58,7 @@ public interface Material extends Keyed, Comparable<Material> {
     Material JUNGLE_SAPLING = getMaterial("jungle_sapling");
     Material ACACIA_SAPLING = getMaterial("acacia_sapling");
     Material DARK_OAK_SAPLING = getMaterial("dark_oak_sapling");
+    Material MANGROVE_PROPAGULE = getMaterial("mangrove_propagule");
     Material BEDROCK = getMaterial("bedrock");
     Material SAND = getMaterial("sand");
     Material RED_SAND = getMaterial("red_sand");
@@ -128,6 +130,9 @@ public interface Material extends Keyed, Comparable<Material> {
     Material JUNGLE_LOG = getMaterial("jungle_log");
     Material ACACIA_LOG = getMaterial("acacia_log");
     Material DARK_OAK_LOG = getMaterial("dark_oak_log");
+    Material MANGROVE_LOG = getMaterial("mangrove_log");
+    Material MANGROVE_ROOTS = getMaterial("mangrove_roots");
+    Material MUDDY_MANGROVE_ROOTS = getMaterial("muddy_mangrove_roots");
     Material CRIMSON_STEM = getMaterial("crimson_stem");
     Material WARPED_STEM = getMaterial("warped_stem");
     Material STRIPPED_OAK_LOG = getMaterial("stripped_oak_log");
@@ -136,6 +141,7 @@ public interface Material extends Keyed, Comparable<Material> {
     Material STRIPPED_JUNGLE_LOG = getMaterial("stripped_jungle_log");
     Material STRIPPED_ACACIA_LOG = getMaterial("stripped_acacia_log");
     Material STRIPPED_DARK_OAK_LOG = getMaterial("stripped_dark_oak_log");
+    Material STRIPPED_MANGROVE_LOG = getMaterial("stripped_mangrove_log");
     Material STRIPPED_CRIMSON_STEM = getMaterial("stripped_crimson_stem");
     Material STRIPPED_WARPED_STEM = getMaterial("stripped_warped_stem");
     Material STRIPPED_OAK_WOOD = getMaterial("stripped_oak_wood");
@@ -144,6 +150,7 @@ public interface Material extends Keyed, Comparable<Material> {
     Material STRIPPED_JUNGLE_WOOD = getMaterial("stripped_jungle_wood");
     Material STRIPPED_ACACIA_WOOD = getMaterial("stripped_acacia_wood");
     Material STRIPPED_DARK_OAK_WOOD = getMaterial("stripped_dark_oak_wood");
+    Material STRIPPED_MANGROVE_WOOD = getMaterial("stripped_mangrove_wood");
     Material STRIPPED_CRIMSON_HYPHAE = getMaterial("stripped_crimson_hyphae");
     Material STRIPPED_WARPED_HYPHAE = getMaterial("stripped_warped_hyphae");
     Material OAK_WOOD = getMaterial("oak_wood");
@@ -152,6 +159,7 @@ public interface Material extends Keyed, Comparable<Material> {
     Material JUNGLE_WOOD = getMaterial("jungle_wood");
     Material ACACIA_WOOD = getMaterial("acacia_wood");
     Material DARK_OAK_WOOD = getMaterial("dark_oak_wood");
+    Material MANGROVE_WOOD = getMaterial("mangrove_wood");
     Material CRIMSON_HYPHAE = getMaterial("crimson_hyphae");
     Material WARPED_HYPHAE = getMaterial("warped_hyphae");
     Material OAK_LEAVES = getMaterial("oak_leaves");
@@ -160,6 +168,7 @@ public interface Material extends Keyed, Comparable<Material> {
     Material JUNGLE_LEAVES = getMaterial("jungle_leaves");
     Material ACACIA_LEAVES = getMaterial("acacia_leaves");
     Material DARK_OAK_LEAVES = getMaterial("dark_oak_leaves");
+    Material MANGROVE_LEAVES = getMaterial("mangrove_leaves");
     Material AZALEA_LEAVES = getMaterial("azalea_leaves");
     Material FLOWERING_AZALEA_LEAVES = getMaterial("flowering_azalea_leaves");
     Material SPONGE = getMaterial("sponge");
@@ -231,6 +240,7 @@ public interface Material extends Keyed, Comparable<Material> {
     Material JUNGLE_SLAB = getMaterial("jungle_slab");
     Material ACACIA_SLAB = getMaterial("acacia_slab");
     Material DARK_OAK_SLAB = getMaterial("dark_oak_slab");
+    Material MANGROVE_SLAB = getMaterial("mangrove_slab");
     Material CRIMSON_SLAB = getMaterial("crimson_slab");
     Material WARPED_SLAB = getMaterial("warped_slab");
     Material STONE_SLAB = getMaterial("stone_slab");
@@ -241,6 +251,7 @@ public interface Material extends Keyed, Comparable<Material> {
     Material COBBLESTONE_SLAB = getMaterial("cobblestone_slab");
     Material BRICK_SLAB = getMaterial("brick_slab");
     Material STONE_BRICK_SLAB = getMaterial("stone_brick_slab");
+    Material MUD_BRICK_SLAB = getMaterial("mud_brick_slab");
     Material NETHER_BRICK_SLAB = getMaterial("nether_brick_slab");
     Material QUARTZ_SLAB = getMaterial("quartz_slab");
     Material RED_SANDSTONE_SLAB = getMaterial("red_sandstone_slab");
@@ -265,7 +276,6 @@ public interface Material extends Keyed, Comparable<Material> {
     Material PURPUR_PILLAR = getMaterial("purpur_pillar");
     Material PURPUR_STAIRS = getMaterial("purpur_stairs");
     Material SPAWNER = getMaterial("spawner");
-    Material OAK_STAIRS = getMaterial("oak_stairs");
     Material CHEST = getMaterial("chest");
     Material CRAFTING_TABLE = getMaterial("crafting_table");
     Material FARMLAND = getMaterial("farmland");
@@ -284,6 +294,7 @@ public interface Material extends Keyed, Comparable<Material> {
     Material JUNGLE_FENCE = getMaterial("jungle_fence");
     Material ACACIA_FENCE = getMaterial("acacia_fence");
     Material DARK_OAK_FENCE = getMaterial("dark_oak_fence");
+    Material MANGROVE_FENCE = getMaterial("mangrove_fence");
     Material CRIMSON_FENCE = getMaterial("crimson_fence");
     Material WARPED_FENCE = getMaterial("warped_fence");
     Material PUMPKIN = getMaterial("pumpkin");
@@ -308,11 +319,14 @@ public interface Material extends Keyed, Comparable<Material> {
     Material MOSSY_STONE_BRICKS = getMaterial("mossy_stone_bricks");
     Material CRACKED_STONE_BRICKS = getMaterial("cracked_stone_bricks");
     Material CHISELED_STONE_BRICKS = getMaterial("chiseled_stone_bricks");
+    Material PACKED_MUD = getMaterial("packed_mud");
+    Material MUD_BRICKS = getMaterial("mud_bricks");
     Material DEEPSLATE_BRICKS = getMaterial("deepslate_bricks");
     Material CRACKED_DEEPSLATE_BRICKS = getMaterial("cracked_deepslate_bricks");
     Material DEEPSLATE_TILES = getMaterial("deepslate_tiles");
     Material CRACKED_DEEPSLATE_TILES = getMaterial("cracked_deepslate_tiles");
     Material CHISELED_DEEPSLATE = getMaterial("chiseled_deepslate");
+    Material REINFORCED_DEEPSLATE = getMaterial("reinforced_deepslate");
     Material BROWN_MUSHROOM_BLOCK = getMaterial("brown_mushroom_block");
     Material RED_MUSHROOM_BLOCK = getMaterial("red_mushroom_block");
     Material MUSHROOM_STEM = getMaterial("mushroom_stem");
@@ -324,6 +338,7 @@ public interface Material extends Keyed, Comparable<Material> {
     Material GLOW_LICHEN = getMaterial("glow_lichen");
     Material BRICK_STAIRS = getMaterial("brick_stairs");
     Material STONE_BRICK_STAIRS = getMaterial("stone_brick_stairs");
+    Material MUD_BRICK_STAIRS = getMaterial("mud_brick_stairs");
     Material MYCELIUM = getMaterial("mycelium");
     Material LILY_PAD = getMaterial("lily_pad");
     Material NETHER_BRICKS = getMaterial("nether_bricks");
@@ -331,6 +346,10 @@ public interface Material extends Keyed, Comparable<Material> {
     Material CHISELED_NETHER_BRICKS = getMaterial("chiseled_nether_bricks");
     Material NETHER_BRICK_FENCE = getMaterial("nether_brick_fence");
     Material NETHER_BRICK_STAIRS = getMaterial("nether_brick_stairs");
+    Material SCULK = getMaterial("sculk");
+    Material SCULK_VEIN = getMaterial("sculk_vein");
+    Material SCULK_CATALYST = getMaterial("sculk_catalyst");
+    Material SCULK_SHRIEKER = getMaterial("sculk_shrieker");
     Material ENCHANTING_TABLE = getMaterial("enchanting_table");
     Material END_PORTAL_FRAME = getMaterial("end_portal_frame");
     Material END_STONE = getMaterial("end_stone");
@@ -339,9 +358,13 @@ public interface Material extends Keyed, Comparable<Material> {
     Material SANDSTONE_STAIRS = getMaterial("sandstone_stairs");
     Material ENDER_CHEST = getMaterial("ender_chest");
     Material EMERALD_BLOCK = getMaterial("emerald_block");
+    Material OAK_STAIRS = getMaterial("oak_stairs");
     Material SPRUCE_STAIRS = getMaterial("spruce_stairs");
     Material BIRCH_STAIRS = getMaterial("birch_stairs");
     Material JUNGLE_STAIRS = getMaterial("jungle_stairs");
+    Material ACACIA_STAIRS = getMaterial("acacia_stairs");
+    Material DARK_OAK_STAIRS = getMaterial("dark_oak_stairs");
+    Material MANGROVE_STAIRS = getMaterial("mangrove_stairs");
     Material CRIMSON_STAIRS = getMaterial("crimson_stairs");
     Material WARPED_STAIRS = getMaterial("warped_stairs");
     Material COMMAND_BLOCK = getMaterial("command_block");
@@ -354,6 +377,7 @@ public interface Material extends Keyed, Comparable<Material> {
     Material MOSSY_STONE_BRICK_WALL = getMaterial("mossy_stone_brick_wall");
     Material GRANITE_WALL = getMaterial("granite_wall");
     Material STONE_BRICK_WALL = getMaterial("stone_brick_wall");
+    Material MUD_BRICK_WALL = getMaterial("mud_brick_wall");
     Material NETHER_BRICK_WALL = getMaterial("nether_brick_wall");
     Material ANDESITE_WALL = getMaterial("andesite_wall");
     Material RED_NETHER_BRICK_WALL = getMaterial("red_nether_brick_wall");
@@ -412,8 +436,6 @@ public interface Material extends Keyed, Comparable<Material> {
     Material BLACK_CARPET = getMaterial("black_carpet");
     Material TERRACOTTA = getMaterial("terracotta");
     Material PACKED_ICE = getMaterial("packed_ice");
-    Material ACACIA_STAIRS = getMaterial("acacia_stairs");
-    Material DARK_OAK_STAIRS = getMaterial("dark_oak_stairs");
     Material DIRT_PATH = getMaterial("dirt_path");
     Material SUNFLOWER = getMaterial("sunflower");
     Material LILAC = getMaterial("lilac");
@@ -638,6 +660,7 @@ public interface Material extends Keyed, Comparable<Material> {
     Material JUNGLE_BUTTON = getMaterial("jungle_button");
     Material ACACIA_BUTTON = getMaterial("acacia_button");
     Material DARK_OAK_BUTTON = getMaterial("dark_oak_button");
+    Material MANGROVE_BUTTON = getMaterial("mangrove_button");
     Material CRIMSON_BUTTON = getMaterial("crimson_button");
     Material WARPED_BUTTON = getMaterial("warped_button");
     Material STONE_PRESSURE_PLATE = getMaterial("stone_pressure_plate");
@@ -650,6 +673,7 @@ public interface Material extends Keyed, Comparable<Material> {
     Material JUNGLE_PRESSURE_PLATE = getMaterial("jungle_pressure_plate");
     Material ACACIA_PRESSURE_PLATE = getMaterial("acacia_pressure_plate");
     Material DARK_OAK_PRESSURE_PLATE = getMaterial("dark_oak_pressure_plate");
+    Material MANGROVE_PRESSURE_PLATE = getMaterial("mangrove_pressure_plate");
     Material CRIMSON_PRESSURE_PLATE = getMaterial("crimson_pressure_plate");
     Material WARPED_PRESSURE_PLATE = getMaterial("warped_pressure_plate");
     Material IRON_DOOR = getMaterial("iron_door");
@@ -659,6 +683,7 @@ public interface Material extends Keyed, Comparable<Material> {
     Material JUNGLE_DOOR = getMaterial("jungle_door");
     Material ACACIA_DOOR = getMaterial("acacia_door");
     Material DARK_OAK_DOOR = getMaterial("dark_oak_door");
+    Material MANGROVE_DOOR = getMaterial("mangrove_door");
     Material CRIMSON_DOOR = getMaterial("crimson_door");
     Material WARPED_DOOR = getMaterial("warped_door");
     Material IRON_TRAPDOOR = getMaterial("iron_trapdoor");
@@ -668,6 +693,7 @@ public interface Material extends Keyed, Comparable<Material> {
     Material JUNGLE_TRAPDOOR = getMaterial("jungle_trapdoor");
     Material ACACIA_TRAPDOOR = getMaterial("acacia_trapdoor");
     Material DARK_OAK_TRAPDOOR = getMaterial("dark_oak_trapdoor");
+    Material MANGROVE_TRAPDOOR = getMaterial("mangrove_trapdoor");
     Material CRIMSON_TRAPDOOR = getMaterial("crimson_trapdoor");
     Material WARPED_TRAPDOOR = getMaterial("warped_trapdoor");
     Material OAK_FENCE_GATE = getMaterial("oak_fence_gate");
@@ -676,6 +702,7 @@ public interface Material extends Keyed, Comparable<Material> {
     Material JUNGLE_FENCE_GATE = getMaterial("jungle_fence_gate");
     Material ACACIA_FENCE_GATE = getMaterial("acacia_fence_gate");
     Material DARK_OAK_FENCE_GATE = getMaterial("dark_oak_fence_gate");
+    Material MANGROVE_FENCE_GATE = getMaterial("mangrove_fence_gate");
     Material CRIMSON_FENCE_GATE = getMaterial("crimson_fence_gate");
     Material WARPED_FENCE_GATE = getMaterial("warped_fence_gate");
     Material POWERED_RAIL = getMaterial("powered_rail");
@@ -692,11 +719,19 @@ public interface Material extends Keyed, Comparable<Material> {
     Material WARPED_FUNGUS_ON_A_STICK = getMaterial("warped_fungus_on_a_stick");
     Material ELYTRA = getMaterial("elytra");
     Material OAK_BOAT = getMaterial("oak_boat");
+    Material OAK_CHEST_BOAT = getMaterial("oak_chest_boat");
     Material SPRUCE_BOAT = getMaterial("spruce_boat");
+    Material SPRUCE_CHEST_BOAT = getMaterial("spruce_chest_boat");
     Material BIRCH_BOAT = getMaterial("birch_boat");
+    Material BIRCH_CHEST_BOAT = getMaterial("birch_chest_boat");
     Material JUNGLE_BOAT = getMaterial("jungle_boat");
+    Material JUNGLE_CHEST_BOAT = getMaterial("jungle_chest_boat");
     Material ACACIA_BOAT = getMaterial("acacia_boat");
+    Material ACACIA_CHEST_BOAT = getMaterial("acacia_chest_boat");
     Material DARK_OAK_BOAT = getMaterial("dark_oak_boat");
+    Material DARK_OAK_CHEST_BOAT = getMaterial("dark_oak_chest_boat");
+    Material MANGROVE_BOAT = getMaterial("mangrove_boat");
+    Material MANGROVE_CHEST_BOAT = getMaterial("mangrove_chest_boat");
     Material STRUCTURE_BLOCK = getMaterial("structure_block");
     Material JIGSAW = getMaterial("jigsaw");
     Material TURTLE_HELMET = getMaterial("turtle_helmet");
@@ -795,6 +830,7 @@ public interface Material extends Keyed, Comparable<Material> {
     Material JUNGLE_SIGN = getMaterial("jungle_sign");
     Material ACACIA_SIGN = getMaterial("acacia_sign");
     Material DARK_OAK_SIGN = getMaterial("dark_oak_sign");
+    Material MANGROVE_SIGN = getMaterial("mangrove_sign");
     Material CRIMSON_SIGN = getMaterial("crimson_sign");
     Material WARPED_SIGN = getMaterial("warped_sign");
     Material BUCKET = getMaterial("bucket");
@@ -809,6 +845,7 @@ public interface Material extends Keyed, Comparable<Material> {
     Material COD_BUCKET = getMaterial("cod_bucket");
     Material TROPICAL_FISH_BUCKET = getMaterial("tropical_fish_bucket");
     Material AXOLOTL_BUCKET = getMaterial("axolotl_bucket");
+    Material TADPOLE_BUCKET = getMaterial("tadpole_bucket");
     Material BRICK = getMaterial("brick");
     Material CLAY_BALL = getMaterial("clay_ball");
     Material DRIED_KELP_BLOCK = getMaterial("dried_kelp_block");
@@ -817,6 +854,7 @@ public interface Material extends Keyed, Comparable<Material> {
     Material SLIME_BALL = getMaterial("slime_ball");
     Material EGG = getMaterial("egg");
     Material COMPASS = getMaterial("compass");
+    Material RECOVERY_COMPASS = getMaterial("recovery_compass");
     Material BUNDLE = getMaterial("bundle");
     Material FISHING_ROD = getMaterial("fishing_rod");
     Material CLOCK = getMaterial("clock");
@@ -894,6 +932,7 @@ public interface Material extends Keyed, Comparable<Material> {
     Material CAULDRON = getMaterial("cauldron");
     Material ENDER_EYE = getMaterial("ender_eye");
     Material GLISTERING_MELON_SLICE = getMaterial("glistering_melon_slice");
+    Material ALLAY_SPAWN_EGG = getMaterial("allay_spawn_egg");
     Material AXOLOTL_SPAWN_EGG = getMaterial("axolotl_spawn_egg");
     Material BAT_SPAWN_EGG = getMaterial("bat_spawn_egg");
     Material BEE_SPAWN_EGG = getMaterial("bee_spawn_egg");
@@ -912,6 +951,7 @@ public interface Material extends Keyed, Comparable<Material> {
     Material ENDERMITE_SPAWN_EGG = getMaterial("endermite_spawn_egg");
     Material EVOKER_SPAWN_EGG = getMaterial("evoker_spawn_egg");
     Material FOX_SPAWN_EGG = getMaterial("fox_spawn_egg");
+    Material FROG_SPAWN_EGG = getMaterial("frog_spawn_egg");
     Material GHAST_SPAWN_EGG = getMaterial("ghast_spawn_egg");
     Material GLOW_SQUID_SPAWN_EGG = getMaterial("glow_squid_spawn_egg");
     Material GOAT_SPAWN_EGG = getMaterial("goat_spawn_egg");
@@ -946,6 +986,7 @@ public interface Material extends Keyed, Comparable<Material> {
     Material SQUID_SPAWN_EGG = getMaterial("squid_spawn_egg");
     Material STRAY_SPAWN_EGG = getMaterial("stray_spawn_egg");
     Material STRIDER_SPAWN_EGG = getMaterial("strider_spawn_egg");
+    Material TADPOLE_SPAWN_EGG = getMaterial("tadpole_spawn_egg");
     Material TRADER_LLAMA_SPAWN_EGG = getMaterial("trader_llama_spawn_egg");
     Material TROPICAL_FISH_SPAWN_EGG = getMaterial("tropical_fish_spawn_egg");
     Material TURTLE_SPAWN_EGG = getMaterial("turtle_spawn_egg");
@@ -953,6 +994,7 @@ public interface Material extends Keyed, Comparable<Material> {
     Material VILLAGER_SPAWN_EGG = getMaterial("villager_spawn_egg");
     Material VINDICATOR_SPAWN_EGG = getMaterial("vindicator_spawn_egg");
     Material WANDERING_TRADER_SPAWN_EGG = getMaterial("wandering_trader_spawn_egg");
+    Material WARDEN_SPAWN_EGG = getMaterial("warden_spawn_egg");
     Material WITCH_SPAWN_EGG = getMaterial("witch_spawn_egg");
     Material WITHER_SKELETON_SPAWN_EGG = getMaterial("wither_skeleton_spawn_egg");
     Material WOLF_SPAWN_EGG = getMaterial("wolf_spawn_egg");
@@ -1049,7 +1091,9 @@ public interface Material extends Keyed, Comparable<Material> {
     Material MUSIC_DISC_11 = getMaterial("music_disc_11");
     Material MUSIC_DISC_WAIT = getMaterial("music_disc_wait");
     Material MUSIC_DISC_OTHERSIDE = getMaterial("music_disc_otherside");
+    Material MUSIC_DISC_5 = getMaterial("music_disc_5");
     Material MUSIC_DISC_PIGSTEP = getMaterial("music_disc_pigstep");
+    Material DISC_FRAGMENT_5 = getMaterial("disc_fragment_5");
     Material TRIDENT = getMaterial("trident");
     Material PHANTOM_MEMBRANE = getMaterial("phantom_membrane");
     Material NAUTILUS_SHELL = getMaterial("nautilus_shell");
@@ -1063,6 +1107,7 @@ public interface Material extends Keyed, Comparable<Material> {
     Material MOJANG_BANNER_PATTERN = getMaterial("mojang_banner_pattern");
     Material GLOBE_BANNER_PATTERN = getMaterial("globe_banner_pattern");
     Material PIGLIN_BANNER_PATTERN = getMaterial("piglin_banner_pattern");
+    Material GOAT_HORN = getMaterial("goat_horn");
     Material COMPOSTER = getMaterial("composter");
     Material BARREL = getMaterial("barrel");
     Material SMOKER = getMaterial("smoker");
@@ -1122,6 +1167,11 @@ public interface Material extends Keyed, Comparable<Material> {
     Material LARGE_AMETHYST_BUD = getMaterial("large_amethyst_bud");
     Material AMETHYST_CLUSTER = getMaterial("amethyst_cluster");
     Material POINTED_DRIPSTONE = getMaterial("pointed_dripstone");
+    Material OCHRE_FROGLIGHT = getMaterial("ochre_froglight");
+    Material VERDANT_FROGLIGHT = getMaterial("verdant_froglight");
+    Material PEARLESCENT_FROGLIGHT = getMaterial("pearlescent_froglight");
+    Material FROGSPAWN = getMaterial("frogspawn");
+    Material ECHO_SHARD = getMaterial("echo_shard");
     Material WATER = getMaterial("water");
     Material LAVA = getMaterial("lava");
     Material TALL_SEAGRASS = getMaterial("tall_seagrass");
@@ -1137,6 +1187,7 @@ public interface Material extends Keyed, Comparable<Material> {
     Material ACACIA_WALL_SIGN = getMaterial("acacia_wall_sign");
     Material JUNGLE_WALL_SIGN = getMaterial("jungle_wall_sign");
     Material DARK_OAK_WALL_SIGN = getMaterial("dark_oak_wall_sign");
+    Material MANGROVE_WALL_SIGN = getMaterial("mangrove_wall_sign");
     Material REDSTONE_WALL_TORCH = getMaterial("redstone_wall_torch");
     Material SOUL_WALL_TORCH = getMaterial("soul_wall_torch");
     Material NETHER_PORTAL = getMaterial("nether_portal");
@@ -1156,6 +1207,7 @@ public interface Material extends Keyed, Comparable<Material> {
     Material POTTED_JUNGLE_SAPLING = getMaterial("potted_jungle_sapling");
     Material POTTED_ACACIA_SAPLING = getMaterial("potted_acacia_sapling");
     Material POTTED_DARK_OAK_SAPLING = getMaterial("potted_dark_oak_sapling");
+    Material POTTED_MANGROVE_PROPAGULE = getMaterial("potted_mangrove_propagule");
     Material POTTED_FERN = getMaterial("potted_fern");
     Material POTTED_DANDELION = getMaterial("potted_dandelion");
     Material POTTED_POPPY = getMaterial("potted_poppy");
@@ -2265,7 +2317,7 @@ public interface Material extends Keyed, Comparable<Material> {
      */
     @Nullable
     static Material matchMaterial(@NotNull final String name, boolean legacyName) {
-        Validate.notNull(name, "Name cannot be null");
+        Preconditions.checkArgument(name != null, "Name cannot be null");
 
         String filtered = name;
         if (filtered.startsWith(NamespacedKey.MINECRAFT + ":")) {
@@ -2659,7 +2711,7 @@ public interface Material extends Keyed, Comparable<Material> {
      * @return the immutable {@link Multimap} with the respective default
      * Attributes and modifiers, or an empty map if no attributes are set.
      * @see Material#asItemType()
-     * @see ItemType#getDefaultAttributeModifiers()
+     * @see ItemType#getDefaultAttributeModifiers(EquipmentSlot)
      * @deprecated Can only get default attribute modifiers from ItemType
      */
     @NotNull
@@ -2685,7 +2737,7 @@ public interface Material extends Keyed, Comparable<Material> {
      */
     @Deprecated
     @Override
-    public abstract int compareTo(@NotNull Material other);
+    int compareTo(@NotNull Material other);
 
     /**
      * @return the name of the old enum.
@@ -2693,12 +2745,12 @@ public interface Material extends Keyed, Comparable<Material> {
      */
     @NotNull
     @Deprecated
-    public abstract String name();
+    String name();
 
     /**
      * @return the ordinal of the old enum.
      * @deprecated only for backwards compatibility, it is not guaranteed that an old enum always has the same ordinal.
      */
     @Deprecated
-    public abstract int ordinal();
+    int ordinal();
 }

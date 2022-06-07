@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.Lists;
-import org.apache.commons.lang.Validate;
 import org.bukkit.Color;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
@@ -183,6 +182,10 @@ public abstract class PotionEffectType implements Keyed {
      * \o/.
      */
     public static final PotionEffectType HERO_OF_THE_VILLAGE = getPotionEffectType(32, "hero_of_the_village");
+    /**
+     * Causes the player's vision to dim occasionally.
+     */
+    public static final PotionEffectType DARKNESS = getPotionEffectType(33, "darkness");
 
     private static PotionEffectType getPotionEffectType(int typeId, @NotNull String key) {
         NamespacedKey namespacedKey = NamespacedKey.minecraft(key);
@@ -286,7 +289,7 @@ public abstract class PotionEffectType implements Keyed {
     @Nullable
     @Deprecated
     public static PotionEffectType getByName(@NotNull String name) {
-        Validate.notNull(name, "name cannot be null");
+        Preconditions.checkArgument(name != null, "name cannot be null");
         return Registry.POTION_EFFECT_TYPE.get(NamespacedKey.fromString(name.toLowerCase(java.util.Locale.ENGLISH)));
     }
 

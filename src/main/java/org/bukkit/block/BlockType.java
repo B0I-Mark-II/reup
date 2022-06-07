@@ -58,6 +58,7 @@ import org.bukkit.block.data.type.Leaves;
 import org.bukkit.block.data.type.Lectern;
 import org.bukkit.block.data.type.Light;
 import org.bukkit.block.data.type.LightningRod;
+import org.bukkit.block.data.type.MangrovePropagule;
 import org.bukkit.block.data.type.NoteBlock;
 import org.bukkit.block.data.type.Observer;
 import org.bukkit.block.data.type.Piston;
@@ -121,6 +122,7 @@ public interface BlockType<B extends BlockData> extends Material {
      */
     BlockType<Snowable> PODZOL = asBlockType(Material.PODZOL);
     BlockType<BlockData> ROOTED_DIRT = asBlockType(Material.ROOTED_DIRT);
+    BlockType<BlockData> MUD = asBlockType(Material.MUD);
     BlockType<BlockData> CRIMSON_NYLIUM = asBlockType(Material.CRIMSON_NYLIUM);
     BlockType<BlockData> WARPED_NYLIUM = asBlockType(Material.WARPED_NYLIUM);
     BlockType<BlockData> COBBLESTONE = asBlockType(Material.COBBLESTONE);
@@ -130,6 +132,7 @@ public interface BlockType<B extends BlockData> extends Material {
     BlockType<BlockData> JUNGLE_PLANKS = asBlockType(Material.JUNGLE_PLANKS);
     BlockType<BlockData> ACACIA_PLANKS = asBlockType(Material.ACACIA_PLANKS);
     BlockType<BlockData> DARK_OAK_PLANKS = asBlockType(Material.DARK_OAK_PLANKS);
+    BlockType<BlockData> MANGROVE_PLANKS = asBlockType(Material.MANGROVE_PLANKS);
     BlockType<BlockData> CRIMSON_PLANKS = asBlockType(Material.CRIMSON_PLANKS);
     BlockType<BlockData> WARPED_PLANKS = asBlockType(Material.WARPED_PLANKS);
     /**
@@ -156,6 +159,10 @@ public interface BlockType<B extends BlockData> extends Material {
      * BlockData: {@link Sapling}
      */
     BlockType<Sapling> DARK_OAK_SAPLING = asBlockType(Material.DARK_OAK_SAPLING);
+    /**
+     * BlockData: {@link MangrovePropagule}
+     */
+    BlockType<MangrovePropagule> MANGROVE_PROPAGULE = asBlockType(Material.MANGROVE_PROPAGULE);
     BlockType<BlockData> BEDROCK = asBlockType(Material.BEDROCK);
     BlockType<BlockData> SAND = asBlockType(Material.SAND);
     BlockType<BlockData> RED_SAND = asBlockType(Material.RED_SAND);
@@ -302,6 +309,18 @@ public interface BlockType<B extends BlockData> extends Material {
     /**
      * BlockData: {@link Orientable}
      */
+    BlockType<Orientable> MANGROVE_LOG = asBlockType(Material.MANGROVE_LOG);
+    /**
+     * BlockData: {@link Waterlogged}
+     */
+    BlockType<Waterlogged> MANGROVE_ROOTS = asBlockType(Material.MANGROVE_ROOTS);
+    /**
+     * BlockData: {@link Orientable}
+     */
+    BlockType<Orientable> MUDDY_MANGROVE_ROOTS = asBlockType(Material.MUDDY_MANGROVE_ROOTS);
+    /**
+     * BlockData: {@link Orientable}
+     */
     BlockType<Orientable> CRIMSON_STEM = asBlockType(Material.CRIMSON_STEM);
     /**
      * BlockData: {@link Orientable}
@@ -331,6 +350,10 @@ public interface BlockType<B extends BlockData> extends Material {
      * BlockData: {@link Orientable}
      */
     BlockType<Orientable> STRIPPED_DARK_OAK_LOG = asBlockType(Material.STRIPPED_DARK_OAK_LOG);
+    /**
+     * BlockData: {@link Orientable}
+     */
+    BlockType<Orientable> STRIPPED_MANGROVE_LOG = asBlockType(Material.STRIPPED_MANGROVE_LOG);
     /**
      * BlockData: {@link Orientable}
      */
@@ -366,6 +389,10 @@ public interface BlockType<B extends BlockData> extends Material {
     /**
      * BlockData: {@link Orientable}
      */
+    BlockType<Orientable> STRIPPED_MANGROVE_WOOD = asBlockType(Material.STRIPPED_MANGROVE_WOOD);
+    /**
+     * BlockData: {@link Orientable}
+     */
     BlockType<Orientable> STRIPPED_CRIMSON_HYPHAE = asBlockType(Material.STRIPPED_CRIMSON_HYPHAE);
     /**
      * BlockData: {@link Orientable}
@@ -398,6 +425,10 @@ public interface BlockType<B extends BlockData> extends Material {
     /**
      * BlockData: {@link Orientable}
      */
+    BlockType<Orientable> MANGROVE_WOOD = asBlockType(Material.MANGROVE_WOOD);
+    /**
+     * BlockData: {@link Orientable}
+     */
     BlockType<Orientable> CRIMSON_HYPHAE = asBlockType(Material.CRIMSON_HYPHAE);
     /**
      * BlockData: {@link Orientable}
@@ -427,6 +458,10 @@ public interface BlockType<B extends BlockData> extends Material {
      * BlockData: {@link Leaves}
      */
     BlockType<Leaves> DARK_OAK_LEAVES = asBlockType(Material.DARK_OAK_LEAVES);
+    /**
+     * BlockData: {@link Leaves}
+     */
+    BlockType<Leaves> MANGROVE_LEAVES = asBlockType(Material.MANGROVE_LEAVES);
     /**
      * BlockData: {@link Leaves}
      */
@@ -552,6 +587,10 @@ public interface BlockType<B extends BlockData> extends Material {
     /**
      * BlockData: {@link Slab}
      */
+    BlockType<Slab> MANGROVE_SLAB = asBlockType(Material.MANGROVE_SLAB);
+    /**
+     * BlockData: {@link Slab}
+     */
     BlockType<Slab> CRIMSON_SLAB = asBlockType(Material.CRIMSON_SLAB);
     /**
      * BlockData: {@link Slab}
@@ -589,6 +628,10 @@ public interface BlockType<B extends BlockData> extends Material {
      * BlockData: {@link Slab}
      */
     BlockType<Slab> STONE_BRICK_SLAB = asBlockType(Material.STONE_BRICK_SLAB);
+    /**
+     * BlockData: {@link Slab}
+     */
+    BlockType<Slab> MUD_BRICK_SLAB = asBlockType(Material.MUD_BRICK_SLAB);
     /**
      * BlockData: {@link Slab}
      */
@@ -649,10 +692,6 @@ public interface BlockType<B extends BlockData> extends Material {
      */
     BlockType<Stairs> PURPUR_STAIRS = asBlockType(Material.PURPUR_STAIRS);
     BlockType<BlockData> SPAWNER = asBlockType(Material.SPAWNER);
-    /**
-     * BlockData: {@link Stairs}
-     */
-    BlockType<Stairs> OAK_STAIRS = asBlockType(Material.OAK_STAIRS);
     /**
      * BlockData: {@link Chest}
      */
@@ -716,6 +755,10 @@ public interface BlockType<B extends BlockData> extends Material {
     /**
      * BlockData: {@link Fence}
      */
+    BlockType<Fence> MANGROVE_FENCE = asBlockType(Material.MANGROVE_FENCE);
+    /**
+     * BlockData: {@link Fence}
+     */
     BlockType<Fence> CRIMSON_FENCE = asBlockType(Material.CRIMSON_FENCE);
     /**
      * BlockData: {@link Fence}
@@ -758,11 +801,14 @@ public interface BlockType<B extends BlockData> extends Material {
     BlockType<BlockData> MOSSY_STONE_BRICKS = asBlockType(Material.MOSSY_STONE_BRICKS);
     BlockType<BlockData> CRACKED_STONE_BRICKS = asBlockType(Material.CRACKED_STONE_BRICKS);
     BlockType<BlockData> CHISELED_STONE_BRICKS = asBlockType(Material.CHISELED_STONE_BRICKS);
+    BlockType<BlockData> PACKED_MUD = asBlockType(Material.PACKED_MUD);
+    BlockType<BlockData> MUD_BRICKS = asBlockType(Material.MUD_BRICKS);
     BlockType<BlockData> DEEPSLATE_BRICKS = asBlockType(Material.DEEPSLATE_BRICKS);
     BlockType<BlockData> CRACKED_DEEPSLATE_BRICKS = asBlockType(Material.CRACKED_DEEPSLATE_BRICKS);
     BlockType<BlockData> DEEPSLATE_TILES = asBlockType(Material.DEEPSLATE_TILES);
     BlockType<BlockData> CRACKED_DEEPSLATE_TILES = asBlockType(Material.CRACKED_DEEPSLATE_TILES);
     BlockType<BlockData> CHISELED_DEEPSLATE = asBlockType(Material.CHISELED_DEEPSLATE);
+    BlockType<BlockData> REINFORCED_DEEPSLATE = asBlockType(Material.REINFORCED_DEEPSLATE);
     /**
      * BlockData: {@link MultipleFacing}
      */
@@ -805,6 +851,10 @@ public interface BlockType<B extends BlockData> extends Material {
      */
     BlockType<Stairs> STONE_BRICK_STAIRS = asBlockType(Material.STONE_BRICK_STAIRS);
     /**
+     * BlockData: {@link Stairs}
+     */
+    BlockType<Stairs> MUD_BRICK_STAIRS = asBlockType(Material.MUD_BRICK_STAIRS);
+    /**
      * BlockData: {@link Snowable}
      */
     BlockType<Snowable> MYCELIUM = asBlockType(Material.MYCELIUM);
@@ -820,6 +870,13 @@ public interface BlockType<B extends BlockData> extends Material {
      * BlockData: {@link Stairs}
      */
     BlockType<Stairs> NETHER_BRICK_STAIRS = asBlockType(Material.NETHER_BRICK_STAIRS);
+    BlockType<BlockData> SCULK = asBlockType(Material.SCULK);
+    /**
+     * BlockData: {@link Waterlogged}
+     */
+    BlockType<Waterlogged> SCULK_VEIN = asBlockType(Material.SCULK_VEIN);
+    BlockType<BlockData> SCULK_CATALYST = asBlockType(Material.SCULK_CATALYST);
+    BlockType<BlockData> SCULK_SHRIEKER = asBlockType(Material.SCULK_SHRIEKER);
     BlockType<BlockData> ENCHANTING_TABLE = asBlockType(Material.ENCHANTING_TABLE);
     /**
      * BlockData: {@link EndPortalFrame}
@@ -840,6 +897,10 @@ public interface BlockType<B extends BlockData> extends Material {
     /**
      * BlockData: {@link Stairs}
      */
+    BlockType<Stairs> OAK_STAIRS = asBlockType(Material.OAK_STAIRS);
+    /**
+     * BlockData: {@link Stairs}
+     */
     BlockType<Stairs> SPRUCE_STAIRS = asBlockType(Material.SPRUCE_STAIRS);
     /**
      * BlockData: {@link Stairs}
@@ -849,6 +910,18 @@ public interface BlockType<B extends BlockData> extends Material {
      * BlockData: {@link Stairs}
      */
     BlockType<Stairs> JUNGLE_STAIRS = asBlockType(Material.JUNGLE_STAIRS);
+    /**
+     * BlockData: {@link Stairs}
+     */
+    BlockType<Stairs> ACACIA_STAIRS = asBlockType(Material.ACACIA_STAIRS);
+    /**
+     * BlockData: {@link Stairs}
+     */
+    BlockType<Stairs> DARK_OAK_STAIRS = asBlockType(Material.DARK_OAK_STAIRS);
+    /**
+     * BlockData: {@link Stairs}
+     */
+    BlockType<Stairs> MANGROVE_STAIRS = asBlockType(Material.MANGROVE_STAIRS);
     /**
      * BlockData: {@link Stairs}
      */
@@ -894,6 +967,10 @@ public interface BlockType<B extends BlockData> extends Material {
      * BlockData: {@link Wall}
      */
     BlockType<Wall> STONE_BRICK_WALL = asBlockType(Material.STONE_BRICK_WALL);
+    /**
+     * BlockData: {@link Wall}
+     */
+    BlockType<Wall> MUD_BRICK_WALL = asBlockType(Material.MUD_BRICK_WALL);
     /**
      * BlockData: {@link Wall}
      */
@@ -1012,14 +1089,6 @@ public interface BlockType<B extends BlockData> extends Material {
     BlockType<BlockData> BLACK_CARPET = asBlockType(Material.BLACK_CARPET);
     BlockType<BlockData> TERRACOTTA = asBlockType(Material.TERRACOTTA);
     BlockType<BlockData> PACKED_ICE = asBlockType(Material.PACKED_ICE);
-    /**
-     * BlockData: {@link Stairs}
-     */
-    BlockType<Stairs> ACACIA_STAIRS = asBlockType(Material.ACACIA_STAIRS);
-    /**
-     * BlockData: {@link Stairs}
-     */
-    BlockType<Stairs> DARK_OAK_STAIRS = asBlockType(Material.DARK_OAK_STAIRS);
     BlockType<BlockData> DIRT_PATH = asBlockType(Material.DIRT_PATH);
     /**
      * BlockData: {@link Bisected}
@@ -1690,6 +1759,10 @@ public interface BlockType<B extends BlockData> extends Material {
     /**
      * BlockData: {@link Switch}
      */
+    BlockType<Switch> MANGROVE_BUTTON = asBlockType(Material.MANGROVE_BUTTON);
+    /**
+     * BlockData: {@link Switch}
+     */
     BlockType<Switch> CRIMSON_BUTTON = asBlockType(Material.CRIMSON_BUTTON);
     /**
      * BlockData: {@link Switch}
@@ -1738,6 +1811,10 @@ public interface BlockType<B extends BlockData> extends Material {
     /**
      * BlockData: {@link Powerable}
      */
+    BlockType<Powerable> MANGROVE_PRESSURE_PLATE = asBlockType(Material.MANGROVE_PRESSURE_PLATE);
+    /**
+     * BlockData: {@link Powerable}
+     */
     BlockType<Powerable> CRIMSON_PRESSURE_PLATE = asBlockType(Material.CRIMSON_PRESSURE_PLATE);
     /**
      * BlockData: {@link Powerable}
@@ -1771,6 +1848,10 @@ public interface BlockType<B extends BlockData> extends Material {
      * BlockData: {@link Door}
      */
     BlockType<Door> DARK_OAK_DOOR = asBlockType(Material.DARK_OAK_DOOR);
+    /**
+     * BlockData: {@link Door}
+     */
+    BlockType<Door> MANGROVE_DOOR = asBlockType(Material.MANGROVE_DOOR);
     /**
      * BlockData: {@link Door}
      */
@@ -1810,6 +1891,10 @@ public interface BlockType<B extends BlockData> extends Material {
     /**
      * BlockData: {@link TrapDoor}
      */
+    BlockType<TrapDoor> MANGROVE_TRAPDOOR = asBlockType(Material.MANGROVE_TRAPDOOR);
+    /**
+     * BlockData: {@link TrapDoor}
+     */
     BlockType<TrapDoor> CRIMSON_TRAPDOOR = asBlockType(Material.CRIMSON_TRAPDOOR);
     /**
      * BlockData: {@link TrapDoor}
@@ -1839,6 +1924,10 @@ public interface BlockType<B extends BlockData> extends Material {
      * BlockData: {@link Gate}
      */
     BlockType<Gate> DARK_OAK_FENCE_GATE = asBlockType(Material.DARK_OAK_FENCE_GATE);
+    /**
+     * BlockData: {@link Gate}
+     */
+    BlockType<Gate> MANGROVE_FENCE_GATE = asBlockType(Material.MANGROVE_FENCE_GATE);
     /**
      * BlockData: {@link Gate}
      */
@@ -1899,6 +1988,10 @@ public interface BlockType<B extends BlockData> extends Material {
      * BlockData: {@link Sign}
      */
     BlockType<Sign> DARK_OAK_SIGN = asBlockType(Material.DARK_OAK_SIGN);
+    /**
+     * BlockData: {@link Sign}
+     */
+    BlockType<Sign> MANGROVE_SIGN = asBlockType(Material.MANGROVE_SIGN);
     /**
      * BlockData: {@link Sign}
      */
@@ -2251,6 +2344,19 @@ public interface BlockType<B extends BlockData> extends Material {
      */
     BlockType<PointedDripstone> POINTED_DRIPSTONE = asBlockType(Material.POINTED_DRIPSTONE);
     /**
+     * BlockData: {@link Orientable}
+     */
+    BlockType<Orientable> OCHRE_FROGLIGHT = asBlockType(Material.OCHRE_FROGLIGHT);
+    /**
+     * BlockData: {@link Orientable}
+     */
+    BlockType<Orientable> VERDANT_FROGLIGHT = asBlockType(Material.VERDANT_FROGLIGHT);
+    /**
+     * BlockData: {@link Orientable}
+     */
+    BlockType<Orientable> PEARLESCENT_FROGLIGHT = asBlockType(Material.PEARLESCENT_FROGLIGHT);
+    BlockType<BlockData> FROGSPAWN = asBlockType(Material.FROGSPAWN);
+    /**
      * BlockData: {@link Levelled}
      */
     BlockType<Levelled> WATER = asBlockType(Material.WATER);
@@ -2311,6 +2417,10 @@ public interface BlockType<B extends BlockData> extends Material {
      */
     BlockType<WallSign> DARK_OAK_WALL_SIGN = asBlockType(Material.DARK_OAK_WALL_SIGN);
     /**
+     * BlockData: {@link WallSign}
+     */
+    BlockType<WallSign> MANGROVE_WALL_SIGN = asBlockType(Material.MANGROVE_WALL_SIGN);
+    /**
      * BlockData: {@link RedstoneWallTorch}
      */
     BlockType<RedstoneWallTorch> REDSTONE_WALL_TORCH = asBlockType(Material.REDSTONE_WALL_TORCH);
@@ -2362,6 +2472,7 @@ public interface BlockType<B extends BlockData> extends Material {
     BlockType<BlockData> POTTED_JUNGLE_SAPLING = asBlockType(Material.POTTED_JUNGLE_SAPLING);
     BlockType<BlockData> POTTED_ACACIA_SAPLING = asBlockType(Material.POTTED_ACACIA_SAPLING);
     BlockType<BlockData> POTTED_DARK_OAK_SAPLING = asBlockType(Material.POTTED_DARK_OAK_SAPLING);
+    BlockType<BlockData> POTTED_MANGROVE_PROPAGULE = asBlockType(Material.POTTED_MANGROVE_PROPAGULE);
     BlockType<BlockData> POTTED_FERN = asBlockType(Material.POTTED_FERN);
     BlockType<BlockData> POTTED_DANDELION = asBlockType(Material.POTTED_DANDELION);
     BlockType<BlockData> POTTED_POPPY = asBlockType(Material.POTTED_POPPY);

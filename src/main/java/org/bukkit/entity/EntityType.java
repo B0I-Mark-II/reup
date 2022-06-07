@@ -275,6 +275,11 @@ public abstract class EntityType extends OldEnum<EntityType> implements Keyed {
     public static final EntityType GLOW_SQUID = getEntityType("glow_squid");
     public static final EntityType GOAT = getEntityType("goat");
     public static final EntityType MARKER = getEntityType("marker");
+    public static final EntityType ALLAY = getEntityType("allay");
+    public static final EntityType CHEST_BOAT = getEntityType("chest_boat");
+    public static final EntityType FROG = getEntityType("frog");
+    public static final EntityType TADPOLE = getEntityType("tadpole");
+    public static final EntityType WARDEN = getEntityType("warden");
     /**
      * A fishing line and bobber.
      */

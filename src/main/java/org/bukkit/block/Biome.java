@@ -23,6 +23,7 @@ public abstract class Biome extends OldEnum<Biome> implements Keyed {
     public static final Biome FOREST = getBiome("forest");
     public static final Biome TAIGA = getBiome("taiga");
     public static final Biome SWAMP = getBiome("swamp");
+    public static final Biome MANGROVE_SWAMP = getBiome("mangrove_swamp");
     public static final Biome RIVER = getBiome("river");
     public static final Biome NETHER_WASTES = getBiome("nether_wastes");
     public static final Biome THE_END = getBiome("the_end");
@@ -71,6 +72,7 @@ public abstract class Biome extends OldEnum<Biome> implements Keyed {
     public static final Biome BASALT_DELTAS = getBiome("basalt_deltas");
     public static final Biome DRIPSTONE_CAVES = getBiome("dripstone_caves");
     public static final Biome LUSH_CAVES = getBiome("lush_caves");
+    public static final Biome DEEP_DARK = getBiome("deep_dark");
     public static final Biome MEADOW = getBiome("meadow");
     public static final Biome GROVE = getBiome("grove");
     public static final Biome SNOWY_SLOPES = getBiome("snowy_slopes");

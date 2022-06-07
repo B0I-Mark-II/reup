@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import com.google.common.collect.ImmutableList;
 import java.util.List;
 import java.util.Random;
+import org.bukkit.support.AbstractTestingBase;
 import org.bukkit.util.Vector;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +14,7 @@ import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
 @RunWith(Parameterized.class)
-public class LocationTest {
+public class LocationTest extends AbstractTestingBase {
     private static final double delta = 1.0 / 1000000;
     /**
      * <pre>
