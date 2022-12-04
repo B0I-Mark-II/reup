@@ -256,26 +256,20 @@ public interface Criteria {
 
         // Good use case for a switch expression
         if (type == Type.BLOCK) {
-            switch (statistic) {
-                case MINE_BLOCK:
-                    return Bukkit.getScoreboardCriteria("minecraft.mined:minecraft." + material.getKey().getKey());
-                default:
-                    break;
+            if (statistic == Statistic.MINE_BLOCK) {
+                return Bukkit.getScoreboardCriteria("minecraft.mined:minecraft." + material.getKey().getKey());
             }
         } else if (type == Type.ITEM) {
-            switch (statistic) {
-                case BREAK_ITEM:
-                    return Bukkit.getScoreboardCriteria("minecraft.broken:minecraft." + material.getKey().getKey());
-                case CRAFT_ITEM:
-                    return Bukkit.getScoreboardCriteria("minecraft.crafted:minecraft." + material.getKey().getKey());
-                case USE_ITEM:
-                    return Bukkit.getScoreboardCriteria("minecraft.used:minecraft." + material.getKey().getKey());
-                case PICKUP:
-                    return Bukkit.getScoreboardCriteria("minecraft.picked_up:minecraft." + material.getKey().getKey());
-                case DROP:
-                    return Bukkit.getScoreboardCriteria("minecraft.dropped:minecraft." + material.getKey().getKey());
-                default:
-                    break;
+            if (statistic == Statistic.BREAK_ITEM) {
+                return Bukkit.getScoreboardCriteria("minecraft.broken:minecraft." + material.getKey().getKey());
+            } else if (statistic == Statistic.CRAFT_ITEM) {
+                return Bukkit.getScoreboardCriteria("minecraft.crafted:minecraft." + material.getKey().getKey());
+            } else if (statistic == Statistic.USE_ITEM) {
+                return Bukkit.getScoreboardCriteria("minecraft.used:minecraft." + material.getKey().getKey());
+            } else if (statistic == Statistic.PICKUP) {
+                return Bukkit.getScoreboardCriteria("minecraft.picked_up:minecraft." + material.getKey().getKey());
+            } else if (statistic == Statistic.DROP) {
+                return Bukkit.getScoreboardCriteria("minecraft.dropped:minecraft." + material.getKey().getKey());
             }
         }
 
@@ -309,13 +303,10 @@ public interface Criteria {
         Preconditions.checkArgument(entityType != null, "entityType must not be null");
         Preconditions.checkArgument(statistic.getType() == Type.ENTITY, "statistic type must be ENTITY, given %s", statistic.getType());
 
-        switch (statistic) {
-            case KILL_ENTITY:
-                return Bukkit.getScoreboardCriteria("minecraft.killed:minecraft." + entityType.getKey().getKey());
-            case ENTITY_KILLED_BY:
-                return Bukkit.getScoreboardCriteria("minecraft.killed_by:minecraft." + entityType.getKey().getKey());
-            default:
-                break;
+        if (statistic == Statistic.KILL_ENTITY) {
+            return Bukkit.getScoreboardCriteria("minecraft.killed:minecraft." + entityType.getKey().getKey());
+        } else if (statistic == Statistic.ENTITY_KILLED_BY) {
+            return Bukkit.getScoreboardCriteria("minecraft.killed_by:minecraft." + entityType.getKey().getKey());
         }
 
         return statistic(statistic); // Fallback to a regular statistic

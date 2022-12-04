@@ -2,9 +2,10 @@ package org.bukkit;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
+import org.bukkit.support.AbstractTestingBase;
 import org.junit.Test;
 
-public class MaterialTest {
+public class MaterialTest extends AbstractTestingBase {
 
     @Test
     public void getByNameNull() {

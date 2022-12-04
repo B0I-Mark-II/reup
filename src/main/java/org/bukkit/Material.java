@@ -5,6 +5,7 @@ import com.google.common.collect.Multimap;
 import java.util.function.Consumer;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.block.Block;
 import org.bukkit.block.BlockType;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.inventory.CreativeCategory;
