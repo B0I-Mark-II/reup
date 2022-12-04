@@ -15,6 +15,8 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Frog;
 import org.bukkit.entity.Villager;
 import org.bukkit.entity.memory.MemoryKey;
+import org.bukkit.generator.structure.Structure;
+import org.bukkit.generator.structure.StructureType;
 import org.bukkit.loot.LootTables;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
@@ -116,6 +118,18 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
      * @see Statistic
      */
     Registry<Statistic> STATISTIC = Objects.requireNonNull(Bukkit.getRegistry(Statistic.class), "No registry present for Statistic. This is a bug.");
+    /**
+     * Server structures.
+     *
+     * @see Structure
+     */
+    Registry<Structure> STRUCTURE = Bukkit.getRegistry(Structure.class);
+    /**
+     * Server structure types.
+     *
+     * @see StructureType
+     */
+    Registry<StructureType> STRUCTURE_TYPE = Bukkit.getRegistry(StructureType.class);
     /**
      * Sound keys.
      *

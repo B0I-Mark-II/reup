@@ -5,12 +5,30 @@ import com.google.common.collect.Lists;
 import org.bukkit.util.OldEnum;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Represents a fluid type.
+ */
 public abstract class Fluid extends OldEnum<Fluid> implements Keyed {
 
+    /**
+     * Empty.
+     */
     public static final Fluid EMPTY = getFluid("empty");
+    /**
+     * Stationary water.
+     */
     public static final Fluid WATER = getFluid("water");
+    /**
+     * Flowing water.
+     */
     public static final Fluid FLOWING_WATER = getFluid("flowing_water");
+    /**
+     * Stationary lava.
+     */
     public static final Fluid LAVA = getFluid("lava");
+    /**
+     * Flowing lava.
+     */
     public static final Fluid FLOWING_LAVA = getFluid("flowing_lava");
 
     @NotNull

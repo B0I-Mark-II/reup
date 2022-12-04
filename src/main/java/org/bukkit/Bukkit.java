@@ -47,6 +47,7 @@ import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.messaging.Messenger;
 import org.bukkit.profile.PlayerProfile;
 import org.bukkit.scheduler.BukkitScheduler;
+import org.bukkit.scoreboard.Criteria;
 import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.structure.StructureManager;
 import org.bukkit.util.CachedServerIcon;
@@ -1008,6 +1009,26 @@ public final class Bukkit {
     }
 
     /**
+     * Gets whether the server should send a preview of the player's chat
+     * message to the client when the player sends a message
+     *
+     * @return true if the server should send a preview, false otherwise
+     */
+    public static boolean shouldSendChatPreviews() {
+        return server.shouldSendChatPreviews();
+    }
+
+    /**
+     * Gets whether the server only allow players with Mojang-signed public key
+     * to join
+     *
+     * @return true if only Mojang-signed players can join, false otherwise
+     */
+    public static boolean isEnforcingSecureProfiles() {
+        return server.isEnforcingSecureProfiles();
+    }
+
+    /**
      * Gets whether the Server hide online players in server status.
      *
      * @return true if the server hide online players, false otherwise
@@ -1369,6 +1390,17 @@ public final class Bukkit {
     }
 
     /**
+     * Gets the amount of consecutive neighbor updates before skipping
+     * additional ones.
+     *
+     * @return the amount of consecutive neighbor updates, if the value is
+     * negative then the limit it's not used
+     */
+    public static int getMaxChainedNeighborUpdates() {
+        return server.getMaxChainedNeighborUpdates();
+    }
+
+    /**
      * Gets user-specified limit for number of monsters that can spawn in a
      * chunk.
      *
@@ -1520,6 +1552,18 @@ public final class Bukkit {
     @Nullable
     public static ScoreboardManager getScoreboardManager() {
         return server.getScoreboardManager();
+    }
+
+    /**
+     * Get (or create) a new {@link Criteria} by its name.
+     *
+     * @param name the criteria name
+     * @return the criteria
+     * @see Criteria Criteria for a list of constants
+     */
+    @NotNull
+    public static Criteria getScoreboardCriteria(@NotNull String name) {
+        return server.getScoreboardCriteria(name);
     }
 
     /**
@@ -1877,8 +1921,8 @@ public final class Bukkit {
      * <br>
      * If no registry is present for the given class null will be returned.
      * <br>
-     * Depending on the implementation not every registry present in {@link Registry}
-     * will be returned by this method.
+     * Depending on the implementation not every registry present in
+     * {@link Registry} will be returned by this method.
      *
      * @param tClass of the registry to get
      * @param <T> type of the registry

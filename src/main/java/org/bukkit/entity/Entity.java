@@ -7,6 +7,7 @@ import org.bukkit.EntityEffect;
 import org.bukkit.Location;
 import org.bukkit.Nameable;
 import org.bukkit.Server;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.PistonMoveReaction;
@@ -448,6 +449,32 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
     public EntityType getType();
 
     /**
+     * Get the {@link Sound} this entity makes while swimming.
+     *
+     * @return the swimming sound
+     */
+    @NotNull
+    public Sound getSwimSound();
+
+    /**
+     * Get the {@link Sound} this entity makes when splashing in water. For most
+     * entities, this is just {@link Sound#ENTITY_GENERIC_SPLASH}.
+     *
+     * @return the splash sound
+     */
+    @NotNull
+    public Sound getSwimSplashSound();
+
+    /**
+     * Get the {@link Sound} this entity makes when splashing in water at high
+     * speeds. For most entities, this is just {@link Sound#ENTITY_GENERIC_SPLASH}.
+     *
+     * @return the splash sound
+     */
+    @NotNull
+    public Sound getSwimHighSpeedSplashSound();
+
+    /**
      * Returns whether this entity is inside a vehicle.
      *
      * @return True if the entity is in a vehicle.
@@ -464,7 +491,7 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
     public boolean leaveVehicle();
 
     /**
-     * Get the vehicle that this player is inside. If there is no vehicle,
+     * Get the vehicle that this entity is inside. If there is no vehicle,
      * null will be returned.
      *
      * @return The current vehicle.

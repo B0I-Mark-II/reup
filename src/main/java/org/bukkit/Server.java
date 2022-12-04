@@ -48,6 +48,7 @@ import org.bukkit.plugin.messaging.Messenger;
 import org.bukkit.plugin.messaging.PluginMessageRecipient;
 import org.bukkit.profile.PlayerProfile;
 import org.bukkit.scheduler.BukkitScheduler;
+import org.bukkit.scoreboard.Criteria;
 import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.structure.StructureManager;
 import org.bukkit.util.CachedServerIcon;
@@ -854,6 +855,22 @@ public interface Server extends PluginMessageRecipient {
     public void setSpawnRadius(int value);
 
     /**
+     * Gets whether the server should send a preview of the player's chat
+     * message to the client when the player types a message
+     *
+     * @return true if the server should send a preview, false otherwise
+     */
+    public boolean shouldSendChatPreviews();
+
+    /**
+     * Gets whether the server only allow players with Mojang-signed public key
+     * to join
+     *
+     * @return true if only Mojang-signed players can join, false otherwise
+     */
+    public boolean isEnforcingSecureProfiles();
+
+    /**
      * Gets whether the Server hide online players in server status.
      *
      * @return true if the server hide online players, false otherwise
@@ -1157,6 +1174,15 @@ public interface Server extends PluginMessageRecipient {
     Merchant createMerchant(@Nullable String title);
 
     /**
+     * Gets the amount of consecutive neighbor updates before skipping
+     * additional ones.
+     *
+     * @return the amount of consecutive neighbor updates, if the value is
+     * negative then the limit it's not used
+     */
+    int getMaxChainedNeighborUpdates();
+
+    /**
      * Gets user-specified limit for number of monsters that can spawn in a
      * chunk.
      *
@@ -1282,6 +1308,16 @@ public interface Server extends PluginMessageRecipient {
      */
     @Nullable
     ScoreboardManager getScoreboardManager();
+
+    /**
+     * Get (or create) a new {@link Criteria} by its name.
+     *
+     * @param name the criteria name
+     * @return the criteria
+     * @see Criteria Criteria for a list of constants
+     */
+    @NotNull
+    Criteria getScoreboardCriteria(@NotNull String name);
 
     /**
      * Gets an instance of the server's default server-icon.
@@ -1595,8 +1631,8 @@ public interface Server extends PluginMessageRecipient {
      * <br>
      * If no registry is present for the given class null will be returned.
      * <br>
-     * Depending on the implementation not every registry present in {@link Registry}
-     * will be returned by this method.
+     * Depending on the implementation not every registry present in
+     * {@link Registry} will be returned by this method.
      *
      * @param tClass of the registry to get
      * @param <T> type of the registry
