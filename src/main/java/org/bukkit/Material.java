@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * An interface of all material IDs accepted by the official server and client
  */
-public interface Material extends Keyed, Comparable<Material> {
+public interface Material extends Keyed, Comparable<Material>, Translatable {
     //<editor-fold desc="Materials" defaultstate="collapsed">
     Material AIR = getMaterial("air");
     Material STONE = getMaterial("stone");
@@ -2767,4 +2767,50 @@ public interface Material extends Keyed, Comparable<Material> {
      */
     @Deprecated
     int ordinal();
+
+    /**
+     * Get the translation key of the item or block associated with this
+     * material.
+     *
+     * If this material has both an item and a block form, the item form is
+     * used.
+     *
+     * @return the translation key of the item or block associated with this
+     * material
+     * @see #getBlockTranslationKey()
+     * @see #getItemTranslationKey()
+     */
+    @Override
+    @NotNull
+    public String getTranslationKey() {
+        if (this.isItem()) {
+            return Bukkit.getUnsafe().getItemTranslationKey(this);
+        } else {
+            return Bukkit.getUnsafe().getBlockTranslationKey(this);
+        }
+    }
+
+    /**
+     * Get the translation key of the block associated with this material, or
+     * null if this material does not have an associated block.
+     *
+     * @return the translation key of the block associated with this material,
+     * or null if this material does not have an associated block
+     */
+    @Nullable
+    public String getBlockTranslationKey() {
+        return Bukkit.getUnsafe().getBlockTranslationKey(this);
+    }
+
+    /**
+     * Get the translation key of the item associated with this material, or
+     * null if this material does not have an associated item.
+     *
+     * @return the translation key of the item associated with this material, or
+     * null if this material does not have an associated item.
+     */
+    @Nullable
+    public String getItemTranslationKey() {
+        return Bukkit.getUnsafe().getItemTranslationKey(this);
+    }
 }

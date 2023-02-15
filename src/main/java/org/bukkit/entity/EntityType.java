@@ -4,10 +4,12 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.Lists;
+import org.bukkit.Bukkit;
 import org.bukkit.Keyed;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
+import org.bukkit.Translatable;
 import org.bukkit.World;
 import org.bukkit.entity.minecart.CommandMinecart;
 import org.bukkit.entity.minecart.ExplosiveMinecart;
@@ -23,7 +25,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class EntityType extends OldEnum<EntityType> implements Keyed {
+public abstract class EntityType extends OldEnum<EntityType> implements Keyed, Translatable {
     private static final BiMap<Short, EntityType> ID_MAP = HashBiMap.create();
 
     // These strings MUST match the strings in nms.EntityTypes and are case sensitive.
@@ -280,6 +282,7 @@ public abstract class EntityType extends OldEnum<EntityType> implements Keyed {
     public static final EntityType FROG = getEntityType("frog");
     public static final EntityType TADPOLE = getEntityType("tadpole");
     public static final EntityType WARDEN = getEntityType("warden");
+    public static final EntityType CAMEL = getEntityType("camel");
     /**
      * A fishing line and bobber.
      */
@@ -402,5 +405,11 @@ public abstract class EntityType extends OldEnum<EntityType> implements Keyed {
     @Deprecated
     public static EntityType[] values() {
         return Lists.newArrayList(Registry.ENTITY_TYPE).toArray(new EntityType[0]);
+    }
+
+    @Override
+    @NotNull
+    public String getTranslationKey() {
+        return Bukkit.getUnsafe().getTranslationKey(this);
     }
 }
