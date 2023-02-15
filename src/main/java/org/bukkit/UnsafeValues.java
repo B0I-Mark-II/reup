@@ -2,7 +2,6 @@ package org.bukkit;
 
 import org.bukkit.advancement.Advancement;
 import org.bukkit.block.data.BlockData;
-import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.InvalidPluginException;
@@ -75,12 +74,6 @@ public interface UnsafeValues {
 
     @Deprecated
     Material createLegacyMaterial(String name, int id, int maxStackSize, short maxDurability, Class<? extends MaterialData> materialData);
-
-    String getBlockTranslationKey(Material material);
-
-    String getItemTranslationKey(Material material);
-
-    String getTranslationKey(EntityType entityType);
 
     String getTranslationKey(ItemStack itemStack);
 }

@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.Lists;
-import org.bukkit.Bukkit;
 import org.bukkit.Keyed;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
@@ -405,11 +404,5 @@ public abstract class EntityType extends OldEnum<EntityType> implements Keyed, T
     @Deprecated
     public static EntityType[] values() {
         return Lists.newArrayList(Registry.ENTITY_TYPE).toArray(new EntityType[0]);
-    }
-
-    @Override
-    @NotNull
-    public String getTranslationKey() {
-        return Bukkit.getUnsafe().getTranslationKey(this);
     }
 }

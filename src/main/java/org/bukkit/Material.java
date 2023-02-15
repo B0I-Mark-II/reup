@@ -51,8 +51,10 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material ACACIA_PLANKS = getMaterial("acacia_planks");
     Material DARK_OAK_PLANKS = getMaterial("dark_oak_planks");
     Material MANGROVE_PLANKS = getMaterial("mangrove_planks");
+    Material BAMBOO_PLANKS = getMaterial("bamboo_planks");
     Material CRIMSON_PLANKS = getMaterial("crimson_planks");
     Material WARPED_PLANKS = getMaterial("warped_planks");
+    Material BAMBOO_MOSAIC = getMaterial("bamboo_mosaic");
     Material OAK_SAPLING = getMaterial("oak_sapling");
     Material SPRUCE_SAPLING = getMaterial("spruce_sapling");
     Material BIRCH_SAPLING = getMaterial("birch_sapling");
@@ -136,6 +138,7 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material MUDDY_MANGROVE_ROOTS = getMaterial("muddy_mangrove_roots");
     Material CRIMSON_STEM = getMaterial("crimson_stem");
     Material WARPED_STEM = getMaterial("warped_stem");
+    Material BAMBOO_BLOCK = getMaterial("bamboo_block");
     Material STRIPPED_OAK_LOG = getMaterial("stripped_oak_log");
     Material STRIPPED_SPRUCE_LOG = getMaterial("stripped_spruce_log");
     Material STRIPPED_BIRCH_LOG = getMaterial("stripped_birch_log");
@@ -154,6 +157,7 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material STRIPPED_MANGROVE_WOOD = getMaterial("stripped_mangrove_wood");
     Material STRIPPED_CRIMSON_HYPHAE = getMaterial("stripped_crimson_hyphae");
     Material STRIPPED_WARPED_HYPHAE = getMaterial("stripped_warped_hyphae");
+    Material STRIPPED_BAMBOO_BLOCK = getMaterial("stripped_bamboo_block");
     Material OAK_WOOD = getMaterial("oak_wood");
     Material SPRUCE_WOOD = getMaterial("spruce_wood");
     Material BIRCH_WOOD = getMaterial("birch_wood");
@@ -242,6 +246,8 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material ACACIA_SLAB = getMaterial("acacia_slab");
     Material DARK_OAK_SLAB = getMaterial("dark_oak_slab");
     Material MANGROVE_SLAB = getMaterial("mangrove_slab");
+    Material BAMBOO_SLAB = getMaterial("bamboo_slab");
+    Material BAMBOO_MOSAIC_SLAB = getMaterial("bamboo_mosaic_slab");
     Material CRIMSON_SLAB = getMaterial("crimson_slab");
     Material WARPED_SLAB = getMaterial("warped_slab");
     Material STONE_SLAB = getMaterial("stone_slab");
@@ -267,6 +273,7 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material SMOOTH_STONE = getMaterial("smooth_stone");
     Material BRICKS = getMaterial("bricks");
     Material BOOKSHELF = getMaterial("bookshelf");
+    Material CHISELED_BOOKSHELF = getMaterial("chiseled_bookshelf");
     Material MOSSY_COBBLESTONE = getMaterial("mossy_cobblestone");
     Material OBSIDIAN = getMaterial("obsidian");
     Material TORCH = getMaterial("torch");
@@ -296,6 +303,7 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material ACACIA_FENCE = getMaterial("acacia_fence");
     Material DARK_OAK_FENCE = getMaterial("dark_oak_fence");
     Material MANGROVE_FENCE = getMaterial("mangrove_fence");
+    Material BAMBOO_FENCE = getMaterial("bamboo_fence");
     Material CRIMSON_FENCE = getMaterial("crimson_fence");
     Material WARPED_FENCE = getMaterial("warped_fence");
     Material PUMPKIN = getMaterial("pumpkin");
@@ -366,6 +374,8 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material ACACIA_STAIRS = getMaterial("acacia_stairs");
     Material DARK_OAK_STAIRS = getMaterial("dark_oak_stairs");
     Material MANGROVE_STAIRS = getMaterial("mangrove_stairs");
+    Material BAMBOO_STAIRS = getMaterial("bamboo_stairs");
+    Material BAMBOO_MOSAIC_STAIRS = getMaterial("bamboo_mosaic_stairs");
     Material CRIMSON_STAIRS = getMaterial("crimson_stairs");
     Material WARPED_STAIRS = getMaterial("warped_stairs");
     Material COMMAND_BLOCK = getMaterial("command_block");
@@ -662,6 +672,7 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material ACACIA_BUTTON = getMaterial("acacia_button");
     Material DARK_OAK_BUTTON = getMaterial("dark_oak_button");
     Material MANGROVE_BUTTON = getMaterial("mangrove_button");
+    Material BAMBOO_BUTTON = getMaterial("bamboo_button");
     Material CRIMSON_BUTTON = getMaterial("crimson_button");
     Material WARPED_BUTTON = getMaterial("warped_button");
     Material STONE_PRESSURE_PLATE = getMaterial("stone_pressure_plate");
@@ -675,6 +686,7 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material ACACIA_PRESSURE_PLATE = getMaterial("acacia_pressure_plate");
     Material DARK_OAK_PRESSURE_PLATE = getMaterial("dark_oak_pressure_plate");
     Material MANGROVE_PRESSURE_PLATE = getMaterial("mangrove_pressure_plate");
+    Material BAMBOO_PRESSURE_PLATE = getMaterial("bamboo_pressure_plate");
     Material CRIMSON_PRESSURE_PLATE = getMaterial("crimson_pressure_plate");
     Material WARPED_PRESSURE_PLATE = getMaterial("warped_pressure_plate");
     Material IRON_DOOR = getMaterial("iron_door");
@@ -685,6 +697,7 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material ACACIA_DOOR = getMaterial("acacia_door");
     Material DARK_OAK_DOOR = getMaterial("dark_oak_door");
     Material MANGROVE_DOOR = getMaterial("mangrove_door");
+    Material BAMBOO_DOOR = getMaterial("bamboo_door");
     Material CRIMSON_DOOR = getMaterial("crimson_door");
     Material WARPED_DOOR = getMaterial("warped_door");
     Material IRON_TRAPDOOR = getMaterial("iron_trapdoor");
@@ -695,6 +708,7 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material ACACIA_TRAPDOOR = getMaterial("acacia_trapdoor");
     Material DARK_OAK_TRAPDOOR = getMaterial("dark_oak_trapdoor");
     Material MANGROVE_TRAPDOOR = getMaterial("mangrove_trapdoor");
+    Material BAMBOO_TRAPDOOR = getMaterial("bamboo_trapdoor");
     Material CRIMSON_TRAPDOOR = getMaterial("crimson_trapdoor");
     Material WARPED_TRAPDOOR = getMaterial("warped_trapdoor");
     Material OAK_FENCE_GATE = getMaterial("oak_fence_gate");
@@ -704,6 +718,7 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material ACACIA_FENCE_GATE = getMaterial("acacia_fence_gate");
     Material DARK_OAK_FENCE_GATE = getMaterial("dark_oak_fence_gate");
     Material MANGROVE_FENCE_GATE = getMaterial("mangrove_fence_gate");
+    Material BAMBOO_FENCE_GATE = getMaterial("bamboo_fence_gate");
     Material CRIMSON_FENCE_GATE = getMaterial("crimson_fence_gate");
     Material WARPED_FENCE_GATE = getMaterial("warped_fence_gate");
     Material POWERED_RAIL = getMaterial("powered_rail");
@@ -733,6 +748,8 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material DARK_OAK_CHEST_BOAT = getMaterial("dark_oak_chest_boat");
     Material MANGROVE_BOAT = getMaterial("mangrove_boat");
     Material MANGROVE_CHEST_BOAT = getMaterial("mangrove_chest_boat");
+    Material BAMBOO_RAFT = getMaterial("bamboo_raft");
+    Material BAMBOO_CHEST_RAFT = getMaterial("bamboo_chest_raft");
     Material STRUCTURE_BLOCK = getMaterial("structure_block");
     Material JIGSAW = getMaterial("jigsaw");
     Material TURTLE_HELMET = getMaterial("turtle_helmet");
@@ -832,8 +849,19 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material ACACIA_SIGN = getMaterial("acacia_sign");
     Material DARK_OAK_SIGN = getMaterial("dark_oak_sign");
     Material MANGROVE_SIGN = getMaterial("mangrove_sign");
+    Material BAMBOO_SIGN = getMaterial("bamboo_sign");
     Material CRIMSON_SIGN = getMaterial("crimson_sign");
     Material WARPED_SIGN = getMaterial("warped_sign");
+    Material OAK_HANGING_SIGN = getMaterial("oak_hanging_sign");
+    Material SPRUCE_HANGING_SIGN = getMaterial("spruce_hanging_sign");
+    Material BIRCH_HANGING_SIGN = getMaterial("birch_hanging_sign");
+    Material JUNGLE_HANGING_SIGN = getMaterial("jungle_hanging_sign");
+    Material ACACIA_HANGING_SIGN = getMaterial("acacia_hanging_sign");
+    Material DARK_OAK_HANGING_SIGN = getMaterial("dark_oak_hanging_sign");
+    Material MANGROVE_HANGING_SIGN = getMaterial("mangrove_hanging_sign");
+    Material BAMBOO_HANGING_SIGN = getMaterial("bamboo_hanging_sign");
+    Material CRIMSON_HANGING_SIGN = getMaterial("crimson_hanging_sign");
+    Material WARPED_HANGING_SIGN = getMaterial("warped_hanging_sign");
     Material BUCKET = getMaterial("bucket");
     Material WATER_BUCKET = getMaterial("water_bucket");
     Material LAVA_BUCKET = getMaterial("lava_bucket");
@@ -939,6 +967,7 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material BEE_SPAWN_EGG = getMaterial("bee_spawn_egg");
     Material BLAZE_SPAWN_EGG = getMaterial("blaze_spawn_egg");
     Material CAT_SPAWN_EGG = getMaterial("cat_spawn_egg");
+    Material CAMEL_SPAWN_EGG = getMaterial("camel_spawn_egg");
     Material CAVE_SPIDER_SPAWN_EGG = getMaterial("cave_spider_spawn_egg");
     Material CHICKEN_SPAWN_EGG = getMaterial("chicken_spawn_egg");
     Material COD_SPAWN_EGG = getMaterial("cod_spawn_egg");
@@ -948,6 +977,7 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material DONKEY_SPAWN_EGG = getMaterial("donkey_spawn_egg");
     Material DROWNED_SPAWN_EGG = getMaterial("drowned_spawn_egg");
     Material ELDER_GUARDIAN_SPAWN_EGG = getMaterial("elder_guardian_spawn_egg");
+    Material ENDER_DRAGON_SPAWN_EGG = getMaterial("ender_dragon_spawn_egg");
     Material ENDERMAN_SPAWN_EGG = getMaterial("enderman_spawn_egg");
     Material ENDERMITE_SPAWN_EGG = getMaterial("endermite_spawn_egg");
     Material EVOKER_SPAWN_EGG = getMaterial("evoker_spawn_egg");
@@ -960,6 +990,7 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material HOGLIN_SPAWN_EGG = getMaterial("hoglin_spawn_egg");
     Material HORSE_SPAWN_EGG = getMaterial("horse_spawn_egg");
     Material HUSK_SPAWN_EGG = getMaterial("husk_spawn_egg");
+    Material IRON_GOLEM_SPAWN_EGG = getMaterial("iron_golem_spawn_egg");
     Material LLAMA_SPAWN_EGG = getMaterial("llama_spawn_egg");
     Material MAGMA_CUBE_SPAWN_EGG = getMaterial("magma_cube_spawn_egg");
     Material MOOSHROOM_SPAWN_EGG = getMaterial("mooshroom_spawn_egg");
@@ -983,6 +1014,7 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material SKELETON_SPAWN_EGG = getMaterial("skeleton_spawn_egg");
     Material SKELETON_HORSE_SPAWN_EGG = getMaterial("skeleton_horse_spawn_egg");
     Material SLIME_SPAWN_EGG = getMaterial("slime_spawn_egg");
+    Material SNOW_GOLEM_SPAWN_EGG = getMaterial("snow_golem_spawn_egg");
     Material SPIDER_SPAWN_EGG = getMaterial("spider_spawn_egg");
     Material SQUID_SPAWN_EGG = getMaterial("squid_spawn_egg");
     Material STRAY_SPAWN_EGG = getMaterial("stray_spawn_egg");
@@ -997,6 +1029,7 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material WANDERING_TRADER_SPAWN_EGG = getMaterial("wandering_trader_spawn_egg");
     Material WARDEN_SPAWN_EGG = getMaterial("warden_spawn_egg");
     Material WITCH_SPAWN_EGG = getMaterial("witch_spawn_egg");
+    Material WITHER_SPAWN_EGG = getMaterial("wither_spawn_egg");
     Material WITHER_SKELETON_SPAWN_EGG = getMaterial("wither_skeleton_spawn_egg");
     Material WOLF_SPAWN_EGG = getMaterial("wolf_spawn_egg");
     Material ZOGLIN_SPAWN_EGG = getMaterial("zoglin_spawn_egg");
@@ -1023,6 +1056,7 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material ZOMBIE_HEAD = getMaterial("zombie_head");
     Material CREEPER_HEAD = getMaterial("creeper_head");
     Material DRAGON_HEAD = getMaterial("dragon_head");
+    Material PIGLIN_HEAD = getMaterial("piglin_head");
     Material NETHER_STAR = getMaterial("nether_star");
     Material PUMPKIN_PIE = getMaterial("pumpkin_pie");
     Material FIREWORK_ROCKET = getMaterial("firework_rocket");
@@ -1189,6 +1223,17 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material JUNGLE_WALL_SIGN = getMaterial("jungle_wall_sign");
     Material DARK_OAK_WALL_SIGN = getMaterial("dark_oak_wall_sign");
     Material MANGROVE_WALL_SIGN = getMaterial("mangrove_wall_sign");
+    Material BAMBOO_WALL_SIGN = getMaterial("bamboo_wall_sign");
+    Material OAK_WALL_HANGING_SIGN = getMaterial("oak_wall_hanging_sign");
+    Material SPRUCE_WALL_HANGING_SIGN = getMaterial("spruce_wall_hanging_sign");
+    Material BIRCH_WALL_HANGING_SIGN = getMaterial("birch_wall_hanging_sign");
+    Material ACACIA_WALL_HANGING_SIGN = getMaterial("acacia_wall_hanging_sign");
+    Material JUNGLE_WALL_HANGING_SIGN = getMaterial("jungle_wall_hanging_sign");
+    Material DARK_OAK_WALL_HANGING_SIGN = getMaterial("dark_oak_wall_hanging_sign");
+    Material MANGROVE_WALL_HANGING_SIGN = getMaterial("mangrove_wall_hanging_sign");
+    Material CRIMSON_WALL_HANGING_SIGN = getMaterial("crimson_wall_hanging_sign");
+    Material WARPED_WALL_HANGING_SIGN = getMaterial("warped_wall_hanging_sign");
+    Material BAMBOO_WALL_HANGING_SIGN = getMaterial("bamboo_wall_hanging_sign");
     Material REDSTONE_WALL_TORCH = getMaterial("redstone_wall_torch");
     Material SOUL_WALL_TORCH = getMaterial("soul_wall_torch");
     Material NETHER_PORTAL = getMaterial("nether_portal");
@@ -1235,6 +1280,7 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material PLAYER_WALL_HEAD = getMaterial("player_wall_head");
     Material CREEPER_WALL_HEAD = getMaterial("creeper_wall_head");
     Material DRAGON_WALL_HEAD = getMaterial("dragon_wall_head");
+    Material PIGLIN_WALL_HEAD = getMaterial("piglin_wall_head");
     Material WHITE_WALL_BANNER = getMaterial("white_wall_banner");
     Material ORANGE_WALL_BANNER = getMaterial("orange_wall_banner");
     Material MAGENTA_WALL_BANNER = getMaterial("magenta_wall_banner");
@@ -2782,13 +2828,7 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
      */
     @Override
     @NotNull
-    public String getTranslationKey() {
-        if (this.isItem()) {
-            return Bukkit.getUnsafe().getItemTranslationKey(this);
-        } else {
-            return Bukkit.getUnsafe().getBlockTranslationKey(this);
-        }
-    }
+    String getTranslationKey();
 
     /**
      * Get the translation key of the block associated with this material, or
@@ -2796,11 +2836,13 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
      *
      * @return the translation key of the block associated with this material,
      * or null if this material does not have an associated block
+     * @see Material#asBlockType()
+     * @see ItemType#getBlockTranslationKey()
+     * @deprecated Can only get block translation key from BlockType
      */
     @Nullable
-    public String getBlockTranslationKey() {
-        return Bukkit.getUnsafe().getBlockTranslationKey(this);
-    }
+    @Deprecated
+    String getBlockTranslationKey();
 
     /**
      * Get the translation key of the item associated with this material, or
@@ -2808,9 +2850,11 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
      *
      * @return the translation key of the item associated with this material, or
      * null if this material does not have an associated item.
+     * @see Material#asItemType()
+     * @see ItemType#getItemTranslationKey()
+     * @deprecated Can only get item translation key from ItemType
      */
     @Nullable
-    public String getItemTranslationKey() {
-        return Bukkit.getUnsafe().getItemTranslationKey(this);
-    }
+    @Deprecated
+    String getItemTranslationKey();
 }

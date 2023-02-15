@@ -40,8 +40,10 @@ public interface ItemType extends Material {
     ItemType ACACIA_PLANKS = asItemType(Material.ACACIA_PLANKS);
     ItemType DARK_OAK_PLANKS = asItemType(Material.DARK_OAK_PLANKS);
     ItemType MANGROVE_PLANKS = asItemType(Material.MANGROVE_PLANKS);
+    ItemType BAMBOO_PLANKS = asItemType(Material.BAMBOO_PLANKS);
     ItemType CRIMSON_PLANKS = asItemType(Material.CRIMSON_PLANKS);
     ItemType WARPED_PLANKS = asItemType(Material.WARPED_PLANKS);
+    ItemType BAMBOO_MOSAIC = asItemType(Material.BAMBOO_MOSAIC);
     ItemType OAK_SAPLING = asItemType(Material.OAK_SAPLING);
     ItemType SPRUCE_SAPLING = asItemType(Material.SPRUCE_SAPLING);
     ItemType BIRCH_SAPLING = asItemType(Material.BIRCH_SAPLING);
@@ -125,6 +127,7 @@ public interface ItemType extends Material {
     ItemType MUDDY_MANGROVE_ROOTS = asItemType(Material.MUDDY_MANGROVE_ROOTS);
     ItemType CRIMSON_STEM = asItemType(Material.CRIMSON_STEM);
     ItemType WARPED_STEM = asItemType(Material.WARPED_STEM);
+    ItemType BAMBOO_BLOCK = asItemType(Material.BAMBOO_BLOCK);
     ItemType STRIPPED_OAK_LOG = asItemType(Material.STRIPPED_OAK_LOG);
     ItemType STRIPPED_SPRUCE_LOG = asItemType(Material.STRIPPED_SPRUCE_LOG);
     ItemType STRIPPED_BIRCH_LOG = asItemType(Material.STRIPPED_BIRCH_LOG);
@@ -143,6 +146,7 @@ public interface ItemType extends Material {
     ItemType STRIPPED_MANGROVE_WOOD = asItemType(Material.STRIPPED_MANGROVE_WOOD);
     ItemType STRIPPED_CRIMSON_HYPHAE = asItemType(Material.STRIPPED_CRIMSON_HYPHAE);
     ItemType STRIPPED_WARPED_HYPHAE = asItemType(Material.STRIPPED_WARPED_HYPHAE);
+    ItemType STRIPPED_BAMBOO_BLOCK = asItemType(Material.STRIPPED_BAMBOO_BLOCK);
     ItemType OAK_WOOD = asItemType(Material.OAK_WOOD);
     ItemType SPRUCE_WOOD = asItemType(Material.SPRUCE_WOOD);
     ItemType BIRCH_WOOD = asItemType(Material.BIRCH_WOOD);
@@ -231,6 +235,8 @@ public interface ItemType extends Material {
     ItemType ACACIA_SLAB = asItemType(Material.ACACIA_SLAB);
     ItemType DARK_OAK_SLAB = asItemType(Material.DARK_OAK_SLAB);
     ItemType MANGROVE_SLAB = asItemType(Material.MANGROVE_SLAB);
+    ItemType BAMBOO_SLAB = asItemType(Material.BAMBOO_SLAB);
+    ItemType BAMBOO_MOSAIC_SLAB = asItemType(Material.BAMBOO_MOSAIC_SLAB);
     ItemType CRIMSON_SLAB = asItemType(Material.CRIMSON_SLAB);
     ItemType WARPED_SLAB = asItemType(Material.WARPED_SLAB);
     ItemType STONE_SLAB = asItemType(Material.STONE_SLAB);
@@ -256,6 +262,7 @@ public interface ItemType extends Material {
     ItemType SMOOTH_STONE = asItemType(Material.SMOOTH_STONE);
     ItemType BRICKS = asItemType(Material.BRICKS);
     ItemType BOOKSHELF = asItemType(Material.BOOKSHELF);
+    ItemType CHISELED_BOOKSHELF = asItemType(Material.CHISELED_BOOKSHELF);
     ItemType MOSSY_COBBLESTONE = asItemType(Material.MOSSY_COBBLESTONE);
     ItemType OBSIDIAN = asItemType(Material.OBSIDIAN);
     ItemType TORCH = asItemType(Material.TORCH);
@@ -285,6 +292,7 @@ public interface ItemType extends Material {
     ItemType ACACIA_FENCE = asItemType(Material.ACACIA_FENCE);
     ItemType DARK_OAK_FENCE = asItemType(Material.DARK_OAK_FENCE);
     ItemType MANGROVE_FENCE = asItemType(Material.MANGROVE_FENCE);
+    ItemType BAMBOO_FENCE = asItemType(Material.BAMBOO_FENCE);
     ItemType CRIMSON_FENCE = asItemType(Material.CRIMSON_FENCE);
     ItemType WARPED_FENCE = asItemType(Material.WARPED_FENCE);
     ItemType PUMPKIN = asItemType(Material.PUMPKIN);
@@ -355,6 +363,8 @@ public interface ItemType extends Material {
     ItemType ACACIA_STAIRS = asItemType(Material.ACACIA_STAIRS);
     ItemType DARK_OAK_STAIRS = asItemType(Material.DARK_OAK_STAIRS);
     ItemType MANGROVE_STAIRS = asItemType(Material.MANGROVE_STAIRS);
+    ItemType BAMBOO_STAIRS = asItemType(Material.BAMBOO_STAIRS);
+    ItemType BAMBOO_MOSAIC_STAIRS = asItemType(Material.BAMBOO_MOSAIC_STAIRS);
     ItemType CRIMSON_STAIRS = asItemType(Material.CRIMSON_STAIRS);
     ItemType WARPED_STAIRS = asItemType(Material.WARPED_STAIRS);
     ItemType COMMAND_BLOCK = asItemType(Material.COMMAND_BLOCK);
@@ -651,6 +661,7 @@ public interface ItemType extends Material {
     ItemType ACACIA_BUTTON = asItemType(Material.ACACIA_BUTTON);
     ItemType DARK_OAK_BUTTON = asItemType(Material.DARK_OAK_BUTTON);
     ItemType MANGROVE_BUTTON = asItemType(Material.MANGROVE_BUTTON);
+    ItemType BAMBOO_BUTTON = asItemType(Material.BAMBOO_BUTTON);
     ItemType CRIMSON_BUTTON = asItemType(Material.CRIMSON_BUTTON);
     ItemType WARPED_BUTTON = asItemType(Material.WARPED_BUTTON);
     ItemType STONE_PRESSURE_PLATE = asItemType(Material.STONE_PRESSURE_PLATE);
@@ -664,6 +675,7 @@ public interface ItemType extends Material {
     ItemType ACACIA_PRESSURE_PLATE = asItemType(Material.ACACIA_PRESSURE_PLATE);
     ItemType DARK_OAK_PRESSURE_PLATE = asItemType(Material.DARK_OAK_PRESSURE_PLATE);
     ItemType MANGROVE_PRESSURE_PLATE = asItemType(Material.MANGROVE_PRESSURE_PLATE);
+    ItemType BAMBOO_PRESSURE_PLATE = asItemType(Material.BAMBOO_PRESSURE_PLATE);
     ItemType CRIMSON_PRESSURE_PLATE = asItemType(Material.CRIMSON_PRESSURE_PLATE);
     ItemType WARPED_PRESSURE_PLATE = asItemType(Material.WARPED_PRESSURE_PLATE);
     ItemType IRON_DOOR = asItemType(Material.IRON_DOOR);
@@ -674,6 +686,7 @@ public interface ItemType extends Material {
     ItemType ACACIA_DOOR = asItemType(Material.ACACIA_DOOR);
     ItemType DARK_OAK_DOOR = asItemType(Material.DARK_OAK_DOOR);
     ItemType MANGROVE_DOOR = asItemType(Material.MANGROVE_DOOR);
+    ItemType BAMBOO_DOOR = asItemType(Material.BAMBOO_DOOR);
     ItemType CRIMSON_DOOR = asItemType(Material.CRIMSON_DOOR);
     ItemType WARPED_DOOR = asItemType(Material.WARPED_DOOR);
     ItemType IRON_TRAPDOOR = asItemType(Material.IRON_TRAPDOOR);
@@ -684,6 +697,7 @@ public interface ItemType extends Material {
     ItemType ACACIA_TRAPDOOR = asItemType(Material.ACACIA_TRAPDOOR);
     ItemType DARK_OAK_TRAPDOOR = asItemType(Material.DARK_OAK_TRAPDOOR);
     ItemType MANGROVE_TRAPDOOR = asItemType(Material.MANGROVE_TRAPDOOR);
+    ItemType BAMBOO_TRAPDOOR = asItemType(Material.BAMBOO_TRAPDOOR);
     ItemType CRIMSON_TRAPDOOR = asItemType(Material.CRIMSON_TRAPDOOR);
     ItemType WARPED_TRAPDOOR = asItemType(Material.WARPED_TRAPDOOR);
     ItemType OAK_FENCE_GATE = asItemType(Material.OAK_FENCE_GATE);
@@ -693,6 +707,7 @@ public interface ItemType extends Material {
     ItemType ACACIA_FENCE_GATE = asItemType(Material.ACACIA_FENCE_GATE);
     ItemType DARK_OAK_FENCE_GATE = asItemType(Material.DARK_OAK_FENCE_GATE);
     ItemType MANGROVE_FENCE_GATE = asItemType(Material.MANGROVE_FENCE_GATE);
+    ItemType BAMBOO_FENCE_GATE = asItemType(Material.BAMBOO_FENCE_GATE);
     ItemType CRIMSON_FENCE_GATE = asItemType(Material.CRIMSON_FENCE_GATE);
     ItemType WARPED_FENCE_GATE = asItemType(Material.WARPED_FENCE_GATE);
     ItemType POWERED_RAIL = asItemType(Material.POWERED_RAIL);
@@ -722,6 +737,8 @@ public interface ItemType extends Material {
     ItemType DARK_OAK_CHEST_BOAT = asItemType(Material.DARK_OAK_CHEST_BOAT);
     ItemType MANGROVE_BOAT = asItemType(Material.MANGROVE_BOAT);
     ItemType MANGROVE_CHEST_BOAT = asItemType(Material.MANGROVE_CHEST_BOAT);
+    ItemType BAMBOO_RAFT = asItemType(Material.BAMBOO_RAFT);
+    ItemType BAMBOO_CHEST_RAFT = asItemType(Material.BAMBOO_CHEST_RAFT);
     ItemType STRUCTURE_BLOCK = asItemType(Material.STRUCTURE_BLOCK);
     ItemType JIGSAW = asItemType(Material.JIGSAW);
     ItemType TURTLE_HELMET = asItemType(Material.TURTLE_HELMET);
@@ -821,8 +838,19 @@ public interface ItemType extends Material {
     ItemType ACACIA_SIGN = asItemType(Material.ACACIA_SIGN);
     ItemType DARK_OAK_SIGN = asItemType(Material.DARK_OAK_SIGN);
     ItemType MANGROVE_SIGN = asItemType(Material.MANGROVE_SIGN);
+    ItemType BAMBOO_SIGN = asItemType(Material.BAMBOO_SIGN);
     ItemType CRIMSON_SIGN = asItemType(Material.CRIMSON_SIGN);
     ItemType WARPED_SIGN = asItemType(Material.WARPED_SIGN);
+    ItemType OAK_HANGING_SIGN = asItemType(Material.OAK_HANGING_SIGN);
+    ItemType SPRUCE_HANGING_SIGN = asItemType(Material.SPRUCE_HANGING_SIGN);
+    ItemType BIRCH_HANGING_SIGN = asItemType(Material.BIRCH_HANGING_SIGN);
+    ItemType JUNGLE_HANGING_SIGN = asItemType(Material.JUNGLE_HANGING_SIGN);
+    ItemType ACACIA_HANGING_SIGN = asItemType(Material.ACACIA_HANGING_SIGN);
+    ItemType DARK_OAK_HANGING_SIGN = asItemType(Material.DARK_OAK_HANGING_SIGN);
+    ItemType MANGROVE_HANGING_SIGN = asItemType(Material.MANGROVE_HANGING_SIGN);
+    ItemType BAMBOO_HANGING_SIGN = asItemType(Material.BAMBOO_HANGING_SIGN);
+    ItemType CRIMSON_HANGING_SIGN = asItemType(Material.CRIMSON_HANGING_SIGN);
+    ItemType WARPED_HANGING_SIGN = asItemType(Material.WARPED_HANGING_SIGN);
     ItemType BUCKET = asItemType(Material.BUCKET);
     ItemType WATER_BUCKET = asItemType(Material.WATER_BUCKET);
     ItemType LAVA_BUCKET = asItemType(Material.LAVA_BUCKET);
@@ -928,6 +956,7 @@ public interface ItemType extends Material {
     ItemType BEE_SPAWN_EGG = asItemType(Material.BEE_SPAWN_EGG);
     ItemType BLAZE_SPAWN_EGG = asItemType(Material.BLAZE_SPAWN_EGG);
     ItemType CAT_SPAWN_EGG = asItemType(Material.CAT_SPAWN_EGG);
+    ItemType CAMEL_SPAWN_EGG = asItemType(Material.CAMEL_SPAWN_EGG);
     ItemType CAVE_SPIDER_SPAWN_EGG = asItemType(Material.CAVE_SPIDER_SPAWN_EGG);
     ItemType CHICKEN_SPAWN_EGG = asItemType(Material.CHICKEN_SPAWN_EGG);
     ItemType COD_SPAWN_EGG = asItemType(Material.COD_SPAWN_EGG);
@@ -937,6 +966,7 @@ public interface ItemType extends Material {
     ItemType DONKEY_SPAWN_EGG = asItemType(Material.DONKEY_SPAWN_EGG);
     ItemType DROWNED_SPAWN_EGG = asItemType(Material.DROWNED_SPAWN_EGG);
     ItemType ELDER_GUARDIAN_SPAWN_EGG = asItemType(Material.ELDER_GUARDIAN_SPAWN_EGG);
+    ItemType ENDER_DRAGON_SPAWN_EGG = asItemType(Material.ENDER_DRAGON_SPAWN_EGG);
     ItemType ENDERMAN_SPAWN_EGG = asItemType(Material.ENDERMAN_SPAWN_EGG);
     ItemType ENDERMITE_SPAWN_EGG = asItemType(Material.ENDERMITE_SPAWN_EGG);
     ItemType EVOKER_SPAWN_EGG = asItemType(Material.EVOKER_SPAWN_EGG);
@@ -949,6 +979,7 @@ public interface ItemType extends Material {
     ItemType HOGLIN_SPAWN_EGG = asItemType(Material.HOGLIN_SPAWN_EGG);
     ItemType HORSE_SPAWN_EGG = asItemType(Material.HORSE_SPAWN_EGG);
     ItemType HUSK_SPAWN_EGG = asItemType(Material.HUSK_SPAWN_EGG);
+    ItemType IRON_GOLEM_SPAWN_EGG = asItemType(Material.IRON_GOLEM_SPAWN_EGG);
     ItemType LLAMA_SPAWN_EGG = asItemType(Material.LLAMA_SPAWN_EGG);
     ItemType MAGMA_CUBE_SPAWN_EGG = asItemType(Material.MAGMA_CUBE_SPAWN_EGG);
     ItemType MOOSHROOM_SPAWN_EGG = asItemType(Material.MOOSHROOM_SPAWN_EGG);
@@ -972,6 +1003,7 @@ public interface ItemType extends Material {
     ItemType SKELETON_SPAWN_EGG = asItemType(Material.SKELETON_SPAWN_EGG);
     ItemType SKELETON_HORSE_SPAWN_EGG = asItemType(Material.SKELETON_HORSE_SPAWN_EGG);
     ItemType SLIME_SPAWN_EGG = asItemType(Material.SLIME_SPAWN_EGG);
+    ItemType SNOW_GOLEM_SPAWN_EGG = asItemType(Material.SNOW_GOLEM_SPAWN_EGG);
     ItemType SPIDER_SPAWN_EGG = asItemType(Material.SPIDER_SPAWN_EGG);
     ItemType SQUID_SPAWN_EGG = asItemType(Material.SQUID_SPAWN_EGG);
     ItemType STRAY_SPAWN_EGG = asItemType(Material.STRAY_SPAWN_EGG);
@@ -986,6 +1018,7 @@ public interface ItemType extends Material {
     ItemType WANDERING_TRADER_SPAWN_EGG = asItemType(Material.WANDERING_TRADER_SPAWN_EGG);
     ItemType WARDEN_SPAWN_EGG = asItemType(Material.WARDEN_SPAWN_EGG);
     ItemType WITCH_SPAWN_EGG = asItemType(Material.WITCH_SPAWN_EGG);
+    ItemType WITHER_SPAWN_EGG = asItemType(Material.WITHER_SPAWN_EGG);
     ItemType WITHER_SKELETON_SPAWN_EGG = asItemType(Material.WITHER_SKELETON_SPAWN_EGG);
     ItemType WOLF_SPAWN_EGG = asItemType(Material.WOLF_SPAWN_EGG);
     ItemType ZOGLIN_SPAWN_EGG = asItemType(Material.ZOGLIN_SPAWN_EGG);
@@ -1012,6 +1045,7 @@ public interface ItemType extends Material {
     ItemType ZOMBIE_HEAD = asItemType(Material.ZOMBIE_HEAD);
     ItemType CREEPER_HEAD = asItemType(Material.CREEPER_HEAD);
     ItemType DRAGON_HEAD = asItemType(Material.DRAGON_HEAD);
+    ItemType PIGLIN_HEAD = asItemType(Material.PIGLIN_HEAD);
     ItemType NETHER_STAR = asItemType(Material.NETHER_STAR);
     ItemType PUMPKIN_PIE = asItemType(Material.PUMPKIN_PIE);
     ItemType FIREWORK_ROCKET = asItemType(Material.FIREWORK_ROCKET);
@@ -1249,4 +1283,14 @@ public interface ItemType extends Material {
      */
     @Nullable
     CreativeCategory getCreativeCategory();
+
+    /**
+     * Get the translation key of the item associated with this material, or
+     * null if this material does not have an associated item.
+     *
+     * @return the translation key of the item associated with this material, or
+     * null if this material does not have an associated item
+     */
+    @Nullable
+    String getItemTranslationKey();
 }
