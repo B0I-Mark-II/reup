@@ -165,6 +165,17 @@ public interface World extends RegionAccessor, WorldInfo, PluginMessageRecipient
     public Chunk getChunkAt(int x, int z);
 
     /**
+     * Gets the {@link Chunk} at the given coordinates
+     *
+     * @param x X-coordinate of the chunk
+     * @param z Z-coordinate of the chunk
+     * @param generate Whether the chunk should be fully generated or not
+     * @return Chunk at the given coordinates
+     */
+    @NotNull
+    public Chunk getChunkAt(int x, int z, boolean generate);
+
+    /**
      * Gets the {@link Chunk} at the given {@link Location}
      *
      * @param location Location of the chunk
@@ -1206,11 +1217,11 @@ public interface World extends RegionAccessor, WorldInfo, PluginMessageRecipient
 
     /**
      * Spawn a {@link FallingBlock} entity at the given {@link Location} of
-     * the specified {@link Material}. The material dictates what is falling.
+     * the specified {@link MaterialData}. The MaterialData dictates what is falling.
      * When the FallingBlock hits the ground, it will place that block.
      * <p>
      * The Material must be a block type, check with {@link Material#isBlock()
-     * material.isBlock()}. The Material may not be air.
+     * data.getItemType().isBlock()}. The Material may not be air.
      *
      * @param location The {@link Location} to spawn the FallingBlock
      * @param data The block data
@@ -1223,14 +1234,11 @@ public interface World extends RegionAccessor, WorldInfo, PluginMessageRecipient
 
     /**
      * Spawn a {@link FallingBlock} entity at the given {@link Location} of
-     * the specified {@link Material}. The material dictates what is falling.
+     * the specified {@link BlockData}. The BlockData dictates what is falling.
      * When the FallingBlock hits the ground, it will place that block.
-     * <p>
-     * The Material must be a block type, check with {@link Material#isBlock()
-     * material.isBlock()}. The Material may not be air.
      *
      * @param location The {@link Location} to spawn the FallingBlock
-     * @param data The block data
+     * @param data The {@link BlockData} of the FallingBlock to spawn
      * @return The spawned {@link FallingBlock} instance
      * @throws IllegalArgumentException if {@link Location} or {@link
      *     BlockData} are null

@@ -2,6 +2,7 @@ package org.bukkit;
 
 import java.util.Set;
 import org.bukkit.entity.EntityType;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -116,6 +117,12 @@ public interface Tag<T extends Keyed> extends Keyed {
      */
     Tag<Material> ACACIA_LOGS = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("acacia_logs"), Material.class);
     /**
+     * Vanilla block tag representing all cherry log and bark variants.
+     */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Tag<Material> CHERRY_LOGS = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("cherry_logs"), Material.class);
+    /**
      * Vanilla block tag representing all jungle log and bark variants.
      */
     Tag<Material> JUNGLE_LOGS = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("jungle_logs"), Material.class);
@@ -147,6 +154,10 @@ public interface Tag<T extends Keyed> extends Keyed {
      * Vanilla block tag representing all sand blocks.
      */
     Tag<Material> SAND = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("sand"), Material.class);
+    /**
+     * Vanilla block tag representing all blocks which smelt to glass in a furnace.
+     */
+    Tag<Material> SMELTS_TO_GLASS = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("smelts_to_glass"), Material.class);
     /**
      * Vanilla block tag representing all stairs.
      */
@@ -308,14 +319,20 @@ public interface Tag<T extends Keyed> extends Keyed {
     /**
      * Vanilla block tag representing all ceiling signs.
      */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     Tag<Material> CEILING_HANGING_SIGNS = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("ceiling_hanging_signs"), Material.class);
     /**
      * Vanilla block tag representing all wall hanging signs.
      */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     Tag<Material> WALL_HANGING_SIGNS = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("wall_hanging_signs"), Material.class);
     /**
      * Vanilla block tag representing all hanging signs.
      */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     Tag<Material> ALL_HANGING_SIGNS = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("all_hanging_signs"), Material.class);
     /**
      * Vanilla block tag representing all signs, regardless of type.
@@ -677,6 +694,12 @@ public interface Tag<T extends Keyed> extends Keyed {
      */
     Tag<Material> INVALID_SPAWN_INSIDE = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("invalid_spawn_inside"), Material.class);
     /**
+     * Vanilla block tag representing blocks which can be dug by sniffers.
+     */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Tag<Material> SNIFFER_DIGGABLE_BLOCK = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("sniffer_diggable_block"), Material.class);
+    /**
      * Key for the built in item registry.
      */
     String REGISTRY_ITEMS = "items";
@@ -762,6 +785,72 @@ public interface Tag<T extends Keyed> extends Keyed {
      */
     Tag<Material> ITEMS_CREEPER_IGNITERS = Bukkit.getTag(REGISTRY_ITEMS, NamespacedKey.minecraft("creeper_igniters"), Material.class);
     /**
+     * Vanilla item tag representing all items which modify note block sounds when placed on top.
+     */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Tag<Material> ITEMS_NOTE_BLOCK_TOP_INSTRUMENTS = Bukkit.getTag(REGISTRY_ITEMS, NamespacedKey.minecraft("noteblock_top_instruments"), Material.class);
+    /**
+     * Vanilla item tag representing all trimmable armor items.
+     */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Tag<Material> ITEMS_TRIMMABLE_ARMOR = Bukkit.getTag(REGISTRY_ITEMS, NamespacedKey.minecraft("trimmable_armor"), Material.class);
+    /**
+     * Vanilla item tag representing all materials which can be used for trimming armor.
+     */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Tag<Material> ITEMS_TRIM_MATERIALS = Bukkit.getTag(REGISTRY_ITEMS, NamespacedKey.minecraft("trim_materials"), Material.class);
+    /**
+     * Vanilla item tag representing all trimming templates.
+     */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Tag<Material> ITEMS_TRIM_TEMPLATES = Bukkit.getTag(REGISTRY_ITEMS, NamespacedKey.minecraft("trim_templates"), Material.class);
+    /**
+     * Vanilla item tag representing all food for sniffers.
+     */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Tag<Material> ITEMS_SNIFFER_FOOD = Bukkit.getTag(REGISTRY_ITEMS, NamespacedKey.minecraft("sniffer_food"), Material.class);
+    /**
+     * Vanilla item tag representing all decorated pot shards.
+     */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Tag<Material> ITEMS_DECORATED_POT_SHARDS = Bukkit.getTag(REGISTRY_ITEMS, NamespacedKey.minecraft("decorated_pot_shards"), Material.class);
+    /**
+     * Vanilla item tag representing all swords.
+     */
+    Tag<Material> ITEMS_SWORDS = Bukkit.getTag(REGISTRY_ITEMS, NamespacedKey.minecraft("swords"), Material.class);
+    /**
+     * Vanilla item tag representing all axes.
+     */
+    Tag<Material> ITEMS_AXES = Bukkit.getTag(REGISTRY_ITEMS, NamespacedKey.minecraft("axes"), Material.class);
+    /**
+     * Vanilla item tag representing all hoes.
+     */
+    Tag<Material> ITEMS_HOES = Bukkit.getTag(REGISTRY_ITEMS, NamespacedKey.minecraft("hoes"), Material.class);
+    /**
+     * Vanilla item tag representing all pickaxes.
+     */
+    Tag<Material> ITEMS_PICKAXES = Bukkit.getTag(REGISTRY_ITEMS, NamespacedKey.minecraft("pickaxes"), Material.class);
+    /**
+     * Vanilla item tag representing all shovels.
+     */
+    Tag<Material> ITEMS_SHOVELS = Bukkit.getTag(REGISTRY_ITEMS, NamespacedKey.minecraft("shovels"), Material.class);
+    /**
+     * Vanilla item tag representing all tools.
+     */
+    Tag<Material> ITEMS_TOOLS = Bukkit.getTag(REGISTRY_ITEMS, NamespacedKey.minecraft("tools"), Material.class);
+    /**
+     * Vanilla item tag representing all item which break decorated pots.
+     */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Tag<Material> ITEMS_BREAKS_DECORATED_POTS = Bukkit.getTag(REGISTRY_ITEMS, NamespacedKey.minecraft("breaks_decorated_pots"), Material.class);
+    /**
      * Vanilla item tag representing all items that confer freeze immunity on
      * the wearer.
      */
@@ -835,6 +924,14 @@ public interface Tag<T extends Keyed> extends Keyed {
      * Vanilla tag representing entities which can be eaten by frogs.
      */
     Tag<EntityType> ENTITY_TYPES_FROG_FOOD = Bukkit.getTag(REGISTRY_ENTITY_TYPES, NamespacedKey.minecraft("frog_food"), EntityType.class);
+    /**
+     * Vanilla tag representing entities which are immune from fall damage.
+     */
+    Tag<EntityType> ENTITY_TYPES_FALL_DAMAGE_IMMUNE = Bukkit.getTag(REGISTRY_ENTITY_TYPES, NamespacedKey.minecraft("fall_damage_immune"), EntityType.class);
+    /**
+     * Vanilla tag representing entities which are dismounted when underwater.
+     */
+    Tag<EntityType> ENTITY_TYPES_DISMOUNTS_UNDERWATER = Bukkit.getTag(REGISTRY_ENTITY_TYPES, NamespacedKey.minecraft("dismounts_underwater"), EntityType.class);
 
     /**
      * Returns whether or not this tag has an entry for the specified item.

@@ -2,6 +2,7 @@ package org.bukkit.entity;
 
 import java.net.InetSocketAddress;
 import java.util.Collection;
+import java.util.Map;
 import org.bukkit.DyeColor;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
@@ -25,6 +26,7 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.conversations.Conversable;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDropItemEvent;
+import org.bukkit.event.player.PlayerExpCooldownChangeEvent;
 import org.bukkit.event.player.PlayerResourcePackStatusEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -32,6 +34,7 @@ import org.bukkit.map.MapView;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.messaging.PluginMessageRecipient;
 import org.bukkit.scoreboard.Scoreboard;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -541,8 +544,8 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
     public void sendBlockChanges(@NotNull Collection<BlockState> blocks, boolean suppressLightUpdates);
 
     /**
-     * Send block damage. This fakes block break progress for a user at a
-     * certain location. This will not actually change the block's break
+     * Send block damage. This fakes block break progress at a certain location
+     * sourced by this player. This will not actually change the block's break
      * progress in any way.
      *
      * @param loc the location of the damaged block
@@ -552,15 +555,58 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
     public void sendBlockDamage(@NotNull Location loc, float progress);
 
     /**
-     * Send the equipment change of an entity. This fakes the equipment change
-     * of an entity for a user. This will not actually change the inventory of
-     * the specified entity in any way.
+     * Send block damage. This fakes block break progress at a certain location
+     * sourced by the provided entity. This will not actually change the block's
+     * break progress in any way.
+     * <p>
+     * At the same location for each unique damage source sent to the player, a
+     * separate damage overlay will be displayed with the given progress. This allows
+     * for block damage at different progress from multiple entities at once.
      *
-     * @param entity The entity that the player will see the change for
-     * @param slot The slot of the spoofed equipment change
-     * @param item The ItemStack to display for the player
+     * @param loc the location of the damaged block
+     * @param progress the progress from 0.0 - 1.0 where 0 is no damage and
+     * 1.0 is the most damaged
+     * @param source the entity to which the damage belongs
      */
-    public void sendEquipmentChange(@NotNull LivingEntity entity, @NotNull EquipmentSlot slot, @NotNull ItemStack item);
+    public void sendBlockDamage(@NotNull Location loc, float progress, @NotNull Entity source);
+
+    /**
+     * Send block damage. This fakes block break progress at a certain location
+     * sourced by the provided entity id. This will not actually change the block's
+     * break progress in any way.
+     * <p>
+     * At the same location for each unique damage source sent to the player, a
+     * separate damage overlay will be displayed with the given progress. This allows
+     * for block damage at different progress from multiple entities at once.
+     *
+     * @param loc the location of the damaged block
+     * @param progress the progress from 0.0 - 1.0 where 0 is no damage and
+     * 1.0 is the most damaged
+     * @param sourceId the entity id of the entity to which the damage belongs.
+     * Can be an id that does not associate directly with an existing or loaded entity.
+     */
+    public void sendBlockDamage(@NotNull Location loc, float progress, int sourceId);
+
+    /**
+     * Send an equipment change for the target entity. This will not
+     * actually change the entity's equipment in any way.
+     *
+     * @param entity the entity whose equipment to change
+     * @param slot the slot to change
+     * @param item the item to which the slot should be changed, or null to set
+     * it to air
+     */
+    public void sendEquipmentChange(@NotNull LivingEntity entity, @NotNull EquipmentSlot slot, @Nullable ItemStack item);
+
+    /**
+     * Send multiple equipment changes for the target entity. This will not
+     * actually change the entity's equipment in any way.
+     *
+     * @param entity the entity whose equipment to change
+     * @param items the slots to change, where the values are the items to which
+     * the slot should be changed. null values will set the slot to air
+     */
+    public void sendEquipmentChange(@NotNull LivingEntity entity, @NotNull Map<EquipmentSlot, ItemStack> items);
 
     /**
      * Send a sign change. This fakes a sign change packet for a user at
@@ -625,6 +671,47 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      * @param map The map to be sent
      */
     public void sendMap(@NotNull MapView map);
+
+    /**
+     * Send a hurt animation. This fakes incoming damage towards the player from
+     * the given yaw relative to the player's direction.
+     *
+     * @param yaw the yaw in degrees relative to the player's direction where 0
+     * is in front of the player, 90 is to the right, 180 is behind, and 270 is
+     * to the left
+     */
+    public void sendHurtAnimation(float yaw);
+
+    /**
+     * Add custom chat completion suggestions shown to the player while typing a
+     * message.
+     *
+     * @param completions the completions to send
+     */
+    public void addCustomChatCompletions(@NotNull Collection<String> completions);
+
+    /**
+     * Remove custom chat completion suggestions shown to the player while
+     * typing a message.
+     *
+     * Online player names cannot be removed with this method. This will affect
+     * only custom completions added by {@link #addCustomChatCompletions(Collection)}
+     * or {@link #setCustomChatCompletions(Collection)}.
+     *
+     * @param completions the completions to remove
+     */
+    public void removeCustomChatCompletions(@NotNull Collection<String> completions);
+
+    /**
+     * Set the list of chat completion suggestions shown to the player while
+     * typing a message.
+     * <p>
+     * If completions were set previously, this method will remove them all and
+     * replace them with the provided completions.
+     *
+     * @param completions the completions to set
+     */
+    public void setCustomChatCompletions(@NotNull Collection<String> completions);
 
     /**
      * Forces an update of the player's entire inventory.
@@ -715,6 +802,27 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      * by server conditions.
      */
     public void resetPlayerWeather();
+
+    /**
+     * Gets the player's cooldown between picking up experience orbs.
+     *
+     * @return The cooldown in ticks
+     */
+    public int getExpCooldown();
+
+    /**
+     * Sets the player's cooldown between picking up experience orbs..
+     *
+     * <strong>Note:</strong> Setting this to 0 allows the player to pick up
+     * instantly, but setting this to a negative value will cause the player to
+     * be unable to pick up xp-orbs.
+     *
+     * Calling this Method will result in {@link PlayerExpCooldownChangeEvent}
+     * being called.
+     *
+     * @param ticks The cooldown in ticks
+     */
+    public void setExpCooldown(int ticks);
 
     /**
      * Gives the player the amount of experience specified.
@@ -874,9 +982,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      *
      * @param plugin Plugin that wants to hide the entity
      * @param entity Entity to hide
-     * @deprecated draft API
+     * @apiNote draft API
      */
-    @Deprecated
+    @ApiStatus.Experimental
     public void hideEntity(@NotNull Plugin plugin, @NotNull Entity entity);
 
     /**
@@ -886,9 +994,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      *
      * @param plugin Plugin that wants to show the entity
      * @param entity Entity to show
-     * @deprecated draft API
+     * @apiNote draft API
      */
-    @Deprecated
+    @ApiStatus.Experimental
     public void showEntity(@NotNull Plugin plugin, @NotNull Entity entity);
 
     /**
@@ -897,9 +1005,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      * @param entity Entity to check
      * @return True if the provided entity is not being hidden from this
      *     player
-     * @deprecated draft API
+     * @apiNote draft API
      */
-    @Deprecated
+    @ApiStatus.Experimental
     public boolean canSee(@NotNull Entity entity);
 
     /**

@@ -19,6 +19,7 @@ import org.bukkit.metadata.Metadatable;
 import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -519,6 +520,32 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
      * @return if the custom name is displayed
      */
     public boolean isCustomNameVisible();
+
+    /**
+     * Sets whether or not this entity is visible by default.
+     *
+     * If this entity is not visible by default, then
+     * {@link Player#showEntity(org.bukkit.plugin.Plugin, org.bukkit.entity.Entity)}
+     * will need to be called before the entity is visible to a given player.
+     *
+     * @param visible default visibility status
+     * @apiNote draft API
+     */
+    @ApiStatus.Experimental
+    public void setVisibleByDefault(boolean visible);
+
+    /**
+     * Gets whether or not this entity is visible by default.
+     *
+     * If this entity is not visible by default, then
+     * {@link Player#showEntity(org.bukkit.plugin.Plugin, org.bukkit.entity.Entity)}
+     * will need to be called before the entity is visible to a given player.
+     *
+     * @return default visibility status
+     * @apiNote draft API
+     */
+    @ApiStatus.Experimental
+    public boolean isVisibleByDefault();
 
     /**
      * Sets whether the entity has a team colored (default: white) glow.

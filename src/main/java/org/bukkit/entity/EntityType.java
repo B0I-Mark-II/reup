@@ -6,6 +6,7 @@ import com.google.common.collect.HashBiMap;
 import com.google.common.collect.Lists;
 import org.bukkit.Keyed;
 import org.bukkit.Location;
+import org.bukkit.MinecraftExperimental;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 import org.bukkit.Translatable;
@@ -20,6 +21,7 @@ import org.bukkit.entity.minecart.StorageMinecart;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.OldEnum;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -281,7 +283,16 @@ public abstract class EntityType extends OldEnum<EntityType> implements Keyed, T
     public static final EntityType FROG = getEntityType("frog");
     public static final EntityType TADPOLE = getEntityType("tadpole");
     public static final EntityType WARDEN = getEntityType("warden");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     public static final EntityType CAMEL = getEntityType("camel");
+    public static final EntityType BLOCK_DISPLAY = getEntityType("block_display");
+    public static final EntityType INTERACTION = getEntityType("interaction");
+    public static final EntityType ITEM_DISPLAY = getEntityType("item_display");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    public static final EntityType SNIFFER = getEntityType("sniffer");
+    public static final EntityType TEXT_DISPLAY = getEntityType("text_display");
     /**
      * A fishing line and bobber.
      */
