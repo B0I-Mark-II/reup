@@ -2,6 +2,7 @@ package org.bukkit.block;
 
 import java.util.function.Consumer;
 import org.bukkit.Material;
+import org.bukkit.MinecraftExperimental;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.AnaloguePowerable;
 import org.bukkit.block.data.Bisected;
@@ -32,11 +33,13 @@ import org.bukkit.block.data.type.CaveVines;
 import org.bukkit.block.data.type.CaveVinesPlant;
 import org.bukkit.block.data.type.Chain;
 import org.bukkit.block.data.type.Chest;
+import org.bukkit.block.data.type.ChiseledBookshelf;
 import org.bukkit.block.data.type.Cocoa;
 import org.bukkit.block.data.type.CommandBlock;
 import org.bukkit.block.data.type.Comparator;
 import org.bukkit.block.data.type.CoralWallFan;
 import org.bukkit.block.data.type.DaylightDetector;
+import org.bukkit.block.data.type.DecoratedPot;
 import org.bukkit.block.data.type.Dispenser;
 import org.bukkit.block.data.type.Door;
 import org.bukkit.block.data.type.Dripleaf;
@@ -50,6 +53,7 @@ import org.bukkit.block.data.type.Gate;
 import org.bukkit.block.data.type.GlassPane;
 import org.bukkit.block.data.type.GlowLichen;
 import org.bukkit.block.data.type.Grindstone;
+import org.bukkit.block.data.type.HangingSign;
 import org.bukkit.block.data.type.Hopper;
 import org.bukkit.block.data.type.Jigsaw;
 import org.bukkit.block.data.type.Jukebox;
@@ -62,6 +66,7 @@ import org.bukkit.block.data.type.LightningRod;
 import org.bukkit.block.data.type.MangrovePropagule;
 import org.bukkit.block.data.type.NoteBlock;
 import org.bukkit.block.data.type.Observer;
+import org.bukkit.block.data.type.PinkPetals;
 import org.bukkit.block.data.type.Piston;
 import org.bukkit.block.data.type.PistonHead;
 import org.bukkit.block.data.type.PointedDripstone;
@@ -72,7 +77,9 @@ import org.bukkit.block.data.type.Repeater;
 import org.bukkit.block.data.type.RespawnAnchor;
 import org.bukkit.block.data.type.Sapling;
 import org.bukkit.block.data.type.Scaffolding;
+import org.bukkit.block.data.type.SculkCatalyst;
 import org.bukkit.block.data.type.SculkSensor;
+import org.bukkit.block.data.type.SculkShrieker;
 import org.bukkit.block.data.type.SculkVein;
 import org.bukkit.block.data.type.SeaPickle;
 import org.bukkit.block.data.type.Sign;
@@ -81,6 +88,7 @@ import org.bukkit.block.data.type.SmallDripleaf;
 import org.bukkit.block.data.type.Snow;
 import org.bukkit.block.data.type.Stairs;
 import org.bukkit.block.data.type.StructureBlock;
+import org.bukkit.block.data.type.SuspiciousSand;
 import org.bukkit.block.data.type.Switch;
 import org.bukkit.block.data.type.TNT;
 import org.bukkit.block.data.type.TechnicalPiston;
@@ -91,6 +99,7 @@ import org.bukkit.block.data.type.TurtleEgg;
 import org.bukkit.block.data.type.Wall;
 import org.bukkit.block.data.type.WallHangingSign;
 import org.bukkit.block.data.type.WallSign;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -121,9 +130,16 @@ public interface BlockType<B extends BlockData> extends Material {
     BlockType<BlockData> BIRCH_PLANKS = asBlockType(Material.BIRCH_PLANKS);
     BlockType<BlockData> JUNGLE_PLANKS = asBlockType(Material.JUNGLE_PLANKS);
     BlockType<BlockData> ACACIA_PLANKS = asBlockType(Material.ACACIA_PLANKS);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<BlockData> CHERRY_PLANKS = asBlockType(Material.CHERRY_PLANKS);
     BlockType<BlockData> DARK_OAK_PLANKS = asBlockType(Material.DARK_OAK_PLANKS);
     BlockType<BlockData> MANGROVE_PLANKS = asBlockType(Material.MANGROVE_PLANKS);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     BlockType<BlockData> BAMBOO_PLANKS = asBlockType(Material.BAMBOO_PLANKS);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     BlockType<BlockData> BAMBOO_MOSAIC = asBlockType(Material.BAMBOO_MOSAIC);
     /**
      * BlockData: {@link Sapling}
@@ -148,6 +164,12 @@ public interface BlockType<B extends BlockData> extends Material {
     /**
      * BlockData: {@link Sapling}
      */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<Sapling> CHERRY_SAPLING = asBlockType(Material.CHERRY_SAPLING);
+    /**
+     * BlockData: {@link Sapling}
+     */
     BlockType<Sapling> DARK_OAK_SAPLING = asBlockType(Material.DARK_OAK_SAPLING);
     /**
      * BlockData: {@link MangrovePropagule}
@@ -163,6 +185,12 @@ public interface BlockType<B extends BlockData> extends Material {
      */
     BlockType<Levelled> LAVA = asBlockType(Material.LAVA);
     BlockType<BlockData> SAND = asBlockType(Material.SAND);
+    /**
+     * BlockData: {@link SuspiciousSand}
+     */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<SuspiciousSand> SUSPICIOUS_SAND = asBlockType(Material.SUSPICIOUS_SAND);
     BlockType<BlockData> RED_SAND = asBlockType(Material.RED_SAND);
     BlockType<BlockData> GRAVEL = asBlockType(Material.GRAVEL);
     BlockType<BlockData> GOLD_ORE = asBlockType(Material.GOLD_ORE);
@@ -195,6 +223,12 @@ public interface BlockType<B extends BlockData> extends Material {
     /**
      * BlockData: {@link Orientable}
      */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<Orientable> CHERRY_LOG = asBlockType(Material.CHERRY_LOG);
+    /**
+     * BlockData: {@link Orientable}
+     */
     BlockType<Orientable> DARK_OAK_LOG = asBlockType(Material.DARK_OAK_LOG);
     /**
      * BlockData: {@link Orientable}
@@ -211,6 +245,8 @@ public interface BlockType<B extends BlockData> extends Material {
     /**
      * BlockData: {@link Orientable}
      */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     BlockType<Orientable> BAMBOO_BLOCK = asBlockType(Material.BAMBOO_BLOCK);
     /**
      * BlockData: {@link Orientable}
@@ -228,6 +264,12 @@ public interface BlockType<B extends BlockData> extends Material {
      * BlockData: {@link Orientable}
      */
     BlockType<Orientable> STRIPPED_ACACIA_LOG = asBlockType(Material.STRIPPED_ACACIA_LOG);
+    /**
+     * BlockData: {@link Orientable}
+     */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<Orientable> STRIPPED_CHERRY_LOG = asBlockType(Material.STRIPPED_CHERRY_LOG);
     /**
      * BlockData: {@link Orientable}
      */
@@ -267,6 +309,12 @@ public interface BlockType<B extends BlockData> extends Material {
     /**
      * BlockData: {@link Orientable}
      */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<Orientable> CHERRY_WOOD = asBlockType(Material.CHERRY_WOOD);
+    /**
+     * BlockData: {@link Orientable}
+     */
     BlockType<Orientable> DARK_OAK_WOOD = asBlockType(Material.DARK_OAK_WOOD);
     /**
      * BlockData: {@link Orientable}
@@ -295,6 +343,12 @@ public interface BlockType<B extends BlockData> extends Material {
     /**
      * BlockData: {@link Orientable}
      */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<Orientable> STRIPPED_CHERRY_WOOD = asBlockType(Material.STRIPPED_CHERRY_WOOD);
+    /**
+     * BlockData: {@link Orientable}
+     */
     BlockType<Orientable> STRIPPED_DARK_OAK_WOOD = asBlockType(Material.STRIPPED_DARK_OAK_WOOD);
     /**
      * BlockData: {@link Orientable}
@@ -320,6 +374,12 @@ public interface BlockType<B extends BlockData> extends Material {
      * BlockData: {@link Leaves}
      */
     BlockType<Leaves> ACACIA_LEAVES = asBlockType(Material.ACACIA_LEAVES);
+    /**
+     * BlockData: {@link Leaves}
+     */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<Leaves> CHERRY_LEAVES = asBlockType(Material.CHERRY_LEAVES);
     /**
      * BlockData: {@link Leaves}
      */
@@ -467,6 +527,9 @@ public interface BlockType<B extends BlockData> extends Material {
      */
     BlockType<TechnicalPiston> MOVING_PISTON = asBlockType(Material.MOVING_PISTON);
     BlockType<BlockData> DANDELION = asBlockType(Material.DANDELION);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<BlockData> TORCHFLOWER = asBlockType(Material.TORCHFLOWER);
     BlockType<BlockData> POPPY = asBlockType(Material.POPPY);
     BlockType<BlockData> BLUE_ORCHID = asBlockType(Material.BLUE_ORCHID);
     BlockType<BlockData> ALLIUM = asBlockType(Material.ALLIUM);
@@ -490,9 +553,11 @@ public interface BlockType<B extends BlockData> extends Material {
     BlockType<TNT> TNT = asBlockType(Material.TNT);
     BlockType<BlockData> BOOKSHELF = asBlockType(Material.BOOKSHELF);
     /**
-     * BlockData: {@link org.bukkit.block.data.type.ChiseledBookshelf}
+     * BlockData: {@link ChiseledBookshelf}
      */
-    BlockType<org.bukkit.block.data.type.ChiseledBookshelf> CHISELED_BOOKSHELF = asBlockType(Material.CHISELED_BOOKSHELF);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<ChiseledBookshelf> CHISELED_BOOKSHELF = asBlockType(Material.CHISELED_BOOKSHELF);
     BlockType<BlockData> MOSSY_COBBLESTONE = asBlockType(Material.MOSSY_COBBLESTONE);
     BlockType<BlockData> OBSIDIAN = asBlockType(Material.OBSIDIAN);
     BlockType<BlockData> TORCH = asBlockType(Material.TORCH);
@@ -553,6 +618,12 @@ public interface BlockType<B extends BlockData> extends Material {
     /**
      * BlockData: {@link Sign}
      */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<Sign> CHERRY_SIGN = asBlockType(Material.CHERRY_SIGN);
+    /**
+     * BlockData: {@link Sign}
+     */
     BlockType<Sign> JUNGLE_SIGN = asBlockType(Material.JUNGLE_SIGN);
     /**
      * BlockData: {@link Sign}
@@ -601,6 +672,12 @@ public interface BlockType<B extends BlockData> extends Material {
     /**
      * BlockData: {@link WallSign}
      */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<WallSign> CHERRY_WALL_SIGN = asBlockType(Material.CHERRY_WALL_SIGN);
+    /**
+     * BlockData: {@link WallSign}
+     */
     BlockType<WallSign> JUNGLE_WALL_SIGN = asBlockType(Material.JUNGLE_WALL_SIGN);
     /**
      * BlockData: {@link WallSign}
@@ -617,82 +694,134 @@ public interface BlockType<B extends BlockData> extends Material {
     /**
      * BlockData: {@link HangingSign}
      */
-    BlockType<org.bukkit.block.data.type.HangingSign> OAK_HANGING_SIGN = asBlockType(Material.OAK_HANGING_SIGN);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<HangingSign> OAK_HANGING_SIGN = asBlockType(Material.OAK_HANGING_SIGN);
     /**
-     * BlockData: {@link org.bukkit.block.data.type.HangingSign}
+     * BlockData: {@link HangingSign}
      */
-    BlockType<org.bukkit.block.data.type.HangingSign> SPRUCE_HANGING_SIGN = asBlockType(Material.SPRUCE_HANGING_SIGN);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<HangingSign> SPRUCE_HANGING_SIGN = asBlockType(Material.SPRUCE_HANGING_SIGN);
     /**
-     * BlockData: {@link org.bukkit.block.data.type.HangingSign}
+     * BlockData: {@link HangingSign}
      */
-    BlockType<org.bukkit.block.data.type.HangingSign> BIRCH_HANGING_SIGN = asBlockType(Material.BIRCH_HANGING_SIGN);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<HangingSign> BIRCH_HANGING_SIGN = asBlockType(Material.BIRCH_HANGING_SIGN);
     /**
-     * BlockData: {@link org.bukkit.block.data.type.HangingSign}
+     * BlockData: {@link HangingSign}
      */
-    BlockType<org.bukkit.block.data.type.HangingSign> ACACIA_HANGING_SIGN = asBlockType(Material.ACACIA_HANGING_SIGN);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<HangingSign> ACACIA_HANGING_SIGN = asBlockType(Material.ACACIA_HANGING_SIGN);
     /**
-     * BlockData: {@link org.bukkit.block.data.type.HangingSign}
+     * BlockData: {@link HangingSign}
      */
-    BlockType<org.bukkit.block.data.type.HangingSign> JUNGLE_HANGING_SIGN = asBlockType(Material.JUNGLE_HANGING_SIGN);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<HangingSign> CHERRY_HANGING_SIGN = asBlockType(Material.CHERRY_HANGING_SIGN);
     /**
-     * BlockData: {@link org.bukkit.block.data.type.HangingSign}
+     * BlockData: {@link HangingSign}
      */
-    BlockType<org.bukkit.block.data.type.HangingSign> DARK_OAK_HANGING_SIGN = asBlockType(Material.DARK_OAK_HANGING_SIGN);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<HangingSign> JUNGLE_HANGING_SIGN = asBlockType(Material.JUNGLE_HANGING_SIGN);
     /**
-     * BlockData: {@link org.bukkit.block.data.type.HangingSign}
+     * BlockData: {@link HangingSign}
      */
-    BlockType<org.bukkit.block.data.type.HangingSign> CRIMSON_HANGING_SIGN = asBlockType(Material.CRIMSON_HANGING_SIGN);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<HangingSign> DARK_OAK_HANGING_SIGN = asBlockType(Material.DARK_OAK_HANGING_SIGN);
     /**
-     * BlockData: {@link org.bukkit.block.data.type.HangingSign}
+     * BlockData: {@link HangingSign}
      */
-    BlockType<org.bukkit.block.data.type.HangingSign> WARPED_HANGING_SIGN = asBlockType(Material.WARPED_HANGING_SIGN);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<HangingSign> CRIMSON_HANGING_SIGN = asBlockType(Material.CRIMSON_HANGING_SIGN);
     /**
-     * BlockData: {@link org.bukkit.block.data.type.HangingSign}
+     * BlockData: {@link HangingSign}
      */
-    BlockType<org.bukkit.block.data.type.HangingSign> MANGROVE_HANGING_SIGN = asBlockType(Material.MANGROVE_HANGING_SIGN);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<HangingSign> WARPED_HANGING_SIGN = asBlockType(Material.WARPED_HANGING_SIGN);
     /**
-     * BlockData: {@link org.bukkit.block.data.type.HangingSign}
+     * BlockData: {@link HangingSign}
      */
-    BlockType<org.bukkit.block.data.type.HangingSign> BAMBOO_HANGING_SIGN = asBlockType(Material.BAMBOO_HANGING_SIGN);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<HangingSign> MANGROVE_HANGING_SIGN = asBlockType(Material.MANGROVE_HANGING_SIGN);
+    /**
+     * BlockData: {@link HangingSign}
+     */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<HangingSign> BAMBOO_HANGING_SIGN = asBlockType(Material.BAMBOO_HANGING_SIGN);
     /**
      * BlockData: {@link WallHangingSign}
      */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     BlockType<WallHangingSign> OAK_WALL_HANGING_SIGN = asBlockType(Material.OAK_WALL_HANGING_SIGN);
     /**
      * BlockData: {@link WallHangingSign}
      */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     BlockType<WallHangingSign> SPRUCE_WALL_HANGING_SIGN = asBlockType(Material.SPRUCE_WALL_HANGING_SIGN);
     /**
      * BlockData: {@link WallHangingSign}
      */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     BlockType<WallHangingSign> BIRCH_WALL_HANGING_SIGN = asBlockType(Material.BIRCH_WALL_HANGING_SIGN);
     /**
      * BlockData: {@link WallHangingSign}
      */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     BlockType<WallHangingSign> ACACIA_WALL_HANGING_SIGN = asBlockType(Material.ACACIA_WALL_HANGING_SIGN);
     /**
      * BlockData: {@link WallHangingSign}
      */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<WallHangingSign> CHERRY_WALL_HANGING_SIGN = asBlockType(Material.CHERRY_WALL_HANGING_SIGN);
+    /**
+     * BlockData: {@link WallHangingSign}
+     */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     BlockType<WallHangingSign> JUNGLE_WALL_HANGING_SIGN = asBlockType(Material.JUNGLE_WALL_HANGING_SIGN);
     /**
      * BlockData: {@link WallHangingSign}
      */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     BlockType<WallHangingSign> DARK_OAK_WALL_HANGING_SIGN = asBlockType(Material.DARK_OAK_WALL_HANGING_SIGN);
     /**
      * BlockData: {@link WallHangingSign}
      */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     BlockType<WallHangingSign> MANGROVE_WALL_HANGING_SIGN = asBlockType(Material.MANGROVE_WALL_HANGING_SIGN);
     /**
      * BlockData: {@link WallHangingSign}
      */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     BlockType<WallHangingSign> CRIMSON_WALL_HANGING_SIGN = asBlockType(Material.CRIMSON_WALL_HANGING_SIGN);
     /**
      * BlockData: {@link WallHangingSign}
      */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     BlockType<WallHangingSign> WARPED_WALL_HANGING_SIGN = asBlockType(Material.WARPED_WALL_HANGING_SIGN);
     /**
      * BlockData: {@link WallHangingSign}
      */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     BlockType<WallHangingSign> BAMBOO_WALL_HANGING_SIGN = asBlockType(Material.BAMBOO_WALL_HANGING_SIGN);
     /**
      * BlockData: {@link Switch}
@@ -726,6 +855,12 @@ public interface BlockType<B extends BlockData> extends Material {
      * BlockData: {@link Powerable}
      */
     BlockType<Powerable> ACACIA_PRESSURE_PLATE = asBlockType(Material.ACACIA_PRESSURE_PLATE);
+    /**
+     * BlockData: {@link Powerable}
+     */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<Powerable> CHERRY_PRESSURE_PLATE = asBlockType(Material.CHERRY_PRESSURE_PLATE);
     /**
      * BlockData: {@link Powerable}
      */
@@ -855,6 +990,12 @@ public interface BlockType<B extends BlockData> extends Material {
      * BlockData: {@link TrapDoor}
      */
     BlockType<TrapDoor> ACACIA_TRAPDOOR = asBlockType(Material.ACACIA_TRAPDOOR);
+    /**
+     * BlockData: {@link TrapDoor}
+     */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<TrapDoor> CHERRY_TRAPDOOR = asBlockType(Material.CHERRY_TRAPDOOR);
     /**
      * BlockData: {@link TrapDoor}
      */
@@ -1037,11 +1178,17 @@ public interface BlockType<B extends BlockData> extends Material {
      */
     BlockType<Wall> MOSSY_COBBLESTONE_WALL = asBlockType(Material.MOSSY_COBBLESTONE_WALL);
     BlockType<BlockData> FLOWER_POT = asBlockType(Material.FLOWER_POT);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<BlockData> POTTED_TORCHFLOWER = asBlockType(Material.POTTED_TORCHFLOWER);
     BlockType<BlockData> POTTED_OAK_SAPLING = asBlockType(Material.POTTED_OAK_SAPLING);
     BlockType<BlockData> POTTED_SPRUCE_SAPLING = asBlockType(Material.POTTED_SPRUCE_SAPLING);
     BlockType<BlockData> POTTED_BIRCH_SAPLING = asBlockType(Material.POTTED_BIRCH_SAPLING);
     BlockType<BlockData> POTTED_JUNGLE_SAPLING = asBlockType(Material.POTTED_JUNGLE_SAPLING);
     BlockType<BlockData> POTTED_ACACIA_SAPLING = asBlockType(Material.POTTED_ACACIA_SAPLING);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<BlockData> POTTED_CHERRY_SAPLING = asBlockType(Material.POTTED_CHERRY_SAPLING);
     BlockType<BlockData> POTTED_DARK_OAK_SAPLING = asBlockType(Material.POTTED_DARK_OAK_SAPLING);
     BlockType<BlockData> POTTED_MANGROVE_PROPAGULE = asBlockType(Material.POTTED_MANGROVE_PROPAGULE);
     BlockType<BlockData> POTTED_FERN = asBlockType(Material.POTTED_FERN);
@@ -1090,6 +1237,12 @@ public interface BlockType<B extends BlockData> extends Material {
      * BlockData: {@link Switch}
      */
     BlockType<Switch> ACACIA_BUTTON = asBlockType(Material.ACACIA_BUTTON);
+    /**
+     * BlockData: {@link Switch}
+     */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<Switch> CHERRY_BUTTON = asBlockType(Material.CHERRY_BUTTON);
     /**
      * BlockData: {@link Switch}
      */
@@ -1153,10 +1306,14 @@ public interface BlockType<B extends BlockData> extends Material {
     /**
      * BlockData: {@link Rotatable}
      */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     BlockType<Rotatable> PIGLIN_HEAD = asBlockType(Material.PIGLIN_HEAD);
     /**
      * BlockData: {@link Directional}
      */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     BlockType<Directional> PIGLIN_WALL_HEAD = asBlockType(Material.PIGLIN_WALL_HEAD);
     /**
      * BlockData: {@link Directional}
@@ -1301,6 +1458,12 @@ public interface BlockType<B extends BlockData> extends Material {
     /**
      * BlockData: {@link Stairs}
      */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<Stairs> CHERRY_STAIRS = asBlockType(Material.CHERRY_STAIRS);
+    /**
+     * BlockData: {@link Stairs}
+     */
     BlockType<Stairs> DARK_OAK_STAIRS = asBlockType(Material.DARK_OAK_STAIRS);
     /**
      * BlockData: {@link Stairs}
@@ -1309,10 +1472,14 @@ public interface BlockType<B extends BlockData> extends Material {
     /**
      * BlockData: {@link Stairs}
      */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     BlockType<Stairs> BAMBOO_STAIRS = asBlockType(Material.BAMBOO_STAIRS);
     /**
      * BlockData: {@link Stairs}
      */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     BlockType<Stairs> BAMBOO_MOSAIC_STAIRS = asBlockType(Material.BAMBOO_MOSAIC_STAIRS);
     BlockType<BlockData> SLIME_BLOCK = asBlockType(Material.SLIME_BLOCK);
     BlockType<BlockData> BARRIER = asBlockType(Material.BARRIER);
@@ -1557,6 +1724,12 @@ public interface BlockType<B extends BlockData> extends Material {
     /**
      * BlockData: {@link Slab}
      */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<Slab> CHERRY_SLAB = asBlockType(Material.CHERRY_SLAB);
+    /**
+     * BlockData: {@link Slab}
+     */
     BlockType<Slab> DARK_OAK_SLAB = asBlockType(Material.DARK_OAK_SLAB);
     /**
      * BlockData: {@link Slab}
@@ -1565,10 +1738,14 @@ public interface BlockType<B extends BlockData> extends Material {
     /**
      * BlockData: {@link Slab}
      */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     BlockType<Slab> BAMBOO_SLAB = asBlockType(Material.BAMBOO_SLAB);
     /**
      * BlockData: {@link Slab}
      */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     BlockType<Slab> BAMBOO_MOSAIC_SLAB = asBlockType(Material.BAMBOO_MOSAIC_SLAB);
     /**
      * BlockData: {@link Slab}
@@ -1649,6 +1826,12 @@ public interface BlockType<B extends BlockData> extends Material {
     /**
      * BlockData: {@link Gate}
      */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<Gate> CHERRY_FENCE_GATE = asBlockType(Material.CHERRY_FENCE_GATE);
+    /**
+     * BlockData: {@link Gate}
+     */
     BlockType<Gate> DARK_OAK_FENCE_GATE = asBlockType(Material.DARK_OAK_FENCE_GATE);
     /**
      * BlockData: {@link Gate}
@@ -1677,6 +1860,12 @@ public interface BlockType<B extends BlockData> extends Material {
     /**
      * BlockData: {@link Fence}
      */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<Fence> CHERRY_FENCE = asBlockType(Material.CHERRY_FENCE);
+    /**
+     * BlockData: {@link Fence}
+     */
     BlockType<Fence> DARK_OAK_FENCE = asBlockType(Material.DARK_OAK_FENCE);
     /**
      * BlockData: {@link Fence}
@@ -1702,6 +1891,12 @@ public interface BlockType<B extends BlockData> extends Material {
      * BlockData: {@link Door}
      */
     BlockType<Door> ACACIA_DOOR = asBlockType(Material.ACACIA_DOOR);
+    /**
+     * BlockData: {@link Door}
+     */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<Door> CHERRY_DOOR = asBlockType(Material.CHERRY_DOOR);
     /**
      * BlockData: {@link Door}
      */
@@ -1736,6 +1931,12 @@ public interface BlockType<B extends BlockData> extends Material {
      */
     BlockType<Stairs> PURPUR_STAIRS = asBlockType(Material.PURPUR_STAIRS);
     BlockType<BlockData> END_STONE_BRICKS = asBlockType(Material.END_STONE_BRICKS);
+    /**
+     * BlockData: {@link Ageable}
+     */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<Ageable> TORCHFLOWER_CROP = asBlockType(Material.TORCHFLOWER_CROP);
     /**
      * BlockData: {@link Ageable}
      */
@@ -2702,13 +2903,13 @@ public interface BlockType<B extends BlockData> extends Material {
      */
     BlockType<SculkVein> SCULK_VEIN = asBlockType(Material.SCULK_VEIN);
     /**
-     * BlockData: {@link org.bukkit.block.data.type.SculkCatalyst}
+     * BlockData: {@link SculkCatalyst}
      */
-    BlockType<org.bukkit.block.data.type.SculkCatalyst> SCULK_CATALYST = asBlockType(Material.SCULK_CATALYST);
+    BlockType<SculkCatalyst> SCULK_CATALYST = asBlockType(Material.SCULK_CATALYST);
     /**
-     * BlockData: {@link org.bukkit.block.data.type.SculkShrieker}
+     * BlockData: {@link SculkShrieker}
      */
-    BlockType<org.bukkit.block.data.type.SculkShrieker> SCULK_SHRIEKER = asBlockType(Material.SCULK_SHRIEKER);
+    BlockType<SculkShrieker> SCULK_SHRIEKER = asBlockType(Material.SCULK_SHRIEKER);
     BlockType<BlockData> OXIDIZED_COPPER = asBlockType(Material.OXIDIZED_COPPER);
     BlockType<BlockData> WEATHERED_COPPER = asBlockType(Material.WEATHERED_COPPER);
     BlockType<BlockData> EXPOSED_COPPER = asBlockType(Material.EXPOSED_COPPER);
@@ -2812,6 +3013,12 @@ public interface BlockType<B extends BlockData> extends Material {
     BlockType<BlockData> AZALEA = asBlockType(Material.AZALEA);
     BlockType<BlockData> FLOWERING_AZALEA = asBlockType(Material.FLOWERING_AZALEA);
     BlockType<BlockData> MOSS_CARPET = asBlockType(Material.MOSS_CARPET);
+    /**
+     * BlockData: {@link PinkPetals}
+     */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<PinkPetals> PINK_PETALS = asBlockType(Material.PINK_PETALS);
     BlockType<BlockData> MOSS_BLOCK = asBlockType(Material.MOSS_BLOCK);
     /**
      * BlockData: {@link BigDripleaf}
@@ -2914,6 +3121,12 @@ public interface BlockType<B extends BlockData> extends Material {
     BlockType<Orientable> PEARLESCENT_FROGLIGHT = asBlockType(Material.PEARLESCENT_FROGLIGHT);
     BlockType<BlockData> FROGSPAWN = asBlockType(Material.FROGSPAWN);
     BlockType<BlockData> REINFORCED_DEEPSLATE = asBlockType(Material.REINFORCED_DEEPSLATE);
+    /**
+     * BlockData: {@link DecoratedPot}
+     */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    BlockType<DecoratedPot> DECORATED_POT = asBlockType(Material.DECORATED_POT);
     //</editor-fold>
 
     @Contract("null -> null; !null -> !null")

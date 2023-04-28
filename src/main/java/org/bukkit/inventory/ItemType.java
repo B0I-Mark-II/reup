@@ -2,8 +2,10 @@ package org.bukkit.inventory;
 
 import com.google.common.collect.Multimap;
 import org.bukkit.Material;
+import org.bukkit.MinecraftExperimental;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -38,21 +40,34 @@ public interface ItemType extends Material {
     ItemType BIRCH_PLANKS = asItemType(Material.BIRCH_PLANKS);
     ItemType JUNGLE_PLANKS = asItemType(Material.JUNGLE_PLANKS);
     ItemType ACACIA_PLANKS = asItemType(Material.ACACIA_PLANKS);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType CHERRY_PLANKS = asItemType(Material.CHERRY_PLANKS);
     ItemType DARK_OAK_PLANKS = asItemType(Material.DARK_OAK_PLANKS);
     ItemType MANGROVE_PLANKS = asItemType(Material.MANGROVE_PLANKS);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     ItemType BAMBOO_PLANKS = asItemType(Material.BAMBOO_PLANKS);
     ItemType CRIMSON_PLANKS = asItemType(Material.CRIMSON_PLANKS);
     ItemType WARPED_PLANKS = asItemType(Material.WARPED_PLANKS);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     ItemType BAMBOO_MOSAIC = asItemType(Material.BAMBOO_MOSAIC);
     ItemType OAK_SAPLING = asItemType(Material.OAK_SAPLING);
     ItemType SPRUCE_SAPLING = asItemType(Material.SPRUCE_SAPLING);
     ItemType BIRCH_SAPLING = asItemType(Material.BIRCH_SAPLING);
     ItemType JUNGLE_SAPLING = asItemType(Material.JUNGLE_SAPLING);
     ItemType ACACIA_SAPLING = asItemType(Material.ACACIA_SAPLING);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType CHERRY_SAPLING = asItemType(Material.CHERRY_SAPLING);
     ItemType DARK_OAK_SAPLING = asItemType(Material.DARK_OAK_SAPLING);
     ItemType MANGROVE_PROPAGULE = asItemType(Material.MANGROVE_PROPAGULE);
     ItemType BEDROCK = asItemType(Material.BEDROCK);
     ItemType SAND = asItemType(Material.SAND);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType SUSPICIOUS_SAND = asItemType(Material.SUSPICIOUS_SAND);
     ItemType RED_SAND = asItemType(Material.RED_SAND);
     ItemType GRAVEL = asItemType(Material.GRAVEL);
     ItemType COAL_ORE = asItemType(Material.COAL_ORE);
@@ -121,18 +136,26 @@ public interface ItemType extends Material {
     ItemType BIRCH_LOG = asItemType(Material.BIRCH_LOG);
     ItemType JUNGLE_LOG = asItemType(Material.JUNGLE_LOG);
     ItemType ACACIA_LOG = asItemType(Material.ACACIA_LOG);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType CHERRY_LOG = asItemType(Material.CHERRY_LOG);
     ItemType DARK_OAK_LOG = asItemType(Material.DARK_OAK_LOG);
     ItemType MANGROVE_LOG = asItemType(Material.MANGROVE_LOG);
     ItemType MANGROVE_ROOTS = asItemType(Material.MANGROVE_ROOTS);
     ItemType MUDDY_MANGROVE_ROOTS = asItemType(Material.MUDDY_MANGROVE_ROOTS);
     ItemType CRIMSON_STEM = asItemType(Material.CRIMSON_STEM);
     ItemType WARPED_STEM = asItemType(Material.WARPED_STEM);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     ItemType BAMBOO_BLOCK = asItemType(Material.BAMBOO_BLOCK);
     ItemType STRIPPED_OAK_LOG = asItemType(Material.STRIPPED_OAK_LOG);
     ItemType STRIPPED_SPRUCE_LOG = asItemType(Material.STRIPPED_SPRUCE_LOG);
     ItemType STRIPPED_BIRCH_LOG = asItemType(Material.STRIPPED_BIRCH_LOG);
     ItemType STRIPPED_JUNGLE_LOG = asItemType(Material.STRIPPED_JUNGLE_LOG);
     ItemType STRIPPED_ACACIA_LOG = asItemType(Material.STRIPPED_ACACIA_LOG);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType STRIPPED_CHERRY_LOG = asItemType(Material.STRIPPED_CHERRY_LOG);
     ItemType STRIPPED_DARK_OAK_LOG = asItemType(Material.STRIPPED_DARK_OAK_LOG);
     ItemType STRIPPED_MANGROVE_LOG = asItemType(Material.STRIPPED_MANGROVE_LOG);
     ItemType STRIPPED_CRIMSON_STEM = asItemType(Material.STRIPPED_CRIMSON_STEM);
@@ -142,6 +165,9 @@ public interface ItemType extends Material {
     ItemType STRIPPED_BIRCH_WOOD = asItemType(Material.STRIPPED_BIRCH_WOOD);
     ItemType STRIPPED_JUNGLE_WOOD = asItemType(Material.STRIPPED_JUNGLE_WOOD);
     ItemType STRIPPED_ACACIA_WOOD = asItemType(Material.STRIPPED_ACACIA_WOOD);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType STRIPPED_CHERRY_WOOD = asItemType(Material.STRIPPED_CHERRY_WOOD);
     ItemType STRIPPED_DARK_OAK_WOOD = asItemType(Material.STRIPPED_DARK_OAK_WOOD);
     ItemType STRIPPED_MANGROVE_WOOD = asItemType(Material.STRIPPED_MANGROVE_WOOD);
     ItemType STRIPPED_CRIMSON_HYPHAE = asItemType(Material.STRIPPED_CRIMSON_HYPHAE);
@@ -152,6 +178,9 @@ public interface ItemType extends Material {
     ItemType BIRCH_WOOD = asItemType(Material.BIRCH_WOOD);
     ItemType JUNGLE_WOOD = asItemType(Material.JUNGLE_WOOD);
     ItemType ACACIA_WOOD = asItemType(Material.ACACIA_WOOD);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType CHERRY_WOOD = asItemType(Material.CHERRY_WOOD);
     ItemType DARK_OAK_WOOD = asItemType(Material.DARK_OAK_WOOD);
     ItemType MANGROVE_WOOD = asItemType(Material.MANGROVE_WOOD);
     ItemType CRIMSON_HYPHAE = asItemType(Material.CRIMSON_HYPHAE);
@@ -161,6 +190,9 @@ public interface ItemType extends Material {
     ItemType BIRCH_LEAVES = asItemType(Material.BIRCH_LEAVES);
     ItemType JUNGLE_LEAVES = asItemType(Material.JUNGLE_LEAVES);
     ItemType ACACIA_LEAVES = asItemType(Material.ACACIA_LEAVES);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType CHERRY_LEAVES = asItemType(Material.CHERRY_LEAVES);
     ItemType DARK_OAK_LEAVES = asItemType(Material.DARK_OAK_LEAVES);
     ItemType MANGROVE_LEAVES = asItemType(Material.MANGROVE_LEAVES);
     ItemType AZALEA_LEAVES = asItemType(Material.AZALEA_LEAVES);
@@ -210,6 +242,9 @@ public interface ItemType extends Material {
     ItemType CORNFLOWER = asItemType(Material.CORNFLOWER);
     ItemType LILY_OF_THE_VALLEY = asItemType(Material.LILY_OF_THE_VALLEY);
     ItemType WITHER_ROSE = asItemType(Material.WITHER_ROSE);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType TORCHFLOWER = asItemType(Material.TORCHFLOWER);
     ItemType SPORE_BLOSSOM = asItemType(Material.SPORE_BLOSSOM);
     ItemType BROWN_MUSHROOM = asItemType(Material.BROWN_MUSHROOM);
     ItemType RED_MUSHROOM = asItemType(Material.RED_MUSHROOM);
@@ -223,6 +258,9 @@ public interface ItemType extends Material {
     ItemType SUGAR_CANE = asItemType(Material.SUGAR_CANE);
     ItemType KELP = asItemType(Material.KELP);
     ItemType MOSS_CARPET = asItemType(Material.MOSS_CARPET);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType PINK_PETALS = asItemType(Material.PINK_PETALS);
     ItemType MOSS_BLOCK = asItemType(Material.MOSS_BLOCK);
     ItemType HANGING_ROOTS = asItemType(Material.HANGING_ROOTS);
     ItemType BIG_DRIPLEAF = asItemType(Material.BIG_DRIPLEAF);
@@ -233,9 +271,16 @@ public interface ItemType extends Material {
     ItemType BIRCH_SLAB = asItemType(Material.BIRCH_SLAB);
     ItemType JUNGLE_SLAB = asItemType(Material.JUNGLE_SLAB);
     ItemType ACACIA_SLAB = asItemType(Material.ACACIA_SLAB);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType CHERRY_SLAB = asItemType(Material.CHERRY_SLAB);
     ItemType DARK_OAK_SLAB = asItemType(Material.DARK_OAK_SLAB);
     ItemType MANGROVE_SLAB = asItemType(Material.MANGROVE_SLAB);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     ItemType BAMBOO_SLAB = asItemType(Material.BAMBOO_SLAB);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     ItemType BAMBOO_MOSAIC_SLAB = asItemType(Material.BAMBOO_MOSAIC_SLAB);
     ItemType CRIMSON_SLAB = asItemType(Material.CRIMSON_SLAB);
     ItemType WARPED_SLAB = asItemType(Material.WARPED_SLAB);
@@ -262,7 +307,12 @@ public interface ItemType extends Material {
     ItemType SMOOTH_STONE = asItemType(Material.SMOOTH_STONE);
     ItemType BRICKS = asItemType(Material.BRICKS);
     ItemType BOOKSHELF = asItemType(Material.BOOKSHELF);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     ItemType CHISELED_BOOKSHELF = asItemType(Material.CHISELED_BOOKSHELF);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType DECORATED_POT = asItemType(Material.DECORATED_POT);
     ItemType MOSSY_COBBLESTONE = asItemType(Material.MOSSY_COBBLESTONE);
     ItemType OBSIDIAN = asItemType(Material.OBSIDIAN);
     ItemType TORCH = asItemType(Material.TORCH);
@@ -290,6 +340,9 @@ public interface ItemType extends Material {
     ItemType BIRCH_FENCE = asItemType(Material.BIRCH_FENCE);
     ItemType JUNGLE_FENCE = asItemType(Material.JUNGLE_FENCE);
     ItemType ACACIA_FENCE = asItemType(Material.ACACIA_FENCE);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType CHERRY_FENCE = asItemType(Material.CHERRY_FENCE);
     ItemType DARK_OAK_FENCE = asItemType(Material.DARK_OAK_FENCE);
     ItemType MANGROVE_FENCE = asItemType(Material.MANGROVE_FENCE);
     ItemType BAMBOO_FENCE = asItemType(Material.BAMBOO_FENCE);
@@ -361,9 +414,16 @@ public interface ItemType extends Material {
     ItemType BIRCH_STAIRS = asItemType(Material.BIRCH_STAIRS);
     ItemType JUNGLE_STAIRS = asItemType(Material.JUNGLE_STAIRS);
     ItemType ACACIA_STAIRS = asItemType(Material.ACACIA_STAIRS);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType CHERRY_STAIRS = asItemType(Material.CHERRY_STAIRS);
     ItemType DARK_OAK_STAIRS = asItemType(Material.DARK_OAK_STAIRS);
     ItemType MANGROVE_STAIRS = asItemType(Material.MANGROVE_STAIRS);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     ItemType BAMBOO_STAIRS = asItemType(Material.BAMBOO_STAIRS);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     ItemType BAMBOO_MOSAIC_STAIRS = asItemType(Material.BAMBOO_MOSAIC_STAIRS);
     ItemType CRIMSON_STAIRS = asItemType(Material.CRIMSON_STAIRS);
     ItemType WARPED_STAIRS = asItemType(Material.WARPED_STAIRS);
@@ -659,6 +719,9 @@ public interface ItemType extends Material {
     ItemType BIRCH_BUTTON = asItemType(Material.BIRCH_BUTTON);
     ItemType JUNGLE_BUTTON = asItemType(Material.JUNGLE_BUTTON);
     ItemType ACACIA_BUTTON = asItemType(Material.ACACIA_BUTTON);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType CHERRY_BUTTON = asItemType(Material.CHERRY_BUTTON);
     ItemType DARK_OAK_BUTTON = asItemType(Material.DARK_OAK_BUTTON);
     ItemType MANGROVE_BUTTON = asItemType(Material.MANGROVE_BUTTON);
     ItemType BAMBOO_BUTTON = asItemType(Material.BAMBOO_BUTTON);
@@ -673,6 +736,9 @@ public interface ItemType extends Material {
     ItemType BIRCH_PRESSURE_PLATE = asItemType(Material.BIRCH_PRESSURE_PLATE);
     ItemType JUNGLE_PRESSURE_PLATE = asItemType(Material.JUNGLE_PRESSURE_PLATE);
     ItemType ACACIA_PRESSURE_PLATE = asItemType(Material.ACACIA_PRESSURE_PLATE);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType CHERRY_PRESSURE_PLATE = asItemType(Material.CHERRY_PRESSURE_PLATE);
     ItemType DARK_OAK_PRESSURE_PLATE = asItemType(Material.DARK_OAK_PRESSURE_PLATE);
     ItemType MANGROVE_PRESSURE_PLATE = asItemType(Material.MANGROVE_PRESSURE_PLATE);
     ItemType BAMBOO_PRESSURE_PLATE = asItemType(Material.BAMBOO_PRESSURE_PLATE);
@@ -684,6 +750,9 @@ public interface ItemType extends Material {
     ItemType BIRCH_DOOR = asItemType(Material.BIRCH_DOOR);
     ItemType JUNGLE_DOOR = asItemType(Material.JUNGLE_DOOR);
     ItemType ACACIA_DOOR = asItemType(Material.ACACIA_DOOR);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType CHERRY_DOOR = asItemType(Material.CHERRY_DOOR);
     ItemType DARK_OAK_DOOR = asItemType(Material.DARK_OAK_DOOR);
     ItemType MANGROVE_DOOR = asItemType(Material.MANGROVE_DOOR);
     ItemType BAMBOO_DOOR = asItemType(Material.BAMBOO_DOOR);
@@ -695,6 +764,9 @@ public interface ItemType extends Material {
     ItemType BIRCH_TRAPDOOR = asItemType(Material.BIRCH_TRAPDOOR);
     ItemType JUNGLE_TRAPDOOR = asItemType(Material.JUNGLE_TRAPDOOR);
     ItemType ACACIA_TRAPDOOR = asItemType(Material.ACACIA_TRAPDOOR);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType CHERRY_TRAPDOOR = asItemType(Material.CHERRY_TRAPDOOR);
     ItemType DARK_OAK_TRAPDOOR = asItemType(Material.DARK_OAK_TRAPDOOR);
     ItemType MANGROVE_TRAPDOOR = asItemType(Material.MANGROVE_TRAPDOOR);
     ItemType BAMBOO_TRAPDOOR = asItemType(Material.BAMBOO_TRAPDOOR);
@@ -705,6 +777,9 @@ public interface ItemType extends Material {
     ItemType BIRCH_FENCE_GATE = asItemType(Material.BIRCH_FENCE_GATE);
     ItemType JUNGLE_FENCE_GATE = asItemType(Material.JUNGLE_FENCE_GATE);
     ItemType ACACIA_FENCE_GATE = asItemType(Material.ACACIA_FENCE_GATE);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType CHERRY_FENCE_GATE = asItemType(Material.CHERRY_FENCE_GATE);
     ItemType DARK_OAK_FENCE_GATE = asItemType(Material.DARK_OAK_FENCE_GATE);
     ItemType MANGROVE_FENCE_GATE = asItemType(Material.MANGROVE_FENCE_GATE);
     ItemType BAMBOO_FENCE_GATE = asItemType(Material.BAMBOO_FENCE_GATE);
@@ -733,6 +808,12 @@ public interface ItemType extends Material {
     ItemType JUNGLE_CHEST_BOAT = asItemType(Material.JUNGLE_CHEST_BOAT);
     ItemType ACACIA_BOAT = asItemType(Material.ACACIA_BOAT);
     ItemType ACACIA_CHEST_BOAT = asItemType(Material.ACACIA_CHEST_BOAT);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType CHERRY_BOAT = asItemType(Material.CHERRY_BOAT);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType CHERRY_CHEST_BOAT = asItemType(Material.CHERRY_CHEST_BOAT);
     ItemType DARK_OAK_BOAT = asItemType(Material.DARK_OAK_BOAT);
     ItemType DARK_OAK_CHEST_BOAT = asItemType(Material.DARK_OAK_CHEST_BOAT);
     ItemType MANGROVE_BOAT = asItemType(Material.MANGROVE_BOAT);
@@ -836,20 +917,46 @@ public interface ItemType extends Material {
     ItemType BIRCH_SIGN = asItemType(Material.BIRCH_SIGN);
     ItemType JUNGLE_SIGN = asItemType(Material.JUNGLE_SIGN);
     ItemType ACACIA_SIGN = asItemType(Material.ACACIA_SIGN);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType CHERRY_SIGN = asItemType(Material.CHERRY_SIGN);
     ItemType DARK_OAK_SIGN = asItemType(Material.DARK_OAK_SIGN);
     ItemType MANGROVE_SIGN = asItemType(Material.MANGROVE_SIGN);
     ItemType BAMBOO_SIGN = asItemType(Material.BAMBOO_SIGN);
     ItemType CRIMSON_SIGN = asItemType(Material.CRIMSON_SIGN);
     ItemType WARPED_SIGN = asItemType(Material.WARPED_SIGN);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     ItemType OAK_HANGING_SIGN = asItemType(Material.OAK_HANGING_SIGN);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     ItemType SPRUCE_HANGING_SIGN = asItemType(Material.SPRUCE_HANGING_SIGN);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     ItemType BIRCH_HANGING_SIGN = asItemType(Material.BIRCH_HANGING_SIGN);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     ItemType JUNGLE_HANGING_SIGN = asItemType(Material.JUNGLE_HANGING_SIGN);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     ItemType ACACIA_HANGING_SIGN = asItemType(Material.ACACIA_HANGING_SIGN);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType CHERRY_HANGING_SIGN = asItemType(Material.CHERRY_HANGING_SIGN);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     ItemType DARK_OAK_HANGING_SIGN = asItemType(Material.DARK_OAK_HANGING_SIGN);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     ItemType MANGROVE_HANGING_SIGN = asItemType(Material.MANGROVE_HANGING_SIGN);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     ItemType BAMBOO_HANGING_SIGN = asItemType(Material.BAMBOO_HANGING_SIGN);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     ItemType CRIMSON_HANGING_SIGN = asItemType(Material.CRIMSON_HANGING_SIGN);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     ItemType WARPED_HANGING_SIGN = asItemType(Material.WARPED_HANGING_SIGN);
     ItemType BUCKET = asItemType(Material.BUCKET);
     ItemType WATER_BUCKET = asItemType(Material.WATER_BUCKET);
@@ -873,6 +980,8 @@ public interface ItemType extends Material {
     ItemType EGG = asItemType(Material.EGG);
     ItemType COMPASS = asItemType(Material.COMPASS);
     ItemType RECOVERY_COMPASS = asItemType(Material.RECOVERY_COMPASS);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     ItemType BUNDLE = asItemType(Material.BUNDLE);
     ItemType FISHING_ROD = asItemType(Material.FISHING_ROD);
     ItemType CLOCK = asItemType(Material.CLOCK);
@@ -956,6 +1065,8 @@ public interface ItemType extends Material {
     ItemType BEE_SPAWN_EGG = asItemType(Material.BEE_SPAWN_EGG);
     ItemType BLAZE_SPAWN_EGG = asItemType(Material.BLAZE_SPAWN_EGG);
     ItemType CAT_SPAWN_EGG = asItemType(Material.CAT_SPAWN_EGG);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     ItemType CAMEL_SPAWN_EGG = asItemType(Material.CAMEL_SPAWN_EGG);
     ItemType CAVE_SPIDER_SPAWN_EGG = asItemType(Material.CAVE_SPIDER_SPAWN_EGG);
     ItemType CHICKEN_SPAWN_EGG = asItemType(Material.CHICKEN_SPAWN_EGG);
@@ -1003,6 +1114,9 @@ public interface ItemType extends Material {
     ItemType SKELETON_SPAWN_EGG = asItemType(Material.SKELETON_SPAWN_EGG);
     ItemType SKELETON_HORSE_SPAWN_EGG = asItemType(Material.SKELETON_HORSE_SPAWN_EGG);
     ItemType SLIME_SPAWN_EGG = asItemType(Material.SLIME_SPAWN_EGG);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType SNIFFER_SPAWN_EGG = asItemType(Material.SNIFFER_SPAWN_EGG);
     ItemType SNOW_GOLEM_SPAWN_EGG = asItemType(Material.SNOW_GOLEM_SPAWN_EGG);
     ItemType SPIDER_SPAWN_EGG = asItemType(Material.SPIDER_SPAWN_EGG);
     ItemType SQUID_SPAWN_EGG = asItemType(Material.SQUID_SPAWN_EGG);
@@ -1045,6 +1159,8 @@ public interface ItemType extends Material {
     ItemType ZOMBIE_HEAD = asItemType(Material.ZOMBIE_HEAD);
     ItemType CREEPER_HEAD = asItemType(Material.CREEPER_HEAD);
     ItemType DRAGON_HEAD = asItemType(Material.DRAGON_HEAD);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     ItemType PIGLIN_HEAD = asItemType(Material.PIGLIN_HEAD);
     ItemType NETHER_STAR = asItemType(Material.NETHER_STAR);
     ItemType PUMPKIN_PIE = asItemType(Material.PUMPKIN_PIE);
@@ -1088,6 +1204,9 @@ public interface ItemType extends Material {
     ItemType END_CRYSTAL = asItemType(Material.END_CRYSTAL);
     ItemType CHORUS_FRUIT = asItemType(Material.CHORUS_FRUIT);
     ItemType POPPED_CHORUS_FRUIT = asItemType(Material.POPPED_CHORUS_FRUIT);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType TORCHFLOWER_SEEDS = asItemType(Material.TORCHFLOWER_SEEDS);
     ItemType BEETROOT = asItemType(Material.BEETROOT);
     ItemType BEETROOT_SEEDS = asItemType(Material.BEETROOT_SEEDS);
     ItemType BEETROOT_SOUP = asItemType(Material.BEETROOT_SOUP);
@@ -1196,6 +1315,57 @@ public interface ItemType extends Material {
     ItemType PEARLESCENT_FROGLIGHT = asItemType(Material.PEARLESCENT_FROGLIGHT);
     ItemType FROGSPAWN = asItemType(Material.FROGSPAWN);
     ItemType ECHO_SHARD = asItemType(Material.ECHO_SHARD);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType BRUSH = asItemType(Material.BRUSH);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType NETHERITE_UPGRADE_SMITHING_TEMPLATE = asItemType(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType SENTRY_ARMOR_TRIM_SMITHING_TEMPLATE = asItemType(Material.SENTRY_ARMOR_TRIM_SMITHING_TEMPLATE);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType DUNE_ARMOR_TRIM_SMITHING_TEMPLATE = asItemType(Material.DUNE_ARMOR_TRIM_SMITHING_TEMPLATE);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType COAST_ARMOR_TRIM_SMITHING_TEMPLATE = asItemType(Material.COAST_ARMOR_TRIM_SMITHING_TEMPLATE);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType WILD_ARMOR_TRIM_SMITHING_TEMPLATE = asItemType(Material.WILD_ARMOR_TRIM_SMITHING_TEMPLATE);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType WARD_ARMOR_TRIM_SMITHING_TEMPLATE = asItemType(Material.WARD_ARMOR_TRIM_SMITHING_TEMPLATE);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType EYE_ARMOR_TRIM_SMITHING_TEMPLATE = asItemType(Material.EYE_ARMOR_TRIM_SMITHING_TEMPLATE);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType VEX_ARMOR_TRIM_SMITHING_TEMPLATE = asItemType(Material.VEX_ARMOR_TRIM_SMITHING_TEMPLATE);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType TIDE_ARMOR_TRIM_SMITHING_TEMPLATE = asItemType(Material.TIDE_ARMOR_TRIM_SMITHING_TEMPLATE);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType SNOUT_ARMOR_TRIM_SMITHING_TEMPLATE = asItemType(Material.SNOUT_ARMOR_TRIM_SMITHING_TEMPLATE);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType RIB_ARMOR_TRIM_SMITHING_TEMPLATE = asItemType(Material.RIB_ARMOR_TRIM_SMITHING_TEMPLATE);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType SPIRE_ARMOR_TRIM_SMITHING_TEMPLATE = asItemType(Material.SPIRE_ARMOR_TRIM_SMITHING_TEMPLATE);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType POTTERY_SHARD_ARCHER = asItemType(Material.POTTERY_SHARD_ARCHER);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType POTTERY_SHARD_PRIZE = asItemType(Material.POTTERY_SHARD_PRIZE);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType POTTERY_SHARD_ARMS_UP = asItemType(Material.POTTERY_SHARD_ARMS_UP);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    ItemType POTTERY_SHARD_SKULL = asItemType(Material.POTTERY_SHARD_SKULL);
     //</editor-fold>
 
     @Contract("null -> null; !null -> !null")

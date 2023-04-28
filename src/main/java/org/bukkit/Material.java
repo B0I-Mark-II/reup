@@ -50,21 +50,34 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material BIRCH_PLANKS = getMaterial("birch_planks");
     Material JUNGLE_PLANKS = getMaterial("jungle_planks");
     Material ACACIA_PLANKS = getMaterial("acacia_planks");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material CHERRY_PLANKS = getMaterial("cherry_planks");
     Material DARK_OAK_PLANKS = getMaterial("dark_oak_planks");
     Material MANGROVE_PLANKS = getMaterial("mangrove_planks");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     Material BAMBOO_PLANKS = getMaterial("bamboo_planks");
     Material CRIMSON_PLANKS = getMaterial("crimson_planks");
     Material WARPED_PLANKS = getMaterial("warped_planks");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     Material BAMBOO_MOSAIC = getMaterial("bamboo_mosaic");
     Material OAK_SAPLING = getMaterial("oak_sapling");
     Material SPRUCE_SAPLING = getMaterial("spruce_sapling");
     Material BIRCH_SAPLING = getMaterial("birch_sapling");
     Material JUNGLE_SAPLING = getMaterial("jungle_sapling");
     Material ACACIA_SAPLING = getMaterial("acacia_sapling");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material CHERRY_SAPLING = getMaterial("cherry_sapling");
     Material DARK_OAK_SAPLING = getMaterial("dark_oak_sapling");
     Material MANGROVE_PROPAGULE = getMaterial("mangrove_propagule");
     Material BEDROCK = getMaterial("bedrock");
     Material SAND = getMaterial("sand");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material SUSPICIOUS_SAND = getMaterial("suspicious_sand");
     Material RED_SAND = getMaterial("red_sand");
     Material GRAVEL = getMaterial("gravel");
     Material COAL_ORE = getMaterial("coal_ore");
@@ -133,18 +146,26 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material BIRCH_LOG = getMaterial("birch_log");
     Material JUNGLE_LOG = getMaterial("jungle_log");
     Material ACACIA_LOG = getMaterial("acacia_log");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material CHERRY_LOG = getMaterial("cherry_log");
     Material DARK_OAK_LOG = getMaterial("dark_oak_log");
     Material MANGROVE_LOG = getMaterial("mangrove_log");
     Material MANGROVE_ROOTS = getMaterial("mangrove_roots");
     Material MUDDY_MANGROVE_ROOTS = getMaterial("muddy_mangrove_roots");
     Material CRIMSON_STEM = getMaterial("crimson_stem");
     Material WARPED_STEM = getMaterial("warped_stem");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     Material BAMBOO_BLOCK = getMaterial("bamboo_block");
     Material STRIPPED_OAK_LOG = getMaterial("stripped_oak_log");
     Material STRIPPED_SPRUCE_LOG = getMaterial("stripped_spruce_log");
     Material STRIPPED_BIRCH_LOG = getMaterial("stripped_birch_log");
     Material STRIPPED_JUNGLE_LOG = getMaterial("stripped_jungle_log");
     Material STRIPPED_ACACIA_LOG = getMaterial("stripped_acacia_log");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material STRIPPED_CHERRY_LOG = getMaterial("stripped_cherry_log");
     Material STRIPPED_DARK_OAK_LOG = getMaterial("stripped_dark_oak_log");
     Material STRIPPED_MANGROVE_LOG = getMaterial("stripped_mangrove_log");
     Material STRIPPED_CRIMSON_STEM = getMaterial("stripped_crimson_stem");
@@ -154,6 +175,9 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material STRIPPED_BIRCH_WOOD = getMaterial("stripped_birch_wood");
     Material STRIPPED_JUNGLE_WOOD = getMaterial("stripped_jungle_wood");
     Material STRIPPED_ACACIA_WOOD = getMaterial("stripped_acacia_wood");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material STRIPPED_CHERRY_WOOD = getMaterial("stripped_cherry_wood");
     Material STRIPPED_DARK_OAK_WOOD = getMaterial("stripped_dark_oak_wood");
     Material STRIPPED_MANGROVE_WOOD = getMaterial("stripped_mangrove_wood");
     Material STRIPPED_CRIMSON_HYPHAE = getMaterial("stripped_crimson_hyphae");
@@ -164,6 +188,9 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material BIRCH_WOOD = getMaterial("birch_wood");
     Material JUNGLE_WOOD = getMaterial("jungle_wood");
     Material ACACIA_WOOD = getMaterial("acacia_wood");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material CHERRY_WOOD = getMaterial("cherry_wood");
     Material DARK_OAK_WOOD = getMaterial("dark_oak_wood");
     Material MANGROVE_WOOD = getMaterial("mangrove_wood");
     Material CRIMSON_HYPHAE = getMaterial("crimson_hyphae");
@@ -173,6 +200,9 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material BIRCH_LEAVES = getMaterial("birch_leaves");
     Material JUNGLE_LEAVES = getMaterial("jungle_leaves");
     Material ACACIA_LEAVES = getMaterial("acacia_leaves");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material CHERRY_LEAVES = getMaterial("cherry_leaves");
     Material DARK_OAK_LEAVES = getMaterial("dark_oak_leaves");
     Material MANGROVE_LEAVES = getMaterial("mangrove_leaves");
     Material AZALEA_LEAVES = getMaterial("azalea_leaves");
@@ -222,6 +252,9 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material CORNFLOWER = getMaterial("cornflower");
     Material LILY_OF_THE_VALLEY = getMaterial("lily_of_the_valley");
     Material WITHER_ROSE = getMaterial("wither_rose");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material TORCHFLOWER = getMaterial("torchflower");
     Material SPORE_BLOSSOM = getMaterial("spore_blossom");
     Material BROWN_MUSHROOM = getMaterial("brown_mushroom");
     Material RED_MUSHROOM = getMaterial("red_mushroom");
@@ -235,6 +268,9 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material SUGAR_CANE = getMaterial("sugar_cane");
     Material KELP = getMaterial("kelp");
     Material MOSS_CARPET = getMaterial("moss_carpet");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material PINK_PETALS = getMaterial("pink_petals");
     Material MOSS_BLOCK = getMaterial("moss_block");
     Material HANGING_ROOTS = getMaterial("hanging_roots");
     Material BIG_DRIPLEAF = getMaterial("big_dripleaf");
@@ -245,9 +281,16 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material BIRCH_SLAB = getMaterial("birch_slab");
     Material JUNGLE_SLAB = getMaterial("jungle_slab");
     Material ACACIA_SLAB = getMaterial("acacia_slab");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material CHERRY_SLAB = getMaterial("cherry_slab");
     Material DARK_OAK_SLAB = getMaterial("dark_oak_slab");
     Material MANGROVE_SLAB = getMaterial("mangrove_slab");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     Material BAMBOO_SLAB = getMaterial("bamboo_slab");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     Material BAMBOO_MOSAIC_SLAB = getMaterial("bamboo_mosaic_slab");
     Material CRIMSON_SLAB = getMaterial("crimson_slab");
     Material WARPED_SLAB = getMaterial("warped_slab");
@@ -274,7 +317,12 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material SMOOTH_STONE = getMaterial("smooth_stone");
     Material BRICKS = getMaterial("bricks");
     Material BOOKSHELF = getMaterial("bookshelf");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     Material CHISELED_BOOKSHELF = getMaterial("chiseled_bookshelf");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material DECORATED_POT = getMaterial("decorated_pot");
     Material MOSSY_COBBLESTONE = getMaterial("mossy_cobblestone");
     Material OBSIDIAN = getMaterial("obsidian");
     Material TORCH = getMaterial("torch");
@@ -302,6 +350,9 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material BIRCH_FENCE = getMaterial("birch_fence");
     Material JUNGLE_FENCE = getMaterial("jungle_fence");
     Material ACACIA_FENCE = getMaterial("acacia_fence");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material CHERRY_FENCE = getMaterial("cherry_fence");
     Material DARK_OAK_FENCE = getMaterial("dark_oak_fence");
     Material MANGROVE_FENCE = getMaterial("mangrove_fence");
     Material BAMBOO_FENCE = getMaterial("bamboo_fence");
@@ -373,9 +424,16 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material BIRCH_STAIRS = getMaterial("birch_stairs");
     Material JUNGLE_STAIRS = getMaterial("jungle_stairs");
     Material ACACIA_STAIRS = getMaterial("acacia_stairs");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material CHERRY_STAIRS = getMaterial("cherry_stairs");
     Material DARK_OAK_STAIRS = getMaterial("dark_oak_stairs");
     Material MANGROVE_STAIRS = getMaterial("mangrove_stairs");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     Material BAMBOO_STAIRS = getMaterial("bamboo_stairs");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     Material BAMBOO_MOSAIC_STAIRS = getMaterial("bamboo_mosaic_stairs");
     Material CRIMSON_STAIRS = getMaterial("crimson_stairs");
     Material WARPED_STAIRS = getMaterial("warped_stairs");
@@ -671,6 +729,9 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material BIRCH_BUTTON = getMaterial("birch_button");
     Material JUNGLE_BUTTON = getMaterial("jungle_button");
     Material ACACIA_BUTTON = getMaterial("acacia_button");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material CHERRY_BUTTON = getMaterial("cherry_button");
     Material DARK_OAK_BUTTON = getMaterial("dark_oak_button");
     Material MANGROVE_BUTTON = getMaterial("mangrove_button");
     Material BAMBOO_BUTTON = getMaterial("bamboo_button");
@@ -685,6 +746,9 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material BIRCH_PRESSURE_PLATE = getMaterial("birch_pressure_plate");
     Material JUNGLE_PRESSURE_PLATE = getMaterial("jungle_pressure_plate");
     Material ACACIA_PRESSURE_PLATE = getMaterial("acacia_pressure_plate");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material CHERRY_PRESSURE_PLATE = getMaterial("cherry_pressure_plate");
     Material DARK_OAK_PRESSURE_PLATE = getMaterial("dark_oak_pressure_plate");
     Material MANGROVE_PRESSURE_PLATE = getMaterial("mangrove_pressure_plate");
     Material BAMBOO_PRESSURE_PLATE = getMaterial("bamboo_pressure_plate");
@@ -696,6 +760,9 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material BIRCH_DOOR = getMaterial("birch_door");
     Material JUNGLE_DOOR = getMaterial("jungle_door");
     Material ACACIA_DOOR = getMaterial("acacia_door");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material CHERRY_DOOR = getMaterial("cherry_door");
     Material DARK_OAK_DOOR = getMaterial("dark_oak_door");
     Material MANGROVE_DOOR = getMaterial("mangrove_door");
     Material BAMBOO_DOOR = getMaterial("bamboo_door");
@@ -707,6 +774,9 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material BIRCH_TRAPDOOR = getMaterial("birch_trapdoor");
     Material JUNGLE_TRAPDOOR = getMaterial("jungle_trapdoor");
     Material ACACIA_TRAPDOOR = getMaterial("acacia_trapdoor");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material CHERRY_TRAPDOOR = getMaterial("cherry_trapdoor");
     Material DARK_OAK_TRAPDOOR = getMaterial("dark_oak_trapdoor");
     Material MANGROVE_TRAPDOOR = getMaterial("mangrove_trapdoor");
     Material BAMBOO_TRAPDOOR = getMaterial("bamboo_trapdoor");
@@ -717,6 +787,9 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material BIRCH_FENCE_GATE = getMaterial("birch_fence_gate");
     Material JUNGLE_FENCE_GATE = getMaterial("jungle_fence_gate");
     Material ACACIA_FENCE_GATE = getMaterial("acacia_fence_gate");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material CHERRY_FENCE_GATE = getMaterial("cherry_fence_gate");
     Material DARK_OAK_FENCE_GATE = getMaterial("dark_oak_fence_gate");
     Material MANGROVE_FENCE_GATE = getMaterial("mangrove_fence_gate");
     Material BAMBOO_FENCE_GATE = getMaterial("bamboo_fence_gate");
@@ -745,6 +818,12 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material JUNGLE_CHEST_BOAT = getMaterial("jungle_chest_boat");
     Material ACACIA_BOAT = getMaterial("acacia_boat");
     Material ACACIA_CHEST_BOAT = getMaterial("acacia_chest_boat");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material CHERRY_BOAT = getMaterial("cherry_boat");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material CHERRY_CHEST_BOAT = getMaterial("cherry_chest_boat");
     Material DARK_OAK_BOAT = getMaterial("dark_oak_boat");
     Material DARK_OAK_CHEST_BOAT = getMaterial("dark_oak_chest_boat");
     Material MANGROVE_BOAT = getMaterial("mangrove_boat");
@@ -848,6 +927,9 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material BIRCH_SIGN = getMaterial("birch_sign");
     Material JUNGLE_SIGN = getMaterial("jungle_sign");
     Material ACACIA_SIGN = getMaterial("acacia_sign");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material CHERRY_SIGN = getMaterial("cherry_sign");
     Material DARK_OAK_SIGN = getMaterial("dark_oak_sign");
     Material MANGROVE_SIGN = getMaterial("mangrove_sign");
     Material BAMBOO_SIGN = getMaterial("bamboo_sign");
@@ -858,10 +940,23 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material BIRCH_HANGING_SIGN = getMaterial("birch_hanging_sign");
     Material JUNGLE_HANGING_SIGN = getMaterial("jungle_hanging_sign");
     Material ACACIA_HANGING_SIGN = getMaterial("acacia_hanging_sign");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material CHERRY_HANGING_SIGN = getMaterial("cherry_hanging_sign");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     Material DARK_OAK_HANGING_SIGN = getMaterial("dark_oak_hanging_sign");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     Material MANGROVE_HANGING_SIGN = getMaterial("mangrove_hanging_sign");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     Material BAMBOO_HANGING_SIGN = getMaterial("bamboo_hanging_sign");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     Material CRIMSON_HANGING_SIGN = getMaterial("crimson_hanging_sign");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     Material WARPED_HANGING_SIGN = getMaterial("warped_hanging_sign");
     Material BUCKET = getMaterial("bucket");
     Material WATER_BUCKET = getMaterial("water_bucket");
@@ -885,6 +980,8 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material EGG = getMaterial("egg");
     Material COMPASS = getMaterial("compass");
     Material RECOVERY_COMPASS = getMaterial("recovery_compass");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     Material BUNDLE = getMaterial("bundle");
     Material FISHING_ROD = getMaterial("fishing_rod");
     Material CLOCK = getMaterial("clock");
@@ -968,6 +1065,8 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material BEE_SPAWN_EGG = getMaterial("bee_spawn_egg");
     Material BLAZE_SPAWN_EGG = getMaterial("blaze_spawn_egg");
     Material CAT_SPAWN_EGG = getMaterial("cat_spawn_egg");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     Material CAMEL_SPAWN_EGG = getMaterial("camel_spawn_egg");
     Material CAVE_SPIDER_SPAWN_EGG = getMaterial("cave_spider_spawn_egg");
     Material CHICKEN_SPAWN_EGG = getMaterial("chicken_spawn_egg");
@@ -1015,6 +1114,9 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material SKELETON_SPAWN_EGG = getMaterial("skeleton_spawn_egg");
     Material SKELETON_HORSE_SPAWN_EGG = getMaterial("skeleton_horse_spawn_egg");
     Material SLIME_SPAWN_EGG = getMaterial("slime_spawn_egg");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material SNIFFER_SPAWN_EGG = getMaterial("sniffer_spawn_egg");
     Material SNOW_GOLEM_SPAWN_EGG = getMaterial("snow_golem_spawn_egg");
     Material SPIDER_SPAWN_EGG = getMaterial("spider_spawn_egg");
     Material SQUID_SPAWN_EGG = getMaterial("squid_spawn_egg");
@@ -1057,6 +1159,8 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material ZOMBIE_HEAD = getMaterial("zombie_head");
     Material CREEPER_HEAD = getMaterial("creeper_head");
     Material DRAGON_HEAD = getMaterial("dragon_head");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     Material PIGLIN_HEAD = getMaterial("piglin_head");
     Material NETHER_STAR = getMaterial("nether_star");
     Material PUMPKIN_PIE = getMaterial("pumpkin_pie");
@@ -1100,6 +1204,9 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material END_CRYSTAL = getMaterial("end_crystal");
     Material CHORUS_FRUIT = getMaterial("chorus_fruit");
     Material POPPED_CHORUS_FRUIT = getMaterial("popped_chorus_fruit");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material TORCHFLOWER_SEEDS = getMaterial("torchflower_seeds");
     Material BEETROOT = getMaterial("beetroot");
     Material BEETROOT_SEEDS = getMaterial("beetroot_seeds");
     Material BEETROOT_SOUP = getMaterial("beetroot_soup");
@@ -1208,6 +1315,57 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material PEARLESCENT_FROGLIGHT = getMaterial("pearlescent_froglight");
     Material FROGSPAWN = getMaterial("frogspawn");
     Material ECHO_SHARD = getMaterial("echo_shard");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material BRUSH = getMaterial("brush");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material NETHERITE_UPGRADE_SMITHING_TEMPLATE = getMaterial("netherite_upgrade_smithing_template");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material SENTRY_ARMOR_TRIM_SMITHING_TEMPLATE = getMaterial("sentry_armor_trim_smithing_template");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material DUNE_ARMOR_TRIM_SMITHING_TEMPLATE = getMaterial("dune_armor_trim_smithing_template");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material COAST_ARMOR_TRIM_SMITHING_TEMPLATE = getMaterial("coast_armor_trim_smithing_template");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material WILD_ARMOR_TRIM_SMITHING_TEMPLATE = getMaterial("wild_armor_trim_smithing_template");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material WARD_ARMOR_TRIM_SMITHING_TEMPLATE = getMaterial("ward_armor_trim_smithing_template");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material EYE_ARMOR_TRIM_SMITHING_TEMPLATE = getMaterial("eye_armor_trim_smithing_template");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material VEX_ARMOR_TRIM_SMITHING_TEMPLATE = getMaterial("vex_armor_trim_smithing_template");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material TIDE_ARMOR_TRIM_SMITHING_TEMPLATE = getMaterial("tide_armor_trim_smithing_template");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material SNOUT_ARMOR_TRIM_SMITHING_TEMPLATE = getMaterial("snout_armor_trim_smithing_template");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material RIB_ARMOR_TRIM_SMITHING_TEMPLATE = getMaterial("rib_armor_trim_smithing_template");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material SPIRE_ARMOR_TRIM_SMITHING_TEMPLATE = getMaterial("spire_armor_trim_smithing_template");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material POTTERY_SHARD_ARCHER = getMaterial("pottery_shard_archer");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material POTTERY_SHARD_PRIZE = getMaterial("pottery_shard_prize");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material POTTERY_SHARD_ARMS_UP = getMaterial("pottery_shard_arms_up");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material POTTERY_SHARD_SKULL = getMaterial("pottery_shard_skull");
     Material WATER = getMaterial("water");
     Material LAVA = getMaterial("lava");
     Material TALL_SEAGRASS = getMaterial("tall_seagrass");
@@ -1221,6 +1379,9 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material SPRUCE_WALL_SIGN = getMaterial("spruce_wall_sign");
     Material BIRCH_WALL_SIGN = getMaterial("birch_wall_sign");
     Material ACACIA_WALL_SIGN = getMaterial("acacia_wall_sign");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material CHERRY_WALL_SIGN = getMaterial("cherry_wall_sign");
     Material JUNGLE_WALL_SIGN = getMaterial("jungle_wall_sign");
     Material DARK_OAK_WALL_SIGN = getMaterial("dark_oak_wall_sign");
     Material MANGROVE_WALL_SIGN = getMaterial("mangrove_wall_sign");
@@ -1229,11 +1390,26 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material SPRUCE_WALL_HANGING_SIGN = getMaterial("spruce_wall_hanging_sign");
     Material BIRCH_WALL_HANGING_SIGN = getMaterial("birch_wall_hanging_sign");
     Material ACACIA_WALL_HANGING_SIGN = getMaterial("acacia_wall_hanging_sign");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material CHERRY_WALL_HANGING_SIGN = getMaterial("cherry_wall_hanging_sign");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     Material JUNGLE_WALL_HANGING_SIGN = getMaterial("jungle_wall_hanging_sign");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     Material DARK_OAK_WALL_HANGING_SIGN = getMaterial("dark_oak_wall_hanging_sign");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     Material MANGROVE_WALL_HANGING_SIGN = getMaterial("mangrove_wall_hanging_sign");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     Material CRIMSON_WALL_HANGING_SIGN = getMaterial("crimson_wall_hanging_sign");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     Material WARPED_WALL_HANGING_SIGN = getMaterial("warped_wall_hanging_sign");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     Material BAMBOO_WALL_HANGING_SIGN = getMaterial("bamboo_wall_hanging_sign");
     Material REDSTONE_WALL_TORCH = getMaterial("redstone_wall_torch");
     Material SOUL_WALL_TORCH = getMaterial("soul_wall_torch");
@@ -1248,11 +1424,17 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material END_PORTAL = getMaterial("end_portal");
     Material COCOA = getMaterial("cocoa");
     Material TRIPWIRE = getMaterial("tripwire");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material POTTED_TORCHFLOWER = getMaterial("potted_torchflower");
     Material POTTED_OAK_SAPLING = getMaterial("potted_oak_sapling");
     Material POTTED_SPRUCE_SAPLING = getMaterial("potted_spruce_sapling");
     Material POTTED_BIRCH_SAPLING = getMaterial("potted_birch_sapling");
     Material POTTED_JUNGLE_SAPLING = getMaterial("potted_jungle_sapling");
     Material POTTED_ACACIA_SAPLING = getMaterial("potted_acacia_sapling");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material POTTED_CHERRY_SAPLING = getMaterial("potted_cherry_sapling");
     Material POTTED_DARK_OAK_SAPLING = getMaterial("potted_dark_oak_sapling");
     Material POTTED_MANGROVE_PROPAGULE = getMaterial("potted_mangrove_propagule");
     Material POTTED_FERN = getMaterial("potted_fern");
@@ -1281,6 +1463,8 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material PLAYER_WALL_HEAD = getMaterial("player_wall_head");
     Material CREEPER_WALL_HEAD = getMaterial("creeper_wall_head");
     Material DRAGON_WALL_HEAD = getMaterial("dragon_wall_head");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
     Material PIGLIN_WALL_HEAD = getMaterial("piglin_wall_head");
     Material WHITE_WALL_BANNER = getMaterial("white_wall_banner");
     Material ORANGE_WALL_BANNER = getMaterial("orange_wall_banner");
@@ -1298,6 +1482,9 @@ public interface Material extends Keyed, Comparable<Material>, Translatable {
     Material GREEN_WALL_BANNER = getMaterial("green_wall_banner");
     Material RED_WALL_BANNER = getMaterial("red_wall_banner");
     Material BLACK_WALL_BANNER = getMaterial("black_wall_banner");
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    Material TORCHFLOWER_CROP = getMaterial("torchflower_crop");
     Material BEETROOTS = getMaterial("beetroots");
     Material END_GATEWAY = getMaterial("end_gateway");
     Material FROSTED_ICE = getMaterial("frosted_ice");
