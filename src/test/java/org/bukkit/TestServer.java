@@ -16,7 +16,7 @@ public final class TestServer {
     static {
         try {
             TestServer server = new TestServer();
-            Server instance = Mockito.mock(Server.class);
+            Server instance = Mockito.mock(Mockito.withSettings().stubOnly());
 
             Mockito.when(instance.isPrimaryThread()).then(mock -> Thread.currentThread().equals(server.creatingThread));
 
@@ -44,7 +44,7 @@ public final class TestServer {
                         private final Map<NamespacedKey, Keyed> cache = new HashMap<>();
                         @Override
                         public Keyed get(NamespacedKey key) {
-                            return cache.computeIfAbsent(key, key2 -> Mockito.mock(aClass));
+                            return cache.computeIfAbsent(key, key2 -> Mockito.mock(aClass, Mockito.withSettings().stubOnly()));
                         }
 
                         @Override
@@ -55,13 +55,13 @@ public final class TestServer {
                 }
             });
 
-            UnsafeValues unsafeValues = Mockito.mock(UnsafeValues.class);
+            UnsafeValues unsafeValues = Mockito.mock(Mockito.withSettings().stubOnly());
 
             Mockito.when(unsafeValues.createLegacyMaterial(Mockito.any(), Mockito.anyInt(), Mockito.anyInt(), Mockito.anyShort(), Mockito.any())).then(new Answer<Object>() {
                 Map<String, Material> materials = new HashMap<>();
                 @Override
                 public Object answer(InvocationOnMock invocationOnMock) {
-                    return materials.computeIfAbsent(invocationOnMock.getArgument(0), name -> Mockito.mock(Material.class, name));
+                    return materials.computeIfAbsent(invocationOnMock.getArgument(0), name -> Mockito.mock(Material.class, Mockito.withSettings().name(name).stubOnly()));
                 }
             });
 
