@@ -1,6 +1,5 @@
 package org.bukkit.event.player;
 
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -10,6 +9,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockCanBuildEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -105,15 +105,15 @@ public class PlayerInteractEvent extends PlayerEvent implements Cancellable {
     }
 
     /**
-     * Convenience method. Returns the material of the item represented by
+     * Convenience method. Returns the item type of the item represented by
      * this event
      *
-     * @return Material the material of the item used
+     * @return ItemType the item type of the item used
      */
     @NotNull
-    public Material getMaterial() {
+    public ItemType getItemType() {
         if (!hasItem()) {
-            return Material.AIR;
+            return ItemType.AIR;
         }
 
         return item.getType();
@@ -148,7 +148,7 @@ public class PlayerInteractEvent extends PlayerEvent implements Cancellable {
             return false;
         }
 
-        return item.getType().isBlock();
+        return item.getType().hasBlockType();
     }
 
     /**

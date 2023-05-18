@@ -1,7 +1,7 @@
 package org.bukkit.event.block;
 
-import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockType;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
@@ -60,8 +60,8 @@ public class BlockPhysicsEvent extends BlockEvent implements Cancellable {
      * @return Changed block's type
      */
     @NotNull
-    public Material getChangedType() {
-        return changed.getMaterial();
+    public BlockType<?> getChangedType() {
+        return changed.getBlockType();
     }
 
     @Override

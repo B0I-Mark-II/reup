@@ -1,8 +1,14 @@
 package org.bukkit;
 
+import com.google.common.collect.Multimap;
 import org.bukkit.advancement.Advancement;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.inventory.CreativeCategory;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ItemType;
 import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.InvalidPluginException;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -26,9 +32,11 @@ public interface UnsafeValues {
 
     Material fromLegacy(MaterialData material, boolean itemPriority);
 
+    Material toMaterial(ItemType itemType);
+
     BlockData fromLegacy(Material material, byte data);
 
-    Material getMaterial(String material, int version);
+    ItemType getItemTyp(String itemType, int version);
 
     int getDataVersion();
 
@@ -70,10 +78,13 @@ public interface UnsafeValues {
      */
     boolean removeAdvancement(NamespacedKey key);
 
-    Material getLegacyMaterial(String name);
+    Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(Material material, EquipmentSlot slot);
 
-    @Deprecated
-    Material createLegacyMaterial(String name, int id, int maxStackSize, short maxDurability, Class<? extends MaterialData> materialData);
+    CreativeCategory getCreativeCategory(Material material);
+
+    String getBlockTranslationKey(Material material);
+
+    String getItemTranslationKey(Material material);
 
     String getTranslationKey(ItemStack itemStack);
 }

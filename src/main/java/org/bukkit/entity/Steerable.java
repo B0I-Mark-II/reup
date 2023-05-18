@@ -1,6 +1,6 @@
 package org.bukkit.entity;
 
-import org.bukkit.Material;
+import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -26,7 +26,7 @@ public interface Steerable extends Animals {
      * Get the time in ticks this entity's movement is being increased.
      *
      * Movement speed is often increased as a result of using the
-     * {@link #getSteerMaterial()}.
+     * {@link #getSteerItemType()}.
      *
      * @return the current boost ticks
      */
@@ -62,10 +62,10 @@ public interface Steerable extends Animals {
     public void setCurrentBoostTicks(int ticks);
 
     /**
-     * Get the material used to steer this entity when ridden by a player.
+     * Get the item type used to steer this entity when ridden by a player.
      *
-     * @return the lure material
+     * @return the lure item type
      */
     @NotNull
-    public Material getSteerMaterial();
+    public ItemType getSteerItemType();
 }

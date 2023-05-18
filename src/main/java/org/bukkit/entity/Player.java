@@ -8,7 +8,6 @@ import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Instrument;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Note;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Particle;
@@ -30,6 +29,7 @@ import org.bukkit.event.player.PlayerExpCooldownChangeEvent;
 import org.bukkit.event.player.PlayerResourcePackStatusEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ItemType;
 import org.bukkit.map.MapView;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.messaging.PluginMessageRecipient;
@@ -505,18 +505,6 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      * certain location. This will not actually change the world in any way.
      *
      * @param loc The location of the changed block
-     * @param material The new block
-     * @param data The block data
-     * @deprecated Magic value
-     */
-    @Deprecated
-    public void sendBlockChange(@NotNull Location loc, @NotNull Material material, byte data);
-
-    /**
-     * Send a block change. This fakes a block change packet for a user at a
-     * certain location. This will not actually change the world in any way.
-     *
-     * @param loc The location of the changed block
      * @param block The new block
      */
     public void sendBlockChange(@NotNull Location loc, @NotNull BlockData block);
@@ -613,7 +601,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      * a certain location. This will not actually change the world in any way.
      * This method will use a sign at the location's block or a faked sign
      * sent via
-     * {@link #sendBlockChange(org.bukkit.Location, org.bukkit.Material, byte)}.
+     * {@link #sendBlockChange(Location, BlockData)}.
      * <p>
      * If the client does not have a sign at the given location it will
      * display an error message to the user.
@@ -630,7 +618,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      * a certain location. This will not actually change the world in any way.
      * This method will use a sign at the location's block or a faked sign
      * sent via
-     * {@link #sendBlockChange(org.bukkit.Location, org.bukkit.Material, byte)}.
+     * {@link #sendBlockChange(Location, BlockData)}.
      * <p>
      * If the client does not have a sign at the given location it will
      * display an error message to the user.
@@ -649,7 +637,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      * a certain location. This will not actually change the world in any way.
      * This method will use a sign at the location's block or a faked sign
      * sent via
-     * {@link #sendBlockChange(org.bukkit.Location, org.bukkit.Material, byte)}.
+     * {@link #sendBlockChange(Location, BlockData)}.
      * <p>
      * If the client does not have a sign at the given location it will
      * display an error message to the user.
@@ -1705,7 +1693,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
     public void updateCommands();
 
     /**
-     * Open a {@link Material#WRITTEN_BOOK} for a Player
+     * Open a {@link ItemType#WRITTEN_BOOK} for a Player
      *
      * @param book The book to open for this player
      */

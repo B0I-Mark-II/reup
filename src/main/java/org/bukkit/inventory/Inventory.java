@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.InventoryType;
 import org.jetbrains.annotations.Contract;
@@ -13,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Interface to the various inventories. Behavior relating to {@link
- * Material#AIR} is unspecified.
+ * ItemType#AIR} is unspecified.
  *
  * <br>
  * <b>Note that whilst {@link #iterator()} deals with the entire inventory, add
@@ -86,11 +85,11 @@ public interface Inventory extends Iterable<ItemStack> {
      * an empty HashMap.
      * <p>
      * If you pass in ItemStacks which exceed the maximum stack size for the
-     * Material, first they will be added to partial stacks where
-     * Material.getMaxStackSize() is not exceeded, up to
-     * Material.getMaxStackSize(). When there are no partial stacks left
+     * ItemType, first they will be added to partial stacks where
+     * ItemType.getMaxStackSize() is not exceeded, up to
+     * ItemType.getMaxStackSize(). When there are no partial stacks left
      * stacks will be split on Inventory.getMaxStackSize() allowing you to
-     * exceed the maximum stack size for that material.
+     * exceed the maximum stack size for that ItemType.
      * <p>
      * It is known that in some implementations this method will also set
      * the inputted argument amount to the number of that item not placed in
@@ -169,13 +168,13 @@ public interface Inventory extends Iterable<ItemStack> {
 
     /**
      * Checks if the inventory contains any ItemStacks with the given
-     * material.
+     * item type.
      *
-     * @param material The material to check for
-     * @return true if an ItemStack is found with the given Material
-     * @throws IllegalArgumentException if material is null
+     * @param itemType The item type to check for
+     * @return true if an ItemStack is found with the given Item Type
+     * @throws IllegalArgumentException if item type is null
      */
-    public boolean contains(@NotNull Material material) throws IllegalArgumentException;
+    public boolean contains(@NotNull ItemType itemType) throws IllegalArgumentException;
 
     /**
      * Checks if the inventory contains any ItemStacks matching the given
@@ -193,15 +192,15 @@ public interface Inventory extends Iterable<ItemStack> {
 
     /**
      * Checks if the inventory contains any ItemStacks with the given
-     * material, adding to at least the minimum amount specified.
+     * item type, adding to at least the minimum amount specified.
      *
-     * @param material The material to check for
+     * @param itemType The item type to check for
      * @param amount The minimum amount
      * @return true if amount is less than 1, true if enough ItemStacks were
      *     found to add to the given amount
-     * @throws IllegalArgumentException if material is null
+     * @throws IllegalArgumentException if item type is null
      */
-    public boolean contains(@NotNull Material material, int amount) throws IllegalArgumentException;
+    public boolean contains(@NotNull ItemType itemType, int amount) throws IllegalArgumentException;
 
     /**
      * Checks if the inventory contains at least the minimum amount specified
@@ -233,18 +232,18 @@ public interface Inventory extends Iterable<ItemStack> {
 
     /**
      * Returns a HashMap with all slots and ItemStacks in the inventory with
-     * the given Material.
+     * the given item type.
      * <p>
      * The HashMap contains entries where, the key is the slot index, and the
      * value is the ItemStack in that slot. If no matching ItemStack with the
-     * given Material is found, an empty map is returned.
+     * given item type is found, an empty map is returned.
      *
-     * @param material The material to look for
+     * @param itemType The item type to look for
      * @return A HashMap containing the slot index, ItemStack pairs
-     * @throws IllegalArgumentException if material is null
+     * @throws IllegalArgumentException if item type is null
      */
     @NotNull
-    public HashMap<Integer, ? extends ItemStack> all(@NotNull Material material) throws IllegalArgumentException;
+    public HashMap<Integer, ? extends ItemStack> all(@NotNull ItemType itemType) throws IllegalArgumentException;
 
     /**
      * Finds all slots in the inventory containing any ItemStacks with the
@@ -253,7 +252,7 @@ public interface Inventory extends Iterable<ItemStack> {
      * <p>
      * The HashMap contains entries where, the key is the slot index, and the
      * value is the ItemStack in that slot. If no matching ItemStack with the
-     * given Material is found, an empty map is returned.
+     * given item type is found, an empty map is returned.
      *
      * @param item The ItemStack to match against
      * @return A map from slot indexes to item at index
@@ -263,13 +262,13 @@ public interface Inventory extends Iterable<ItemStack> {
 
     /**
      * Finds the first slot in the inventory containing an ItemStack with the
-     * given material
+     * given item type
      *
-     * @param material The material to look for
-     * @return The slot index of the given Material or -1 if not found
-     * @throws IllegalArgumentException if material is null
+     * @param itemType The item type to look for
+     * @return The slot index of the given item type or -1 if not found
+     * @throws IllegalArgumentException if item type is null
      */
-    public int first(@NotNull Material material) throws IllegalArgumentException;
+    public int first(@NotNull ItemType itemType) throws IllegalArgumentException;
 
     /**
      * Returns the first slot in the inventory containing an ItemStack with
@@ -297,12 +296,12 @@ public interface Inventory extends Iterable<ItemStack> {
     public boolean isEmpty();
 
     /**
-     * Removes all stacks in the inventory matching the given material.
+     * Removes all stacks in the inventory matching the given item type.
      *
-     * @param material The material to remove
-     * @throws IllegalArgumentException if material is null
+     * @param itemType The item type to remove
+     * @throws IllegalArgumentException if item type is null
      */
-    public void remove(@NotNull Material material) throws IllegalArgumentException;
+    public void remove(@NotNull ItemType itemType) throws IllegalArgumentException;
 
     /**
      * Removes all stacks in the inventory matching the given stack.

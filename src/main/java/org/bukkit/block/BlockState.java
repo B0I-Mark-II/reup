@@ -2,7 +2,6 @@ package org.bukkit.block;
 
 import org.bukkit.Chunk;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.material.MaterialData;
@@ -53,7 +52,7 @@ public interface BlockState extends Metadatable {
      * @return block type
      */
     @NotNull
-    Material getType();
+    BlockType<?> getType();
 
     /**
      * Gets the current light level of the block represented by this block state.
@@ -144,9 +143,9 @@ public interface BlockState extends Metadatable {
     /**
      * Sets the type of this block state.
      *
-     * @param type Material to change this block state to
+     * @param type block type to change this block state to
      */
-    void setType(@NotNull Material type);
+    void setType(@NotNull BlockType<?> type);
 
     /**
      * Attempts to update the block represented by this state, setting it to

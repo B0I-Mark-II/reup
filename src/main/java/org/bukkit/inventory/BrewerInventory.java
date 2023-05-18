@@ -1,6 +1,5 @@
 package org.bukkit.inventory;
 
-import org.bukkit.Material;
 import org.bukkit.block.BrewingStand;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,7 +33,7 @@ public interface BrewerInventory extends Inventory {
 
     /**
      * Set the current fuel for brewing. Generally only
-     * {@link Material#BLAZE_POWDER} will be of use.
+     * {@link ItemType#BLAZE_POWDER} will be of use.
      *
      * @param fuel The fuel
      */

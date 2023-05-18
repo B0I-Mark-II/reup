@@ -72,7 +72,7 @@ public class BlockPlaceEvent extends BlockEvent implements Cancellable {
     }
 
     /**
-     * Gets the BlockState for the block which was replaced. Material type air
+     * Gets the BlockState for the block which was replaced. Block type air
      * mostly.
      *
      * @return The BlockState for the block which was replaced.

@@ -83,8 +83,8 @@ public enum InventoryAction {
      */
     CLONE_STACK,
     /**
-     * The inventory is searched for the same material, and they are put on
-     * the cursor up to {@link org.bukkit.Material#getMaxStackSize()}.
+     * The inventory is searched for the same item type, and they are put on
+     * the cursor up to {@link org.bukkit.inventory.ItemType#getMaxStackSize()}.
      */
     COLLECT_TO_CURSOR,
     /**

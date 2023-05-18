@@ -1,8 +1,12 @@
 package org.bukkit.block;
 
+import com.google.common.base.Preconditions;
 import java.util.function.Consumer;
-import org.bukkit.Material;
+import org.bukkit.Keyed;
 import org.bukkit.MinecraftExperimental;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
+import org.bukkit.Translatable;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.AnaloguePowerable;
 import org.bukkit.block.data.Bisected;
@@ -99,3045 +103,3069 @@ import org.bukkit.block.data.type.TurtleEgg;
 import org.bukkit.block.data.type.Wall;
 import org.bukkit.block.data.type.WallHangingSign;
 import org.bukkit.block.data.type.WallSign;
+import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public interface BlockType<B extends BlockData> extends Material {
+public abstract class BlockType<B extends BlockData> implements Keyed, Translatable {
     //<editor-fold desc="BlockTypes" defaultstate="collapsed">
-    BlockType<BlockData> AIR = asBlockType(Material.AIR);
-    BlockType<BlockData> STONE = asBlockType(Material.STONE);
-    BlockType<BlockData> GRANITE = asBlockType(Material.GRANITE);
-    BlockType<BlockData> POLISHED_GRANITE = asBlockType(Material.POLISHED_GRANITE);
-    BlockType<BlockData> DIORITE = asBlockType(Material.DIORITE);
-    BlockType<BlockData> POLISHED_DIORITE = asBlockType(Material.POLISHED_DIORITE);
-    BlockType<BlockData> ANDESITE = asBlockType(Material.ANDESITE);
-    BlockType<BlockData> POLISHED_ANDESITE = asBlockType(Material.POLISHED_ANDESITE);
+    public static final BlockType<BlockData> AIR = getBlockType("air");
+    public static final BlockType<BlockData> STONE = getBlockType("stone");
+    public static final BlockType<BlockData> GRANITE = getBlockType("granite");
+    public static final BlockType<BlockData> POLISHED_GRANITE = getBlockType("polished_granite");
+    public static final BlockType<BlockData> DIORITE = getBlockType("diorite");
+    public static final BlockType<BlockData> POLISHED_DIORITE = getBlockType("polished_diorite");
+    public static final BlockType<BlockData> ANDESITE = getBlockType("andesite");
+    public static final BlockType<BlockData> POLISHED_ANDESITE = getBlockType("polished_andesite");
     /**
      * BlockData: {@link Snowable}
      */
-    BlockType<Snowable> GRASS_BLOCK = asBlockType(Material.GRASS_BLOCK);
-    BlockType<BlockData> DIRT = asBlockType(Material.DIRT);
-    BlockType<BlockData> COARSE_DIRT = asBlockType(Material.COARSE_DIRT);
+    public static final BlockType<Snowable> GRASS_BLOCK = getBlockType("grass_block");
+    public static final BlockType<BlockData> DIRT = getBlockType("dirt");
+    public static final BlockType<BlockData> COARSE_DIRT = getBlockType("coarse_dirt");
     /**
      * BlockData: {@link Snowable}
      */
-    BlockType<Snowable> PODZOL = asBlockType(Material.PODZOL);
-    BlockType<BlockData> COBBLESTONE = asBlockType(Material.COBBLESTONE);
-    BlockType<BlockData> OAK_PLANKS = asBlockType(Material.OAK_PLANKS);
-    BlockType<BlockData> SPRUCE_PLANKS = asBlockType(Material.SPRUCE_PLANKS);
-    BlockType<BlockData> BIRCH_PLANKS = asBlockType(Material.BIRCH_PLANKS);
-    BlockType<BlockData> JUNGLE_PLANKS = asBlockType(Material.JUNGLE_PLANKS);
-    BlockType<BlockData> ACACIA_PLANKS = asBlockType(Material.ACACIA_PLANKS);
+    public static final BlockType<Snowable> PODZOL = getBlockType("podzol");
+    public static final BlockType<BlockData> COBBLESTONE = getBlockType("cobblestone");
+    public static final BlockType<BlockData> OAK_PLANKS = getBlockType("oak_planks");
+    public static final BlockType<BlockData> SPRUCE_PLANKS = getBlockType("spruce_planks");
+    public static final BlockType<BlockData> BIRCH_PLANKS = getBlockType("birch_planks");
+    public static final BlockType<BlockData> JUNGLE_PLANKS = getBlockType("jungle_planks");
+    public static final BlockType<BlockData> ACACIA_PLANKS = getBlockType("acacia_planks");
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<BlockData> CHERRY_PLANKS = asBlockType(Material.CHERRY_PLANKS);
-    BlockType<BlockData> DARK_OAK_PLANKS = asBlockType(Material.DARK_OAK_PLANKS);
-    BlockType<BlockData> MANGROVE_PLANKS = asBlockType(Material.MANGROVE_PLANKS);
+    public static final BlockType<BlockData> CHERRY_PLANKS = getBlockType("cherry_planks");
+    public static final BlockType<BlockData> DARK_OAK_PLANKS = getBlockType("dark_oak_planks");
+    public static final BlockType<BlockData> MANGROVE_PLANKS = getBlockType("mangrove_planks");
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<BlockData> BAMBOO_PLANKS = asBlockType(Material.BAMBOO_PLANKS);
+    public static final BlockType<BlockData> BAMBOO_PLANKS = getBlockType("bamboo_planks");
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<BlockData> BAMBOO_MOSAIC = asBlockType(Material.BAMBOO_MOSAIC);
+    public static final BlockType<BlockData> BAMBOO_MOSAIC = getBlockType("bamboo_mosaic");
     /**
      * BlockData: {@link Sapling}
      */
-    BlockType<Sapling> OAK_SAPLING = asBlockType(Material.OAK_SAPLING);
+    public static final BlockType<Sapling> OAK_SAPLING = getBlockType("oak_sapling");
     /**
      * BlockData: {@link Sapling}
      */
-    BlockType<Sapling> SPRUCE_SAPLING = asBlockType(Material.SPRUCE_SAPLING);
+    public static final BlockType<Sapling> SPRUCE_SAPLING = getBlockType("spruce_sapling");
     /**
      * BlockData: {@link Sapling}
      */
-    BlockType<Sapling> BIRCH_SAPLING = asBlockType(Material.BIRCH_SAPLING);
+    public static final BlockType<Sapling> BIRCH_SAPLING = getBlockType("birch_sapling");
     /**
      * BlockData: {@link Sapling}
      */
-    BlockType<Sapling> JUNGLE_SAPLING = asBlockType(Material.JUNGLE_SAPLING);
+    public static final BlockType<Sapling> JUNGLE_SAPLING = getBlockType("jungle_sapling");
     /**
      * BlockData: {@link Sapling}
      */
-    BlockType<Sapling> ACACIA_SAPLING = asBlockType(Material.ACACIA_SAPLING);
+    public static final BlockType<Sapling> ACACIA_SAPLING = getBlockType("acacia_sapling");
     /**
      * BlockData: {@link Sapling}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<Sapling> CHERRY_SAPLING = asBlockType(Material.CHERRY_SAPLING);
+    public static final BlockType<Sapling> CHERRY_SAPLING = getBlockType("cherry_sapling");
     /**
      * BlockData: {@link Sapling}
      */
-    BlockType<Sapling> DARK_OAK_SAPLING = asBlockType(Material.DARK_OAK_SAPLING);
+    public static final BlockType<Sapling> DARK_OAK_SAPLING = getBlockType("dark_oak_sapling");
     /**
      * BlockData: {@link MangrovePropagule}
      */
-    BlockType<MangrovePropagule> MANGROVE_PROPAGULE = asBlockType(Material.MANGROVE_PROPAGULE);
-    BlockType<BlockData> BEDROCK = asBlockType(Material.BEDROCK);
+    public static final BlockType<MangrovePropagule> MANGROVE_PROPAGULE = getBlockType("mangrove_propagule");
+    public static final BlockType<BlockData> BEDROCK = getBlockType("bedrock");
     /**
      * BlockData: {@link Levelled}
      */
-    BlockType<Levelled> WATER = asBlockType(Material.WATER);
+    public static final BlockType<Levelled> WATER = getBlockType("water");
     /**
      * BlockData: {@link Levelled}
      */
-    BlockType<Levelled> LAVA = asBlockType(Material.LAVA);
-    BlockType<BlockData> SAND = asBlockType(Material.SAND);
+    public static final BlockType<Levelled> LAVA = getBlockType("lava");
+    public static final BlockType<BlockData> SAND = getBlockType("sand");
     /**
      * BlockData: {@link SuspiciousSand}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<SuspiciousSand> SUSPICIOUS_SAND = asBlockType(Material.SUSPICIOUS_SAND);
-    BlockType<BlockData> RED_SAND = asBlockType(Material.RED_SAND);
-    BlockType<BlockData> GRAVEL = asBlockType(Material.GRAVEL);
-    BlockType<BlockData> GOLD_ORE = asBlockType(Material.GOLD_ORE);
-    BlockType<BlockData> DEEPSLATE_GOLD_ORE = asBlockType(Material.DEEPSLATE_GOLD_ORE);
-    BlockType<BlockData> IRON_ORE = asBlockType(Material.IRON_ORE);
-    BlockType<BlockData> DEEPSLATE_IRON_ORE = asBlockType(Material.DEEPSLATE_IRON_ORE);
-    BlockType<BlockData> COAL_ORE = asBlockType(Material.COAL_ORE);
-    BlockType<BlockData> DEEPSLATE_COAL_ORE = asBlockType(Material.DEEPSLATE_COAL_ORE);
-    BlockType<BlockData> NETHER_GOLD_ORE = asBlockType(Material.NETHER_GOLD_ORE);
+    public static final BlockType<SuspiciousSand> SUSPICIOUS_SAND = getBlockType("suspicious_sand");
+    public static final BlockType<BlockData> RED_SAND = getBlockType("red_sand");
+    public static final BlockType<BlockData> GRAVEL = getBlockType("gravel");
+    public static final BlockType<BlockData> GOLD_ORE = getBlockType("gold_ore");
+    public static final BlockType<BlockData> DEEPSLATE_GOLD_ORE = getBlockType("deepslate_gold_ore");
+    public static final BlockType<BlockData> IRON_ORE = getBlockType("iron_ore");
+    public static final BlockType<BlockData> DEEPSLATE_IRON_ORE = getBlockType("deepslate_iron_ore");
+    public static final BlockType<BlockData> COAL_ORE = getBlockType("coal_ore");
+    public static final BlockType<BlockData> DEEPSLATE_COAL_ORE = getBlockType("deepslate_coal_ore");
+    public static final BlockType<BlockData> NETHER_GOLD_ORE = getBlockType("nether_gold_ore");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> OAK_LOG = asBlockType(Material.OAK_LOG);
+    public static final BlockType<Orientable> OAK_LOG = getBlockType("oak_log");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> SPRUCE_LOG = asBlockType(Material.SPRUCE_LOG);
+    public static final BlockType<Orientable> SPRUCE_LOG = getBlockType("spruce_log");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> BIRCH_LOG = asBlockType(Material.BIRCH_LOG);
+    public static final BlockType<Orientable> BIRCH_LOG = getBlockType("birch_log");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> JUNGLE_LOG = asBlockType(Material.JUNGLE_LOG);
+    public static final BlockType<Orientable> JUNGLE_LOG = getBlockType("jungle_log");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> ACACIA_LOG = asBlockType(Material.ACACIA_LOG);
+    public static final BlockType<Orientable> ACACIA_LOG = getBlockType("acacia_log");
     /**
      * BlockData: {@link Orientable}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<Orientable> CHERRY_LOG = asBlockType(Material.CHERRY_LOG);
+    public static final BlockType<Orientable> CHERRY_LOG = getBlockType("cherry_log");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> DARK_OAK_LOG = asBlockType(Material.DARK_OAK_LOG);
+    public static final BlockType<Orientable> DARK_OAK_LOG = getBlockType("dark_oak_log");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> MANGROVE_LOG = asBlockType(Material.MANGROVE_LOG);
+    public static final BlockType<Orientable> MANGROVE_LOG = getBlockType("mangrove_log");
     /**
      * BlockData: {@link Waterlogged}
      */
-    BlockType<Waterlogged> MANGROVE_ROOTS = asBlockType(Material.MANGROVE_ROOTS);
+    public static final BlockType<Waterlogged> MANGROVE_ROOTS = getBlockType("mangrove_roots");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> MUDDY_MANGROVE_ROOTS = asBlockType(Material.MUDDY_MANGROVE_ROOTS);
-    /**
-     * BlockData: {@link Orientable}
-     */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
-    BlockType<Orientable> BAMBOO_BLOCK = asBlockType(Material.BAMBOO_BLOCK);
-    /**
-     * BlockData: {@link Orientable}
-     */
-    BlockType<Orientable> STRIPPED_SPRUCE_LOG = asBlockType(Material.STRIPPED_SPRUCE_LOG);
-    /**
-     * BlockData: {@link Orientable}
-     */
-    BlockType<Orientable> STRIPPED_BIRCH_LOG = asBlockType(Material.STRIPPED_BIRCH_LOG);
-    /**
-     * BlockData: {@link Orientable}
-     */
-    BlockType<Orientable> STRIPPED_JUNGLE_LOG = asBlockType(Material.STRIPPED_JUNGLE_LOG);
-    /**
-     * BlockData: {@link Orientable}
-     */
-    BlockType<Orientable> STRIPPED_ACACIA_LOG = asBlockType(Material.STRIPPED_ACACIA_LOG);
+    public static final BlockType<Orientable> MUDDY_MANGROVE_ROOTS = getBlockType("muddy_mangrove_roots");
     /**
      * BlockData: {@link Orientable}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<Orientable> STRIPPED_CHERRY_LOG = asBlockType(Material.STRIPPED_CHERRY_LOG);
+    public static final BlockType<Orientable> BAMBOO_BLOCK = getBlockType("bamboo_block");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> STRIPPED_DARK_OAK_LOG = asBlockType(Material.STRIPPED_DARK_OAK_LOG);
+    public static final BlockType<Orientable> STRIPPED_SPRUCE_LOG = getBlockType("stripped_spruce_log");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> STRIPPED_OAK_LOG = asBlockType(Material.STRIPPED_OAK_LOG);
+    public static final BlockType<Orientable> STRIPPED_BIRCH_LOG = getBlockType("stripped_birch_log");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> STRIPPED_MANGROVE_LOG = asBlockType(Material.STRIPPED_MANGROVE_LOG);
+    public static final BlockType<Orientable> STRIPPED_JUNGLE_LOG = getBlockType("stripped_jungle_log");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> STRIPPED_BAMBOO_BLOCK = asBlockType(Material.STRIPPED_BAMBOO_BLOCK);
-    /**
-     * BlockData: {@link Orientable}
-     */
-    BlockType<Orientable> OAK_WOOD = asBlockType(Material.OAK_WOOD);
-    /**
-     * BlockData: {@link Orientable}
-     */
-    BlockType<Orientable> SPRUCE_WOOD = asBlockType(Material.SPRUCE_WOOD);
-    /**
-     * BlockData: {@link Orientable}
-     */
-    BlockType<Orientable> BIRCH_WOOD = asBlockType(Material.BIRCH_WOOD);
-    /**
-     * BlockData: {@link Orientable}
-     */
-    BlockType<Orientable> JUNGLE_WOOD = asBlockType(Material.JUNGLE_WOOD);
-    /**
-     * BlockData: {@link Orientable}
-     */
-    BlockType<Orientable> ACACIA_WOOD = asBlockType(Material.ACACIA_WOOD);
+    public static final BlockType<Orientable> STRIPPED_ACACIA_LOG = getBlockType("stripped_acacia_log");
     /**
      * BlockData: {@link Orientable}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<Orientable> CHERRY_WOOD = asBlockType(Material.CHERRY_WOOD);
+    public static final BlockType<Orientable> STRIPPED_CHERRY_LOG = getBlockType("stripped_cherry_log");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> DARK_OAK_WOOD = asBlockType(Material.DARK_OAK_WOOD);
+    public static final BlockType<Orientable> STRIPPED_DARK_OAK_LOG = getBlockType("stripped_dark_oak_log");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> MANGROVE_WOOD = asBlockType(Material.MANGROVE_WOOD);
+    public static final BlockType<Orientable> STRIPPED_OAK_LOG = getBlockType("stripped_oak_log");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> STRIPPED_OAK_WOOD = asBlockType(Material.STRIPPED_OAK_WOOD);
+    public static final BlockType<Orientable> STRIPPED_MANGROVE_LOG = getBlockType("stripped_mangrove_log");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> STRIPPED_SPRUCE_WOOD = asBlockType(Material.STRIPPED_SPRUCE_WOOD);
+    public static final BlockType<Orientable> STRIPPED_BAMBOO_BLOCK = getBlockType("stripped_bamboo_block");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> STRIPPED_BIRCH_WOOD = asBlockType(Material.STRIPPED_BIRCH_WOOD);
+    public static final BlockType<Orientable> OAK_WOOD = getBlockType("oak_wood");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> STRIPPED_JUNGLE_WOOD = asBlockType(Material.STRIPPED_JUNGLE_WOOD);
+    public static final BlockType<Orientable> SPRUCE_WOOD = getBlockType("spruce_wood");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> STRIPPED_ACACIA_WOOD = asBlockType(Material.STRIPPED_ACACIA_WOOD);
+    public static final BlockType<Orientable> BIRCH_WOOD = getBlockType("birch_wood");
+    /**
+     * BlockData: {@link Orientable}
+     */
+    public static final BlockType<Orientable> JUNGLE_WOOD = getBlockType("jungle_wood");
+    /**
+     * BlockData: {@link Orientable}
+     */
+    public static final BlockType<Orientable> ACACIA_WOOD = getBlockType("acacia_wood");
     /**
      * BlockData: {@link Orientable}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<Orientable> STRIPPED_CHERRY_WOOD = asBlockType(Material.STRIPPED_CHERRY_WOOD);
+    public static final BlockType<Orientable> CHERRY_WOOD = getBlockType("cherry_wood");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> STRIPPED_DARK_OAK_WOOD = asBlockType(Material.STRIPPED_DARK_OAK_WOOD);
+    public static final BlockType<Orientable> DARK_OAK_WOOD = getBlockType("dark_oak_wood");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> STRIPPED_MANGROVE_WOOD = asBlockType(Material.STRIPPED_MANGROVE_WOOD);
+    public static final BlockType<Orientable> MANGROVE_WOOD = getBlockType("mangrove_wood");
+    /**
+     * BlockData: {@link Orientable}
+     */
+    public static final BlockType<Orientable> STRIPPED_OAK_WOOD = getBlockType("stripped_oak_wood");
+    /**
+     * BlockData: {@link Orientable}
+     */
+    public static final BlockType<Orientable> STRIPPED_SPRUCE_WOOD = getBlockType("stripped_spruce_wood");
+    /**
+     * BlockData: {@link Orientable}
+     */
+    public static final BlockType<Orientable> STRIPPED_BIRCH_WOOD = getBlockType("stripped_birch_wood");
+    /**
+     * BlockData: {@link Orientable}
+     */
+    public static final BlockType<Orientable> STRIPPED_JUNGLE_WOOD = getBlockType("stripped_jungle_wood");
+    /**
+     * BlockData: {@link Orientable}
+     */
+    public static final BlockType<Orientable> STRIPPED_ACACIA_WOOD = getBlockType("stripped_acacia_wood");
+    /**
+     * BlockData: {@link Orientable}
+     */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    public static final BlockType<Orientable> STRIPPED_CHERRY_WOOD = getBlockType("stripped_cherry_wood");
+    /**
+     * BlockData: {@link Orientable}
+     */
+    public static final BlockType<Orientable> STRIPPED_DARK_OAK_WOOD = getBlockType("stripped_dark_oak_wood");
+    /**
+     * BlockData: {@link Orientable}
+     */
+    public static final BlockType<Orientable> STRIPPED_MANGROVE_WOOD = getBlockType("stripped_mangrove_wood");
     /**
      * BlockData: {@link Leaves}
      */
-    BlockType<Leaves> OAK_LEAVES = asBlockType(Material.OAK_LEAVES);
+    public static final BlockType<Leaves> OAK_LEAVES = getBlockType("oak_leaves");
     /**
      * BlockData: {@link Leaves}
      */
-    BlockType<Leaves> SPRUCE_LEAVES = asBlockType(Material.SPRUCE_LEAVES);
+    public static final BlockType<Leaves> SPRUCE_LEAVES = getBlockType("spruce_leaves");
     /**
      * BlockData: {@link Leaves}
      */
-    BlockType<Leaves> BIRCH_LEAVES = asBlockType(Material.BIRCH_LEAVES);
+    public static final BlockType<Leaves> BIRCH_LEAVES = getBlockType("birch_leaves");
     /**
      * BlockData: {@link Leaves}
      */
-    BlockType<Leaves> JUNGLE_LEAVES = asBlockType(Material.JUNGLE_LEAVES);
+    public static final BlockType<Leaves> JUNGLE_LEAVES = getBlockType("jungle_leaves");
     /**
      * BlockData: {@link Leaves}
      */
-    BlockType<Leaves> ACACIA_LEAVES = asBlockType(Material.ACACIA_LEAVES);
+    public static final BlockType<Leaves> ACACIA_LEAVES = getBlockType("acacia_leaves");
     /**
      * BlockData: {@link Leaves}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<Leaves> CHERRY_LEAVES = asBlockType(Material.CHERRY_LEAVES);
+    public static final BlockType<Leaves> CHERRY_LEAVES = getBlockType("cherry_leaves");
     /**
      * BlockData: {@link Leaves}
      */
-    BlockType<Leaves> DARK_OAK_LEAVES = asBlockType(Material.DARK_OAK_LEAVES);
+    public static final BlockType<Leaves> DARK_OAK_LEAVES = getBlockType("dark_oak_leaves");
     /**
      * BlockData: {@link Leaves}
      */
-    BlockType<Leaves> MANGROVE_LEAVES = asBlockType(Material.MANGROVE_LEAVES);
+    public static final BlockType<Leaves> MANGROVE_LEAVES = getBlockType("mangrove_leaves");
     /**
      * BlockData: {@link Leaves}
      */
-    BlockType<Leaves> AZALEA_LEAVES = asBlockType(Material.AZALEA_LEAVES);
+    public static final BlockType<Leaves> AZALEA_LEAVES = getBlockType("azalea_leaves");
     /**
      * BlockData: {@link Leaves}
      */
-    BlockType<Leaves> FLOWERING_AZALEA_LEAVES = asBlockType(Material.FLOWERING_AZALEA_LEAVES);
-    BlockType<BlockData> SPONGE = asBlockType(Material.SPONGE);
-    BlockType<BlockData> WET_SPONGE = asBlockType(Material.WET_SPONGE);
-    BlockType<BlockData> GLASS = asBlockType(Material.GLASS);
-    BlockType<BlockData> LAPIS_ORE = asBlockType(Material.LAPIS_ORE);
-    BlockType<BlockData> DEEPSLATE_LAPIS_ORE = asBlockType(Material.DEEPSLATE_LAPIS_ORE);
-    BlockType<BlockData> LAPIS_BLOCK = asBlockType(Material.LAPIS_BLOCK);
+    public static final BlockType<Leaves> FLOWERING_AZALEA_LEAVES = getBlockType("flowering_azalea_leaves");
+    public static final BlockType<BlockData> SPONGE = getBlockType("sponge");
+    public static final BlockType<BlockData> WET_SPONGE = getBlockType("wet_sponge");
+    public static final BlockType<BlockData> GLASS = getBlockType("glass");
+    public static final BlockType<BlockData> LAPIS_ORE = getBlockType("lapis_ore");
+    public static final BlockType<BlockData> DEEPSLATE_LAPIS_ORE = getBlockType("deepslate_lapis_ore");
+    public static final BlockType<BlockData> LAPIS_BLOCK = getBlockType("lapis_block");
     /**
      * BlockData: {@link Dispenser}
      */
-    BlockType<Dispenser> DISPENSER = asBlockType(Material.DISPENSER);
-    BlockType<BlockData> SANDSTONE = asBlockType(Material.SANDSTONE);
-    BlockType<BlockData> CHISELED_SANDSTONE = asBlockType(Material.CHISELED_SANDSTONE);
-    BlockType<BlockData> CUT_SANDSTONE = asBlockType(Material.CUT_SANDSTONE);
+    public static final BlockType<Dispenser> DISPENSER = getBlockType("dispenser");
+    public static final BlockType<BlockData> SANDSTONE = getBlockType("sandstone");
+    public static final BlockType<BlockData> CHISELED_SANDSTONE = getBlockType("chiseled_sandstone");
+    public static final BlockType<BlockData> CUT_SANDSTONE = getBlockType("cut_sandstone");
     /**
      * BlockData: {@link NoteBlock}
      */
-    BlockType<NoteBlock> NOTE_BLOCK = asBlockType(Material.NOTE_BLOCK);
+    public static final BlockType<NoteBlock> NOTE_BLOCK = getBlockType("note_block");
     /**
      * BlockData: {@link Bed}
      */
-    BlockType<Bed> WHITE_BED = asBlockType(Material.WHITE_BED);
+    public static final BlockType<Bed> WHITE_BED = getBlockType("white_bed");
     /**
      * BlockData: {@link Bed}
      */
-    BlockType<Bed> ORANGE_BED = asBlockType(Material.ORANGE_BED);
+    public static final BlockType<Bed> ORANGE_BED = getBlockType("orange_bed");
     /**
      * BlockData: {@link Bed}
      */
-    BlockType<Bed> MAGENTA_BED = asBlockType(Material.MAGENTA_BED);
+    public static final BlockType<Bed> MAGENTA_BED = getBlockType("magenta_bed");
     /**
      * BlockData: {@link Bed}
      */
-    BlockType<Bed> LIGHT_BLUE_BED = asBlockType(Material.LIGHT_BLUE_BED);
+    public static final BlockType<Bed> LIGHT_BLUE_BED = getBlockType("light_blue_bed");
     /**
      * BlockData: {@link Bed}
      */
-    BlockType<Bed> YELLOW_BED = asBlockType(Material.YELLOW_BED);
+    public static final BlockType<Bed> YELLOW_BED = getBlockType("yellow_bed");
     /**
      * BlockData: {@link Bed}
      */
-    BlockType<Bed> LIME_BED = asBlockType(Material.LIME_BED);
+    public static final BlockType<Bed> LIME_BED = getBlockType("lime_bed");
     /**
      * BlockData: {@link Bed}
      */
-    BlockType<Bed> PINK_BED = asBlockType(Material.PINK_BED);
+    public static final BlockType<Bed> PINK_BED = getBlockType("pink_bed");
     /**
      * BlockData: {@link Bed}
      */
-    BlockType<Bed> GRAY_BED = asBlockType(Material.GRAY_BED);
+    public static final BlockType<Bed> GRAY_BED = getBlockType("gray_bed");
     /**
      * BlockData: {@link Bed}
      */
-    BlockType<Bed> LIGHT_GRAY_BED = asBlockType(Material.LIGHT_GRAY_BED);
+    public static final BlockType<Bed> LIGHT_GRAY_BED = getBlockType("light_gray_bed");
     /**
      * BlockData: {@link Bed}
      */
-    BlockType<Bed> CYAN_BED = asBlockType(Material.CYAN_BED);
+    public static final BlockType<Bed> CYAN_BED = getBlockType("cyan_bed");
     /**
      * BlockData: {@link Bed}
      */
-    BlockType<Bed> PURPLE_BED = asBlockType(Material.PURPLE_BED);
+    public static final BlockType<Bed> PURPLE_BED = getBlockType("purple_bed");
     /**
      * BlockData: {@link Bed}
      */
-    BlockType<Bed> BLUE_BED = asBlockType(Material.BLUE_BED);
+    public static final BlockType<Bed> BLUE_BED = getBlockType("blue_bed");
     /**
      * BlockData: {@link Bed}
      */
-    BlockType<Bed> BROWN_BED = asBlockType(Material.BROWN_BED);
+    public static final BlockType<Bed> BROWN_BED = getBlockType("brown_bed");
     /**
      * BlockData: {@link Bed}
      */
-    BlockType<Bed> GREEN_BED = asBlockType(Material.GREEN_BED);
+    public static final BlockType<Bed> GREEN_BED = getBlockType("green_bed");
     /**
      * BlockData: {@link Bed}
      */
-    BlockType<Bed> RED_BED = asBlockType(Material.RED_BED);
+    public static final BlockType<Bed> RED_BED = getBlockType("red_bed");
     /**
      * BlockData: {@link Bed}
      */
-    BlockType<Bed> BLACK_BED = asBlockType(Material.BLACK_BED);
+    public static final BlockType<Bed> BLACK_BED = getBlockType("black_bed");
     /**
      * BlockData: {@link RedstoneRail}
      */
-    BlockType<RedstoneRail> POWERED_RAIL = asBlockType(Material.POWERED_RAIL);
+    public static final BlockType<RedstoneRail> POWERED_RAIL = getBlockType("powered_rail");
     /**
      * BlockData: {@link RedstoneRail}
      */
-    BlockType<RedstoneRail> DETECTOR_RAIL = asBlockType(Material.DETECTOR_RAIL);
+    public static final BlockType<RedstoneRail> DETECTOR_RAIL = getBlockType("detector_rail");
     /**
      * BlockData: {@link Piston}
      */
-    BlockType<Piston> STICKY_PISTON = asBlockType(Material.STICKY_PISTON);
-    BlockType<BlockData> COBWEB = asBlockType(Material.COBWEB);
-    BlockType<BlockData> GRASS = asBlockType(Material.GRASS);
-    BlockType<BlockData> FERN = asBlockType(Material.FERN);
-    BlockType<BlockData> DEAD_BUSH = asBlockType(Material.DEAD_BUSH);
-    BlockType<BlockData> SEAGRASS = asBlockType(Material.SEAGRASS);
+    public static final BlockType<Piston> STICKY_PISTON = getBlockType("sticky_piston");
+    public static final BlockType<BlockData> COBWEB = getBlockType("cobweb");
+    public static final BlockType<BlockData> GRASS = getBlockType("grass");
+    public static final BlockType<BlockData> FERN = getBlockType("fern");
+    public static final BlockType<BlockData> DEAD_BUSH = getBlockType("dead_bush");
+    public static final BlockType<BlockData> SEAGRASS = getBlockType("seagrass");
     /**
      * BlockData: {@link Bisected}
      */
-    BlockType<Bisected> TALL_SEAGRASS = asBlockType(Material.TALL_SEAGRASS);
+    public static final BlockType<Bisected> TALL_SEAGRASS = getBlockType("tall_seagrass");
     /**
      * BlockData: {@link Piston}
      */
-    BlockType<Piston> PISTON = asBlockType(Material.PISTON);
+    public static final BlockType<Piston> PISTON = getBlockType("piston");
     /**
      * BlockData: {@link PistonHead}
      */
-    BlockType<PistonHead> PISTON_HEAD = asBlockType(Material.PISTON_HEAD);
-    BlockType<BlockData> WHITE_WOOL = asBlockType(Material.WHITE_WOOL);
-    BlockType<BlockData> ORANGE_WOOL = asBlockType(Material.ORANGE_WOOL);
-    BlockType<BlockData> MAGENTA_WOOL = asBlockType(Material.MAGENTA_WOOL);
-    BlockType<BlockData> LIGHT_BLUE_WOOL = asBlockType(Material.LIGHT_BLUE_WOOL);
-    BlockType<BlockData> YELLOW_WOOL = asBlockType(Material.YELLOW_WOOL);
-    BlockType<BlockData> LIME_WOOL = asBlockType(Material.LIME_WOOL);
-    BlockType<BlockData> PINK_WOOL = asBlockType(Material.PINK_WOOL);
-    BlockType<BlockData> GRAY_WOOL = asBlockType(Material.GRAY_WOOL);
-    BlockType<BlockData> LIGHT_GRAY_WOOL = asBlockType(Material.LIGHT_GRAY_WOOL);
-    BlockType<BlockData> CYAN_WOOL = asBlockType(Material.CYAN_WOOL);
-    BlockType<BlockData> PURPLE_WOOL = asBlockType(Material.PURPLE_WOOL);
-    BlockType<BlockData> BLUE_WOOL = asBlockType(Material.BLUE_WOOL);
-    BlockType<BlockData> BROWN_WOOL = asBlockType(Material.BROWN_WOOL);
-    BlockType<BlockData> GREEN_WOOL = asBlockType(Material.GREEN_WOOL);
-    BlockType<BlockData> RED_WOOL = asBlockType(Material.RED_WOOL);
-    BlockType<BlockData> BLACK_WOOL = asBlockType(Material.BLACK_WOOL);
+    public static final BlockType<PistonHead> PISTON_HEAD = getBlockType("piston_head");
+    public static final BlockType<BlockData> WHITE_WOOL = getBlockType("white_wool");
+    public static final BlockType<BlockData> ORANGE_WOOL = getBlockType("orange_wool");
+    public static final BlockType<BlockData> MAGENTA_WOOL = getBlockType("magenta_wool");
+    public static final BlockType<BlockData> LIGHT_BLUE_WOOL = getBlockType("light_blue_wool");
+    public static final BlockType<BlockData> YELLOW_WOOL = getBlockType("yellow_wool");
+    public static final BlockType<BlockData> LIME_WOOL = getBlockType("lime_wool");
+    public static final BlockType<BlockData> PINK_WOOL = getBlockType("pink_wool");
+    public static final BlockType<BlockData> GRAY_WOOL = getBlockType("gray_wool");
+    public static final BlockType<BlockData> LIGHT_GRAY_WOOL = getBlockType("light_gray_wool");
+    public static final BlockType<BlockData> CYAN_WOOL = getBlockType("cyan_wool");
+    public static final BlockType<BlockData> PURPLE_WOOL = getBlockType("purple_wool");
+    public static final BlockType<BlockData> BLUE_WOOL = getBlockType("blue_wool");
+    public static final BlockType<BlockData> BROWN_WOOL = getBlockType("brown_wool");
+    public static final BlockType<BlockData> GREEN_WOOL = getBlockType("green_wool");
+    public static final BlockType<BlockData> RED_WOOL = getBlockType("red_wool");
+    public static final BlockType<BlockData> BLACK_WOOL = getBlockType("black_wool");
     /**
      * BlockData: {@link TechnicalPiston}
      */
-    BlockType<TechnicalPiston> MOVING_PISTON = asBlockType(Material.MOVING_PISTON);
-    BlockType<BlockData> DANDELION = asBlockType(Material.DANDELION);
+    public static final BlockType<TechnicalPiston> MOVING_PISTON = getBlockType("moving_piston");
+    public static final BlockType<BlockData> DANDELION = getBlockType("dandelion");
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<BlockData> TORCHFLOWER = asBlockType(Material.TORCHFLOWER);
-    BlockType<BlockData> POPPY = asBlockType(Material.POPPY);
-    BlockType<BlockData> BLUE_ORCHID = asBlockType(Material.BLUE_ORCHID);
-    BlockType<BlockData> ALLIUM = asBlockType(Material.ALLIUM);
-    BlockType<BlockData> AZURE_BLUET = asBlockType(Material.AZURE_BLUET);
-    BlockType<BlockData> RED_TULIP = asBlockType(Material.RED_TULIP);
-    BlockType<BlockData> ORANGE_TULIP = asBlockType(Material.ORANGE_TULIP);
-    BlockType<BlockData> WHITE_TULIP = asBlockType(Material.WHITE_TULIP);
-    BlockType<BlockData> PINK_TULIP = asBlockType(Material.PINK_TULIP);
-    BlockType<BlockData> OXEYE_DAISY = asBlockType(Material.OXEYE_DAISY);
-    BlockType<BlockData> CORNFLOWER = asBlockType(Material.CORNFLOWER);
-    BlockType<BlockData> WITHER_ROSE = asBlockType(Material.WITHER_ROSE);
-    BlockType<BlockData> LILY_OF_THE_VALLEY = asBlockType(Material.LILY_OF_THE_VALLEY);
-    BlockType<BlockData> BROWN_MUSHROOM = asBlockType(Material.BROWN_MUSHROOM);
-    BlockType<BlockData> RED_MUSHROOM = asBlockType(Material.RED_MUSHROOM);
-    BlockType<BlockData> GOLD_BLOCK = asBlockType(Material.GOLD_BLOCK);
-    BlockType<BlockData> IRON_BLOCK = asBlockType(Material.IRON_BLOCK);
-    BlockType<BlockData> BRICKS = asBlockType(Material.BRICKS);
+    public static final BlockType<BlockData> TORCHFLOWER = getBlockType("torchflower");
+    public static final BlockType<BlockData> POPPY = getBlockType("poppy");
+    public static final BlockType<BlockData> BLUE_ORCHID = getBlockType("blue_orchid");
+    public static final BlockType<BlockData> ALLIUM = getBlockType("allium");
+    public static final BlockType<BlockData> AZURE_BLUET = getBlockType("azure_bluet");
+    public static final BlockType<BlockData> RED_TULIP = getBlockType("red_tulip");
+    public static final BlockType<BlockData> ORANGE_TULIP = getBlockType("orange_tulip");
+    public static final BlockType<BlockData> WHITE_TULIP = getBlockType("white_tulip");
+    public static final BlockType<BlockData> PINK_TULIP = getBlockType("pink_tulip");
+    public static final BlockType<BlockData> OXEYE_DAISY = getBlockType("oxeye_daisy");
+    public static final BlockType<BlockData> CORNFLOWER = getBlockType("cornflower");
+    public static final BlockType<BlockData> WITHER_ROSE = getBlockType("wither_rose");
+    public static final BlockType<BlockData> LILY_OF_THE_VALLEY = getBlockType("lily_of_the_valley");
+    public static final BlockType<BlockData> BROWN_MUSHROOM = getBlockType("brown_mushroom");
+    public static final BlockType<BlockData> RED_MUSHROOM = getBlockType("red_mushroom");
+    public static final BlockType<BlockData> GOLD_BLOCK = getBlockType("gold_block");
+    public static final BlockType<BlockData> IRON_BLOCK = getBlockType("iron_block");
+    public static final BlockType<BlockData> BRICKS = getBlockType("bricks");
     /**
      * BlockData: {@link TNT}
      */
-    BlockType<TNT> TNT = asBlockType(Material.TNT);
-    BlockType<BlockData> BOOKSHELF = asBlockType(Material.BOOKSHELF);
+    public static final BlockType<TNT> TNT = getBlockType("tnt");
+    public static final BlockType<BlockData> BOOKSHELF = getBlockType("bookshelf");
     /**
      * BlockData: {@link ChiseledBookshelf}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<ChiseledBookshelf> CHISELED_BOOKSHELF = asBlockType(Material.CHISELED_BOOKSHELF);
-    BlockType<BlockData> MOSSY_COBBLESTONE = asBlockType(Material.MOSSY_COBBLESTONE);
-    BlockType<BlockData> OBSIDIAN = asBlockType(Material.OBSIDIAN);
-    BlockType<BlockData> TORCH = asBlockType(Material.TORCH);
+    public static final BlockType<ChiseledBookshelf> CHISELED_BOOKSHELF = getBlockType("chiseled_bookshelf");
+    public static final BlockType<BlockData> MOSSY_COBBLESTONE = getBlockType("mossy_cobblestone");
+    public static final BlockType<BlockData> OBSIDIAN = getBlockType("obsidian");
+    public static final BlockType<BlockData> TORCH = getBlockType("torch");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> WALL_TORCH = asBlockType(Material.WALL_TORCH);
+    public static final BlockType<Directional> WALL_TORCH = getBlockType("wall_torch");
     /**
      * BlockData: {@link Fire}
      */
-    BlockType<Fire> FIRE = asBlockType(Material.FIRE);
-    BlockType<BlockData> SOUL_FIRE = asBlockType(Material.SOUL_FIRE);
-    BlockType<BlockData> SPAWNER = asBlockType(Material.SPAWNER);
+    public static final BlockType<Fire> FIRE = getBlockType("fire");
+    public static final BlockType<BlockData> SOUL_FIRE = getBlockType("soul_fire");
+    public static final BlockType<BlockData> SPAWNER = getBlockType("spawner");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> OAK_STAIRS = asBlockType(Material.OAK_STAIRS);
+    public static final BlockType<Stairs> OAK_STAIRS = getBlockType("oak_stairs");
     /**
      * BlockData: {@link Chest}
      */
-    BlockType<Chest> CHEST = asBlockType(Material.CHEST);
+    public static final BlockType<Chest> CHEST = getBlockType("chest");
     /**
      * BlockData: {@link RedstoneWire}
      */
-    BlockType<RedstoneWire> REDSTONE_WIRE = asBlockType(Material.REDSTONE_WIRE);
-    BlockType<BlockData> DIAMOND_ORE = asBlockType(Material.DIAMOND_ORE);
-    BlockType<BlockData> DEEPSLATE_DIAMOND_ORE = asBlockType(Material.DEEPSLATE_DIAMOND_ORE);
-    BlockType<BlockData> DIAMOND_BLOCK = asBlockType(Material.DIAMOND_BLOCK);
-    BlockType<BlockData> CRAFTING_TABLE = asBlockType(Material.CRAFTING_TABLE);
+    public static final BlockType<RedstoneWire> REDSTONE_WIRE = getBlockType("redstone_wire");
+    public static final BlockType<BlockData> DIAMOND_ORE = getBlockType("diamond_ore");
+    public static final BlockType<BlockData> DEEPSLATE_DIAMOND_ORE = getBlockType("deepslate_diamond_ore");
+    public static final BlockType<BlockData> DIAMOND_BLOCK = getBlockType("diamond_block");
+    public static final BlockType<BlockData> CRAFTING_TABLE = getBlockType("crafting_table");
     /**
      * BlockData: {@link Ageable}
      */
-    BlockType<Ageable> WHEAT = asBlockType(Material.WHEAT);
+    public static final BlockType<Ageable> WHEAT = getBlockType("wheat");
     /**
      * BlockData: {@link Farmland}
      */
-    BlockType<Farmland> FARMLAND = asBlockType(Material.FARMLAND);
+    public static final BlockType<Farmland> FARMLAND = getBlockType("farmland");
     /**
      * BlockData: {@link Furnace}
      */
-    BlockType<Furnace> FURNACE = asBlockType(Material.FURNACE);
+    public static final BlockType<Furnace> FURNACE = getBlockType("furnace");
     /**
      * BlockData: {@link Sign}
      */
-    BlockType<Sign> OAK_SIGN = asBlockType(Material.OAK_SIGN);
+    public static final BlockType<Sign> OAK_SIGN = getBlockType("oak_sign");
     /**
      * BlockData: {@link Sign}
      */
-    BlockType<Sign> SPRUCE_SIGN = asBlockType(Material.SPRUCE_SIGN);
+    public static final BlockType<Sign> SPRUCE_SIGN = getBlockType("spruce_sign");
     /**
      * BlockData: {@link Sign}
      */
-    BlockType<Sign> BIRCH_SIGN = asBlockType(Material.BIRCH_SIGN);
+    public static final BlockType<Sign> BIRCH_SIGN = getBlockType("birch_sign");
     /**
      * BlockData: {@link Sign}
      */
-    BlockType<Sign> ACACIA_SIGN = asBlockType(Material.ACACIA_SIGN);
+    public static final BlockType<Sign> ACACIA_SIGN = getBlockType("acacia_sign");
     /**
      * BlockData: {@link Sign}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<Sign> CHERRY_SIGN = asBlockType(Material.CHERRY_SIGN);
+    public static final BlockType<Sign> CHERRY_SIGN = getBlockType("cherry_sign");
     /**
      * BlockData: {@link Sign}
      */
-    BlockType<Sign> JUNGLE_SIGN = asBlockType(Material.JUNGLE_SIGN);
+    public static final BlockType<Sign> JUNGLE_SIGN = getBlockType("jungle_sign");
     /**
      * BlockData: {@link Sign}
      */
-    BlockType<Sign> DARK_OAK_SIGN = asBlockType(Material.DARK_OAK_SIGN);
+    public static final BlockType<Sign> DARK_OAK_SIGN = getBlockType("dark_oak_sign");
     /**
      * BlockData: {@link Sign}
      */
-    BlockType<Sign> MANGROVE_SIGN = asBlockType(Material.MANGROVE_SIGN);
+    public static final BlockType<Sign> MANGROVE_SIGN = getBlockType("mangrove_sign");
     /**
      * BlockData: {@link Sign}
      */
-    BlockType<Sign> BAMBOO_SIGN = asBlockType(Material.BAMBOO_SIGN);
+    public static final BlockType<Sign> BAMBOO_SIGN = getBlockType("bamboo_sign");
     /**
      * BlockData: {@link Door}
      */
-    BlockType<Door> OAK_DOOR = asBlockType(Material.OAK_DOOR);
+    public static final BlockType<Door> OAK_DOOR = getBlockType("oak_door");
     /**
      * BlockData: {@link Ladder}
      */
-    BlockType<Ladder> LADDER = asBlockType(Material.LADDER);
+    public static final BlockType<Ladder> LADDER = getBlockType("ladder");
     /**
      * BlockData: {@link Rail}
      */
-    BlockType<Rail> RAIL = asBlockType(Material.RAIL);
+    public static final BlockType<Rail> RAIL = getBlockType("rail");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> COBBLESTONE_STAIRS = asBlockType(Material.COBBLESTONE_STAIRS);
+    public static final BlockType<Stairs> COBBLESTONE_STAIRS = getBlockType("cobblestone_stairs");
     /**
      * BlockData: {@link WallSign}
      */
-    BlockType<WallSign> OAK_WALL_SIGN = asBlockType(Material.OAK_WALL_SIGN);
+    public static final BlockType<WallSign> OAK_WALL_SIGN = getBlockType("oak_wall_sign");
     /**
      * BlockData: {@link WallSign}
      */
-    BlockType<WallSign> SPRUCE_WALL_SIGN = asBlockType(Material.SPRUCE_WALL_SIGN);
+    public static final BlockType<WallSign> SPRUCE_WALL_SIGN = getBlockType("spruce_wall_sign");
     /**
      * BlockData: {@link WallSign}
      */
-    BlockType<WallSign> BIRCH_WALL_SIGN = asBlockType(Material.BIRCH_WALL_SIGN);
+    public static final BlockType<WallSign> BIRCH_WALL_SIGN = getBlockType("birch_wall_sign");
     /**
      * BlockData: {@link WallSign}
      */
-    BlockType<WallSign> ACACIA_WALL_SIGN = asBlockType(Material.ACACIA_WALL_SIGN);
+    public static final BlockType<WallSign> ACACIA_WALL_SIGN = getBlockType("acacia_wall_sign");
     /**
      * BlockData: {@link WallSign}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<WallSign> CHERRY_WALL_SIGN = asBlockType(Material.CHERRY_WALL_SIGN);
+    public static final BlockType<WallSign> CHERRY_WALL_SIGN = getBlockType("cherry_wall_sign");
     /**
      * BlockData: {@link WallSign}
      */
-    BlockType<WallSign> JUNGLE_WALL_SIGN = asBlockType(Material.JUNGLE_WALL_SIGN);
+    public static final BlockType<WallSign> JUNGLE_WALL_SIGN = getBlockType("jungle_wall_sign");
     /**
      * BlockData: {@link WallSign}
      */
-    BlockType<WallSign> DARK_OAK_WALL_SIGN = asBlockType(Material.DARK_OAK_WALL_SIGN);
+    public static final BlockType<WallSign> DARK_OAK_WALL_SIGN = getBlockType("dark_oak_wall_sign");
     /**
      * BlockData: {@link WallSign}
      */
-    BlockType<WallSign> MANGROVE_WALL_SIGN = asBlockType(Material.MANGROVE_WALL_SIGN);
+    public static final BlockType<WallSign> MANGROVE_WALL_SIGN = getBlockType("mangrove_wall_sign");
     /**
      * BlockData: {@link WallSign}
      */
-    BlockType<WallSign> BAMBOO_WALL_SIGN = asBlockType(Material.BAMBOO_WALL_SIGN);
+    public static final BlockType<WallSign> BAMBOO_WALL_SIGN = getBlockType("bamboo_wall_sign");
     /**
      * BlockData: {@link HangingSign}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<HangingSign> OAK_HANGING_SIGN = asBlockType(Material.OAK_HANGING_SIGN);
+    public static final BlockType<HangingSign> OAK_HANGING_SIGN = getBlockType("oak_hanging_sign");
     /**
      * BlockData: {@link HangingSign}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<HangingSign> SPRUCE_HANGING_SIGN = asBlockType(Material.SPRUCE_HANGING_SIGN);
+    public static final BlockType<HangingSign> SPRUCE_HANGING_SIGN = getBlockType("spruce_hanging_sign");
     /**
      * BlockData: {@link HangingSign}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<HangingSign> BIRCH_HANGING_SIGN = asBlockType(Material.BIRCH_HANGING_SIGN);
+    public static final BlockType<HangingSign> BIRCH_HANGING_SIGN = getBlockType("birch_hanging_sign");
     /**
      * BlockData: {@link HangingSign}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<HangingSign> ACACIA_HANGING_SIGN = asBlockType(Material.ACACIA_HANGING_SIGN);
+    public static final BlockType<HangingSign> ACACIA_HANGING_SIGN = getBlockType("acacia_hanging_sign");
     /**
      * BlockData: {@link HangingSign}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<HangingSign> CHERRY_HANGING_SIGN = asBlockType(Material.CHERRY_HANGING_SIGN);
+    public static final BlockType<HangingSign> CHERRY_HANGING_SIGN = getBlockType("cherry_hanging_sign");
     /**
      * BlockData: {@link HangingSign}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<HangingSign> JUNGLE_HANGING_SIGN = asBlockType(Material.JUNGLE_HANGING_SIGN);
+    public static final BlockType<HangingSign> JUNGLE_HANGING_SIGN = getBlockType("jungle_hanging_sign");
     /**
      * BlockData: {@link HangingSign}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<HangingSign> DARK_OAK_HANGING_SIGN = asBlockType(Material.DARK_OAK_HANGING_SIGN);
+    public static final BlockType<HangingSign> DARK_OAK_HANGING_SIGN = getBlockType("dark_oak_hanging_sign");
     /**
      * BlockData: {@link HangingSign}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<HangingSign> CRIMSON_HANGING_SIGN = asBlockType(Material.CRIMSON_HANGING_SIGN);
+    public static final BlockType<HangingSign> CRIMSON_HANGING_SIGN = getBlockType("crimson_hanging_sign");
     /**
      * BlockData: {@link HangingSign}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<HangingSign> WARPED_HANGING_SIGN = asBlockType(Material.WARPED_HANGING_SIGN);
+    public static final BlockType<HangingSign> WARPED_HANGING_SIGN = getBlockType("warped_hanging_sign");
     /**
      * BlockData: {@link HangingSign}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<HangingSign> MANGROVE_HANGING_SIGN = asBlockType(Material.MANGROVE_HANGING_SIGN);
+    public static final BlockType<HangingSign> MANGROVE_HANGING_SIGN = getBlockType("mangrove_hanging_sign");
     /**
      * BlockData: {@link HangingSign}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<HangingSign> BAMBOO_HANGING_SIGN = asBlockType(Material.BAMBOO_HANGING_SIGN);
+    public static final BlockType<HangingSign> BAMBOO_HANGING_SIGN = getBlockType("bamboo_hanging_sign");
     /**
      * BlockData: {@link WallHangingSign}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<WallHangingSign> OAK_WALL_HANGING_SIGN = asBlockType(Material.OAK_WALL_HANGING_SIGN);
+    public static final BlockType<WallHangingSign> OAK_WALL_HANGING_SIGN = getBlockType("oak_wall_hanging_sign");
     /**
      * BlockData: {@link WallHangingSign}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<WallHangingSign> SPRUCE_WALL_HANGING_SIGN = asBlockType(Material.SPRUCE_WALL_HANGING_SIGN);
+    public static final BlockType<WallHangingSign> SPRUCE_WALL_HANGING_SIGN = getBlockType("spruce_wall_hanging_sign");
     /**
      * BlockData: {@link WallHangingSign}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<WallHangingSign> BIRCH_WALL_HANGING_SIGN = asBlockType(Material.BIRCH_WALL_HANGING_SIGN);
+    public static final BlockType<WallHangingSign> BIRCH_WALL_HANGING_SIGN = getBlockType("birch_wall_hanging_sign");
     /**
      * BlockData: {@link WallHangingSign}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<WallHangingSign> ACACIA_WALL_HANGING_SIGN = asBlockType(Material.ACACIA_WALL_HANGING_SIGN);
+    public static final BlockType<WallHangingSign> ACACIA_WALL_HANGING_SIGN = getBlockType("acacia_wall_hanging_sign");
     /**
      * BlockData: {@link WallHangingSign}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<WallHangingSign> CHERRY_WALL_HANGING_SIGN = asBlockType(Material.CHERRY_WALL_HANGING_SIGN);
+    public static final BlockType<WallHangingSign> CHERRY_WALL_HANGING_SIGN = getBlockType("cherry_wall_hanging_sign");
     /**
      * BlockData: {@link WallHangingSign}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<WallHangingSign> JUNGLE_WALL_HANGING_SIGN = asBlockType(Material.JUNGLE_WALL_HANGING_SIGN);
+    public static final BlockType<WallHangingSign> JUNGLE_WALL_HANGING_SIGN = getBlockType("jungle_wall_hanging_sign");
     /**
      * BlockData: {@link WallHangingSign}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<WallHangingSign> DARK_OAK_WALL_HANGING_SIGN = asBlockType(Material.DARK_OAK_WALL_HANGING_SIGN);
+    public static final BlockType<WallHangingSign> DARK_OAK_WALL_HANGING_SIGN = getBlockType("dark_oak_wall_hanging_sign");
     /**
      * BlockData: {@link WallHangingSign}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<WallHangingSign> MANGROVE_WALL_HANGING_SIGN = asBlockType(Material.MANGROVE_WALL_HANGING_SIGN);
+    public static final BlockType<WallHangingSign> MANGROVE_WALL_HANGING_SIGN = getBlockType("mangrove_wall_hanging_sign");
     /**
      * BlockData: {@link WallHangingSign}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<WallHangingSign> CRIMSON_WALL_HANGING_SIGN = asBlockType(Material.CRIMSON_WALL_HANGING_SIGN);
+    public static final BlockType<WallHangingSign> CRIMSON_WALL_HANGING_SIGN = getBlockType("crimson_wall_hanging_sign");
     /**
      * BlockData: {@link WallHangingSign}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<WallHangingSign> WARPED_WALL_HANGING_SIGN = asBlockType(Material.WARPED_WALL_HANGING_SIGN);
+    public static final BlockType<WallHangingSign> WARPED_WALL_HANGING_SIGN = getBlockType("warped_wall_hanging_sign");
     /**
      * BlockData: {@link WallHangingSign}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<WallHangingSign> BAMBOO_WALL_HANGING_SIGN = asBlockType(Material.BAMBOO_WALL_HANGING_SIGN);
+    public static final BlockType<WallHangingSign> BAMBOO_WALL_HANGING_SIGN = getBlockType("bamboo_wall_hanging_sign");
     /**
      * BlockData: {@link Switch}
      */
-    BlockType<Switch> LEVER = asBlockType(Material.LEVER);
+    public static final BlockType<Switch> LEVER = getBlockType("lever");
     /**
      * BlockData: {@link Powerable}
      */
-    BlockType<Powerable> STONE_PRESSURE_PLATE = asBlockType(Material.STONE_PRESSURE_PLATE);
+    public static final BlockType<Powerable> STONE_PRESSURE_PLATE = getBlockType("stone_pressure_plate");
     /**
      * BlockData: {@link Door}
      */
-    BlockType<Door> IRON_DOOR = asBlockType(Material.IRON_DOOR);
+    public static final BlockType<Door> IRON_DOOR = getBlockType("iron_door");
     /**
      * BlockData: {@link Powerable}
      */
-    BlockType<Powerable> OAK_PRESSURE_PLATE = asBlockType(Material.OAK_PRESSURE_PLATE);
+    public static final BlockType<Powerable> OAK_PRESSURE_PLATE = getBlockType("oak_pressure_plate");
     /**
      * BlockData: {@link Powerable}
      */
-    BlockType<Powerable> SPRUCE_PRESSURE_PLATE = asBlockType(Material.SPRUCE_PRESSURE_PLATE);
+    public static final BlockType<Powerable> SPRUCE_PRESSURE_PLATE = getBlockType("spruce_pressure_plate");
     /**
      * BlockData: {@link Powerable}
      */
-    BlockType<Powerable> BIRCH_PRESSURE_PLATE = asBlockType(Material.BIRCH_PRESSURE_PLATE);
+    public static final BlockType<Powerable> BIRCH_PRESSURE_PLATE = getBlockType("birch_pressure_plate");
     /**
      * BlockData: {@link Powerable}
      */
-    BlockType<Powerable> JUNGLE_PRESSURE_PLATE = asBlockType(Material.JUNGLE_PRESSURE_PLATE);
+    public static final BlockType<Powerable> JUNGLE_PRESSURE_PLATE = getBlockType("jungle_pressure_plate");
     /**
      * BlockData: {@link Powerable}
      */
-    BlockType<Powerable> ACACIA_PRESSURE_PLATE = asBlockType(Material.ACACIA_PRESSURE_PLATE);
+    public static final BlockType<Powerable> ACACIA_PRESSURE_PLATE = getBlockType("acacia_pressure_plate");
     /**
      * BlockData: {@link Powerable}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<Powerable> CHERRY_PRESSURE_PLATE = asBlockType(Material.CHERRY_PRESSURE_PLATE);
+    public static final BlockType<Powerable> CHERRY_PRESSURE_PLATE = getBlockType("cherry_pressure_plate");
     /**
      * BlockData: {@link Powerable}
      */
-    BlockType<Powerable> DARK_OAK_PRESSURE_PLATE = asBlockType(Material.DARK_OAK_PRESSURE_PLATE);
+    public static final BlockType<Powerable> DARK_OAK_PRESSURE_PLATE = getBlockType("dark_oak_pressure_plate");
     /**
      * BlockData: {@link Powerable}
      */
-    BlockType<Powerable> MANGROVE_PRESSURE_PLATE = asBlockType(Material.MANGROVE_PRESSURE_PLATE);
+    public static final BlockType<Powerable> MANGROVE_PRESSURE_PLATE = getBlockType("mangrove_pressure_plate");
     /**
      * BlockData: {@link Powerable}
      */
-    BlockType<Powerable> BAMBOO_PRESSURE_PLATE = asBlockType(Material.BAMBOO_PRESSURE_PLATE);
+    public static final BlockType<Powerable> BAMBOO_PRESSURE_PLATE = getBlockType("bamboo_pressure_plate");
     /**
      * BlockData: {@link Lightable}
      */
-    BlockType<Lightable> REDSTONE_ORE = asBlockType(Material.REDSTONE_ORE);
+    public static final BlockType<Lightable> REDSTONE_ORE = getBlockType("redstone_ore");
     /**
      * BlockData: {@link Lightable}
      */
-    BlockType<Lightable> DEEPSLATE_REDSTONE_ORE = asBlockType(Material.DEEPSLATE_REDSTONE_ORE);
+    public static final BlockType<Lightable> DEEPSLATE_REDSTONE_ORE = getBlockType("deepslate_redstone_ore");
     /**
      * BlockData: {@link Lightable}
      */
-    BlockType<Lightable> REDSTONE_TORCH = asBlockType(Material.REDSTONE_TORCH);
+    public static final BlockType<Lightable> REDSTONE_TORCH = getBlockType("redstone_torch");
     /**
      * BlockData: {@link RedstoneWallTorch}
      */
-    BlockType<RedstoneWallTorch> REDSTONE_WALL_TORCH = asBlockType(Material.REDSTONE_WALL_TORCH);
+    public static final BlockType<RedstoneWallTorch> REDSTONE_WALL_TORCH = getBlockType("redstone_wall_torch");
     /**
      * BlockData: {@link Switch}
      */
-    BlockType<Switch> STONE_BUTTON = asBlockType(Material.STONE_BUTTON);
+    public static final BlockType<Switch> STONE_BUTTON = getBlockType("stone_button");
     /**
      * BlockData: {@link Snow}
      */
-    BlockType<Snow> SNOW = asBlockType(Material.SNOW);
-    BlockType<BlockData> ICE = asBlockType(Material.ICE);
-    BlockType<BlockData> SNOW_BLOCK = asBlockType(Material.SNOW_BLOCK);
+    public static final BlockType<Snow> SNOW = getBlockType("snow");
+    public static final BlockType<BlockData> ICE = getBlockType("ice");
+    public static final BlockType<BlockData> SNOW_BLOCK = getBlockType("snow_block");
     /**
      * BlockData: {@link Ageable}
      */
-    BlockType<Ageable> CACTUS = asBlockType(Material.CACTUS);
-    BlockType<BlockData> CLAY = asBlockType(Material.CLAY);
+    public static final BlockType<Ageable> CACTUS = getBlockType("cactus");
+    public static final BlockType<BlockData> CLAY = getBlockType("clay");
     /**
      * BlockData: {@link Ageable}
      */
-    BlockType<Ageable> SUGAR_CANE = asBlockType(Material.SUGAR_CANE);
+    public static final BlockType<Ageable> SUGAR_CANE = getBlockType("sugar_cane");
     /**
      * BlockData: {@link Jukebox}
      */
-    BlockType<Jukebox> JUKEBOX = asBlockType(Material.JUKEBOX);
+    public static final BlockType<Jukebox> JUKEBOX = getBlockType("jukebox");
     /**
      * BlockData: {@link Fence}
      */
-    BlockType<Fence> OAK_FENCE = asBlockType(Material.OAK_FENCE);
-    BlockType<BlockData> PUMPKIN = asBlockType(Material.PUMPKIN);
-    BlockType<BlockData> NETHERRACK = asBlockType(Material.NETHERRACK);
-    BlockType<BlockData> SOUL_SAND = asBlockType(Material.SOUL_SAND);
-    BlockType<BlockData> SOUL_SOIL = asBlockType(Material.SOUL_SOIL);
+    public static final BlockType<Fence> OAK_FENCE = getBlockType("oak_fence");
+    public static final BlockType<BlockData> PUMPKIN = getBlockType("pumpkin");
+    public static final BlockType<BlockData> NETHERRACK = getBlockType("netherrack");
+    public static final BlockType<BlockData> SOUL_SAND = getBlockType("soul_sand");
+    public static final BlockType<BlockData> SOUL_SOIL = getBlockType("soul_soil");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> BASALT = asBlockType(Material.BASALT);
+    public static final BlockType<Orientable> BASALT = getBlockType("basalt");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> POLISHED_BASALT = asBlockType(Material.POLISHED_BASALT);
-    BlockType<BlockData> SOUL_TORCH = asBlockType(Material.SOUL_TORCH);
+    public static final BlockType<Orientable> POLISHED_BASALT = getBlockType("polished_basalt");
+    public static final BlockType<BlockData> SOUL_TORCH = getBlockType("soul_torch");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> SOUL_WALL_TORCH = asBlockType(Material.SOUL_WALL_TORCH);
-    BlockType<BlockData> GLOWSTONE = asBlockType(Material.GLOWSTONE);
+    public static final BlockType<Directional> SOUL_WALL_TORCH = getBlockType("soul_wall_torch");
+    public static final BlockType<BlockData> GLOWSTONE = getBlockType("glowstone");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> NETHER_PORTAL = asBlockType(Material.NETHER_PORTAL);
+    public static final BlockType<Orientable> NETHER_PORTAL = getBlockType("nether_portal");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> CARVED_PUMPKIN = asBlockType(Material.CARVED_PUMPKIN);
+    public static final BlockType<Directional> CARVED_PUMPKIN = getBlockType("carved_pumpkin");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> JACK_O_LANTERN = asBlockType(Material.JACK_O_LANTERN);
+    public static final BlockType<Directional> JACK_O_LANTERN = getBlockType("jack_o_lantern");
     /**
      * BlockData: {@link Cake}
      */
-    BlockType<Cake> CAKE = asBlockType(Material.CAKE);
+    public static final BlockType<Cake> CAKE = getBlockType("cake");
     /**
      * BlockData: {@link Repeater}
      */
-    BlockType<Repeater> REPEATER = asBlockType(Material.REPEATER);
-    BlockType<BlockData> WHITE_STAINED_GLASS = asBlockType(Material.WHITE_STAINED_GLASS);
-    BlockType<BlockData> ORANGE_STAINED_GLASS = asBlockType(Material.ORANGE_STAINED_GLASS);
-    BlockType<BlockData> MAGENTA_STAINED_GLASS = asBlockType(Material.MAGENTA_STAINED_GLASS);
-    BlockType<BlockData> LIGHT_BLUE_STAINED_GLASS = asBlockType(Material.LIGHT_BLUE_STAINED_GLASS);
-    BlockType<BlockData> YELLOW_STAINED_GLASS = asBlockType(Material.YELLOW_STAINED_GLASS);
-    BlockType<BlockData> LIME_STAINED_GLASS = asBlockType(Material.LIME_STAINED_GLASS);
-    BlockType<BlockData> PINK_STAINED_GLASS = asBlockType(Material.PINK_STAINED_GLASS);
-    BlockType<BlockData> GRAY_STAINED_GLASS = asBlockType(Material.GRAY_STAINED_GLASS);
-    BlockType<BlockData> LIGHT_GRAY_STAINED_GLASS = asBlockType(Material.LIGHT_GRAY_STAINED_GLASS);
-    BlockType<BlockData> CYAN_STAINED_GLASS = asBlockType(Material.CYAN_STAINED_GLASS);
-    BlockType<BlockData> PURPLE_STAINED_GLASS = asBlockType(Material.PURPLE_STAINED_GLASS);
-    BlockType<BlockData> BLUE_STAINED_GLASS = asBlockType(Material.BLUE_STAINED_GLASS);
-    BlockType<BlockData> BROWN_STAINED_GLASS = asBlockType(Material.BROWN_STAINED_GLASS);
-    BlockType<BlockData> GREEN_STAINED_GLASS = asBlockType(Material.GREEN_STAINED_GLASS);
-    BlockType<BlockData> RED_STAINED_GLASS = asBlockType(Material.RED_STAINED_GLASS);
-    BlockType<BlockData> BLACK_STAINED_GLASS = asBlockType(Material.BLACK_STAINED_GLASS);
+    public static final BlockType<Repeater> REPEATER = getBlockType("repeater");
+    public static final BlockType<BlockData> WHITE_STAINED_GLASS = getBlockType("white_stained_glass");
+    public static final BlockType<BlockData> ORANGE_STAINED_GLASS = getBlockType("orange_stained_glass");
+    public static final BlockType<BlockData> MAGENTA_STAINED_GLASS = getBlockType("magenta_stained_glass");
+    public static final BlockType<BlockData> LIGHT_BLUE_STAINED_GLASS = getBlockType("light_blue_stained_glass");
+    public static final BlockType<BlockData> YELLOW_STAINED_GLASS = getBlockType("yellow_stained_glass");
+    public static final BlockType<BlockData> LIME_STAINED_GLASS = getBlockType("lime_stained_glass");
+    public static final BlockType<BlockData> PINK_STAINED_GLASS = getBlockType("pink_stained_glass");
+    public static final BlockType<BlockData> GRAY_STAINED_GLASS = getBlockType("gray_stained_glass");
+    public static final BlockType<BlockData> LIGHT_GRAY_STAINED_GLASS = getBlockType("light_gray_stained_glass");
+    public static final BlockType<BlockData> CYAN_STAINED_GLASS = getBlockType("cyan_stained_glass");
+    public static final BlockType<BlockData> PURPLE_STAINED_GLASS = getBlockType("purple_stained_glass");
+    public static final BlockType<BlockData> BLUE_STAINED_GLASS = getBlockType("blue_stained_glass");
+    public static final BlockType<BlockData> BROWN_STAINED_GLASS = getBlockType("brown_stained_glass");
+    public static final BlockType<BlockData> GREEN_STAINED_GLASS = getBlockType("green_stained_glass");
+    public static final BlockType<BlockData> RED_STAINED_GLASS = getBlockType("red_stained_glass");
+    public static final BlockType<BlockData> BLACK_STAINED_GLASS = getBlockType("black_stained_glass");
     /**
      * BlockData: {@link TrapDoor}
      */
-    BlockType<TrapDoor> OAK_TRAPDOOR = asBlockType(Material.OAK_TRAPDOOR);
+    public static final BlockType<TrapDoor> OAK_TRAPDOOR = getBlockType("oak_trapdoor");
     /**
      * BlockData: {@link TrapDoor}
      */
-    BlockType<TrapDoor> SPRUCE_TRAPDOOR = asBlockType(Material.SPRUCE_TRAPDOOR);
+    public static final BlockType<TrapDoor> SPRUCE_TRAPDOOR = getBlockType("spruce_trapdoor");
     /**
      * BlockData: {@link TrapDoor}
      */
-    BlockType<TrapDoor> BIRCH_TRAPDOOR = asBlockType(Material.BIRCH_TRAPDOOR);
+    public static final BlockType<TrapDoor> BIRCH_TRAPDOOR = getBlockType("birch_trapdoor");
     /**
      * BlockData: {@link TrapDoor}
      */
-    BlockType<TrapDoor> JUNGLE_TRAPDOOR = asBlockType(Material.JUNGLE_TRAPDOOR);
+    public static final BlockType<TrapDoor> JUNGLE_TRAPDOOR = getBlockType("jungle_trapdoor");
     /**
      * BlockData: {@link TrapDoor}
      */
-    BlockType<TrapDoor> ACACIA_TRAPDOOR = asBlockType(Material.ACACIA_TRAPDOOR);
+    public static final BlockType<TrapDoor> ACACIA_TRAPDOOR = getBlockType("acacia_trapdoor");
     /**
      * BlockData: {@link TrapDoor}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<TrapDoor> CHERRY_TRAPDOOR = asBlockType(Material.CHERRY_TRAPDOOR);
+    public static final BlockType<TrapDoor> CHERRY_TRAPDOOR = getBlockType("cherry_trapdoor");
     /**
      * BlockData: {@link TrapDoor}
      */
-    BlockType<TrapDoor> DARK_OAK_TRAPDOOR = asBlockType(Material.DARK_OAK_TRAPDOOR);
+    public static final BlockType<TrapDoor> DARK_OAK_TRAPDOOR = getBlockType("dark_oak_trapdoor");
     /**
      * BlockData: {@link TrapDoor}
      */
-    BlockType<TrapDoor> MANGROVE_TRAPDOOR = asBlockType(Material.MANGROVE_TRAPDOOR);
+    public static final BlockType<TrapDoor> MANGROVE_TRAPDOOR = getBlockType("mangrove_trapdoor");
     /**
      * BlockData: {@link TrapDoor}
      */
-    BlockType<TrapDoor> BAMBOO_TRAPDOOR = asBlockType(Material.BAMBOO_TRAPDOOR);
-    BlockType<BlockData> STONE_BRICKS = asBlockType(Material.STONE_BRICKS);
-    BlockType<BlockData> MOSSY_STONE_BRICKS = asBlockType(Material.MOSSY_STONE_BRICKS);
-    BlockType<BlockData> CRACKED_STONE_BRICKS = asBlockType(Material.CRACKED_STONE_BRICKS);
-    BlockType<BlockData> CHISELED_STONE_BRICKS = asBlockType(Material.CHISELED_STONE_BRICKS);
-    BlockType<BlockData> PACKED_MUD = asBlockType(Material.PACKED_MUD);
-    BlockType<BlockData> MUD_BRICKS = asBlockType(Material.MUD_BRICKS);
-    BlockType<BlockData> INFESTED_STONE = asBlockType(Material.INFESTED_STONE);
-    BlockType<BlockData> INFESTED_COBBLESTONE = asBlockType(Material.INFESTED_COBBLESTONE);
-    BlockType<BlockData> INFESTED_STONE_BRICKS = asBlockType(Material.INFESTED_STONE_BRICKS);
-    BlockType<BlockData> INFESTED_MOSSY_STONE_BRICKS = asBlockType(Material.INFESTED_MOSSY_STONE_BRICKS);
-    BlockType<BlockData> INFESTED_CRACKED_STONE_BRICKS = asBlockType(Material.INFESTED_CRACKED_STONE_BRICKS);
-    BlockType<BlockData> INFESTED_CHISELED_STONE_BRICKS = asBlockType(Material.INFESTED_CHISELED_STONE_BRICKS);
+    public static final BlockType<TrapDoor> BAMBOO_TRAPDOOR = getBlockType("bamboo_trapdoor");
+    public static final BlockType<BlockData> STONE_BRICKS = getBlockType("stone_bricks");
+    public static final BlockType<BlockData> MOSSY_STONE_BRICKS = getBlockType("mossy_stone_bricks");
+    public static final BlockType<BlockData> CRACKED_STONE_BRICKS = getBlockType("cracked_stone_bricks");
+    public static final BlockType<BlockData> CHISELED_STONE_BRICKS = getBlockType("chiseled_stone_bricks");
+    public static final BlockType<BlockData> PACKED_MUD = getBlockType("packed_mud");
+    public static final BlockType<BlockData> MUD_BRICKS = getBlockType("mud_bricks");
+    public static final BlockType<BlockData> INFESTED_STONE = getBlockType("infested_stone");
+    public static final BlockType<BlockData> INFESTED_COBBLESTONE = getBlockType("infested_cobblestone");
+    public static final BlockType<BlockData> INFESTED_STONE_BRICKS = getBlockType("infested_stone_bricks");
+    public static final BlockType<BlockData> INFESTED_MOSSY_STONE_BRICKS = getBlockType("infested_mossy_stone_bricks");
+    public static final BlockType<BlockData> INFESTED_CRACKED_STONE_BRICKS = getBlockType("infested_cracked_stone_bricks");
+    public static final BlockType<BlockData> INFESTED_CHISELED_STONE_BRICKS = getBlockType("infested_chiseled_stone_bricks");
     /**
      * BlockData: {@link MultipleFacing}
      */
-    BlockType<MultipleFacing> BROWN_MUSHROOM_BLOCK = asBlockType(Material.BROWN_MUSHROOM_BLOCK);
+    public static final BlockType<MultipleFacing> BROWN_MUSHROOM_BLOCK = getBlockType("brown_mushroom_block");
     /**
      * BlockData: {@link MultipleFacing}
      */
-    BlockType<MultipleFacing> RED_MUSHROOM_BLOCK = asBlockType(Material.RED_MUSHROOM_BLOCK);
+    public static final BlockType<MultipleFacing> RED_MUSHROOM_BLOCK = getBlockType("red_mushroom_block");
     /**
      * BlockData: {@link MultipleFacing}
      */
-    BlockType<MultipleFacing> MUSHROOM_STEM = asBlockType(Material.MUSHROOM_STEM);
+    public static final BlockType<MultipleFacing> MUSHROOM_STEM = getBlockType("mushroom_stem");
     /**
      * BlockData: {@link Fence}
      */
-    BlockType<Fence> IRON_BARS = asBlockType(Material.IRON_BARS);
+    public static final BlockType<Fence> IRON_BARS = getBlockType("iron_bars");
     /**
      * BlockData: {@link Chain}
      */
-    BlockType<Chain> CHAIN = asBlockType(Material.CHAIN);
+    public static final BlockType<Chain> CHAIN = getBlockType("chain");
     /**
      * BlockData: {@link Fence}
      */
-    BlockType<Fence> GLASS_PANE = asBlockType(Material.GLASS_PANE);
-    BlockType<BlockData> MELON = asBlockType(Material.MELON);
+    public static final BlockType<Fence> GLASS_PANE = getBlockType("glass_pane");
+    public static final BlockType<BlockData> MELON = getBlockType("melon");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> ATTACHED_PUMPKIN_STEM = asBlockType(Material.ATTACHED_PUMPKIN_STEM);
+    public static final BlockType<Directional> ATTACHED_PUMPKIN_STEM = getBlockType("attached_pumpkin_stem");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> ATTACHED_MELON_STEM = asBlockType(Material.ATTACHED_MELON_STEM);
+    public static final BlockType<Directional> ATTACHED_MELON_STEM = getBlockType("attached_melon_stem");
     /**
      * BlockData: {@link Ageable}
      */
-    BlockType<Ageable> PUMPKIN_STEM = asBlockType(Material.PUMPKIN_STEM);
+    public static final BlockType<Ageable> PUMPKIN_STEM = getBlockType("pumpkin_stem");
     /**
      * BlockData: {@link Ageable}
      */
-    BlockType<Ageable> MELON_STEM = asBlockType(Material.MELON_STEM);
+    public static final BlockType<Ageable> MELON_STEM = getBlockType("melon_stem");
     /**
      * BlockData: {@link MultipleFacing}
      */
-    BlockType<MultipleFacing> VINE = asBlockType(Material.VINE);
+    public static final BlockType<MultipleFacing> VINE = getBlockType("vine");
     /**
      * BlockData: {@link GlowLichen}
      */
-    BlockType<GlowLichen> GLOW_LICHEN = asBlockType(Material.GLOW_LICHEN);
+    public static final BlockType<GlowLichen> GLOW_LICHEN = getBlockType("glow_lichen");
     /**
      * BlockData: {@link Gate}
      */
-    BlockType<Gate> OAK_FENCE_GATE = asBlockType(Material.OAK_FENCE_GATE);
+    public static final BlockType<Gate> OAK_FENCE_GATE = getBlockType("oak_fence_gate");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> BRICK_STAIRS = asBlockType(Material.BRICK_STAIRS);
+    public static final BlockType<Stairs> BRICK_STAIRS = getBlockType("brick_stairs");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> STONE_BRICK_STAIRS = asBlockType(Material.STONE_BRICK_STAIRS);
+    public static final BlockType<Stairs> STONE_BRICK_STAIRS = getBlockType("stone_brick_stairs");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> MUD_BRICK_STAIRS = asBlockType(Material.MUD_BRICK_STAIRS);
+    public static final BlockType<Stairs> MUD_BRICK_STAIRS = getBlockType("mud_brick_stairs");
     /**
      * BlockData: {@link Snowable}
      */
-    BlockType<Snowable> MYCELIUM = asBlockType(Material.MYCELIUM);
-    BlockType<BlockData> LILY_PAD = asBlockType(Material.LILY_PAD);
-    BlockType<BlockData> NETHER_BRICKS = asBlockType(Material.NETHER_BRICKS);
+    public static final BlockType<Snowable> MYCELIUM = getBlockType("mycelium");
+    public static final BlockType<BlockData> LILY_PAD = getBlockType("lily_pad");
+    public static final BlockType<BlockData> NETHER_BRICKS = getBlockType("nether_bricks");
     /**
      * BlockData: {@link Fence}
      */
-    BlockType<Fence> NETHER_BRICK_FENCE = asBlockType(Material.NETHER_BRICK_FENCE);
+    public static final BlockType<Fence> NETHER_BRICK_FENCE = getBlockType("nether_brick_fence");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> NETHER_BRICK_STAIRS = asBlockType(Material.NETHER_BRICK_STAIRS);
+    public static final BlockType<Stairs> NETHER_BRICK_STAIRS = getBlockType("nether_brick_stairs");
     /**
      * BlockData: {@link Ageable}
      */
-    BlockType<Ageable> NETHER_WART = asBlockType(Material.NETHER_WART);
-    BlockType<BlockData> ENCHANTING_TABLE = asBlockType(Material.ENCHANTING_TABLE);
+    public static final BlockType<Ageable> NETHER_WART = getBlockType("nether_wart");
+    public static final BlockType<BlockData> ENCHANTING_TABLE = getBlockType("enchanting_table");
     /**
      * BlockData: {@link BrewingStand}
      */
-    BlockType<BrewingStand> BREWING_STAND = asBlockType(Material.BREWING_STAND);
-    BlockType<BlockData> CAULDRON = asBlockType(Material.CAULDRON);
+    public static final BlockType<BrewingStand> BREWING_STAND = getBlockType("brewing_stand");
+    public static final BlockType<BlockData> CAULDRON = getBlockType("cauldron");
     /**
      * BlockData: {@link Levelled}
      */
-    BlockType<Levelled> WATER_CAULDRON = asBlockType(Material.WATER_CAULDRON);
-    BlockType<BlockData> LAVA_CAULDRON = asBlockType(Material.LAVA_CAULDRON);
+    public static final BlockType<Levelled> WATER_CAULDRON = getBlockType("water_cauldron");
+    public static final BlockType<BlockData> LAVA_CAULDRON = getBlockType("lava_cauldron");
     /**
      * BlockData: {@link Levelled}
      */
-    BlockType<Levelled> POWDER_SNOW_CAULDRON = asBlockType(Material.POWDER_SNOW_CAULDRON);
-    BlockType<BlockData> END_PORTAL = asBlockType(Material.END_PORTAL);
+    public static final BlockType<Levelled> POWDER_SNOW_CAULDRON = getBlockType("powder_snow_cauldron");
+    public static final BlockType<BlockData> END_PORTAL = getBlockType("end_portal");
     /**
      * BlockData: {@link EndPortalFrame}
      */
-    BlockType<EndPortalFrame> END_PORTAL_FRAME = asBlockType(Material.END_PORTAL_FRAME);
-    BlockType<BlockData> END_STONE = asBlockType(Material.END_STONE);
-    BlockType<BlockData> DRAGON_EGG = asBlockType(Material.DRAGON_EGG);
+    public static final BlockType<EndPortalFrame> END_PORTAL_FRAME = getBlockType("end_portal_frame");
+    public static final BlockType<BlockData> END_STONE = getBlockType("end_stone");
+    public static final BlockType<BlockData> DRAGON_EGG = getBlockType("dragon_egg");
     /**
      * BlockData: {@link Lightable}
      */
-    BlockType<Lightable> REDSTONE_LAMP = asBlockType(Material.REDSTONE_LAMP);
+    public static final BlockType<Lightable> REDSTONE_LAMP = getBlockType("redstone_lamp");
     /**
      * BlockData: {@link Cocoa}
      */
-    BlockType<Cocoa> COCOA = asBlockType(Material.COCOA);
+    public static final BlockType<Cocoa> COCOA = getBlockType("cocoa");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> SANDSTONE_STAIRS = asBlockType(Material.SANDSTONE_STAIRS);
-    BlockType<BlockData> EMERALD_ORE = asBlockType(Material.EMERALD_ORE);
-    BlockType<BlockData> DEEPSLATE_EMERALD_ORE = asBlockType(Material.DEEPSLATE_EMERALD_ORE);
+    public static final BlockType<Stairs> SANDSTONE_STAIRS = getBlockType("sandstone_stairs");
+    public static final BlockType<BlockData> EMERALD_ORE = getBlockType("emerald_ore");
+    public static final BlockType<BlockData> DEEPSLATE_EMERALD_ORE = getBlockType("deepslate_emerald_ore");
     /**
      * BlockData: {@link EnderChest}
      */
-    BlockType<EnderChest> ENDER_CHEST = asBlockType(Material.ENDER_CHEST);
+    public static final BlockType<EnderChest> ENDER_CHEST = getBlockType("ender_chest");
     /**
      * BlockData: {@link TripwireHook}
      */
-    BlockType<TripwireHook> TRIPWIRE_HOOK = asBlockType(Material.TRIPWIRE_HOOK);
+    public static final BlockType<TripwireHook> TRIPWIRE_HOOK = getBlockType("tripwire_hook");
     /**
      * BlockData: {@link Tripwire}
      */
-    BlockType<Tripwire> TRIPWIRE = asBlockType(Material.TRIPWIRE);
-    BlockType<BlockData> EMERALD_BLOCK = asBlockType(Material.EMERALD_BLOCK);
+    public static final BlockType<Tripwire> TRIPWIRE = getBlockType("tripwire");
+    public static final BlockType<BlockData> EMERALD_BLOCK = getBlockType("emerald_block");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> SPRUCE_STAIRS = asBlockType(Material.SPRUCE_STAIRS);
+    public static final BlockType<Stairs> SPRUCE_STAIRS = getBlockType("spruce_stairs");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> BIRCH_STAIRS = asBlockType(Material.BIRCH_STAIRS);
+    public static final BlockType<Stairs> BIRCH_STAIRS = getBlockType("birch_stairs");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> JUNGLE_STAIRS = asBlockType(Material.JUNGLE_STAIRS);
+    public static final BlockType<Stairs> JUNGLE_STAIRS = getBlockType("jungle_stairs");
     /**
      * BlockData: {@link CommandBlock}
      */
-    BlockType<CommandBlock> COMMAND_BLOCK = asBlockType(Material.COMMAND_BLOCK);
-    BlockType<BlockData> BEACON = asBlockType(Material.BEACON);
+    public static final BlockType<CommandBlock> COMMAND_BLOCK = getBlockType("command_block");
+    public static final BlockType<BlockData> BEACON = getBlockType("beacon");
     /**
      * BlockData: {@link Wall}
      */
-    BlockType<Wall> COBBLESTONE_WALL = asBlockType(Material.COBBLESTONE_WALL);
+    public static final BlockType<Wall> COBBLESTONE_WALL = getBlockType("cobblestone_wall");
     /**
      * BlockData: {@link Wall}
      */
-    BlockType<Wall> MOSSY_COBBLESTONE_WALL = asBlockType(Material.MOSSY_COBBLESTONE_WALL);
-    BlockType<BlockData> FLOWER_POT = asBlockType(Material.FLOWER_POT);
+    public static final BlockType<Wall> MOSSY_COBBLESTONE_WALL = getBlockType("mossy_cobblestone_wall");
+    public static final BlockType<BlockData> FLOWER_POT = getBlockType("flower_pot");
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<BlockData> POTTED_TORCHFLOWER = asBlockType(Material.POTTED_TORCHFLOWER);
-    BlockType<BlockData> POTTED_OAK_SAPLING = asBlockType(Material.POTTED_OAK_SAPLING);
-    BlockType<BlockData> POTTED_SPRUCE_SAPLING = asBlockType(Material.POTTED_SPRUCE_SAPLING);
-    BlockType<BlockData> POTTED_BIRCH_SAPLING = asBlockType(Material.POTTED_BIRCH_SAPLING);
-    BlockType<BlockData> POTTED_JUNGLE_SAPLING = asBlockType(Material.POTTED_JUNGLE_SAPLING);
-    BlockType<BlockData> POTTED_ACACIA_SAPLING = asBlockType(Material.POTTED_ACACIA_SAPLING);
+    public static final BlockType<BlockData> POTTED_TORCHFLOWER = getBlockType("potted_torchflower");
+    public static final BlockType<BlockData> POTTED_OAK_SAPLING = getBlockType("potted_oak_sapling");
+    public static final BlockType<BlockData> POTTED_SPRUCE_SAPLING = getBlockType("potted_spruce_sapling");
+    public static final BlockType<BlockData> POTTED_BIRCH_SAPLING = getBlockType("potted_birch_sapling");
+    public static final BlockType<BlockData> POTTED_JUNGLE_SAPLING = getBlockType("potted_jungle_sapling");
+    public static final BlockType<BlockData> POTTED_ACACIA_SAPLING = getBlockType("potted_acacia_sapling");
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<BlockData> POTTED_CHERRY_SAPLING = asBlockType(Material.POTTED_CHERRY_SAPLING);
-    BlockType<BlockData> POTTED_DARK_OAK_SAPLING = asBlockType(Material.POTTED_DARK_OAK_SAPLING);
-    BlockType<BlockData> POTTED_MANGROVE_PROPAGULE = asBlockType(Material.POTTED_MANGROVE_PROPAGULE);
-    BlockType<BlockData> POTTED_FERN = asBlockType(Material.POTTED_FERN);
-    BlockType<BlockData> POTTED_DANDELION = asBlockType(Material.POTTED_DANDELION);
-    BlockType<BlockData> POTTED_POPPY = asBlockType(Material.POTTED_POPPY);
-    BlockType<BlockData> POTTED_BLUE_ORCHID = asBlockType(Material.POTTED_BLUE_ORCHID);
-    BlockType<BlockData> POTTED_ALLIUM = asBlockType(Material.POTTED_ALLIUM);
-    BlockType<BlockData> POTTED_AZURE_BLUET = asBlockType(Material.POTTED_AZURE_BLUET);
-    BlockType<BlockData> POTTED_RED_TULIP = asBlockType(Material.POTTED_RED_TULIP);
-    BlockType<BlockData> POTTED_ORANGE_TULIP = asBlockType(Material.POTTED_ORANGE_TULIP);
-    BlockType<BlockData> POTTED_WHITE_TULIP = asBlockType(Material.POTTED_WHITE_TULIP);
-    BlockType<BlockData> POTTED_PINK_TULIP = asBlockType(Material.POTTED_PINK_TULIP);
-    BlockType<BlockData> POTTED_OXEYE_DAISY = asBlockType(Material.POTTED_OXEYE_DAISY);
-    BlockType<BlockData> POTTED_CORNFLOWER = asBlockType(Material.POTTED_CORNFLOWER);
-    BlockType<BlockData> POTTED_LILY_OF_THE_VALLEY = asBlockType(Material.POTTED_LILY_OF_THE_VALLEY);
-    BlockType<BlockData> POTTED_WITHER_ROSE = asBlockType(Material.POTTED_WITHER_ROSE);
-    BlockType<BlockData> POTTED_RED_MUSHROOM = asBlockType(Material.POTTED_RED_MUSHROOM);
-    BlockType<BlockData> POTTED_BROWN_MUSHROOM = asBlockType(Material.POTTED_BROWN_MUSHROOM);
-    BlockType<BlockData> POTTED_DEAD_BUSH = asBlockType(Material.POTTED_DEAD_BUSH);
-    BlockType<BlockData> POTTED_CACTUS = asBlockType(Material.POTTED_CACTUS);
+    public static final BlockType<BlockData> POTTED_CHERRY_SAPLING = getBlockType("potted_cherry_sapling");
+    public static final BlockType<BlockData> POTTED_DARK_OAK_SAPLING = getBlockType("potted_dark_oak_sapling");
+    public static final BlockType<BlockData> POTTED_MANGROVE_PROPAGULE = getBlockType("potted_mangrove_propagule");
+    public static final BlockType<BlockData> POTTED_FERN = getBlockType("potted_fern");
+    public static final BlockType<BlockData> POTTED_DANDELION = getBlockType("potted_dandelion");
+    public static final BlockType<BlockData> POTTED_POPPY = getBlockType("potted_poppy");
+    public static final BlockType<BlockData> POTTED_BLUE_ORCHID = getBlockType("potted_blue_orchid");
+    public static final BlockType<BlockData> POTTED_ALLIUM = getBlockType("potted_allium");
+    public static final BlockType<BlockData> POTTED_AZURE_BLUET = getBlockType("potted_azure_bluet");
+    public static final BlockType<BlockData> POTTED_RED_TULIP = getBlockType("potted_red_tulip");
+    public static final BlockType<BlockData> POTTED_ORANGE_TULIP = getBlockType("potted_orange_tulip");
+    public static final BlockType<BlockData> POTTED_WHITE_TULIP = getBlockType("potted_white_tulip");
+    public static final BlockType<BlockData> POTTED_PINK_TULIP = getBlockType("potted_pink_tulip");
+    public static final BlockType<BlockData> POTTED_OXEYE_DAISY = getBlockType("potted_oxeye_daisy");
+    public static final BlockType<BlockData> POTTED_CORNFLOWER = getBlockType("potted_cornflower");
+    public static final BlockType<BlockData> POTTED_LILY_OF_THE_VALLEY = getBlockType("potted_lily_of_the_valley");
+    public static final BlockType<BlockData> POTTED_WITHER_ROSE = getBlockType("potted_wither_rose");
+    public static final BlockType<BlockData> POTTED_RED_MUSHROOM = getBlockType("potted_red_mushroom");
+    public static final BlockType<BlockData> POTTED_BROWN_MUSHROOM = getBlockType("potted_brown_mushroom");
+    public static final BlockType<BlockData> POTTED_DEAD_BUSH = getBlockType("potted_dead_bush");
+    public static final BlockType<BlockData> POTTED_CACTUS = getBlockType("potted_cactus");
     /**
      * BlockData: {@link Ageable}
      */
-    BlockType<Ageable> CARROTS = asBlockType(Material.CARROTS);
+    public static final BlockType<Ageable> CARROTS = getBlockType("carrots");
     /**
      * BlockData: {@link Ageable}
      */
-    BlockType<Ageable> POTATOES = asBlockType(Material.POTATOES);
+    public static final BlockType<Ageable> POTATOES = getBlockType("potatoes");
     /**
      * BlockData: {@link Switch}
      */
-    BlockType<Switch> OAK_BUTTON = asBlockType(Material.OAK_BUTTON);
+    public static final BlockType<Switch> OAK_BUTTON = getBlockType("oak_button");
     /**
      * BlockData: {@link Switch}
      */
-    BlockType<Switch> SPRUCE_BUTTON = asBlockType(Material.SPRUCE_BUTTON);
+    public static final BlockType<Switch> SPRUCE_BUTTON = getBlockType("spruce_button");
     /**
      * BlockData: {@link Switch}
      */
-    BlockType<Switch> BIRCH_BUTTON = asBlockType(Material.BIRCH_BUTTON);
+    public static final BlockType<Switch> BIRCH_BUTTON = getBlockType("birch_button");
     /**
      * BlockData: {@link Switch}
      */
-    BlockType<Switch> JUNGLE_BUTTON = asBlockType(Material.JUNGLE_BUTTON);
+    public static final BlockType<Switch> JUNGLE_BUTTON = getBlockType("jungle_button");
     /**
      * BlockData: {@link Switch}
      */
-    BlockType<Switch> ACACIA_BUTTON = asBlockType(Material.ACACIA_BUTTON);
+    public static final BlockType<Switch> ACACIA_BUTTON = getBlockType("acacia_button");
     /**
      * BlockData: {@link Switch}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<Switch> CHERRY_BUTTON = asBlockType(Material.CHERRY_BUTTON);
+    public static final BlockType<Switch> CHERRY_BUTTON = getBlockType("cherry_button");
     /**
      * BlockData: {@link Switch}
      */
-    BlockType<Switch> DARK_OAK_BUTTON = asBlockType(Material.DARK_OAK_BUTTON);
+    public static final BlockType<Switch> DARK_OAK_BUTTON = getBlockType("dark_oak_button");
     /**
      * BlockData: {@link Switch}
      */
-    BlockType<Switch> MANGROVE_BUTTON = asBlockType(Material.MANGROVE_BUTTON);
+    public static final BlockType<Switch> MANGROVE_BUTTON = getBlockType("mangrove_button");
     /**
      * BlockData: {@link Switch}
      */
-    BlockType<Switch> BAMBOO_BUTTON = asBlockType(Material.BAMBOO_BUTTON);
+    public static final BlockType<Switch> BAMBOO_BUTTON = getBlockType("bamboo_button");
     /**
      * BlockData: {@link Rotatable}
      */
-    BlockType<Rotatable> SKELETON_SKULL = asBlockType(Material.SKELETON_SKULL);
+    public static final BlockType<Rotatable> SKELETON_SKULL = getBlockType("skeleton_skull");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> SKELETON_WALL_SKULL = asBlockType(Material.SKELETON_WALL_SKULL);
+    public static final BlockType<Directional> SKELETON_WALL_SKULL = getBlockType("skeleton_wall_skull");
     /**
      * BlockData: {@link Rotatable}
      */
-    BlockType<Rotatable> WITHER_SKELETON_SKULL = asBlockType(Material.WITHER_SKELETON_SKULL);
+    public static final BlockType<Rotatable> WITHER_SKELETON_SKULL = getBlockType("wither_skeleton_skull");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> WITHER_SKELETON_WALL_SKULL = asBlockType(Material.WITHER_SKELETON_WALL_SKULL);
+    public static final BlockType<Directional> WITHER_SKELETON_WALL_SKULL = getBlockType("wither_skeleton_wall_skull");
     /**
      * BlockData: {@link Rotatable}
      */
-    BlockType<Rotatable> ZOMBIE_HEAD = asBlockType(Material.ZOMBIE_HEAD);
+    public static final BlockType<Rotatable> ZOMBIE_HEAD = getBlockType("zombie_head");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> ZOMBIE_WALL_HEAD = asBlockType(Material.ZOMBIE_WALL_HEAD);
+    public static final BlockType<Directional> ZOMBIE_WALL_HEAD = getBlockType("zombie_wall_head");
     /**
      * BlockData: {@link Rotatable}
      */
-    BlockType<Rotatable> PLAYER_HEAD = asBlockType(Material.PLAYER_HEAD);
+    public static final BlockType<Rotatable> PLAYER_HEAD = getBlockType("player_head");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> PLAYER_WALL_HEAD = asBlockType(Material.PLAYER_WALL_HEAD);
+    public static final BlockType<Directional> PLAYER_WALL_HEAD = getBlockType("player_wall_head");
     /**
      * BlockData: {@link Rotatable}
      */
-    BlockType<Rotatable> CREEPER_HEAD = asBlockType(Material.CREEPER_HEAD);
+    public static final BlockType<Rotatable> CREEPER_HEAD = getBlockType("creeper_head");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> CREEPER_WALL_HEAD = asBlockType(Material.CREEPER_WALL_HEAD);
+    public static final BlockType<Directional> CREEPER_WALL_HEAD = getBlockType("creeper_wall_head");
     /**
      * BlockData: {@link Rotatable}
      */
-    BlockType<Rotatable> DRAGON_HEAD = asBlockType(Material.DRAGON_HEAD);
+    public static final BlockType<Rotatable> DRAGON_HEAD = getBlockType("dragon_head");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> DRAGON_WALL_HEAD = asBlockType(Material.DRAGON_WALL_HEAD);
+    public static final BlockType<Directional> DRAGON_WALL_HEAD = getBlockType("dragon_wall_head");
     /**
      * BlockData: {@link Rotatable}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<Rotatable> PIGLIN_HEAD = asBlockType(Material.PIGLIN_HEAD);
+    public static final BlockType<Rotatable> PIGLIN_HEAD = getBlockType("piglin_head");
     /**
      * BlockData: {@link Directional}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<Directional> PIGLIN_WALL_HEAD = asBlockType(Material.PIGLIN_WALL_HEAD);
+    public static final BlockType<Directional> PIGLIN_WALL_HEAD = getBlockType("piglin_wall_head");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> ANVIL = asBlockType(Material.ANVIL);
+    public static final BlockType<Directional> ANVIL = getBlockType("anvil");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> CHIPPED_ANVIL = asBlockType(Material.CHIPPED_ANVIL);
+    public static final BlockType<Directional> CHIPPED_ANVIL = getBlockType("chipped_anvil");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> DAMAGED_ANVIL = asBlockType(Material.DAMAGED_ANVIL);
+    public static final BlockType<Directional> DAMAGED_ANVIL = getBlockType("damaged_anvil");
     /**
      * BlockData: {@link Chest}
      */
-    BlockType<Chest> TRAPPED_CHEST = asBlockType(Material.TRAPPED_CHEST);
+    public static final BlockType<Chest> TRAPPED_CHEST = getBlockType("trapped_chest");
     /**
      * BlockData: {@link AnaloguePowerable}
      */
-    BlockType<AnaloguePowerable> LIGHT_WEIGHTED_PRESSURE_PLATE = asBlockType(Material.LIGHT_WEIGHTED_PRESSURE_PLATE);
+    public static final BlockType<AnaloguePowerable> LIGHT_WEIGHTED_PRESSURE_PLATE = getBlockType("light_weighted_pressure_plate");
     /**
      * BlockData: {@link AnaloguePowerable}
      */
-    BlockType<AnaloguePowerable> HEAVY_WEIGHTED_PRESSURE_PLATE = asBlockType(Material.HEAVY_WEIGHTED_PRESSURE_PLATE);
+    public static final BlockType<AnaloguePowerable> HEAVY_WEIGHTED_PRESSURE_PLATE = getBlockType("heavy_weighted_pressure_plate");
     /**
      * BlockData: {@link Comparator}
      */
-    BlockType<Comparator> COMPARATOR = asBlockType(Material.COMPARATOR);
+    public static final BlockType<Comparator> COMPARATOR = getBlockType("comparator");
     /**
      * BlockData: {@link DaylightDetector}
      */
-    BlockType<DaylightDetector> DAYLIGHT_DETECTOR = asBlockType(Material.DAYLIGHT_DETECTOR);
-    BlockType<BlockData> REDSTONE_BLOCK = asBlockType(Material.REDSTONE_BLOCK);
-    BlockType<BlockData> NETHER_QUARTZ_ORE = asBlockType(Material.NETHER_QUARTZ_ORE);
+    public static final BlockType<DaylightDetector> DAYLIGHT_DETECTOR = getBlockType("daylight_detector");
+    public static final BlockType<BlockData> REDSTONE_BLOCK = getBlockType("redstone_block");
+    public static final BlockType<BlockData> NETHER_QUARTZ_ORE = getBlockType("nether_quartz_ore");
     /**
      * BlockData: {@link Hopper}
      */
-    BlockType<Hopper> HOPPER = asBlockType(Material.HOPPER);
-    BlockType<BlockData> QUARTZ_BLOCK = asBlockType(Material.QUARTZ_BLOCK);
-    BlockType<BlockData> CHISELED_QUARTZ_BLOCK = asBlockType(Material.CHISELED_QUARTZ_BLOCK);
+    public static final BlockType<Hopper> HOPPER = getBlockType("hopper");
+    public static final BlockType<BlockData> QUARTZ_BLOCK = getBlockType("quartz_block");
+    public static final BlockType<BlockData> CHISELED_QUARTZ_BLOCK = getBlockType("chiseled_quartz_block");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> QUARTZ_PILLAR = asBlockType(Material.QUARTZ_PILLAR);
+    public static final BlockType<Orientable> QUARTZ_PILLAR = getBlockType("quartz_pillar");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> QUARTZ_STAIRS = asBlockType(Material.QUARTZ_STAIRS);
+    public static final BlockType<Stairs> QUARTZ_STAIRS = getBlockType("quartz_stairs");
     /**
      * BlockData: {@link RedstoneRail}
      */
-    BlockType<RedstoneRail> ACTIVATOR_RAIL = asBlockType(Material.ACTIVATOR_RAIL);
+    public static final BlockType<RedstoneRail> ACTIVATOR_RAIL = getBlockType("activator_rail");
     /**
      * BlockData: {@link Dispenser}
      */
-    BlockType<Dispenser> DROPPER = asBlockType(Material.DROPPER);
-    BlockType<BlockData> WHITE_TERRACOTTA = asBlockType(Material.WHITE_TERRACOTTA);
-    BlockType<BlockData> ORANGE_TERRACOTTA = asBlockType(Material.ORANGE_TERRACOTTA);
-    BlockType<BlockData> MAGENTA_TERRACOTTA = asBlockType(Material.MAGENTA_TERRACOTTA);
-    BlockType<BlockData> LIGHT_BLUE_TERRACOTTA = asBlockType(Material.LIGHT_BLUE_TERRACOTTA);
-    BlockType<BlockData> YELLOW_TERRACOTTA = asBlockType(Material.YELLOW_TERRACOTTA);
-    BlockType<BlockData> LIME_TERRACOTTA = asBlockType(Material.LIME_TERRACOTTA);
-    BlockType<BlockData> PINK_TERRACOTTA = asBlockType(Material.PINK_TERRACOTTA);
-    BlockType<BlockData> GRAY_TERRACOTTA = asBlockType(Material.GRAY_TERRACOTTA);
-    BlockType<BlockData> LIGHT_GRAY_TERRACOTTA = asBlockType(Material.LIGHT_GRAY_TERRACOTTA);
-    BlockType<BlockData> CYAN_TERRACOTTA = asBlockType(Material.CYAN_TERRACOTTA);
-    BlockType<BlockData> PURPLE_TERRACOTTA = asBlockType(Material.PURPLE_TERRACOTTA);
-    BlockType<BlockData> BLUE_TERRACOTTA = asBlockType(Material.BLUE_TERRACOTTA);
-    BlockType<BlockData> BROWN_TERRACOTTA = asBlockType(Material.BROWN_TERRACOTTA);
-    BlockType<BlockData> GREEN_TERRACOTTA = asBlockType(Material.GREEN_TERRACOTTA);
-    BlockType<BlockData> RED_TERRACOTTA = asBlockType(Material.RED_TERRACOTTA);
-    BlockType<BlockData> BLACK_TERRACOTTA = asBlockType(Material.BLACK_TERRACOTTA);
+    public static final BlockType<Dispenser> DROPPER = getBlockType("dropper");
+    public static final BlockType<BlockData> WHITE_TERRACOTTA = getBlockType("white_terracotta");
+    public static final BlockType<BlockData> ORANGE_TERRACOTTA = getBlockType("orange_terracotta");
+    public static final BlockType<BlockData> MAGENTA_TERRACOTTA = getBlockType("magenta_terracotta");
+    public static final BlockType<BlockData> LIGHT_BLUE_TERRACOTTA = getBlockType("light_blue_terracotta");
+    public static final BlockType<BlockData> YELLOW_TERRACOTTA = getBlockType("yellow_terracotta");
+    public static final BlockType<BlockData> LIME_TERRACOTTA = getBlockType("lime_terracotta");
+    public static final BlockType<BlockData> PINK_TERRACOTTA = getBlockType("pink_terracotta");
+    public static final BlockType<BlockData> GRAY_TERRACOTTA = getBlockType("gray_terracotta");
+    public static final BlockType<BlockData> LIGHT_GRAY_TERRACOTTA = getBlockType("light_gray_terracotta");
+    public static final BlockType<BlockData> CYAN_TERRACOTTA = getBlockType("cyan_terracotta");
+    public static final BlockType<BlockData> PURPLE_TERRACOTTA = getBlockType("purple_terracotta");
+    public static final BlockType<BlockData> BLUE_TERRACOTTA = getBlockType("blue_terracotta");
+    public static final BlockType<BlockData> BROWN_TERRACOTTA = getBlockType("brown_terracotta");
+    public static final BlockType<BlockData> GREEN_TERRACOTTA = getBlockType("green_terracotta");
+    public static final BlockType<BlockData> RED_TERRACOTTA = getBlockType("red_terracotta");
+    public static final BlockType<BlockData> BLACK_TERRACOTTA = getBlockType("black_terracotta");
     /**
      * BlockData: {@link GlassPane}
      */
-    BlockType<GlassPane> WHITE_STAINED_GLASS_PANE = asBlockType(Material.WHITE_STAINED_GLASS_PANE);
+    public static final BlockType<GlassPane> WHITE_STAINED_GLASS_PANE = getBlockType("white_stained_glass_pane");
     /**
      * BlockData: {@link GlassPane}
      */
-    BlockType<GlassPane> ORANGE_STAINED_GLASS_PANE = asBlockType(Material.ORANGE_STAINED_GLASS_PANE);
+    public static final BlockType<GlassPane> ORANGE_STAINED_GLASS_PANE = getBlockType("orange_stained_glass_pane");
     /**
      * BlockData: {@link GlassPane}
      */
-    BlockType<GlassPane> MAGENTA_STAINED_GLASS_PANE = asBlockType(Material.MAGENTA_STAINED_GLASS_PANE);
+    public static final BlockType<GlassPane> MAGENTA_STAINED_GLASS_PANE = getBlockType("magenta_stained_glass_pane");
     /**
      * BlockData: {@link GlassPane}
      */
-    BlockType<GlassPane> LIGHT_BLUE_STAINED_GLASS_PANE = asBlockType(Material.LIGHT_BLUE_STAINED_GLASS_PANE);
+    public static final BlockType<GlassPane> LIGHT_BLUE_STAINED_GLASS_PANE = getBlockType("light_blue_stained_glass_pane");
     /**
      * BlockData: {@link GlassPane}
      */
-    BlockType<GlassPane> YELLOW_STAINED_GLASS_PANE = asBlockType(Material.YELLOW_STAINED_GLASS_PANE);
+    public static final BlockType<GlassPane> YELLOW_STAINED_GLASS_PANE = getBlockType("yellow_stained_glass_pane");
     /**
      * BlockData: {@link GlassPane}
      */
-    BlockType<GlassPane> LIME_STAINED_GLASS_PANE = asBlockType(Material.LIME_STAINED_GLASS_PANE);
+    public static final BlockType<GlassPane> LIME_STAINED_GLASS_PANE = getBlockType("lime_stained_glass_pane");
     /**
      * BlockData: {@link GlassPane}
      */
-    BlockType<GlassPane> PINK_STAINED_GLASS_PANE = asBlockType(Material.PINK_STAINED_GLASS_PANE);
+    public static final BlockType<GlassPane> PINK_STAINED_GLASS_PANE = getBlockType("pink_stained_glass_pane");
     /**
      * BlockData: {@link GlassPane}
      */
-    BlockType<GlassPane> GRAY_STAINED_GLASS_PANE = asBlockType(Material.GRAY_STAINED_GLASS_PANE);
+    public static final BlockType<GlassPane> GRAY_STAINED_GLASS_PANE = getBlockType("gray_stained_glass_pane");
     /**
      * BlockData: {@link GlassPane}
      */
-    BlockType<GlassPane> LIGHT_GRAY_STAINED_GLASS_PANE = asBlockType(Material.LIGHT_GRAY_STAINED_GLASS_PANE);
+    public static final BlockType<GlassPane> LIGHT_GRAY_STAINED_GLASS_PANE = getBlockType("light_gray_stained_glass_pane");
     /**
      * BlockData: {@link GlassPane}
      */
-    BlockType<GlassPane> CYAN_STAINED_GLASS_PANE = asBlockType(Material.CYAN_STAINED_GLASS_PANE);
+    public static final BlockType<GlassPane> CYAN_STAINED_GLASS_PANE = getBlockType("cyan_stained_glass_pane");
     /**
      * BlockData: {@link GlassPane}
      */
-    BlockType<GlassPane> PURPLE_STAINED_GLASS_PANE = asBlockType(Material.PURPLE_STAINED_GLASS_PANE);
+    public static final BlockType<GlassPane> PURPLE_STAINED_GLASS_PANE = getBlockType("purple_stained_glass_pane");
     /**
      * BlockData: {@link GlassPane}
      */
-    BlockType<GlassPane> BLUE_STAINED_GLASS_PANE = asBlockType(Material.BLUE_STAINED_GLASS_PANE);
+    public static final BlockType<GlassPane> BLUE_STAINED_GLASS_PANE = getBlockType("blue_stained_glass_pane");
     /**
      * BlockData: {@link GlassPane}
      */
-    BlockType<GlassPane> BROWN_STAINED_GLASS_PANE = asBlockType(Material.BROWN_STAINED_GLASS_PANE);
+    public static final BlockType<GlassPane> BROWN_STAINED_GLASS_PANE = getBlockType("brown_stained_glass_pane");
     /**
      * BlockData: {@link GlassPane}
      */
-    BlockType<GlassPane> GREEN_STAINED_GLASS_PANE = asBlockType(Material.GREEN_STAINED_GLASS_PANE);
+    public static final BlockType<GlassPane> GREEN_STAINED_GLASS_PANE = getBlockType("green_stained_glass_pane");
     /**
      * BlockData: {@link GlassPane}
      */
-    BlockType<GlassPane> RED_STAINED_GLASS_PANE = asBlockType(Material.RED_STAINED_GLASS_PANE);
+    public static final BlockType<GlassPane> RED_STAINED_GLASS_PANE = getBlockType("red_stained_glass_pane");
     /**
      * BlockData: {@link GlassPane}
      */
-    BlockType<GlassPane> BLACK_STAINED_GLASS_PANE = asBlockType(Material.BLACK_STAINED_GLASS_PANE);
+    public static final BlockType<GlassPane> BLACK_STAINED_GLASS_PANE = getBlockType("black_stained_glass_pane");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> ACACIA_STAIRS = asBlockType(Material.ACACIA_STAIRS);
-    /**
-     * BlockData: {@link Stairs}
-     */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
-    BlockType<Stairs> CHERRY_STAIRS = asBlockType(Material.CHERRY_STAIRS);
-    /**
-     * BlockData: {@link Stairs}
-     */
-    BlockType<Stairs> DARK_OAK_STAIRS = asBlockType(Material.DARK_OAK_STAIRS);
-    /**
-     * BlockData: {@link Stairs}
-     */
-    BlockType<Stairs> MANGROVE_STAIRS = asBlockType(Material.MANGROVE_STAIRS);
+    public static final BlockType<Stairs> ACACIA_STAIRS = getBlockType("acacia_stairs");
     /**
      * BlockData: {@link Stairs}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<Stairs> BAMBOO_STAIRS = asBlockType(Material.BAMBOO_STAIRS);
+    public static final BlockType<Stairs> CHERRY_STAIRS = getBlockType("cherry_stairs");
+    /**
+     * BlockData: {@link Stairs}
+     */
+    public static final BlockType<Stairs> DARK_OAK_STAIRS = getBlockType("dark_oak_stairs");
+    /**
+     * BlockData: {@link Stairs}
+     */
+    public static final BlockType<Stairs> MANGROVE_STAIRS = getBlockType("mangrove_stairs");
     /**
      * BlockData: {@link Stairs}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<Stairs> BAMBOO_MOSAIC_STAIRS = asBlockType(Material.BAMBOO_MOSAIC_STAIRS);
-    BlockType<BlockData> SLIME_BLOCK = asBlockType(Material.SLIME_BLOCK);
-    BlockType<BlockData> BARRIER = asBlockType(Material.BARRIER);
+    public static final BlockType<Stairs> BAMBOO_STAIRS = getBlockType("bamboo_stairs");
+    /**
+     * BlockData: {@link Stairs}
+     */
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    public static final BlockType<Stairs> BAMBOO_MOSAIC_STAIRS = getBlockType("bamboo_mosaic_stairs");
+    public static final BlockType<BlockData> SLIME_BLOCK = getBlockType("slime_block");
+    public static final BlockType<BlockData> BARRIER = getBlockType("barrier");
     /**
      * BlockData: {@link Light}
      */
-    BlockType<Light> LIGHT = asBlockType(Material.LIGHT);
+    public static final BlockType<Light> LIGHT = getBlockType("light");
     /**
      * BlockData: {@link TrapDoor}
      */
-    BlockType<TrapDoor> IRON_TRAPDOOR = asBlockType(Material.IRON_TRAPDOOR);
-    BlockType<BlockData> PRISMARINE = asBlockType(Material.PRISMARINE);
-    BlockType<BlockData> PRISMARINE_BRICKS = asBlockType(Material.PRISMARINE_BRICKS);
-    BlockType<BlockData> DARK_PRISMARINE = asBlockType(Material.DARK_PRISMARINE);
+    public static final BlockType<TrapDoor> IRON_TRAPDOOR = getBlockType("iron_trapdoor");
+    public static final BlockType<BlockData> PRISMARINE = getBlockType("prismarine");
+    public static final BlockType<BlockData> PRISMARINE_BRICKS = getBlockType("prismarine_bricks");
+    public static final BlockType<BlockData> DARK_PRISMARINE = getBlockType("dark_prismarine");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> PRISMARINE_STAIRS = asBlockType(Material.PRISMARINE_STAIRS);
+    public static final BlockType<Stairs> PRISMARINE_STAIRS = getBlockType("prismarine_stairs");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> PRISMARINE_BRICK_STAIRS = asBlockType(Material.PRISMARINE_BRICK_STAIRS);
+    public static final BlockType<Stairs> PRISMARINE_BRICK_STAIRS = getBlockType("prismarine_brick_stairs");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> DARK_PRISMARINE_STAIRS = asBlockType(Material.DARK_PRISMARINE_STAIRS);
+    public static final BlockType<Stairs> DARK_PRISMARINE_STAIRS = getBlockType("dark_prismarine_stairs");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> PRISMARINE_SLAB = asBlockType(Material.PRISMARINE_SLAB);
+    public static final BlockType<Slab> PRISMARINE_SLAB = getBlockType("prismarine_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> PRISMARINE_BRICK_SLAB = asBlockType(Material.PRISMARINE_BRICK_SLAB);
+    public static final BlockType<Slab> PRISMARINE_BRICK_SLAB = getBlockType("prismarine_brick_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> DARK_PRISMARINE_SLAB = asBlockType(Material.DARK_PRISMARINE_SLAB);
-    BlockType<BlockData> SEA_LANTERN = asBlockType(Material.SEA_LANTERN);
+    public static final BlockType<Slab> DARK_PRISMARINE_SLAB = getBlockType("dark_prismarine_slab");
+    public static final BlockType<BlockData> SEA_LANTERN = getBlockType("sea_lantern");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> HAY_BLOCK = asBlockType(Material.HAY_BLOCK);
-    BlockType<BlockData> WHITE_CARPET = asBlockType(Material.WHITE_CARPET);
-    BlockType<BlockData> ORANGE_CARPET = asBlockType(Material.ORANGE_CARPET);
-    BlockType<BlockData> MAGENTA_CARPET = asBlockType(Material.MAGENTA_CARPET);
-    BlockType<BlockData> LIGHT_BLUE_CARPET = asBlockType(Material.LIGHT_BLUE_CARPET);
-    BlockType<BlockData> YELLOW_CARPET = asBlockType(Material.YELLOW_CARPET);
-    BlockType<BlockData> LIME_CARPET = asBlockType(Material.LIME_CARPET);
-    BlockType<BlockData> PINK_CARPET = asBlockType(Material.PINK_CARPET);
-    BlockType<BlockData> GRAY_CARPET = asBlockType(Material.GRAY_CARPET);
-    BlockType<BlockData> LIGHT_GRAY_CARPET = asBlockType(Material.LIGHT_GRAY_CARPET);
-    BlockType<BlockData> CYAN_CARPET = asBlockType(Material.CYAN_CARPET);
-    BlockType<BlockData> PURPLE_CARPET = asBlockType(Material.PURPLE_CARPET);
-    BlockType<BlockData> BLUE_CARPET = asBlockType(Material.BLUE_CARPET);
-    BlockType<BlockData> BROWN_CARPET = asBlockType(Material.BROWN_CARPET);
-    BlockType<BlockData> GREEN_CARPET = asBlockType(Material.GREEN_CARPET);
-    BlockType<BlockData> RED_CARPET = asBlockType(Material.RED_CARPET);
-    BlockType<BlockData> BLACK_CARPET = asBlockType(Material.BLACK_CARPET);
-    BlockType<BlockData> TERRACOTTA = asBlockType(Material.TERRACOTTA);
-    BlockType<BlockData> COAL_BLOCK = asBlockType(Material.COAL_BLOCK);
-    BlockType<BlockData> PACKED_ICE = asBlockType(Material.PACKED_ICE);
+    public static final BlockType<Orientable> HAY_BLOCK = getBlockType("hay_block");
+    public static final BlockType<BlockData> WHITE_CARPET = getBlockType("white_carpet");
+    public static final BlockType<BlockData> ORANGE_CARPET = getBlockType("orange_carpet");
+    public static final BlockType<BlockData> MAGENTA_CARPET = getBlockType("magenta_carpet");
+    public static final BlockType<BlockData> LIGHT_BLUE_CARPET = getBlockType("light_blue_carpet");
+    public static final BlockType<BlockData> YELLOW_CARPET = getBlockType("yellow_carpet");
+    public static final BlockType<BlockData> LIME_CARPET = getBlockType("lime_carpet");
+    public static final BlockType<BlockData> PINK_CARPET = getBlockType("pink_carpet");
+    public static final BlockType<BlockData> GRAY_CARPET = getBlockType("gray_carpet");
+    public static final BlockType<BlockData> LIGHT_GRAY_CARPET = getBlockType("light_gray_carpet");
+    public static final BlockType<BlockData> CYAN_CARPET = getBlockType("cyan_carpet");
+    public static final BlockType<BlockData> PURPLE_CARPET = getBlockType("purple_carpet");
+    public static final BlockType<BlockData> BLUE_CARPET = getBlockType("blue_carpet");
+    public static final BlockType<BlockData> BROWN_CARPET = getBlockType("brown_carpet");
+    public static final BlockType<BlockData> GREEN_CARPET = getBlockType("green_carpet");
+    public static final BlockType<BlockData> RED_CARPET = getBlockType("red_carpet");
+    public static final BlockType<BlockData> BLACK_CARPET = getBlockType("black_carpet");
+    public static final BlockType<BlockData> TERRACOTTA = getBlockType("terracotta");
+    public static final BlockType<BlockData> COAL_BLOCK = getBlockType("coal_block");
+    public static final BlockType<BlockData> PACKED_ICE = getBlockType("packed_ice");
     /**
      * BlockData: {@link Bisected}
      */
-    BlockType<Bisected> SUNFLOWER = asBlockType(Material.SUNFLOWER);
+    public static final BlockType<Bisected> SUNFLOWER = getBlockType("sunflower");
     /**
      * BlockData: {@link Bisected}
      */
-    BlockType<Bisected> LILAC = asBlockType(Material.LILAC);
+    public static final BlockType<Bisected> LILAC = getBlockType("lilac");
     /**
      * BlockData: {@link Bisected}
      */
-    BlockType<Bisected> ROSE_BUSH = asBlockType(Material.ROSE_BUSH);
+    public static final BlockType<Bisected> ROSE_BUSH = getBlockType("rose_bush");
     /**
      * BlockData: {@link Bisected}
      */
-    BlockType<Bisected> PEONY = asBlockType(Material.PEONY);
+    public static final BlockType<Bisected> PEONY = getBlockType("peony");
     /**
      * BlockData: {@link Bisected}
      */
-    BlockType<Bisected> TALL_GRASS = asBlockType(Material.TALL_GRASS);
+    public static final BlockType<Bisected> TALL_GRASS = getBlockType("tall_grass");
     /**
      * BlockData: {@link Bisected}
      */
-    BlockType<Bisected> LARGE_FERN = asBlockType(Material.LARGE_FERN);
+    public static final BlockType<Bisected> LARGE_FERN = getBlockType("large_fern");
     /**
      * BlockData: {@link Rotatable}
      */
-    BlockType<Rotatable> WHITE_BANNER = asBlockType(Material.WHITE_BANNER);
+    public static final BlockType<Rotatable> WHITE_BANNER = getBlockType("white_banner");
     /**
      * BlockData: {@link Rotatable}
      */
-    BlockType<Rotatable> ORANGE_BANNER = asBlockType(Material.ORANGE_BANNER);
+    public static final BlockType<Rotatable> ORANGE_BANNER = getBlockType("orange_banner");
     /**
      * BlockData: {@link Rotatable}
      */
-    BlockType<Rotatable> MAGENTA_BANNER = asBlockType(Material.MAGENTA_BANNER);
+    public static final BlockType<Rotatable> MAGENTA_BANNER = getBlockType("magenta_banner");
     /**
      * BlockData: {@link Rotatable}
      */
-    BlockType<Rotatable> LIGHT_BLUE_BANNER = asBlockType(Material.LIGHT_BLUE_BANNER);
+    public static final BlockType<Rotatable> LIGHT_BLUE_BANNER = getBlockType("light_blue_banner");
     /**
      * BlockData: {@link Rotatable}
      */
-    BlockType<Rotatable> YELLOW_BANNER = asBlockType(Material.YELLOW_BANNER);
+    public static final BlockType<Rotatable> YELLOW_BANNER = getBlockType("yellow_banner");
     /**
      * BlockData: {@link Rotatable}
      */
-    BlockType<Rotatable> LIME_BANNER = asBlockType(Material.LIME_BANNER);
+    public static final BlockType<Rotatable> LIME_BANNER = getBlockType("lime_banner");
     /**
      * BlockData: {@link Rotatable}
      */
-    BlockType<Rotatable> PINK_BANNER = asBlockType(Material.PINK_BANNER);
+    public static final BlockType<Rotatable> PINK_BANNER = getBlockType("pink_banner");
     /**
      * BlockData: {@link Rotatable}
      */
-    BlockType<Rotatable> GRAY_BANNER = asBlockType(Material.GRAY_BANNER);
+    public static final BlockType<Rotatable> GRAY_BANNER = getBlockType("gray_banner");
     /**
      * BlockData: {@link Rotatable}
      */
-    BlockType<Rotatable> LIGHT_GRAY_BANNER = asBlockType(Material.LIGHT_GRAY_BANNER);
+    public static final BlockType<Rotatable> LIGHT_GRAY_BANNER = getBlockType("light_gray_banner");
     /**
      * BlockData: {@link Rotatable}
      */
-    BlockType<Rotatable> CYAN_BANNER = asBlockType(Material.CYAN_BANNER);
+    public static final BlockType<Rotatable> CYAN_BANNER = getBlockType("cyan_banner");
     /**
      * BlockData: {@link Rotatable}
      */
-    BlockType<Rotatable> PURPLE_BANNER = asBlockType(Material.PURPLE_BANNER);
+    public static final BlockType<Rotatable> PURPLE_BANNER = getBlockType("purple_banner");
     /**
      * BlockData: {@link Rotatable}
      */
-    BlockType<Rotatable> BLUE_BANNER = asBlockType(Material.BLUE_BANNER);
+    public static final BlockType<Rotatable> BLUE_BANNER = getBlockType("blue_banner");
     /**
      * BlockData: {@link Rotatable}
      */
-    BlockType<Rotatable> BROWN_BANNER = asBlockType(Material.BROWN_BANNER);
+    public static final BlockType<Rotatable> BROWN_BANNER = getBlockType("brown_banner");
     /**
      * BlockData: {@link Rotatable}
      */
-    BlockType<Rotatable> GREEN_BANNER = asBlockType(Material.GREEN_BANNER);
+    public static final BlockType<Rotatable> GREEN_BANNER = getBlockType("green_banner");
     /**
      * BlockData: {@link Rotatable}
      */
-    BlockType<Rotatable> RED_BANNER = asBlockType(Material.RED_BANNER);
+    public static final BlockType<Rotatable> RED_BANNER = getBlockType("red_banner");
     /**
      * BlockData: {@link Rotatable}
      */
-    BlockType<Rotatable> BLACK_BANNER = asBlockType(Material.BLACK_BANNER);
+    public static final BlockType<Rotatable> BLACK_BANNER = getBlockType("black_banner");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> WHITE_WALL_BANNER = asBlockType(Material.WHITE_WALL_BANNER);
+    public static final BlockType<Directional> WHITE_WALL_BANNER = getBlockType("white_wall_banner");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> ORANGE_WALL_BANNER = asBlockType(Material.ORANGE_WALL_BANNER);
+    public static final BlockType<Directional> ORANGE_WALL_BANNER = getBlockType("orange_wall_banner");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> MAGENTA_WALL_BANNER = asBlockType(Material.MAGENTA_WALL_BANNER);
+    public static final BlockType<Directional> MAGENTA_WALL_BANNER = getBlockType("magenta_wall_banner");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> LIGHT_BLUE_WALL_BANNER = asBlockType(Material.LIGHT_BLUE_WALL_BANNER);
+    public static final BlockType<Directional> LIGHT_BLUE_WALL_BANNER = getBlockType("light_blue_wall_banner");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> YELLOW_WALL_BANNER = asBlockType(Material.YELLOW_WALL_BANNER);
+    public static final BlockType<Directional> YELLOW_WALL_BANNER = getBlockType("yellow_wall_banner");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> LIME_WALL_BANNER = asBlockType(Material.LIME_WALL_BANNER);
+    public static final BlockType<Directional> LIME_WALL_BANNER = getBlockType("lime_wall_banner");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> PINK_WALL_BANNER = asBlockType(Material.PINK_WALL_BANNER);
+    public static final BlockType<Directional> PINK_WALL_BANNER = getBlockType("pink_wall_banner");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> GRAY_WALL_BANNER = asBlockType(Material.GRAY_WALL_BANNER);
+    public static final BlockType<Directional> GRAY_WALL_BANNER = getBlockType("gray_wall_banner");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> LIGHT_GRAY_WALL_BANNER = asBlockType(Material.LIGHT_GRAY_WALL_BANNER);
+    public static final BlockType<Directional> LIGHT_GRAY_WALL_BANNER = getBlockType("light_gray_wall_banner");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> CYAN_WALL_BANNER = asBlockType(Material.CYAN_WALL_BANNER);
+    public static final BlockType<Directional> CYAN_WALL_BANNER = getBlockType("cyan_wall_banner");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> PURPLE_WALL_BANNER = asBlockType(Material.PURPLE_WALL_BANNER);
+    public static final BlockType<Directional> PURPLE_WALL_BANNER = getBlockType("purple_wall_banner");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> BLUE_WALL_BANNER = asBlockType(Material.BLUE_WALL_BANNER);
+    public static final BlockType<Directional> BLUE_WALL_BANNER = getBlockType("blue_wall_banner");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> BROWN_WALL_BANNER = asBlockType(Material.BROWN_WALL_BANNER);
+    public static final BlockType<Directional> BROWN_WALL_BANNER = getBlockType("brown_wall_banner");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> GREEN_WALL_BANNER = asBlockType(Material.GREEN_WALL_BANNER);
+    public static final BlockType<Directional> GREEN_WALL_BANNER = getBlockType("green_wall_banner");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> RED_WALL_BANNER = asBlockType(Material.RED_WALL_BANNER);
+    public static final BlockType<Directional> RED_WALL_BANNER = getBlockType("red_wall_banner");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> BLACK_WALL_BANNER = asBlockType(Material.BLACK_WALL_BANNER);
-    BlockType<BlockData> RED_SANDSTONE = asBlockType(Material.RED_SANDSTONE);
-    BlockType<BlockData> CHISELED_RED_SANDSTONE = asBlockType(Material.CHISELED_RED_SANDSTONE);
-    BlockType<BlockData> CUT_RED_SANDSTONE = asBlockType(Material.CUT_RED_SANDSTONE);
+    public static final BlockType<Directional> BLACK_WALL_BANNER = getBlockType("black_wall_banner");
+    public static final BlockType<BlockData> RED_SANDSTONE = getBlockType("red_sandstone");
+    public static final BlockType<BlockData> CHISELED_RED_SANDSTONE = getBlockType("chiseled_red_sandstone");
+    public static final BlockType<BlockData> CUT_RED_SANDSTONE = getBlockType("cut_red_sandstone");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> RED_SANDSTONE_STAIRS = asBlockType(Material.RED_SANDSTONE_STAIRS);
+    public static final BlockType<Stairs> RED_SANDSTONE_STAIRS = getBlockType("red_sandstone_stairs");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> OAK_SLAB = asBlockType(Material.OAK_SLAB);
+    public static final BlockType<Slab> OAK_SLAB = getBlockType("oak_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> SPRUCE_SLAB = asBlockType(Material.SPRUCE_SLAB);
+    public static final BlockType<Slab> SPRUCE_SLAB = getBlockType("spruce_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> BIRCH_SLAB = asBlockType(Material.BIRCH_SLAB);
+    public static final BlockType<Slab> BIRCH_SLAB = getBlockType("birch_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> JUNGLE_SLAB = asBlockType(Material.JUNGLE_SLAB);
+    public static final BlockType<Slab> JUNGLE_SLAB = getBlockType("jungle_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> ACACIA_SLAB = asBlockType(Material.ACACIA_SLAB);
-    /**
-     * BlockData: {@link Slab}
-     */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
-    BlockType<Slab> CHERRY_SLAB = asBlockType(Material.CHERRY_SLAB);
-    /**
-     * BlockData: {@link Slab}
-     */
-    BlockType<Slab> DARK_OAK_SLAB = asBlockType(Material.DARK_OAK_SLAB);
-    /**
-     * BlockData: {@link Slab}
-     */
-    BlockType<Slab> MANGROVE_SLAB = asBlockType(Material.MANGROVE_SLAB);
+    public static final BlockType<Slab> ACACIA_SLAB = getBlockType("acacia_slab");
     /**
      * BlockData: {@link Slab}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<Slab> BAMBOO_SLAB = asBlockType(Material.BAMBOO_SLAB);
+    public static final BlockType<Slab> CHERRY_SLAB = getBlockType("cherry_slab");
+    /**
+     * BlockData: {@link Slab}
+     */
+    public static final BlockType<Slab> DARK_OAK_SLAB = getBlockType("dark_oak_slab");
+    /**
+     * BlockData: {@link Slab}
+     */
+    public static final BlockType<Slab> MANGROVE_SLAB = getBlockType("mangrove_slab");
     /**
      * BlockData: {@link Slab}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<Slab> BAMBOO_MOSAIC_SLAB = asBlockType(Material.BAMBOO_MOSAIC_SLAB);
+    public static final BlockType<Slab> BAMBOO_SLAB = getBlockType("bamboo_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> STONE_SLAB = asBlockType(Material.STONE_SLAB);
+    @MinecraftExperimental
+    @ApiStatus.Experimental
+    public static final BlockType<Slab> BAMBOO_MOSAIC_SLAB = getBlockType("bamboo_mosaic_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> SMOOTH_STONE_SLAB = asBlockType(Material.SMOOTH_STONE_SLAB);
+    public static final BlockType<Slab> STONE_SLAB = getBlockType("stone_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> SANDSTONE_SLAB = asBlockType(Material.SANDSTONE_SLAB);
+    public static final BlockType<Slab> SMOOTH_STONE_SLAB = getBlockType("smooth_stone_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> CUT_SANDSTONE_SLAB = asBlockType(Material.CUT_SANDSTONE_SLAB);
+    public static final BlockType<Slab> SANDSTONE_SLAB = getBlockType("sandstone_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> PETRIFIED_OAK_SLAB = asBlockType(Material.PETRIFIED_OAK_SLAB);
+    public static final BlockType<Slab> CUT_SANDSTONE_SLAB = getBlockType("cut_sandstone_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> COBBLESTONE_SLAB = asBlockType(Material.COBBLESTONE_SLAB);
+    public static final BlockType<Slab> PETRIFIED_OAK_SLAB = getBlockType("petrified_oak_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> BRICK_SLAB = asBlockType(Material.BRICK_SLAB);
+    public static final BlockType<Slab> COBBLESTONE_SLAB = getBlockType("cobblestone_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> STONE_BRICK_SLAB = asBlockType(Material.STONE_BRICK_SLAB);
+    public static final BlockType<Slab> BRICK_SLAB = getBlockType("brick_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> MUD_BRICK_SLAB = asBlockType(Material.MUD_BRICK_SLAB);
+    public static final BlockType<Slab> STONE_BRICK_SLAB = getBlockType("stone_brick_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> NETHER_BRICK_SLAB = asBlockType(Material.NETHER_BRICK_SLAB);
+    public static final BlockType<Slab> MUD_BRICK_SLAB = getBlockType("mud_brick_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> QUARTZ_SLAB = asBlockType(Material.QUARTZ_SLAB);
+    public static final BlockType<Slab> NETHER_BRICK_SLAB = getBlockType("nether_brick_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> RED_SANDSTONE_SLAB = asBlockType(Material.RED_SANDSTONE_SLAB);
+    public static final BlockType<Slab> QUARTZ_SLAB = getBlockType("quartz_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> CUT_RED_SANDSTONE_SLAB = asBlockType(Material.CUT_RED_SANDSTONE_SLAB);
+    public static final BlockType<Slab> RED_SANDSTONE_SLAB = getBlockType("red_sandstone_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> PURPUR_SLAB = asBlockType(Material.PURPUR_SLAB);
-    BlockType<BlockData> SMOOTH_STONE = asBlockType(Material.SMOOTH_STONE);
-    BlockType<BlockData> SMOOTH_SANDSTONE = asBlockType(Material.SMOOTH_SANDSTONE);
-    BlockType<BlockData> SMOOTH_QUARTZ = asBlockType(Material.SMOOTH_QUARTZ);
-    BlockType<BlockData> SMOOTH_RED_SANDSTONE = asBlockType(Material.SMOOTH_RED_SANDSTONE);
+    public static final BlockType<Slab> CUT_RED_SANDSTONE_SLAB = getBlockType("cut_red_sandstone_slab");
+    /**
+     * BlockData: {@link Slab}
+     */
+    public static final BlockType<Slab> PURPUR_SLAB = getBlockType("purpur_slab");
+    public static final BlockType<BlockData> SMOOTH_STONE = getBlockType("smooth_stone");
+    public static final BlockType<BlockData> SMOOTH_SANDSTONE = getBlockType("smooth_sandstone");
+    public static final BlockType<BlockData> SMOOTH_QUARTZ = getBlockType("smooth_quartz");
+    public static final BlockType<BlockData> SMOOTH_RED_SANDSTONE = getBlockType("smooth_red_sandstone");
     /**
      * BlockData: {@link Gate}
      */
-    BlockType<Gate> SPRUCE_FENCE_GATE = asBlockType(Material.SPRUCE_FENCE_GATE);
+    public static final BlockType<Gate> SPRUCE_FENCE_GATE = getBlockType("spruce_fence_gate");
     /**
      * BlockData: {@link Gate}
      */
-    BlockType<Gate> BIRCH_FENCE_GATE = asBlockType(Material.BIRCH_FENCE_GATE);
+    public static final BlockType<Gate> BIRCH_FENCE_GATE = getBlockType("birch_fence_gate");
     /**
      * BlockData: {@link Gate}
      */
-    BlockType<Gate> JUNGLE_FENCE_GATE = asBlockType(Material.JUNGLE_FENCE_GATE);
+    public static final BlockType<Gate> JUNGLE_FENCE_GATE = getBlockType("jungle_fence_gate");
     /**
      * BlockData: {@link Gate}
      */
-    BlockType<Gate> ACACIA_FENCE_GATE = asBlockType(Material.ACACIA_FENCE_GATE);
+    public static final BlockType<Gate> ACACIA_FENCE_GATE = getBlockType("acacia_fence_gate");
     /**
      * BlockData: {@link Gate}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<Gate> CHERRY_FENCE_GATE = asBlockType(Material.CHERRY_FENCE_GATE);
+    public static final BlockType<Gate> CHERRY_FENCE_GATE = getBlockType("cherry_fence_gate");
     /**
      * BlockData: {@link Gate}
      */
-    BlockType<Gate> DARK_OAK_FENCE_GATE = asBlockType(Material.DARK_OAK_FENCE_GATE);
+    public static final BlockType<Gate> DARK_OAK_FENCE_GATE = getBlockType("dark_oak_fence_gate");
     /**
      * BlockData: {@link Gate}
      */
-    BlockType<Gate> MANGROVE_FENCE_GATE = asBlockType(Material.MANGROVE_FENCE_GATE);
+    public static final BlockType<Gate> MANGROVE_FENCE_GATE = getBlockType("mangrove_fence_gate");
     /**
      * BlockData: {@link Gate}
      */
-    BlockType<Gate> BAMBOO_FENCE_GATE = asBlockType(Material.BAMBOO_FENCE_GATE);
+    public static final BlockType<Gate> BAMBOO_FENCE_GATE = getBlockType("bamboo_fence_gate");
     /**
      * BlockData: {@link Fence}
      */
-    BlockType<Fence> SPRUCE_FENCE = asBlockType(Material.SPRUCE_FENCE);
+    public static final BlockType<Fence> SPRUCE_FENCE = getBlockType("spruce_fence");
     /**
      * BlockData: {@link Fence}
      */
-    BlockType<Fence> BIRCH_FENCE = asBlockType(Material.BIRCH_FENCE);
+    public static final BlockType<Fence> BIRCH_FENCE = getBlockType("birch_fence");
     /**
      * BlockData: {@link Fence}
      */
-    BlockType<Fence> JUNGLE_FENCE = asBlockType(Material.JUNGLE_FENCE);
+    public static final BlockType<Fence> JUNGLE_FENCE = getBlockType("jungle_fence");
     /**
      * BlockData: {@link Fence}
      */
-    BlockType<Fence> ACACIA_FENCE = asBlockType(Material.ACACIA_FENCE);
+    public static final BlockType<Fence> ACACIA_FENCE = getBlockType("acacia_fence");
     /**
      * BlockData: {@link Fence}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<Fence> CHERRY_FENCE = asBlockType(Material.CHERRY_FENCE);
+    public static final BlockType<Fence> CHERRY_FENCE = getBlockType("cherry_fence");
     /**
      * BlockData: {@link Fence}
      */
-    BlockType<Fence> DARK_OAK_FENCE = asBlockType(Material.DARK_OAK_FENCE);
+    public static final BlockType<Fence> DARK_OAK_FENCE = getBlockType("dark_oak_fence");
     /**
      * BlockData: {@link Fence}
      */
-    BlockType<Fence> MANGROVE_FENCE = asBlockType(Material.MANGROVE_FENCE);
+    public static final BlockType<Fence> MANGROVE_FENCE = getBlockType("mangrove_fence");
     /**
      * BlockData: {@link Fence}
      */
-    BlockType<Fence> BAMBOO_FENCE = asBlockType(Material.BAMBOO_FENCE);
+    public static final BlockType<Fence> BAMBOO_FENCE = getBlockType("bamboo_fence");
     /**
      * BlockData: {@link Door}
      */
-    BlockType<Door> SPRUCE_DOOR = asBlockType(Material.SPRUCE_DOOR);
+    public static final BlockType<Door> SPRUCE_DOOR = getBlockType("spruce_door");
     /**
      * BlockData: {@link Door}
      */
-    BlockType<Door> BIRCH_DOOR = asBlockType(Material.BIRCH_DOOR);
+    public static final BlockType<Door> BIRCH_DOOR = getBlockType("birch_door");
     /**
      * BlockData: {@link Door}
      */
-    BlockType<Door> JUNGLE_DOOR = asBlockType(Material.JUNGLE_DOOR);
+    public static final BlockType<Door> JUNGLE_DOOR = getBlockType("jungle_door");
     /**
      * BlockData: {@link Door}
      */
-    BlockType<Door> ACACIA_DOOR = asBlockType(Material.ACACIA_DOOR);
+    public static final BlockType<Door> ACACIA_DOOR = getBlockType("acacia_door");
     /**
      * BlockData: {@link Door}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<Door> CHERRY_DOOR = asBlockType(Material.CHERRY_DOOR);
+    public static final BlockType<Door> CHERRY_DOOR = getBlockType("cherry_door");
     /**
      * BlockData: {@link Door}
      */
-    BlockType<Door> DARK_OAK_DOOR = asBlockType(Material.DARK_OAK_DOOR);
+    public static final BlockType<Door> DARK_OAK_DOOR = getBlockType("dark_oak_door");
     /**
      * BlockData: {@link Door}
      */
-    BlockType<Door> MANGROVE_DOOR = asBlockType(Material.MANGROVE_DOOR);
+    public static final BlockType<Door> MANGROVE_DOOR = getBlockType("mangrove_door");
     /**
      * BlockData: {@link Door}
      */
-    BlockType<Door> BAMBOO_DOOR = asBlockType(Material.BAMBOO_DOOR);
+    public static final BlockType<Door> BAMBOO_DOOR = getBlockType("bamboo_door");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> END_ROD = asBlockType(Material.END_ROD);
+    public static final BlockType<Directional> END_ROD = getBlockType("end_rod");
     /**
      * BlockData: {@link MultipleFacing}
      */
-    BlockType<MultipleFacing> CHORUS_PLANT = asBlockType(Material.CHORUS_PLANT);
+    public static final BlockType<MultipleFacing> CHORUS_PLANT = getBlockType("chorus_plant");
     /**
      * BlockData: {@link Ageable}
      */
-    BlockType<Ageable> CHORUS_FLOWER = asBlockType(Material.CHORUS_FLOWER);
-    BlockType<BlockData> PURPUR_BLOCK = asBlockType(Material.PURPUR_BLOCK);
+    public static final BlockType<Ageable> CHORUS_FLOWER = getBlockType("chorus_flower");
+    public static final BlockType<BlockData> PURPUR_BLOCK = getBlockType("purpur_block");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> PURPUR_PILLAR = asBlockType(Material.PURPUR_PILLAR);
+    public static final BlockType<Orientable> PURPUR_PILLAR = getBlockType("purpur_pillar");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> PURPUR_STAIRS = asBlockType(Material.PURPUR_STAIRS);
-    BlockType<BlockData> END_STONE_BRICKS = asBlockType(Material.END_STONE_BRICKS);
+    public static final BlockType<Stairs> PURPUR_STAIRS = getBlockType("purpur_stairs");
+    public static final BlockType<BlockData> END_STONE_BRICKS = getBlockType("end_stone_bricks");
     /**
      * BlockData: {@link Ageable}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<Ageable> TORCHFLOWER_CROP = asBlockType(Material.TORCHFLOWER_CROP);
+    public static final BlockType<Ageable> TORCHFLOWER_CROP = getBlockType("torchflower_crop");
     /**
      * BlockData: {@link Ageable}
      */
-    BlockType<Ageable> BEETROOTS = asBlockType(Material.BEETROOTS);
-    BlockType<BlockData> DIRT_PATH = asBlockType(Material.DIRT_PATH);
-    BlockType<BlockData> END_GATEWAY = asBlockType(Material.END_GATEWAY);
+    public static final BlockType<Ageable> BEETROOTS = getBlockType("beetroots");
+    public static final BlockType<BlockData> DIRT_PATH = getBlockType("dirt_path");
+    public static final BlockType<BlockData> END_GATEWAY = getBlockType("end_gateway");
     /**
      * BlockData: {@link CommandBlock}
      */
-    BlockType<CommandBlock> REPEATING_COMMAND_BLOCK = asBlockType(Material.REPEATING_COMMAND_BLOCK);
+    public static final BlockType<CommandBlock> REPEATING_COMMAND_BLOCK = getBlockType("repeating_command_block");
     /**
      * BlockData: {@link CommandBlock}
      */
-    BlockType<CommandBlock> CHAIN_COMMAND_BLOCK = asBlockType(Material.CHAIN_COMMAND_BLOCK);
+    public static final BlockType<CommandBlock> CHAIN_COMMAND_BLOCK = getBlockType("chain_command_block");
     /**
      * BlockData: {@link Ageable}
      */
-    BlockType<Ageable> FROSTED_ICE = asBlockType(Material.FROSTED_ICE);
-    BlockType<BlockData> MAGMA_BLOCK = asBlockType(Material.MAGMA_BLOCK);
-    BlockType<BlockData> NETHER_WART_BLOCK = asBlockType(Material.NETHER_WART_BLOCK);
-    BlockType<BlockData> RED_NETHER_BRICKS = asBlockType(Material.RED_NETHER_BRICKS);
+    public static final BlockType<Ageable> FROSTED_ICE = getBlockType("frosted_ice");
+    public static final BlockType<BlockData> MAGMA_BLOCK = getBlockType("magma_block");
+    public static final BlockType<BlockData> NETHER_WART_BLOCK = getBlockType("nether_wart_block");
+    public static final BlockType<BlockData> RED_NETHER_BRICKS = getBlockType("red_nether_bricks");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> BONE_BLOCK = asBlockType(Material.BONE_BLOCK);
-    BlockType<BlockData> STRUCTURE_VOID = asBlockType(Material.STRUCTURE_VOID);
+    public static final BlockType<Orientable> BONE_BLOCK = getBlockType("bone_block");
+    public static final BlockType<BlockData> STRUCTURE_VOID = getBlockType("structure_void");
     /**
      * BlockData: {@link Observer}
      */
-    BlockType<Observer> OBSERVER = asBlockType(Material.OBSERVER);
+    public static final BlockType<Observer> OBSERVER = getBlockType("observer");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> SHULKER_BOX = asBlockType(Material.SHULKER_BOX);
+    public static final BlockType<Directional> SHULKER_BOX = getBlockType("shulker_box");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> WHITE_SHULKER_BOX = asBlockType(Material.WHITE_SHULKER_BOX);
+    public static final BlockType<Directional> WHITE_SHULKER_BOX = getBlockType("white_shulker_box");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> ORANGE_SHULKER_BOX = asBlockType(Material.ORANGE_SHULKER_BOX);
+    public static final BlockType<Directional> ORANGE_SHULKER_BOX = getBlockType("orange_shulker_box");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> MAGENTA_SHULKER_BOX = asBlockType(Material.MAGENTA_SHULKER_BOX);
+    public static final BlockType<Directional> MAGENTA_SHULKER_BOX = getBlockType("magenta_shulker_box");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> LIGHT_BLUE_SHULKER_BOX = asBlockType(Material.LIGHT_BLUE_SHULKER_BOX);
+    public static final BlockType<Directional> LIGHT_BLUE_SHULKER_BOX = getBlockType("light_blue_shulker_box");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> YELLOW_SHULKER_BOX = asBlockType(Material.YELLOW_SHULKER_BOX);
+    public static final BlockType<Directional> YELLOW_SHULKER_BOX = getBlockType("yellow_shulker_box");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> LIME_SHULKER_BOX = asBlockType(Material.LIME_SHULKER_BOX);
+    public static final BlockType<Directional> LIME_SHULKER_BOX = getBlockType("lime_shulker_box");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> PINK_SHULKER_BOX = asBlockType(Material.PINK_SHULKER_BOX);
+    public static final BlockType<Directional> PINK_SHULKER_BOX = getBlockType("pink_shulker_box");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> GRAY_SHULKER_BOX = asBlockType(Material.GRAY_SHULKER_BOX);
+    public static final BlockType<Directional> GRAY_SHULKER_BOX = getBlockType("gray_shulker_box");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> LIGHT_GRAY_SHULKER_BOX = asBlockType(Material.LIGHT_GRAY_SHULKER_BOX);
+    public static final BlockType<Directional> LIGHT_GRAY_SHULKER_BOX = getBlockType("light_gray_shulker_box");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> CYAN_SHULKER_BOX = asBlockType(Material.CYAN_SHULKER_BOX);
+    public static final BlockType<Directional> CYAN_SHULKER_BOX = getBlockType("cyan_shulker_box");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> PURPLE_SHULKER_BOX = asBlockType(Material.PURPLE_SHULKER_BOX);
+    public static final BlockType<Directional> PURPLE_SHULKER_BOX = getBlockType("purple_shulker_box");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> BLUE_SHULKER_BOX = asBlockType(Material.BLUE_SHULKER_BOX);
+    public static final BlockType<Directional> BLUE_SHULKER_BOX = getBlockType("blue_shulker_box");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> BROWN_SHULKER_BOX = asBlockType(Material.BROWN_SHULKER_BOX);
+    public static final BlockType<Directional> BROWN_SHULKER_BOX = getBlockType("brown_shulker_box");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> GREEN_SHULKER_BOX = asBlockType(Material.GREEN_SHULKER_BOX);
+    public static final BlockType<Directional> GREEN_SHULKER_BOX = getBlockType("green_shulker_box");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> RED_SHULKER_BOX = asBlockType(Material.RED_SHULKER_BOX);
+    public static final BlockType<Directional> RED_SHULKER_BOX = getBlockType("red_shulker_box");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> BLACK_SHULKER_BOX = asBlockType(Material.BLACK_SHULKER_BOX);
+    public static final BlockType<Directional> BLACK_SHULKER_BOX = getBlockType("black_shulker_box");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> WHITE_GLAZED_TERRACOTTA = asBlockType(Material.WHITE_GLAZED_TERRACOTTA);
+    public static final BlockType<Directional> WHITE_GLAZED_TERRACOTTA = getBlockType("white_glazed_terracotta");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> ORANGE_GLAZED_TERRACOTTA = asBlockType(Material.ORANGE_GLAZED_TERRACOTTA);
+    public static final BlockType<Directional> ORANGE_GLAZED_TERRACOTTA = getBlockType("orange_glazed_terracotta");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> MAGENTA_GLAZED_TERRACOTTA = asBlockType(Material.MAGENTA_GLAZED_TERRACOTTA);
+    public static final BlockType<Directional> MAGENTA_GLAZED_TERRACOTTA = getBlockType("magenta_glazed_terracotta");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> LIGHT_BLUE_GLAZED_TERRACOTTA = asBlockType(Material.LIGHT_BLUE_GLAZED_TERRACOTTA);
+    public static final BlockType<Directional> LIGHT_BLUE_GLAZED_TERRACOTTA = getBlockType("light_blue_glazed_terracotta");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> YELLOW_GLAZED_TERRACOTTA = asBlockType(Material.YELLOW_GLAZED_TERRACOTTA);
+    public static final BlockType<Directional> YELLOW_GLAZED_TERRACOTTA = getBlockType("yellow_glazed_terracotta");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> LIME_GLAZED_TERRACOTTA = asBlockType(Material.LIME_GLAZED_TERRACOTTA);
+    public static final BlockType<Directional> LIME_GLAZED_TERRACOTTA = getBlockType("lime_glazed_terracotta");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> PINK_GLAZED_TERRACOTTA = asBlockType(Material.PINK_GLAZED_TERRACOTTA);
+    public static final BlockType<Directional> PINK_GLAZED_TERRACOTTA = getBlockType("pink_glazed_terracotta");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> GRAY_GLAZED_TERRACOTTA = asBlockType(Material.GRAY_GLAZED_TERRACOTTA);
+    public static final BlockType<Directional> GRAY_GLAZED_TERRACOTTA = getBlockType("gray_glazed_terracotta");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> LIGHT_GRAY_GLAZED_TERRACOTTA = asBlockType(Material.LIGHT_GRAY_GLAZED_TERRACOTTA);
+    public static final BlockType<Directional> LIGHT_GRAY_GLAZED_TERRACOTTA = getBlockType("light_gray_glazed_terracotta");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> CYAN_GLAZED_TERRACOTTA = asBlockType(Material.CYAN_GLAZED_TERRACOTTA);
+    public static final BlockType<Directional> CYAN_GLAZED_TERRACOTTA = getBlockType("cyan_glazed_terracotta");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> PURPLE_GLAZED_TERRACOTTA = asBlockType(Material.PURPLE_GLAZED_TERRACOTTA);
+    public static final BlockType<Directional> PURPLE_GLAZED_TERRACOTTA = getBlockType("purple_glazed_terracotta");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> BLUE_GLAZED_TERRACOTTA = asBlockType(Material.BLUE_GLAZED_TERRACOTTA);
+    public static final BlockType<Directional> BLUE_GLAZED_TERRACOTTA = getBlockType("blue_glazed_terracotta");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> BROWN_GLAZED_TERRACOTTA = asBlockType(Material.BROWN_GLAZED_TERRACOTTA);
+    public static final BlockType<Directional> BROWN_GLAZED_TERRACOTTA = getBlockType("brown_glazed_terracotta");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> GREEN_GLAZED_TERRACOTTA = asBlockType(Material.GREEN_GLAZED_TERRACOTTA);
+    public static final BlockType<Directional> GREEN_GLAZED_TERRACOTTA = getBlockType("green_glazed_terracotta");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> RED_GLAZED_TERRACOTTA = asBlockType(Material.RED_GLAZED_TERRACOTTA);
+    public static final BlockType<Directional> RED_GLAZED_TERRACOTTA = getBlockType("red_glazed_terracotta");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> BLACK_GLAZED_TERRACOTTA = asBlockType(Material.BLACK_GLAZED_TERRACOTTA);
-    BlockType<BlockData> WHITE_CONCRETE = asBlockType(Material.WHITE_CONCRETE);
-    BlockType<BlockData> ORANGE_CONCRETE = asBlockType(Material.ORANGE_CONCRETE);
-    BlockType<BlockData> MAGENTA_CONCRETE = asBlockType(Material.MAGENTA_CONCRETE);
-    BlockType<BlockData> LIGHT_BLUE_CONCRETE = asBlockType(Material.LIGHT_BLUE_CONCRETE);
-    BlockType<BlockData> YELLOW_CONCRETE = asBlockType(Material.YELLOW_CONCRETE);
-    BlockType<BlockData> LIME_CONCRETE = asBlockType(Material.LIME_CONCRETE);
-    BlockType<BlockData> PINK_CONCRETE = asBlockType(Material.PINK_CONCRETE);
-    BlockType<BlockData> GRAY_CONCRETE = asBlockType(Material.GRAY_CONCRETE);
-    BlockType<BlockData> LIGHT_GRAY_CONCRETE = asBlockType(Material.LIGHT_GRAY_CONCRETE);
-    BlockType<BlockData> CYAN_CONCRETE = asBlockType(Material.CYAN_CONCRETE);
-    BlockType<BlockData> PURPLE_CONCRETE = asBlockType(Material.PURPLE_CONCRETE);
-    BlockType<BlockData> BLUE_CONCRETE = asBlockType(Material.BLUE_CONCRETE);
-    BlockType<BlockData> BROWN_CONCRETE = asBlockType(Material.BROWN_CONCRETE);
-    BlockType<BlockData> GREEN_CONCRETE = asBlockType(Material.GREEN_CONCRETE);
-    BlockType<BlockData> RED_CONCRETE = asBlockType(Material.RED_CONCRETE);
-    BlockType<BlockData> BLACK_CONCRETE = asBlockType(Material.BLACK_CONCRETE);
-    BlockType<BlockData> WHITE_CONCRETE_POWDER = asBlockType(Material.WHITE_CONCRETE_POWDER);
-    BlockType<BlockData> ORANGE_CONCRETE_POWDER = asBlockType(Material.ORANGE_CONCRETE_POWDER);
-    BlockType<BlockData> MAGENTA_CONCRETE_POWDER = asBlockType(Material.MAGENTA_CONCRETE_POWDER);
-    BlockType<BlockData> LIGHT_BLUE_CONCRETE_POWDER = asBlockType(Material.LIGHT_BLUE_CONCRETE_POWDER);
-    BlockType<BlockData> YELLOW_CONCRETE_POWDER = asBlockType(Material.YELLOW_CONCRETE_POWDER);
-    BlockType<BlockData> LIME_CONCRETE_POWDER = asBlockType(Material.LIME_CONCRETE_POWDER);
-    BlockType<BlockData> PINK_CONCRETE_POWDER = asBlockType(Material.PINK_CONCRETE_POWDER);
-    BlockType<BlockData> GRAY_CONCRETE_POWDER = asBlockType(Material.GRAY_CONCRETE_POWDER);
-    BlockType<BlockData> LIGHT_GRAY_CONCRETE_POWDER = asBlockType(Material.LIGHT_GRAY_CONCRETE_POWDER);
-    BlockType<BlockData> CYAN_CONCRETE_POWDER = asBlockType(Material.CYAN_CONCRETE_POWDER);
-    BlockType<BlockData> PURPLE_CONCRETE_POWDER = asBlockType(Material.PURPLE_CONCRETE_POWDER);
-    BlockType<BlockData> BLUE_CONCRETE_POWDER = asBlockType(Material.BLUE_CONCRETE_POWDER);
-    BlockType<BlockData> BROWN_CONCRETE_POWDER = asBlockType(Material.BROWN_CONCRETE_POWDER);
-    BlockType<BlockData> GREEN_CONCRETE_POWDER = asBlockType(Material.GREEN_CONCRETE_POWDER);
-    BlockType<BlockData> RED_CONCRETE_POWDER = asBlockType(Material.RED_CONCRETE_POWDER);
-    BlockType<BlockData> BLACK_CONCRETE_POWDER = asBlockType(Material.BLACK_CONCRETE_POWDER);
+    public static final BlockType<Directional> BLACK_GLAZED_TERRACOTTA = getBlockType("black_glazed_terracotta");
+    public static final BlockType<BlockData> WHITE_CONCRETE = getBlockType("white_concrete");
+    public static final BlockType<BlockData> ORANGE_CONCRETE = getBlockType("orange_concrete");
+    public static final BlockType<BlockData> MAGENTA_CONCRETE = getBlockType("magenta_concrete");
+    public static final BlockType<BlockData> LIGHT_BLUE_CONCRETE = getBlockType("light_blue_concrete");
+    public static final BlockType<BlockData> YELLOW_CONCRETE = getBlockType("yellow_concrete");
+    public static final BlockType<BlockData> LIME_CONCRETE = getBlockType("lime_concrete");
+    public static final BlockType<BlockData> PINK_CONCRETE = getBlockType("pink_concrete");
+    public static final BlockType<BlockData> GRAY_CONCRETE = getBlockType("gray_concrete");
+    public static final BlockType<BlockData> LIGHT_GRAY_CONCRETE = getBlockType("light_gray_concrete");
+    public static final BlockType<BlockData> CYAN_CONCRETE = getBlockType("cyan_concrete");
+    public static final BlockType<BlockData> PURPLE_CONCRETE = getBlockType("purple_concrete");
+    public static final BlockType<BlockData> BLUE_CONCRETE = getBlockType("blue_concrete");
+    public static final BlockType<BlockData> BROWN_CONCRETE = getBlockType("brown_concrete");
+    public static final BlockType<BlockData> GREEN_CONCRETE = getBlockType("green_concrete");
+    public static final BlockType<BlockData> RED_CONCRETE = getBlockType("red_concrete");
+    public static final BlockType<BlockData> BLACK_CONCRETE = getBlockType("black_concrete");
+    public static final BlockType<BlockData> WHITE_CONCRETE_POWDER = getBlockType("white_concrete_powder");
+    public static final BlockType<BlockData> ORANGE_CONCRETE_POWDER = getBlockType("orange_concrete_powder");
+    public static final BlockType<BlockData> MAGENTA_CONCRETE_POWDER = getBlockType("magenta_concrete_powder");
+    public static final BlockType<BlockData> LIGHT_BLUE_CONCRETE_POWDER = getBlockType("light_blue_concrete_powder");
+    public static final BlockType<BlockData> YELLOW_CONCRETE_POWDER = getBlockType("yellow_concrete_powder");
+    public static final BlockType<BlockData> LIME_CONCRETE_POWDER = getBlockType("lime_concrete_powder");
+    public static final BlockType<BlockData> PINK_CONCRETE_POWDER = getBlockType("pink_concrete_powder");
+    public static final BlockType<BlockData> GRAY_CONCRETE_POWDER = getBlockType("gray_concrete_powder");
+    public static final BlockType<BlockData> LIGHT_GRAY_CONCRETE_POWDER = getBlockType("light_gray_concrete_powder");
+    public static final BlockType<BlockData> CYAN_CONCRETE_POWDER = getBlockType("cyan_concrete_powder");
+    public static final BlockType<BlockData> PURPLE_CONCRETE_POWDER = getBlockType("purple_concrete_powder");
+    public static final BlockType<BlockData> BLUE_CONCRETE_POWDER = getBlockType("blue_concrete_powder");
+    public static final BlockType<BlockData> BROWN_CONCRETE_POWDER = getBlockType("brown_concrete_powder");
+    public static final BlockType<BlockData> GREEN_CONCRETE_POWDER = getBlockType("green_concrete_powder");
+    public static final BlockType<BlockData> RED_CONCRETE_POWDER = getBlockType("red_concrete_powder");
+    public static final BlockType<BlockData> BLACK_CONCRETE_POWDER = getBlockType("black_concrete_powder");
     /**
      * BlockData: {@link Ageable}
      */
-    BlockType<Ageable> KELP = asBlockType(Material.KELP);
-    BlockType<BlockData> KELP_PLANT = asBlockType(Material.KELP_PLANT);
-    BlockType<BlockData> DRIED_KELP_BLOCK = asBlockType(Material.DRIED_KELP_BLOCK);
+    public static final BlockType<Ageable> KELP = getBlockType("kelp");
+    public static final BlockType<BlockData> KELP_PLANT = getBlockType("kelp_plant");
+    public static final BlockType<BlockData> DRIED_KELP_BLOCK = getBlockType("dried_kelp_block");
     /**
      * BlockData: {@link TurtleEgg}
      */
-    BlockType<TurtleEgg> TURTLE_EGG = asBlockType(Material.TURTLE_EGG);
-    BlockType<BlockData> DEAD_TUBE_CORAL_BLOCK = asBlockType(Material.DEAD_TUBE_CORAL_BLOCK);
-    BlockType<BlockData> DEAD_BRAIN_CORAL_BLOCK = asBlockType(Material.DEAD_BRAIN_CORAL_BLOCK);
-    BlockType<BlockData> DEAD_BUBBLE_CORAL_BLOCK = asBlockType(Material.DEAD_BUBBLE_CORAL_BLOCK);
-    BlockType<BlockData> DEAD_FIRE_CORAL_BLOCK = asBlockType(Material.DEAD_FIRE_CORAL_BLOCK);
-    BlockType<BlockData> DEAD_HORN_CORAL_BLOCK = asBlockType(Material.DEAD_HORN_CORAL_BLOCK);
-    BlockType<BlockData> TUBE_CORAL_BLOCK = asBlockType(Material.TUBE_CORAL_BLOCK);
-    BlockType<BlockData> BRAIN_CORAL_BLOCK = asBlockType(Material.BRAIN_CORAL_BLOCK);
-    BlockType<BlockData> BUBBLE_CORAL_BLOCK = asBlockType(Material.BUBBLE_CORAL_BLOCK);
-    BlockType<BlockData> FIRE_CORAL_BLOCK = asBlockType(Material.FIRE_CORAL_BLOCK);
-    BlockType<BlockData> HORN_CORAL_BLOCK = asBlockType(Material.HORN_CORAL_BLOCK);
+    public static final BlockType<TurtleEgg> TURTLE_EGG = getBlockType("turtle_egg");
+    public static final BlockType<BlockData> DEAD_TUBE_CORAL_BLOCK = getBlockType("dead_tube_coral_block");
+    public static final BlockType<BlockData> DEAD_BRAIN_CORAL_BLOCK = getBlockType("dead_brain_coral_block");
+    public static final BlockType<BlockData> DEAD_BUBBLE_CORAL_BLOCK = getBlockType("dead_bubble_coral_block");
+    public static final BlockType<BlockData> DEAD_FIRE_CORAL_BLOCK = getBlockType("dead_fire_coral_block");
+    public static final BlockType<BlockData> DEAD_HORN_CORAL_BLOCK = getBlockType("dead_horn_coral_block");
+    public static final BlockType<BlockData> TUBE_CORAL_BLOCK = getBlockType("tube_coral_block");
+    public static final BlockType<BlockData> BRAIN_CORAL_BLOCK = getBlockType("brain_coral_block");
+    public static final BlockType<BlockData> BUBBLE_CORAL_BLOCK = getBlockType("bubble_coral_block");
+    public static final BlockType<BlockData> FIRE_CORAL_BLOCK = getBlockType("fire_coral_block");
+    public static final BlockType<BlockData> HORN_CORAL_BLOCK = getBlockType("horn_coral_block");
     /**
      * BlockData: {@link Waterlogged}
      */
-    BlockType<Waterlogged> DEAD_TUBE_CORAL = asBlockType(Material.DEAD_TUBE_CORAL);
+    public static final BlockType<Waterlogged> DEAD_TUBE_CORAL = getBlockType("dead_tube_coral");
     /**
      * BlockData: {@link Waterlogged}
      */
-    BlockType<Waterlogged> DEAD_BRAIN_CORAL = asBlockType(Material.DEAD_BRAIN_CORAL);
+    public static final BlockType<Waterlogged> DEAD_BRAIN_CORAL = getBlockType("dead_brain_coral");
     /**
      * BlockData: {@link Waterlogged}
      */
-    BlockType<Waterlogged> DEAD_BUBBLE_CORAL = asBlockType(Material.DEAD_BUBBLE_CORAL);
+    public static final BlockType<Waterlogged> DEAD_BUBBLE_CORAL = getBlockType("dead_bubble_coral");
     /**
      * BlockData: {@link Waterlogged}
      */
-    BlockType<Waterlogged> DEAD_FIRE_CORAL = asBlockType(Material.DEAD_FIRE_CORAL);
+    public static final BlockType<Waterlogged> DEAD_FIRE_CORAL = getBlockType("dead_fire_coral");
     /**
      * BlockData: {@link Waterlogged}
      */
-    BlockType<Waterlogged> DEAD_HORN_CORAL = asBlockType(Material.DEAD_HORN_CORAL);
+    public static final BlockType<Waterlogged> DEAD_HORN_CORAL = getBlockType("dead_horn_coral");
     /**
      * BlockData: {@link Waterlogged}
      */
-    BlockType<Waterlogged> TUBE_CORAL = asBlockType(Material.TUBE_CORAL);
+    public static final BlockType<Waterlogged> TUBE_CORAL = getBlockType("tube_coral");
     /**
      * BlockData: {@link Waterlogged}
      */
-    BlockType<Waterlogged> BRAIN_CORAL = asBlockType(Material.BRAIN_CORAL);
+    public static final BlockType<Waterlogged> BRAIN_CORAL = getBlockType("brain_coral");
     /**
      * BlockData: {@link Waterlogged}
      */
-    BlockType<Waterlogged> BUBBLE_CORAL = asBlockType(Material.BUBBLE_CORAL);
+    public static final BlockType<Waterlogged> BUBBLE_CORAL = getBlockType("bubble_coral");
     /**
      * BlockData: {@link Waterlogged}
      */
-    BlockType<Waterlogged> FIRE_CORAL = asBlockType(Material.FIRE_CORAL);
+    public static final BlockType<Waterlogged> FIRE_CORAL = getBlockType("fire_coral");
     /**
      * BlockData: {@link Waterlogged}
      */
-    BlockType<Waterlogged> HORN_CORAL = asBlockType(Material.HORN_CORAL);
+    public static final BlockType<Waterlogged> HORN_CORAL = getBlockType("horn_coral");
     /**
      * BlockData: {@link Waterlogged}
      */
-    BlockType<Waterlogged> DEAD_TUBE_CORAL_FAN = asBlockType(Material.DEAD_TUBE_CORAL_FAN);
+    public static final BlockType<Waterlogged> DEAD_TUBE_CORAL_FAN = getBlockType("dead_tube_coral_fan");
     /**
      * BlockData: {@link Waterlogged}
      */
-    BlockType<Waterlogged> DEAD_BRAIN_CORAL_FAN = asBlockType(Material.DEAD_BRAIN_CORAL_FAN);
+    public static final BlockType<Waterlogged> DEAD_BRAIN_CORAL_FAN = getBlockType("dead_brain_coral_fan");
     /**
      * BlockData: {@link Waterlogged}
      */
-    BlockType<Waterlogged> DEAD_BUBBLE_CORAL_FAN = asBlockType(Material.DEAD_BUBBLE_CORAL_FAN);
+    public static final BlockType<Waterlogged> DEAD_BUBBLE_CORAL_FAN = getBlockType("dead_bubble_coral_fan");
     /**
      * BlockData: {@link Waterlogged}
      */
-    BlockType<Waterlogged> DEAD_FIRE_CORAL_FAN = asBlockType(Material.DEAD_FIRE_CORAL_FAN);
+    public static final BlockType<Waterlogged> DEAD_FIRE_CORAL_FAN = getBlockType("dead_fire_coral_fan");
     /**
      * BlockData: {@link Waterlogged}
      */
-    BlockType<Waterlogged> DEAD_HORN_CORAL_FAN = asBlockType(Material.DEAD_HORN_CORAL_FAN);
+    public static final BlockType<Waterlogged> DEAD_HORN_CORAL_FAN = getBlockType("dead_horn_coral_fan");
     /**
      * BlockData: {@link Waterlogged}
      */
-    BlockType<Waterlogged> TUBE_CORAL_FAN = asBlockType(Material.TUBE_CORAL_FAN);
+    public static final BlockType<Waterlogged> TUBE_CORAL_FAN = getBlockType("tube_coral_fan");
     /**
      * BlockData: {@link Waterlogged}
      */
-    BlockType<Waterlogged> BRAIN_CORAL_FAN = asBlockType(Material.BRAIN_CORAL_FAN);
+    public static final BlockType<Waterlogged> BRAIN_CORAL_FAN = getBlockType("brain_coral_fan");
     /**
      * BlockData: {@link Waterlogged}
      */
-    BlockType<Waterlogged> BUBBLE_CORAL_FAN = asBlockType(Material.BUBBLE_CORAL_FAN);
+    public static final BlockType<Waterlogged> BUBBLE_CORAL_FAN = getBlockType("bubble_coral_fan");
     /**
      * BlockData: {@link Waterlogged}
      */
-    BlockType<Waterlogged> FIRE_CORAL_FAN = asBlockType(Material.FIRE_CORAL_FAN);
+    public static final BlockType<Waterlogged> FIRE_CORAL_FAN = getBlockType("fire_coral_fan");
     /**
      * BlockData: {@link Waterlogged}
      */
-    BlockType<Waterlogged> HORN_CORAL_FAN = asBlockType(Material.HORN_CORAL_FAN);
+    public static final BlockType<Waterlogged> HORN_CORAL_FAN = getBlockType("horn_coral_fan");
     /**
      * BlockData: {@link CoralWallFan}
      */
-    BlockType<CoralWallFan> DEAD_TUBE_CORAL_WALL_FAN = asBlockType(Material.DEAD_TUBE_CORAL_WALL_FAN);
+    public static final BlockType<CoralWallFan> DEAD_TUBE_CORAL_WALL_FAN = getBlockType("dead_tube_coral_wall_fan");
     /**
      * BlockData: {@link CoralWallFan}
      */
-    BlockType<CoralWallFan> DEAD_BRAIN_CORAL_WALL_FAN = asBlockType(Material.DEAD_BRAIN_CORAL_WALL_FAN);
+    public static final BlockType<CoralWallFan> DEAD_BRAIN_CORAL_WALL_FAN = getBlockType("dead_brain_coral_wall_fan");
     /**
      * BlockData: {@link CoralWallFan}
      */
-    BlockType<CoralWallFan> DEAD_BUBBLE_CORAL_WALL_FAN = asBlockType(Material.DEAD_BUBBLE_CORAL_WALL_FAN);
+    public static final BlockType<CoralWallFan> DEAD_BUBBLE_CORAL_WALL_FAN = getBlockType("dead_bubble_coral_wall_fan");
     /**
      * BlockData: {@link CoralWallFan}
      */
-    BlockType<CoralWallFan> DEAD_FIRE_CORAL_WALL_FAN = asBlockType(Material.DEAD_FIRE_CORAL_WALL_FAN);
+    public static final BlockType<CoralWallFan> DEAD_FIRE_CORAL_WALL_FAN = getBlockType("dead_fire_coral_wall_fan");
     /**
      * BlockData: {@link CoralWallFan}
      */
-    BlockType<CoralWallFan> DEAD_HORN_CORAL_WALL_FAN = asBlockType(Material.DEAD_HORN_CORAL_WALL_FAN);
+    public static final BlockType<CoralWallFan> DEAD_HORN_CORAL_WALL_FAN = getBlockType("dead_horn_coral_wall_fan");
     /**
      * BlockData: {@link CoralWallFan}
      */
-    BlockType<CoralWallFan> TUBE_CORAL_WALL_FAN = asBlockType(Material.TUBE_CORAL_WALL_FAN);
+    public static final BlockType<CoralWallFan> TUBE_CORAL_WALL_FAN = getBlockType("tube_coral_wall_fan");
     /**
      * BlockData: {@link CoralWallFan}
      */
-    BlockType<CoralWallFan> BRAIN_CORAL_WALL_FAN = asBlockType(Material.BRAIN_CORAL_WALL_FAN);
+    public static final BlockType<CoralWallFan> BRAIN_CORAL_WALL_FAN = getBlockType("brain_coral_wall_fan");
     /**
      * BlockData: {@link CoralWallFan}
      */
-    BlockType<CoralWallFan> BUBBLE_CORAL_WALL_FAN = asBlockType(Material.BUBBLE_CORAL_WALL_FAN);
+    public static final BlockType<CoralWallFan> BUBBLE_CORAL_WALL_FAN = getBlockType("bubble_coral_wall_fan");
     /**
      * BlockData: {@link CoralWallFan}
      */
-    BlockType<CoralWallFan> FIRE_CORAL_WALL_FAN = asBlockType(Material.FIRE_CORAL_WALL_FAN);
+    public static final BlockType<CoralWallFan> FIRE_CORAL_WALL_FAN = getBlockType("fire_coral_wall_fan");
     /**
      * BlockData: {@link CoralWallFan}
      */
-    BlockType<CoralWallFan> HORN_CORAL_WALL_FAN = asBlockType(Material.HORN_CORAL_WALL_FAN);
+    public static final BlockType<CoralWallFan> HORN_CORAL_WALL_FAN = getBlockType("horn_coral_wall_fan");
     /**
      * BlockData: {@link SeaPickle}
      */
-    BlockType<SeaPickle> SEA_PICKLE = asBlockType(Material.SEA_PICKLE);
-    BlockType<BlockData> BLUE_ICE = asBlockType(Material.BLUE_ICE);
+    public static final BlockType<SeaPickle> SEA_PICKLE = getBlockType("sea_pickle");
+    public static final BlockType<BlockData> BLUE_ICE = getBlockType("blue_ice");
     /**
      * BlockData: {@link Waterlogged}
      */
-    BlockType<Waterlogged> CONDUIT = asBlockType(Material.CONDUIT);
-    BlockType<BlockData> BAMBOO_SAPLING = asBlockType(Material.BAMBOO_SAPLING);
+    public static final BlockType<Waterlogged> CONDUIT = getBlockType("conduit");
+    public static final BlockType<BlockData> BAMBOO_SAPLING = getBlockType("bamboo_sapling");
     /**
      * BlockData: {@link Bamboo}
      */
-    BlockType<Bamboo> BAMBOO = asBlockType(Material.BAMBOO);
-    BlockType<BlockData> POTTED_BAMBOO = asBlockType(Material.POTTED_BAMBOO);
-    BlockType<BlockData> VOID_AIR = asBlockType(Material.VOID_AIR);
-    BlockType<BlockData> CAVE_AIR = asBlockType(Material.CAVE_AIR);
+    public static final BlockType<Bamboo> BAMBOO = getBlockType("bamboo");
+    public static final BlockType<BlockData> POTTED_BAMBOO = getBlockType("potted_bamboo");
+    public static final BlockType<BlockData> VOID_AIR = getBlockType("void_air");
+    public static final BlockType<BlockData> CAVE_AIR = getBlockType("cave_air");
     /**
      * BlockData: {@link BubbleColumn}
      */
-    BlockType<BubbleColumn> BUBBLE_COLUMN = asBlockType(Material.BUBBLE_COLUMN);
+    public static final BlockType<BubbleColumn> BUBBLE_COLUMN = getBlockType("bubble_column");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> POLISHED_GRANITE_STAIRS = asBlockType(Material.POLISHED_GRANITE_STAIRS);
+    public static final BlockType<Stairs> POLISHED_GRANITE_STAIRS = getBlockType("polished_granite_stairs");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> SMOOTH_RED_SANDSTONE_STAIRS = asBlockType(Material.SMOOTH_RED_SANDSTONE_STAIRS);
+    public static final BlockType<Stairs> SMOOTH_RED_SANDSTONE_STAIRS = getBlockType("smooth_red_sandstone_stairs");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> MOSSY_STONE_BRICK_STAIRS = asBlockType(Material.MOSSY_STONE_BRICK_STAIRS);
+    public static final BlockType<Stairs> MOSSY_STONE_BRICK_STAIRS = getBlockType("mossy_stone_brick_stairs");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> POLISHED_DIORITE_STAIRS = asBlockType(Material.POLISHED_DIORITE_STAIRS);
+    public static final BlockType<Stairs> POLISHED_DIORITE_STAIRS = getBlockType("polished_diorite_stairs");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> MOSSY_COBBLESTONE_STAIRS = asBlockType(Material.MOSSY_COBBLESTONE_STAIRS);
+    public static final BlockType<Stairs> MOSSY_COBBLESTONE_STAIRS = getBlockType("mossy_cobblestone_stairs");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> END_STONE_BRICK_STAIRS = asBlockType(Material.END_STONE_BRICK_STAIRS);
+    public static final BlockType<Stairs> END_STONE_BRICK_STAIRS = getBlockType("end_stone_brick_stairs");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> STONE_STAIRS = asBlockType(Material.STONE_STAIRS);
+    public static final BlockType<Stairs> STONE_STAIRS = getBlockType("stone_stairs");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> SMOOTH_SANDSTONE_STAIRS = asBlockType(Material.SMOOTH_SANDSTONE_STAIRS);
+    public static final BlockType<Stairs> SMOOTH_SANDSTONE_STAIRS = getBlockType("smooth_sandstone_stairs");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> SMOOTH_QUARTZ_STAIRS = asBlockType(Material.SMOOTH_QUARTZ_STAIRS);
+    public static final BlockType<Stairs> SMOOTH_QUARTZ_STAIRS = getBlockType("smooth_quartz_stairs");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> GRANITE_STAIRS = asBlockType(Material.GRANITE_STAIRS);
+    public static final BlockType<Stairs> GRANITE_STAIRS = getBlockType("granite_stairs");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> ANDESITE_STAIRS = asBlockType(Material.ANDESITE_STAIRS);
+    public static final BlockType<Stairs> ANDESITE_STAIRS = getBlockType("andesite_stairs");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> RED_NETHER_BRICK_STAIRS = asBlockType(Material.RED_NETHER_BRICK_STAIRS);
+    public static final BlockType<Stairs> RED_NETHER_BRICK_STAIRS = getBlockType("red_nether_brick_stairs");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> POLISHED_ANDESITE_STAIRS = asBlockType(Material.POLISHED_ANDESITE_STAIRS);
+    public static final BlockType<Stairs> POLISHED_ANDESITE_STAIRS = getBlockType("polished_andesite_stairs");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> DIORITE_STAIRS = asBlockType(Material.DIORITE_STAIRS);
+    public static final BlockType<Stairs> DIORITE_STAIRS = getBlockType("diorite_stairs");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> POLISHED_GRANITE_SLAB = asBlockType(Material.POLISHED_GRANITE_SLAB);
+    public static final BlockType<Slab> POLISHED_GRANITE_SLAB = getBlockType("polished_granite_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> SMOOTH_RED_SANDSTONE_SLAB = asBlockType(Material.SMOOTH_RED_SANDSTONE_SLAB);
+    public static final BlockType<Slab> SMOOTH_RED_SANDSTONE_SLAB = getBlockType("smooth_red_sandstone_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> MOSSY_STONE_BRICK_SLAB = asBlockType(Material.MOSSY_STONE_BRICK_SLAB);
+    public static final BlockType<Slab> MOSSY_STONE_BRICK_SLAB = getBlockType("mossy_stone_brick_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> POLISHED_DIORITE_SLAB = asBlockType(Material.POLISHED_DIORITE_SLAB);
+    public static final BlockType<Slab> POLISHED_DIORITE_SLAB = getBlockType("polished_diorite_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> MOSSY_COBBLESTONE_SLAB = asBlockType(Material.MOSSY_COBBLESTONE_SLAB);
+    public static final BlockType<Slab> MOSSY_COBBLESTONE_SLAB = getBlockType("mossy_cobblestone_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> END_STONE_BRICK_SLAB = asBlockType(Material.END_STONE_BRICK_SLAB);
+    public static final BlockType<Slab> END_STONE_BRICK_SLAB = getBlockType("end_stone_brick_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> SMOOTH_SANDSTONE_SLAB = asBlockType(Material.SMOOTH_SANDSTONE_SLAB);
+    public static final BlockType<Slab> SMOOTH_SANDSTONE_SLAB = getBlockType("smooth_sandstone_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> SMOOTH_QUARTZ_SLAB = asBlockType(Material.SMOOTH_QUARTZ_SLAB);
+    public static final BlockType<Slab> SMOOTH_QUARTZ_SLAB = getBlockType("smooth_quartz_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> GRANITE_SLAB = asBlockType(Material.GRANITE_SLAB);
+    public static final BlockType<Slab> GRANITE_SLAB = getBlockType("granite_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> ANDESITE_SLAB = asBlockType(Material.ANDESITE_SLAB);
+    public static final BlockType<Slab> ANDESITE_SLAB = getBlockType("andesite_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> RED_NETHER_BRICK_SLAB = asBlockType(Material.RED_NETHER_BRICK_SLAB);
+    public static final BlockType<Slab> RED_NETHER_BRICK_SLAB = getBlockType("red_nether_brick_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> POLISHED_ANDESITE_SLAB = asBlockType(Material.POLISHED_ANDESITE_SLAB);
+    public static final BlockType<Slab> POLISHED_ANDESITE_SLAB = getBlockType("polished_andesite_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> DIORITE_SLAB = asBlockType(Material.DIORITE_SLAB);
+    public static final BlockType<Slab> DIORITE_SLAB = getBlockType("diorite_slab");
     /**
      * BlockData: {@link Wall}
      */
-    BlockType<Wall> BRICK_WALL = asBlockType(Material.BRICK_WALL);
+    public static final BlockType<Wall> BRICK_WALL = getBlockType("brick_wall");
     /**
      * BlockData: {@link Wall}
      */
-    BlockType<Wall> PRISMARINE_WALL = asBlockType(Material.PRISMARINE_WALL);
+    public static final BlockType<Wall> PRISMARINE_WALL = getBlockType("prismarine_wall");
     /**
      * BlockData: {@link Wall}
      */
-    BlockType<Wall> RED_SANDSTONE_WALL = asBlockType(Material.RED_SANDSTONE_WALL);
+    public static final BlockType<Wall> RED_SANDSTONE_WALL = getBlockType("red_sandstone_wall");
     /**
      * BlockData: {@link Wall}
      */
-    BlockType<Wall> MOSSY_STONE_BRICK_WALL = asBlockType(Material.MOSSY_STONE_BRICK_WALL);
+    public static final BlockType<Wall> MOSSY_STONE_BRICK_WALL = getBlockType("mossy_stone_brick_wall");
     /**
      * BlockData: {@link Wall}
      */
-    BlockType<Wall> GRANITE_WALL = asBlockType(Material.GRANITE_WALL);
+    public static final BlockType<Wall> GRANITE_WALL = getBlockType("granite_wall");
     /**
      * BlockData: {@link Wall}
      */
-    BlockType<Wall> STONE_BRICK_WALL = asBlockType(Material.STONE_BRICK_WALL);
+    public static final BlockType<Wall> STONE_BRICK_WALL = getBlockType("stone_brick_wall");
     /**
      * BlockData: {@link Wall}
      */
-    BlockType<Wall> MUD_BRICK_WALL = asBlockType(Material.MUD_BRICK_WALL);
+    public static final BlockType<Wall> MUD_BRICK_WALL = getBlockType("mud_brick_wall");
     /**
      * BlockData: {@link Wall}
      */
-    BlockType<Wall> NETHER_BRICK_WALL = asBlockType(Material.NETHER_BRICK_WALL);
+    public static final BlockType<Wall> NETHER_BRICK_WALL = getBlockType("nether_brick_wall");
     /**
      * BlockData: {@link Wall}
      */
-    BlockType<Wall> ANDESITE_WALL = asBlockType(Material.ANDESITE_WALL);
+    public static final BlockType<Wall> ANDESITE_WALL = getBlockType("andesite_wall");
     /**
      * BlockData: {@link Wall}
      */
-    BlockType<Wall> RED_NETHER_BRICK_WALL = asBlockType(Material.RED_NETHER_BRICK_WALL);
+    public static final BlockType<Wall> RED_NETHER_BRICK_WALL = getBlockType("red_nether_brick_wall");
     /**
      * BlockData: {@link Wall}
      */
-    BlockType<Wall> SANDSTONE_WALL = asBlockType(Material.SANDSTONE_WALL);
+    public static final BlockType<Wall> SANDSTONE_WALL = getBlockType("sandstone_wall");
     /**
      * BlockData: {@link Wall}
      */
-    BlockType<Wall> END_STONE_BRICK_WALL = asBlockType(Material.END_STONE_BRICK_WALL);
+    public static final BlockType<Wall> END_STONE_BRICK_WALL = getBlockType("end_stone_brick_wall");
     /**
      * BlockData: {@link Wall}
      */
-    BlockType<Wall> DIORITE_WALL = asBlockType(Material.DIORITE_WALL);
+    public static final BlockType<Wall> DIORITE_WALL = getBlockType("diorite_wall");
     /**
      * BlockData: {@link Scaffolding}
      */
-    BlockType<Scaffolding> SCAFFOLDING = asBlockType(Material.SCAFFOLDING);
+    public static final BlockType<Scaffolding> SCAFFOLDING = getBlockType("scaffolding");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> LOOM = asBlockType(Material.LOOM);
+    public static final BlockType<Directional> LOOM = getBlockType("loom");
     /**
      * BlockData: {@link Barrel}
      */
-    BlockType<Barrel> BARREL = asBlockType(Material.BARREL);
+    public static final BlockType<Barrel> BARREL = getBlockType("barrel");
     /**
      * BlockData: {@link Furnace}
      */
-    BlockType<Furnace> SMOKER = asBlockType(Material.SMOKER);
+    public static final BlockType<Furnace> SMOKER = getBlockType("smoker");
     /**
      * BlockData: {@link Furnace}
      */
-    BlockType<Furnace> BLAST_FURNACE = asBlockType(Material.BLAST_FURNACE);
-    BlockType<BlockData> CARTOGRAPHY_TABLE = asBlockType(Material.CARTOGRAPHY_TABLE);
-    BlockType<BlockData> FLETCHING_TABLE = asBlockType(Material.FLETCHING_TABLE);
+    public static final BlockType<Furnace> BLAST_FURNACE = getBlockType("blast_furnace");
+    public static final BlockType<BlockData> CARTOGRAPHY_TABLE = getBlockType("cartography_table");
+    public static final BlockType<BlockData> FLETCHING_TABLE = getBlockType("fletching_table");
     /**
      * BlockData: {@link Grindstone}
      */
-    BlockType<Grindstone> GRINDSTONE = asBlockType(Material.GRINDSTONE);
+    public static final BlockType<Grindstone> GRINDSTONE = getBlockType("grindstone");
     /**
      * BlockData: {@link Lectern}
      */
-    BlockType<Lectern> LECTERN = asBlockType(Material.LECTERN);
-    BlockType<BlockData> SMITHING_TABLE = asBlockType(Material.SMITHING_TABLE);
+    public static final BlockType<Lectern> LECTERN = getBlockType("lectern");
+    public static final BlockType<BlockData> SMITHING_TABLE = getBlockType("smithing_table");
     /**
      * BlockData: {@link Directional}
      */
-    BlockType<Directional> STONECUTTER = asBlockType(Material.STONECUTTER);
+    public static final BlockType<Directional> STONECUTTER = getBlockType("stonecutter");
     /**
      * BlockData: {@link Bell}
      */
-    BlockType<Bell> BELL = asBlockType(Material.BELL);
+    public static final BlockType<Bell> BELL = getBlockType("bell");
     /**
      * BlockData: {@link Lantern}
      */
-    BlockType<Lantern> LANTERN = asBlockType(Material.LANTERN);
+    public static final BlockType<Lantern> LANTERN = getBlockType("lantern");
     /**
      * BlockData: {@link Lantern}
      */
-    BlockType<Lantern> SOUL_LANTERN = asBlockType(Material.SOUL_LANTERN);
+    public static final BlockType<Lantern> SOUL_LANTERN = getBlockType("soul_lantern");
     /**
      * BlockData: {@link Campfire}
      */
-    BlockType<Campfire> CAMPFIRE = asBlockType(Material.CAMPFIRE);
+    public static final BlockType<Campfire> CAMPFIRE = getBlockType("campfire");
     /**
      * BlockData: {@link Campfire}
      */
-    BlockType<Campfire> SOUL_CAMPFIRE = asBlockType(Material.SOUL_CAMPFIRE);
+    public static final BlockType<Campfire> SOUL_CAMPFIRE = getBlockType("soul_campfire");
     /**
      * BlockData: {@link Ageable}
      */
-    BlockType<Ageable> SWEET_BERRY_BUSH = asBlockType(Material.SWEET_BERRY_BUSH);
+    public static final BlockType<Ageable> SWEET_BERRY_BUSH = getBlockType("sweet_berry_bush");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> WARPED_STEM = asBlockType(Material.WARPED_STEM);
+    public static final BlockType<Orientable> WARPED_STEM = getBlockType("warped_stem");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> STRIPPED_WARPED_STEM = asBlockType(Material.STRIPPED_WARPED_STEM);
+    public static final BlockType<Orientable> STRIPPED_WARPED_STEM = getBlockType("stripped_warped_stem");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> WARPED_HYPHAE = asBlockType(Material.WARPED_HYPHAE);
+    public static final BlockType<Orientable> WARPED_HYPHAE = getBlockType("warped_hyphae");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> STRIPPED_WARPED_HYPHAE = asBlockType(Material.STRIPPED_WARPED_HYPHAE);
-    BlockType<BlockData> WARPED_NYLIUM = asBlockType(Material.WARPED_NYLIUM);
-    BlockType<BlockData> WARPED_FUNGUS = asBlockType(Material.WARPED_FUNGUS);
-    BlockType<BlockData> WARPED_WART_BLOCK = asBlockType(Material.WARPED_WART_BLOCK);
-    BlockType<BlockData> WARPED_ROOTS = asBlockType(Material.WARPED_ROOTS);
-    BlockType<BlockData> NETHER_SPROUTS = asBlockType(Material.NETHER_SPROUTS);
+    public static final BlockType<Orientable> STRIPPED_WARPED_HYPHAE = getBlockType("stripped_warped_hyphae");
+    public static final BlockType<BlockData> WARPED_NYLIUM = getBlockType("warped_nylium");
+    public static final BlockType<BlockData> WARPED_FUNGUS = getBlockType("warped_fungus");
+    public static final BlockType<BlockData> WARPED_WART_BLOCK = getBlockType("warped_wart_block");
+    public static final BlockType<BlockData> WARPED_ROOTS = getBlockType("warped_roots");
+    public static final BlockType<BlockData> NETHER_SPROUTS = getBlockType("nether_sprouts");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> CRIMSON_STEM = asBlockType(Material.CRIMSON_STEM);
+    public static final BlockType<Orientable> CRIMSON_STEM = getBlockType("crimson_stem");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> STRIPPED_CRIMSON_STEM = asBlockType(Material.STRIPPED_CRIMSON_STEM);
+    public static final BlockType<Orientable> STRIPPED_CRIMSON_STEM = getBlockType("stripped_crimson_stem");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> CRIMSON_HYPHAE = asBlockType(Material.CRIMSON_HYPHAE);
+    public static final BlockType<Orientable> CRIMSON_HYPHAE = getBlockType("crimson_hyphae");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> STRIPPED_CRIMSON_HYPHAE = asBlockType(Material.STRIPPED_CRIMSON_HYPHAE);
-    BlockType<BlockData> CRIMSON_NYLIUM = asBlockType(Material.CRIMSON_NYLIUM);
-    BlockType<BlockData> CRIMSON_FUNGUS = asBlockType(Material.CRIMSON_FUNGUS);
-    BlockType<BlockData> SHROOMLIGHT = asBlockType(Material.SHROOMLIGHT);
+    public static final BlockType<Orientable> STRIPPED_CRIMSON_HYPHAE = getBlockType("stripped_crimson_hyphae");
+    public static final BlockType<BlockData> CRIMSON_NYLIUM = getBlockType("crimson_nylium");
+    public static final BlockType<BlockData> CRIMSON_FUNGUS = getBlockType("crimson_fungus");
+    public static final BlockType<BlockData> SHROOMLIGHT = getBlockType("shroomlight");
     /**
      * BlockData: {@link Ageable}
      */
-    BlockType<Ageable> WEEPING_VINES = asBlockType(Material.WEEPING_VINES);
-    BlockType<BlockData> WEEPING_VINES_PLANT = asBlockType(Material.WEEPING_VINES_PLANT);
+    public static final BlockType<Ageable> WEEPING_VINES = getBlockType("weeping_vines");
+    public static final BlockType<BlockData> WEEPING_VINES_PLANT = getBlockType("weeping_vines_plant");
     /**
      * BlockData: {@link Ageable}
      */
-    BlockType<Ageable> TWISTING_VINES = asBlockType(Material.TWISTING_VINES);
-    BlockType<BlockData> TWISTING_VINES_PLANT = asBlockType(Material.TWISTING_VINES_PLANT);
-    BlockType<BlockData> CRIMSON_ROOTS = asBlockType(Material.CRIMSON_ROOTS);
-    BlockType<BlockData> CRIMSON_PLANKS = asBlockType(Material.CRIMSON_PLANKS);
-    BlockType<BlockData> WARPED_PLANKS = asBlockType(Material.WARPED_PLANKS);
+    public static final BlockType<Ageable> TWISTING_VINES = getBlockType("twisting_vines");
+    public static final BlockType<BlockData> TWISTING_VINES_PLANT = getBlockType("twisting_vines_plant");
+    public static final BlockType<BlockData> CRIMSON_ROOTS = getBlockType("crimson_roots");
+    public static final BlockType<BlockData> CRIMSON_PLANKS = getBlockType("crimson_planks");
+    public static final BlockType<BlockData> WARPED_PLANKS = getBlockType("warped_planks");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> CRIMSON_SLAB = asBlockType(Material.CRIMSON_SLAB);
+    public static final BlockType<Slab> CRIMSON_SLAB = getBlockType("crimson_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> WARPED_SLAB = asBlockType(Material.WARPED_SLAB);
+    public static final BlockType<Slab> WARPED_SLAB = getBlockType("warped_slab");
     /**
      * BlockData: {@link Powerable}
      */
-    BlockType<Powerable> CRIMSON_PRESSURE_PLATE = asBlockType(Material.CRIMSON_PRESSURE_PLATE);
+    public static final BlockType<Powerable> CRIMSON_PRESSURE_PLATE = getBlockType("crimson_pressure_plate");
     /**
      * BlockData: {@link Powerable}
      */
-    BlockType<Powerable> WARPED_PRESSURE_PLATE = asBlockType(Material.WARPED_PRESSURE_PLATE);
+    public static final BlockType<Powerable> WARPED_PRESSURE_PLATE = getBlockType("warped_pressure_plate");
     /**
      * BlockData: {@link Fence}
      */
-    BlockType<Fence> CRIMSON_FENCE = asBlockType(Material.CRIMSON_FENCE);
+    public static final BlockType<Fence> CRIMSON_FENCE = getBlockType("crimson_fence");
     /**
      * BlockData: {@link Fence}
      */
-    BlockType<Fence> WARPED_FENCE = asBlockType(Material.WARPED_FENCE);
+    public static final BlockType<Fence> WARPED_FENCE = getBlockType("warped_fence");
     /**
      * BlockData: {@link TrapDoor}
      */
-    BlockType<TrapDoor> CRIMSON_TRAPDOOR = asBlockType(Material.CRIMSON_TRAPDOOR);
+    public static final BlockType<TrapDoor> CRIMSON_TRAPDOOR = getBlockType("crimson_trapdoor");
     /**
      * BlockData: {@link TrapDoor}
      */
-    BlockType<TrapDoor> WARPED_TRAPDOOR = asBlockType(Material.WARPED_TRAPDOOR);
+    public static final BlockType<TrapDoor> WARPED_TRAPDOOR = getBlockType("warped_trapdoor");
     /**
      * BlockData: {@link Gate}
      */
-    BlockType<Gate> CRIMSON_FENCE_GATE = asBlockType(Material.CRIMSON_FENCE_GATE);
+    public static final BlockType<Gate> CRIMSON_FENCE_GATE = getBlockType("crimson_fence_gate");
     /**
      * BlockData: {@link Gate}
      */
-    BlockType<Gate> WARPED_FENCE_GATE = asBlockType(Material.WARPED_FENCE_GATE);
+    public static final BlockType<Gate> WARPED_FENCE_GATE = getBlockType("warped_fence_gate");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> CRIMSON_STAIRS = asBlockType(Material.CRIMSON_STAIRS);
+    public static final BlockType<Stairs> CRIMSON_STAIRS = getBlockType("crimson_stairs");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> WARPED_STAIRS = asBlockType(Material.WARPED_STAIRS);
+    public static final BlockType<Stairs> WARPED_STAIRS = getBlockType("warped_stairs");
     /**
      * BlockData: {@link Switch}
      */
-    BlockType<Switch> CRIMSON_BUTTON = asBlockType(Material.CRIMSON_BUTTON);
+    public static final BlockType<Switch> CRIMSON_BUTTON = getBlockType("crimson_button");
     /**
      * BlockData: {@link Switch}
      */
-    BlockType<Switch> WARPED_BUTTON = asBlockType(Material.WARPED_BUTTON);
+    public static final BlockType<Switch> WARPED_BUTTON = getBlockType("warped_button");
     /**
      * BlockData: {@link Door}
      */
-    BlockType<Door> CRIMSON_DOOR = asBlockType(Material.CRIMSON_DOOR);
+    public static final BlockType<Door> CRIMSON_DOOR = getBlockType("crimson_door");
     /**
      * BlockData: {@link Door}
      */
-    BlockType<Door> WARPED_DOOR = asBlockType(Material.WARPED_DOOR);
+    public static final BlockType<Door> WARPED_DOOR = getBlockType("warped_door");
     /**
      * BlockData: {@link Sign}
      */
-    BlockType<Sign> CRIMSON_SIGN = asBlockType(Material.CRIMSON_SIGN);
+    public static final BlockType<Sign> CRIMSON_SIGN = getBlockType("crimson_sign");
     /**
      * BlockData: {@link Sign}
      */
-    BlockType<Sign> WARPED_SIGN = asBlockType(Material.WARPED_SIGN);
+    public static final BlockType<Sign> WARPED_SIGN = getBlockType("warped_sign");
     /**
      * BlockData: {@link WallSign}
      */
-    BlockType<WallSign> CRIMSON_WALL_SIGN = asBlockType(Material.CRIMSON_WALL_SIGN);
+    public static final BlockType<WallSign> CRIMSON_WALL_SIGN = getBlockType("crimson_wall_sign");
     /**
      * BlockData: {@link WallSign}
      */
-    BlockType<WallSign> WARPED_WALL_SIGN = asBlockType(Material.WARPED_WALL_SIGN);
+    public static final BlockType<WallSign> WARPED_WALL_SIGN = getBlockType("warped_wall_sign");
     /**
      * BlockData: {@link StructureBlock}
      */
-    BlockType<StructureBlock> STRUCTURE_BLOCK = asBlockType(Material.STRUCTURE_BLOCK);
+    public static final BlockType<StructureBlock> STRUCTURE_BLOCK = getBlockType("structure_block");
     /**
      * BlockData: {@link Jigsaw}
      */
-    BlockType<Jigsaw> JIGSAW = asBlockType(Material.JIGSAW);
+    public static final BlockType<Jigsaw> JIGSAW = getBlockType("jigsaw");
     /**
      * BlockData: {@link Levelled}
      */
-    BlockType<Levelled> COMPOSTER = asBlockType(Material.COMPOSTER);
+    public static final BlockType<Levelled> COMPOSTER = getBlockType("composter");
     /**
      * BlockData: {@link AnaloguePowerable}
      */
-    BlockType<AnaloguePowerable> TARGET = asBlockType(Material.TARGET);
+    public static final BlockType<AnaloguePowerable> TARGET = getBlockType("target");
     /**
      * BlockData: {@link Beehive}
      */
-    BlockType<Beehive> BEE_NEST = asBlockType(Material.BEE_NEST);
+    public static final BlockType<Beehive> BEE_NEST = getBlockType("bee_nest");
     /**
      * BlockData: {@link Beehive}
      */
-    BlockType<Beehive> BEEHIVE = asBlockType(Material.BEEHIVE);
-    BlockType<BlockData> HONEY_BLOCK = asBlockType(Material.HONEY_BLOCK);
-    BlockType<BlockData> HONEYCOMB_BLOCK = asBlockType(Material.HONEYCOMB_BLOCK);
-    BlockType<BlockData> NETHERITE_BLOCK = asBlockType(Material.NETHERITE_BLOCK);
-    BlockType<BlockData> ANCIENT_DEBRIS = asBlockType(Material.ANCIENT_DEBRIS);
-    BlockType<BlockData> CRYING_OBSIDIAN = asBlockType(Material.CRYING_OBSIDIAN);
+    public static final BlockType<Beehive> BEEHIVE = getBlockType("beehive");
+    public static final BlockType<BlockData> HONEY_BLOCK = getBlockType("honey_block");
+    public static final BlockType<BlockData> HONEYCOMB_BLOCK = getBlockType("honeycomb_block");
+    public static final BlockType<BlockData> NETHERITE_BLOCK = getBlockType("netherite_block");
+    public static final BlockType<BlockData> ANCIENT_DEBRIS = getBlockType("ancient_debris");
+    public static final BlockType<BlockData> CRYING_OBSIDIAN = getBlockType("crying_obsidian");
     /**
      * BlockData: {@link RespawnAnchor}
      */
-    BlockType<RespawnAnchor> RESPAWN_ANCHOR = asBlockType(Material.RESPAWN_ANCHOR);
-    BlockType<BlockData> POTTED_CRIMSON_FUNGUS = asBlockType(Material.POTTED_CRIMSON_FUNGUS);
-    BlockType<BlockData> POTTED_WARPED_FUNGUS = asBlockType(Material.POTTED_WARPED_FUNGUS);
-    BlockType<BlockData> POTTED_CRIMSON_ROOTS = asBlockType(Material.POTTED_CRIMSON_ROOTS);
-    BlockType<BlockData> POTTED_WARPED_ROOTS = asBlockType(Material.POTTED_WARPED_ROOTS);
-    BlockType<BlockData> LODESTONE = asBlockType(Material.LODESTONE);
-    BlockType<BlockData> BLACKSTONE = asBlockType(Material.BLACKSTONE);
+    public static final BlockType<RespawnAnchor> RESPAWN_ANCHOR = getBlockType("respawn_anchor");
+    public static final BlockType<BlockData> POTTED_CRIMSON_FUNGUS = getBlockType("potted_crimson_fungus");
+    public static final BlockType<BlockData> POTTED_WARPED_FUNGUS = getBlockType("potted_warped_fungus");
+    public static final BlockType<BlockData> POTTED_CRIMSON_ROOTS = getBlockType("potted_crimson_roots");
+    public static final BlockType<BlockData> POTTED_WARPED_ROOTS = getBlockType("potted_warped_roots");
+    public static final BlockType<BlockData> LODESTONE = getBlockType("lodestone");
+    public static final BlockType<BlockData> BLACKSTONE = getBlockType("blackstone");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> BLACKSTONE_STAIRS = asBlockType(Material.BLACKSTONE_STAIRS);
+    public static final BlockType<Stairs> BLACKSTONE_STAIRS = getBlockType("blackstone_stairs");
     /**
      * BlockData: {@link Wall}
      */
-    BlockType<Wall> BLACKSTONE_WALL = asBlockType(Material.BLACKSTONE_WALL);
+    public static final BlockType<Wall> BLACKSTONE_WALL = getBlockType("blackstone_wall");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> BLACKSTONE_SLAB = asBlockType(Material.BLACKSTONE_SLAB);
-    BlockType<BlockData> POLISHED_BLACKSTONE = asBlockType(Material.POLISHED_BLACKSTONE);
-    BlockType<BlockData> POLISHED_BLACKSTONE_BRICKS = asBlockType(Material.POLISHED_BLACKSTONE_BRICKS);
-    BlockType<BlockData> CRACKED_POLISHED_BLACKSTONE_BRICKS = asBlockType(Material.CRACKED_POLISHED_BLACKSTONE_BRICKS);
-    BlockType<BlockData> CHISELED_POLISHED_BLACKSTONE = asBlockType(Material.CHISELED_POLISHED_BLACKSTONE);
+    public static final BlockType<Slab> BLACKSTONE_SLAB = getBlockType("blackstone_slab");
+    public static final BlockType<BlockData> POLISHED_BLACKSTONE = getBlockType("polished_blackstone");
+    public static final BlockType<BlockData> POLISHED_BLACKSTONE_BRICKS = getBlockType("polished_blackstone_bricks");
+    public static final BlockType<BlockData> CRACKED_POLISHED_BLACKSTONE_BRICKS = getBlockType("cracked_polished_blackstone_bricks");
+    public static final BlockType<BlockData> CHISELED_POLISHED_BLACKSTONE = getBlockType("chiseled_polished_blackstone");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> POLISHED_BLACKSTONE_BRICK_SLAB = asBlockType(Material.POLISHED_BLACKSTONE_BRICK_SLAB);
+    public static final BlockType<Slab> POLISHED_BLACKSTONE_BRICK_SLAB = getBlockType("polished_blackstone_brick_slab");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> POLISHED_BLACKSTONE_BRICK_STAIRS = asBlockType(Material.POLISHED_BLACKSTONE_BRICK_STAIRS);
+    public static final BlockType<Stairs> POLISHED_BLACKSTONE_BRICK_STAIRS = getBlockType("polished_blackstone_brick_stairs");
     /**
      * BlockData: {@link Wall}
      */
-    BlockType<Wall> POLISHED_BLACKSTONE_BRICK_WALL = asBlockType(Material.POLISHED_BLACKSTONE_BRICK_WALL);
-    BlockType<BlockData> GILDED_BLACKSTONE = asBlockType(Material.GILDED_BLACKSTONE);
+    public static final BlockType<Wall> POLISHED_BLACKSTONE_BRICK_WALL = getBlockType("polished_blackstone_brick_wall");
+    public static final BlockType<BlockData> GILDED_BLACKSTONE = getBlockType("gilded_blackstone");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> POLISHED_BLACKSTONE_STAIRS = asBlockType(Material.POLISHED_BLACKSTONE_STAIRS);
+    public static final BlockType<Stairs> POLISHED_BLACKSTONE_STAIRS = getBlockType("polished_blackstone_stairs");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> POLISHED_BLACKSTONE_SLAB = asBlockType(Material.POLISHED_BLACKSTONE_SLAB);
+    public static final BlockType<Slab> POLISHED_BLACKSTONE_SLAB = getBlockType("polished_blackstone_slab");
     /**
      * BlockData: {@link Powerable}
      */
-    BlockType<Powerable> POLISHED_BLACKSTONE_PRESSURE_PLATE = asBlockType(Material.POLISHED_BLACKSTONE_PRESSURE_PLATE);
+    public static final BlockType<Powerable> POLISHED_BLACKSTONE_PRESSURE_PLATE = getBlockType("polished_blackstone_pressure_plate");
     /**
      * BlockData: {@link Switch}
      */
-    BlockType<Switch> POLISHED_BLACKSTONE_BUTTON = asBlockType(Material.POLISHED_BLACKSTONE_BUTTON);
+    public static final BlockType<Switch> POLISHED_BLACKSTONE_BUTTON = getBlockType("polished_blackstone_button");
     /**
      * BlockData: {@link Wall}
      */
-    BlockType<Wall> POLISHED_BLACKSTONE_WALL = asBlockType(Material.POLISHED_BLACKSTONE_WALL);
-    BlockType<BlockData> CHISELED_NETHER_BRICKS = asBlockType(Material.CHISELED_NETHER_BRICKS);
-    BlockType<BlockData> CRACKED_NETHER_BRICKS = asBlockType(Material.CRACKED_NETHER_BRICKS);
-    BlockType<BlockData> QUARTZ_BRICKS = asBlockType(Material.QUARTZ_BRICKS);
+    public static final BlockType<Wall> POLISHED_BLACKSTONE_WALL = getBlockType("polished_blackstone_wall");
+    public static final BlockType<BlockData> CHISELED_NETHER_BRICKS = getBlockType("chiseled_nether_bricks");
+    public static final BlockType<BlockData> CRACKED_NETHER_BRICKS = getBlockType("cracked_nether_bricks");
+    public static final BlockType<BlockData> QUARTZ_BRICKS = getBlockType("quartz_bricks");
     /**
      * BlockData: {@link Candle}
      */
-    BlockType<Candle> CANDLE = asBlockType(Material.CANDLE);
+    public static final BlockType<Candle> CANDLE = getBlockType("candle");
     /**
      * BlockData: {@link Candle}
      */
-    BlockType<Candle> WHITE_CANDLE = asBlockType(Material.WHITE_CANDLE);
+    public static final BlockType<Candle> WHITE_CANDLE = getBlockType("white_candle");
     /**
      * BlockData: {@link Candle}
      */
-    BlockType<Candle> ORANGE_CANDLE = asBlockType(Material.ORANGE_CANDLE);
+    public static final BlockType<Candle> ORANGE_CANDLE = getBlockType("orange_candle");
     /**
      * BlockData: {@link Candle}
      */
-    BlockType<Candle> MAGENTA_CANDLE = asBlockType(Material.MAGENTA_CANDLE);
+    public static final BlockType<Candle> MAGENTA_CANDLE = getBlockType("magenta_candle");
     /**
      * BlockData: {@link Candle}
      */
-    BlockType<Candle> LIGHT_BLUE_CANDLE = asBlockType(Material.LIGHT_BLUE_CANDLE);
+    public static final BlockType<Candle> LIGHT_BLUE_CANDLE = getBlockType("light_blue_candle");
     /**
      * BlockData: {@link Candle}
      */
-    BlockType<Candle> YELLOW_CANDLE = asBlockType(Material.YELLOW_CANDLE);
+    public static final BlockType<Candle> YELLOW_CANDLE = getBlockType("yellow_candle");
     /**
      * BlockData: {@link Candle}
      */
-    BlockType<Candle> LIME_CANDLE = asBlockType(Material.LIME_CANDLE);
+    public static final BlockType<Candle> LIME_CANDLE = getBlockType("lime_candle");
     /**
      * BlockData: {@link Candle}
      */
-    BlockType<Candle> PINK_CANDLE = asBlockType(Material.PINK_CANDLE);
+    public static final BlockType<Candle> PINK_CANDLE = getBlockType("pink_candle");
     /**
      * BlockData: {@link Candle}
      */
-    BlockType<Candle> GRAY_CANDLE = asBlockType(Material.GRAY_CANDLE);
+    public static final BlockType<Candle> GRAY_CANDLE = getBlockType("gray_candle");
     /**
      * BlockData: {@link Candle}
      */
-    BlockType<Candle> LIGHT_GRAY_CANDLE = asBlockType(Material.LIGHT_GRAY_CANDLE);
+    public static final BlockType<Candle> LIGHT_GRAY_CANDLE = getBlockType("light_gray_candle");
     /**
      * BlockData: {@link Candle}
      */
-    BlockType<Candle> CYAN_CANDLE = asBlockType(Material.CYAN_CANDLE);
+    public static final BlockType<Candle> CYAN_CANDLE = getBlockType("cyan_candle");
     /**
      * BlockData: {@link Candle}
      */
-    BlockType<Candle> PURPLE_CANDLE = asBlockType(Material.PURPLE_CANDLE);
+    public static final BlockType<Candle> PURPLE_CANDLE = getBlockType("purple_candle");
     /**
      * BlockData: {@link Candle}
      */
-    BlockType<Candle> BLUE_CANDLE = asBlockType(Material.BLUE_CANDLE);
+    public static final BlockType<Candle> BLUE_CANDLE = getBlockType("blue_candle");
     /**
      * BlockData: {@link Candle}
      */
-    BlockType<Candle> BROWN_CANDLE = asBlockType(Material.BROWN_CANDLE);
+    public static final BlockType<Candle> BROWN_CANDLE = getBlockType("brown_candle");
     /**
      * BlockData: {@link Candle}
      */
-    BlockType<Candle> GREEN_CANDLE = asBlockType(Material.GREEN_CANDLE);
+    public static final BlockType<Candle> GREEN_CANDLE = getBlockType("green_candle");
     /**
      * BlockData: {@link Candle}
      */
-    BlockType<Candle> RED_CANDLE = asBlockType(Material.RED_CANDLE);
+    public static final BlockType<Candle> RED_CANDLE = getBlockType("red_candle");
     /**
      * BlockData: {@link Candle}
      */
-    BlockType<Candle> BLACK_CANDLE = asBlockType(Material.BLACK_CANDLE);
+    public static final BlockType<Candle> BLACK_CANDLE = getBlockType("black_candle");
     /**
      * BlockData: {@link Lightable}
      */
-    BlockType<Lightable> CANDLE_CAKE = asBlockType(Material.CANDLE_CAKE);
+    public static final BlockType<Lightable> CANDLE_CAKE = getBlockType("candle_cake");
     /**
      * BlockData: {@link Lightable}
      */
-    BlockType<Lightable> WHITE_CANDLE_CAKE = asBlockType(Material.WHITE_CANDLE_CAKE);
+    public static final BlockType<Lightable> WHITE_CANDLE_CAKE = getBlockType("white_candle_cake");
     /**
      * BlockData: {@link Lightable}
      */
-    BlockType<Lightable> ORANGE_CANDLE_CAKE = asBlockType(Material.ORANGE_CANDLE_CAKE);
+    public static final BlockType<Lightable> ORANGE_CANDLE_CAKE = getBlockType("orange_candle_cake");
     /**
      * BlockData: {@link Lightable}
      */
-    BlockType<Lightable> MAGENTA_CANDLE_CAKE = asBlockType(Material.MAGENTA_CANDLE_CAKE);
+    public static final BlockType<Lightable> MAGENTA_CANDLE_CAKE = getBlockType("magenta_candle_cake");
     /**
      * BlockData: {@link Lightable}
      */
-    BlockType<Lightable> LIGHT_BLUE_CANDLE_CAKE = asBlockType(Material.LIGHT_BLUE_CANDLE_CAKE);
+    public static final BlockType<Lightable> LIGHT_BLUE_CANDLE_CAKE = getBlockType("light_blue_candle_cake");
     /**
      * BlockData: {@link Lightable}
      */
-    BlockType<Lightable> YELLOW_CANDLE_CAKE = asBlockType(Material.YELLOW_CANDLE_CAKE);
+    public static final BlockType<Lightable> YELLOW_CANDLE_CAKE = getBlockType("yellow_candle_cake");
     /**
      * BlockData: {@link Lightable}
      */
-    BlockType<Lightable> LIME_CANDLE_CAKE = asBlockType(Material.LIME_CANDLE_CAKE);
+    public static final BlockType<Lightable> LIME_CANDLE_CAKE = getBlockType("lime_candle_cake");
     /**
      * BlockData: {@link Lightable}
      */
-    BlockType<Lightable> PINK_CANDLE_CAKE = asBlockType(Material.PINK_CANDLE_CAKE);
+    public static final BlockType<Lightable> PINK_CANDLE_CAKE = getBlockType("pink_candle_cake");
     /**
      * BlockData: {@link Lightable}
      */
-    BlockType<Lightable> GRAY_CANDLE_CAKE = asBlockType(Material.GRAY_CANDLE_CAKE);
+    public static final BlockType<Lightable> GRAY_CANDLE_CAKE = getBlockType("gray_candle_cake");
     /**
      * BlockData: {@link Lightable}
      */
-    BlockType<Lightable> LIGHT_GRAY_CANDLE_CAKE = asBlockType(Material.LIGHT_GRAY_CANDLE_CAKE);
+    public static final BlockType<Lightable> LIGHT_GRAY_CANDLE_CAKE = getBlockType("light_gray_candle_cake");
     /**
      * BlockData: {@link Lightable}
      */
-    BlockType<Lightable> CYAN_CANDLE_CAKE = asBlockType(Material.CYAN_CANDLE_CAKE);
+    public static final BlockType<Lightable> CYAN_CANDLE_CAKE = getBlockType("cyan_candle_cake");
     /**
      * BlockData: {@link Lightable}
      */
-    BlockType<Lightable> PURPLE_CANDLE_CAKE = asBlockType(Material.PURPLE_CANDLE_CAKE);
+    public static final BlockType<Lightable> PURPLE_CANDLE_CAKE = getBlockType("purple_candle_cake");
     /**
      * BlockData: {@link Lightable}
      */
-    BlockType<Lightable> BLUE_CANDLE_CAKE = asBlockType(Material.BLUE_CANDLE_CAKE);
+    public static final BlockType<Lightable> BLUE_CANDLE_CAKE = getBlockType("blue_candle_cake");
     /**
      * BlockData: {@link Lightable}
      */
-    BlockType<Lightable> BROWN_CANDLE_CAKE = asBlockType(Material.BROWN_CANDLE_CAKE);
+    public static final BlockType<Lightable> BROWN_CANDLE_CAKE = getBlockType("brown_candle_cake");
     /**
      * BlockData: {@link Lightable}
      */
-    BlockType<Lightable> GREEN_CANDLE_CAKE = asBlockType(Material.GREEN_CANDLE_CAKE);
+    public static final BlockType<Lightable> GREEN_CANDLE_CAKE = getBlockType("green_candle_cake");
     /**
      * BlockData: {@link Lightable}
      */
-    BlockType<Lightable> RED_CANDLE_CAKE = asBlockType(Material.RED_CANDLE_CAKE);
+    public static final BlockType<Lightable> RED_CANDLE_CAKE = getBlockType("red_candle_cake");
     /**
      * BlockData: {@link Lightable}
      */
-    BlockType<Lightable> BLACK_CANDLE_CAKE = asBlockType(Material.BLACK_CANDLE_CAKE);
-    BlockType<BlockData> AMETHYST_BLOCK = asBlockType(Material.AMETHYST_BLOCK);
-    BlockType<BlockData> BUDDING_AMETHYST = asBlockType(Material.BUDDING_AMETHYST);
+    public static final BlockType<Lightable> BLACK_CANDLE_CAKE = getBlockType("black_candle_cake");
+    public static final BlockType<BlockData> AMETHYST_BLOCK = getBlockType("amethyst_block");
+    public static final BlockType<BlockData> BUDDING_AMETHYST = getBlockType("budding_amethyst");
     /**
      * BlockData: {@link AmethystCluster}
      */
-    BlockType<AmethystCluster> AMETHYST_CLUSTER = asBlockType(Material.AMETHYST_CLUSTER);
+    public static final BlockType<AmethystCluster> AMETHYST_CLUSTER = getBlockType("amethyst_cluster");
     /**
      * BlockData: {@link AmethystCluster}
      */
-    BlockType<AmethystCluster> LARGE_AMETHYST_BUD = asBlockType(Material.LARGE_AMETHYST_BUD);
+    public static final BlockType<AmethystCluster> LARGE_AMETHYST_BUD = getBlockType("large_amethyst_bud");
     /**
      * BlockData: {@link AmethystCluster}
      */
-    BlockType<AmethystCluster> MEDIUM_AMETHYST_BUD = asBlockType(Material.MEDIUM_AMETHYST_BUD);
+    public static final BlockType<AmethystCluster> MEDIUM_AMETHYST_BUD = getBlockType("medium_amethyst_bud");
     /**
      * BlockData: {@link AmethystCluster}
      */
-    BlockType<AmethystCluster> SMALL_AMETHYST_BUD = asBlockType(Material.SMALL_AMETHYST_BUD);
-    BlockType<BlockData> TUFF = asBlockType(Material.TUFF);
-    BlockType<BlockData> CALCITE = asBlockType(Material.CALCITE);
-    BlockType<BlockData> TINTED_GLASS = asBlockType(Material.TINTED_GLASS);
-    BlockType<BlockData> POWDER_SNOW = asBlockType(Material.POWDER_SNOW);
+    public static final BlockType<AmethystCluster> SMALL_AMETHYST_BUD = getBlockType("small_amethyst_bud");
+    public static final BlockType<BlockData> TUFF = getBlockType("tuff");
+    public static final BlockType<BlockData> CALCITE = getBlockType("calcite");
+    public static final BlockType<BlockData> TINTED_GLASS = getBlockType("tinted_glass");
+    public static final BlockType<BlockData> POWDER_SNOW = getBlockType("powder_snow");
     /**
      * BlockData: {@link SculkSensor}
      */
-    BlockType<SculkSensor> SCULK_SENSOR = asBlockType(Material.SCULK_SENSOR);
-    BlockType<BlockData> SCULK = asBlockType(Material.SCULK);
+    public static final BlockType<SculkSensor> SCULK_SENSOR = getBlockType("sculk_sensor");
+    public static final BlockType<BlockData> SCULK = getBlockType("sculk");
     /**
      * BlockData: {@link SculkVein}
      */
-    BlockType<SculkVein> SCULK_VEIN = asBlockType(Material.SCULK_VEIN);
+    public static final BlockType<SculkVein> SCULK_VEIN = getBlockType("sculk_vein");
     /**
      * BlockData: {@link SculkCatalyst}
      */
-    BlockType<SculkCatalyst> SCULK_CATALYST = asBlockType(Material.SCULK_CATALYST);
+    public static final BlockType<SculkCatalyst> SCULK_CATALYST = getBlockType("sculk_catalyst");
     /**
      * BlockData: {@link SculkShrieker}
      */
-    BlockType<SculkShrieker> SCULK_SHRIEKER = asBlockType(Material.SCULK_SHRIEKER);
-    BlockType<BlockData> OXIDIZED_COPPER = asBlockType(Material.OXIDIZED_COPPER);
-    BlockType<BlockData> WEATHERED_COPPER = asBlockType(Material.WEATHERED_COPPER);
-    BlockType<BlockData> EXPOSED_COPPER = asBlockType(Material.EXPOSED_COPPER);
-    BlockType<BlockData> COPPER_BLOCK = asBlockType(Material.COPPER_BLOCK);
-    BlockType<BlockData> COPPER_ORE = asBlockType(Material.COPPER_ORE);
-    BlockType<BlockData> DEEPSLATE_COPPER_ORE = asBlockType(Material.DEEPSLATE_COPPER_ORE);
-    BlockType<BlockData> OXIDIZED_CUT_COPPER = asBlockType(Material.OXIDIZED_CUT_COPPER);
-    BlockType<BlockData> WEATHERED_CUT_COPPER = asBlockType(Material.WEATHERED_CUT_COPPER);
-    BlockType<BlockData> EXPOSED_CUT_COPPER = asBlockType(Material.EXPOSED_CUT_COPPER);
-    BlockType<BlockData> CUT_COPPER = asBlockType(Material.CUT_COPPER);
+    public static final BlockType<SculkShrieker> SCULK_SHRIEKER = getBlockType("sculk_shrieker");
+    public static final BlockType<BlockData> OXIDIZED_COPPER = getBlockType("oxidized_copper");
+    public static final BlockType<BlockData> WEATHERED_COPPER = getBlockType("weathered_copper");
+    public static final BlockType<BlockData> EXPOSED_COPPER = getBlockType("exposed_copper");
+    public static final BlockType<BlockData> COPPER_BLOCK = getBlockType("copper_block");
+    public static final BlockType<BlockData> COPPER_ORE = getBlockType("copper_ore");
+    public static final BlockType<BlockData> DEEPSLATE_COPPER_ORE = getBlockType("deepslate_copper_ore");
+    public static final BlockType<BlockData> OXIDIZED_CUT_COPPER = getBlockType("oxidized_cut_copper");
+    public static final BlockType<BlockData> WEATHERED_CUT_COPPER = getBlockType("weathered_cut_copper");
+    public static final BlockType<BlockData> EXPOSED_CUT_COPPER = getBlockType("exposed_cut_copper");
+    public static final BlockType<BlockData> CUT_COPPER = getBlockType("cut_copper");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> OXIDIZED_CUT_COPPER_STAIRS = asBlockType(Material.OXIDIZED_CUT_COPPER_STAIRS);
+    public static final BlockType<Stairs> OXIDIZED_CUT_COPPER_STAIRS = getBlockType("oxidized_cut_copper_stairs");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> WEATHERED_CUT_COPPER_STAIRS = asBlockType(Material.WEATHERED_CUT_COPPER_STAIRS);
+    public static final BlockType<Stairs> WEATHERED_CUT_COPPER_STAIRS = getBlockType("weathered_cut_copper_stairs");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> EXPOSED_CUT_COPPER_STAIRS = asBlockType(Material.EXPOSED_CUT_COPPER_STAIRS);
+    public static final BlockType<Stairs> EXPOSED_CUT_COPPER_STAIRS = getBlockType("exposed_cut_copper_stairs");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> CUT_COPPER_STAIRS = asBlockType(Material.CUT_COPPER_STAIRS);
+    public static final BlockType<Stairs> CUT_COPPER_STAIRS = getBlockType("cut_copper_stairs");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> OXIDIZED_CUT_COPPER_SLAB = asBlockType(Material.OXIDIZED_CUT_COPPER_SLAB);
+    public static final BlockType<Slab> OXIDIZED_CUT_COPPER_SLAB = getBlockType("oxidized_cut_copper_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> WEATHERED_CUT_COPPER_SLAB = asBlockType(Material.WEATHERED_CUT_COPPER_SLAB);
+    public static final BlockType<Slab> WEATHERED_CUT_COPPER_SLAB = getBlockType("weathered_cut_copper_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> EXPOSED_CUT_COPPER_SLAB = asBlockType(Material.EXPOSED_CUT_COPPER_SLAB);
+    public static final BlockType<Slab> EXPOSED_CUT_COPPER_SLAB = getBlockType("exposed_cut_copper_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> CUT_COPPER_SLAB = asBlockType(Material.CUT_COPPER_SLAB);
-    BlockType<BlockData> WAXED_COPPER_BLOCK = asBlockType(Material.WAXED_COPPER_BLOCK);
-    BlockType<BlockData> WAXED_WEATHERED_COPPER = asBlockType(Material.WAXED_WEATHERED_COPPER);
-    BlockType<BlockData> WAXED_EXPOSED_COPPER = asBlockType(Material.WAXED_EXPOSED_COPPER);
-    BlockType<BlockData> WAXED_OXIDIZED_COPPER = asBlockType(Material.WAXED_OXIDIZED_COPPER);
-    BlockType<BlockData> WAXED_OXIDIZED_CUT_COPPER = asBlockType(Material.WAXED_OXIDIZED_CUT_COPPER);
-    BlockType<BlockData> WAXED_WEATHERED_CUT_COPPER = asBlockType(Material.WAXED_WEATHERED_CUT_COPPER);
-    BlockType<BlockData> WAXED_EXPOSED_CUT_COPPER = asBlockType(Material.WAXED_EXPOSED_CUT_COPPER);
-    BlockType<BlockData> WAXED_CUT_COPPER = asBlockType(Material.WAXED_CUT_COPPER);
+    public static final BlockType<Slab> CUT_COPPER_SLAB = getBlockType("cut_copper_slab");
+    public static final BlockType<BlockData> WAXED_COPPER_BLOCK = getBlockType("waxed_copper_block");
+    public static final BlockType<BlockData> WAXED_WEATHERED_COPPER = getBlockType("waxed_weathered_copper");
+    public static final BlockType<BlockData> WAXED_EXPOSED_COPPER = getBlockType("waxed_exposed_copper");
+    public static final BlockType<BlockData> WAXED_OXIDIZED_COPPER = getBlockType("waxed_oxidized_copper");
+    public static final BlockType<BlockData> WAXED_OXIDIZED_CUT_COPPER = getBlockType("waxed_oxidized_cut_copper");
+    public static final BlockType<BlockData> WAXED_WEATHERED_CUT_COPPER = getBlockType("waxed_weathered_cut_copper");
+    public static final BlockType<BlockData> WAXED_EXPOSED_CUT_COPPER = getBlockType("waxed_exposed_cut_copper");
+    public static final BlockType<BlockData> WAXED_CUT_COPPER = getBlockType("waxed_cut_copper");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> WAXED_OXIDIZED_CUT_COPPER_STAIRS = asBlockType(Material.WAXED_OXIDIZED_CUT_COPPER_STAIRS);
+    public static final BlockType<Stairs> WAXED_OXIDIZED_CUT_COPPER_STAIRS = getBlockType("waxed_oxidized_cut_copper_stairs");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> WAXED_WEATHERED_CUT_COPPER_STAIRS = asBlockType(Material.WAXED_WEATHERED_CUT_COPPER_STAIRS);
+    public static final BlockType<Stairs> WAXED_WEATHERED_CUT_COPPER_STAIRS = getBlockType("waxed_weathered_cut_copper_stairs");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> WAXED_EXPOSED_CUT_COPPER_STAIRS = asBlockType(Material.WAXED_EXPOSED_CUT_COPPER_STAIRS);
+    public static final BlockType<Stairs> WAXED_EXPOSED_CUT_COPPER_STAIRS = getBlockType("waxed_exposed_cut_copper_stairs");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> WAXED_CUT_COPPER_STAIRS = asBlockType(Material.WAXED_CUT_COPPER_STAIRS);
+    public static final BlockType<Stairs> WAXED_CUT_COPPER_STAIRS = getBlockType("waxed_cut_copper_stairs");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> WAXED_OXIDIZED_CUT_COPPER_SLAB = asBlockType(Material.WAXED_OXIDIZED_CUT_COPPER_SLAB);
+    public static final BlockType<Slab> WAXED_OXIDIZED_CUT_COPPER_SLAB = getBlockType("waxed_oxidized_cut_copper_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> WAXED_WEATHERED_CUT_COPPER_SLAB = asBlockType(Material.WAXED_WEATHERED_CUT_COPPER_SLAB);
+    public static final BlockType<Slab> WAXED_WEATHERED_CUT_COPPER_SLAB = getBlockType("waxed_weathered_cut_copper_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> WAXED_EXPOSED_CUT_COPPER_SLAB = asBlockType(Material.WAXED_EXPOSED_CUT_COPPER_SLAB);
+    public static final BlockType<Slab> WAXED_EXPOSED_CUT_COPPER_SLAB = getBlockType("waxed_exposed_cut_copper_slab");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> WAXED_CUT_COPPER_SLAB = asBlockType(Material.WAXED_CUT_COPPER_SLAB);
+    public static final BlockType<Slab> WAXED_CUT_COPPER_SLAB = getBlockType("waxed_cut_copper_slab");
     /**
      * BlockData: {@link LightningRod}
      */
-    BlockType<LightningRod> LIGHTNING_ROD = asBlockType(Material.LIGHTNING_ROD);
+    public static final BlockType<LightningRod> LIGHTNING_ROD = getBlockType("lightning_rod");
     /**
      * BlockData: {@link PointedDripstone}
      */
-    BlockType<PointedDripstone> POINTED_DRIPSTONE = asBlockType(Material.POINTED_DRIPSTONE);
-    BlockType<BlockData> DRIPSTONE_BLOCK = asBlockType(Material.DRIPSTONE_BLOCK);
+    public static final BlockType<PointedDripstone> POINTED_DRIPSTONE = getBlockType("pointed_dripstone");
+    public static final BlockType<BlockData> DRIPSTONE_BLOCK = getBlockType("dripstone_block");
     /**
      * BlockData: {@link CaveVines}
      */
-    BlockType<CaveVines> CAVE_VINES = asBlockType(Material.CAVE_VINES);
+    public static final BlockType<CaveVines> CAVE_VINES = getBlockType("cave_vines");
     /**
      * BlockData: {@link CaveVinesPlant}
      */
-    BlockType<CaveVinesPlant> CAVE_VINES_PLANT = asBlockType(Material.CAVE_VINES_PLANT);
-    BlockType<BlockData> SPORE_BLOSSOM = asBlockType(Material.SPORE_BLOSSOM);
-    BlockType<BlockData> AZALEA = asBlockType(Material.AZALEA);
-    BlockType<BlockData> FLOWERING_AZALEA = asBlockType(Material.FLOWERING_AZALEA);
-    BlockType<BlockData> MOSS_CARPET = asBlockType(Material.MOSS_CARPET);
+    public static final BlockType<CaveVinesPlant> CAVE_VINES_PLANT = getBlockType("cave_vines_plant");
+    public static final BlockType<BlockData> SPORE_BLOSSOM = getBlockType("spore_blossom");
+    public static final BlockType<BlockData> AZALEA = getBlockType("azalea");
+    public static final BlockType<BlockData> FLOWERING_AZALEA = getBlockType("flowering_azalea");
+    public static final BlockType<BlockData> MOSS_CARPET = getBlockType("moss_carpet");
     /**
      * BlockData: {@link PinkPetals}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<PinkPetals> PINK_PETALS = asBlockType(Material.PINK_PETALS);
-    BlockType<BlockData> MOSS_BLOCK = asBlockType(Material.MOSS_BLOCK);
+    public static final BlockType<PinkPetals> PINK_PETALS = getBlockType("pink_petals");
+    public static final BlockType<BlockData> MOSS_BLOCK = getBlockType("moss_block");
     /**
      * BlockData: {@link BigDripleaf}
      */
-    BlockType<BigDripleaf> BIG_DRIPLEAF = asBlockType(Material.BIG_DRIPLEAF);
+    public static final BlockType<BigDripleaf> BIG_DRIPLEAF = getBlockType("big_dripleaf");
     /**
      * BlockData: {@link Dripleaf}
      */
-    BlockType<Dripleaf> BIG_DRIPLEAF_STEM = asBlockType(Material.BIG_DRIPLEAF_STEM);
+    public static final BlockType<Dripleaf> BIG_DRIPLEAF_STEM = getBlockType("big_dripleaf_stem");
     /**
      * BlockData: {@link SmallDripleaf}
      */
-    BlockType<SmallDripleaf> SMALL_DRIPLEAF = asBlockType(Material.SMALL_DRIPLEAF);
+    public static final BlockType<SmallDripleaf> SMALL_DRIPLEAF = getBlockType("small_dripleaf");
     /**
      * BlockData: {@link Waterlogged}
      */
-    BlockType<Waterlogged> HANGING_ROOTS = asBlockType(Material.HANGING_ROOTS);
-    BlockType<BlockData> ROOTED_DIRT = asBlockType(Material.ROOTED_DIRT);
-    BlockType<BlockData> MUD = asBlockType(Material.MUD);
+    public static final BlockType<Waterlogged> HANGING_ROOTS = getBlockType("hanging_roots");
+    public static final BlockType<BlockData> ROOTED_DIRT = getBlockType("rooted_dirt");
+    public static final BlockType<BlockData> MUD = getBlockType("mud");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> DEEPSLATE = asBlockType(Material.DEEPSLATE);
-    BlockType<BlockData> COBBLED_DEEPSLATE = asBlockType(Material.COBBLED_DEEPSLATE);
+    public static final BlockType<Orientable> DEEPSLATE = getBlockType("deepslate");
+    public static final BlockType<BlockData> COBBLED_DEEPSLATE = getBlockType("cobbled_deepslate");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> COBBLED_DEEPSLATE_STAIRS = asBlockType(Material.COBBLED_DEEPSLATE_STAIRS);
+    public static final BlockType<Stairs> COBBLED_DEEPSLATE_STAIRS = getBlockType("cobbled_deepslate_stairs");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> COBBLED_DEEPSLATE_SLAB = asBlockType(Material.COBBLED_DEEPSLATE_SLAB);
+    public static final BlockType<Slab> COBBLED_DEEPSLATE_SLAB = getBlockType("cobbled_deepslate_slab");
     /**
      * BlockData: {@link Wall}
      */
-    BlockType<Wall> COBBLED_DEEPSLATE_WALL = asBlockType(Material.COBBLED_DEEPSLATE_WALL);
-    BlockType<BlockData> POLISHED_DEEPSLATE = asBlockType(Material.POLISHED_DEEPSLATE);
+    public static final BlockType<Wall> COBBLED_DEEPSLATE_WALL = getBlockType("cobbled_deepslate_wall");
+    public static final BlockType<BlockData> POLISHED_DEEPSLATE = getBlockType("polished_deepslate");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> POLISHED_DEEPSLATE_STAIRS = asBlockType(Material.POLISHED_DEEPSLATE_STAIRS);
+    public static final BlockType<Stairs> POLISHED_DEEPSLATE_STAIRS = getBlockType("polished_deepslate_stairs");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> POLISHED_DEEPSLATE_SLAB = asBlockType(Material.POLISHED_DEEPSLATE_SLAB);
+    public static final BlockType<Slab> POLISHED_DEEPSLATE_SLAB = getBlockType("polished_deepslate_slab");
     /**
      * BlockData: {@link Wall}
      */
-    BlockType<Wall> POLISHED_DEEPSLATE_WALL = asBlockType(Material.POLISHED_DEEPSLATE_WALL);
-    BlockType<BlockData> DEEPSLATE_TILES = asBlockType(Material.DEEPSLATE_TILES);
+    public static final BlockType<Wall> POLISHED_DEEPSLATE_WALL = getBlockType("polished_deepslate_wall");
+    public static final BlockType<BlockData> DEEPSLATE_TILES = getBlockType("deepslate_tiles");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> DEEPSLATE_TILE_STAIRS = asBlockType(Material.DEEPSLATE_TILE_STAIRS);
+    public static final BlockType<Stairs> DEEPSLATE_TILE_STAIRS = getBlockType("deepslate_tile_stairs");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> DEEPSLATE_TILE_SLAB = asBlockType(Material.DEEPSLATE_TILE_SLAB);
+    public static final BlockType<Slab> DEEPSLATE_TILE_SLAB = getBlockType("deepslate_tile_slab");
     /**
      * BlockData: {@link Wall}
      */
-    BlockType<Wall> DEEPSLATE_TILE_WALL = asBlockType(Material.DEEPSLATE_TILE_WALL);
-    BlockType<BlockData> DEEPSLATE_BRICKS = asBlockType(Material.DEEPSLATE_BRICKS);
+    public static final BlockType<Wall> DEEPSLATE_TILE_WALL = getBlockType("deepslate_tile_wall");
+    public static final BlockType<BlockData> DEEPSLATE_BRICKS = getBlockType("deepslate_bricks");
     /**
      * BlockData: {@link Stairs}
      */
-    BlockType<Stairs> DEEPSLATE_BRICK_STAIRS = asBlockType(Material.DEEPSLATE_BRICK_STAIRS);
+    public static final BlockType<Stairs> DEEPSLATE_BRICK_STAIRS = getBlockType("deepslate_brick_stairs");
     /**
      * BlockData: {@link Slab}
      */
-    BlockType<Slab> DEEPSLATE_BRICK_SLAB = asBlockType(Material.DEEPSLATE_BRICK_SLAB);
+    public static final BlockType<Slab> DEEPSLATE_BRICK_SLAB = getBlockType("deepslate_brick_slab");
     /**
      * BlockData: {@link Wall}
      */
-    BlockType<Wall> DEEPSLATE_BRICK_WALL = asBlockType(Material.DEEPSLATE_BRICK_WALL);
-    BlockType<BlockData> CHISELED_DEEPSLATE = asBlockType(Material.CHISELED_DEEPSLATE);
-    BlockType<BlockData> CRACKED_DEEPSLATE_BRICKS = asBlockType(Material.CRACKED_DEEPSLATE_BRICKS);
-    BlockType<BlockData> CRACKED_DEEPSLATE_TILES = asBlockType(Material.CRACKED_DEEPSLATE_TILES);
+    public static final BlockType<Wall> DEEPSLATE_BRICK_WALL = getBlockType("deepslate_brick_wall");
+    public static final BlockType<BlockData> CHISELED_DEEPSLATE = getBlockType("chiseled_deepslate");
+    public static final BlockType<BlockData> CRACKED_DEEPSLATE_BRICKS = getBlockType("cracked_deepslate_bricks");
+    public static final BlockType<BlockData> CRACKED_DEEPSLATE_TILES = getBlockType("cracked_deepslate_tiles");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> INFESTED_DEEPSLATE = asBlockType(Material.INFESTED_DEEPSLATE);
-    BlockType<BlockData> SMOOTH_BASALT = asBlockType(Material.SMOOTH_BASALT);
-    BlockType<BlockData> RAW_IRON_BLOCK = asBlockType(Material.RAW_IRON_BLOCK);
-    BlockType<BlockData> RAW_COPPER_BLOCK = asBlockType(Material.RAW_COPPER_BLOCK);
-    BlockType<BlockData> RAW_GOLD_BLOCK = asBlockType(Material.RAW_GOLD_BLOCK);
-    BlockType<BlockData> POTTED_AZALEA_BUSH = asBlockType(Material.POTTED_AZALEA_BUSH);
-    BlockType<BlockData> POTTED_FLOWERING_AZALEA_BUSH = asBlockType(Material.POTTED_FLOWERING_AZALEA_BUSH);
+    public static final BlockType<Orientable> INFESTED_DEEPSLATE = getBlockType("infested_deepslate");
+    public static final BlockType<BlockData> SMOOTH_BASALT = getBlockType("smooth_basalt");
+    public static final BlockType<BlockData> RAW_IRON_BLOCK = getBlockType("raw_iron_block");
+    public static final BlockType<BlockData> RAW_COPPER_BLOCK = getBlockType("raw_copper_block");
+    public static final BlockType<BlockData> RAW_GOLD_BLOCK = getBlockType("raw_gold_block");
+    public static final BlockType<BlockData> POTTED_AZALEA_BUSH = getBlockType("potted_azalea_bush");
+    public static final BlockType<BlockData> POTTED_FLOWERING_AZALEA_BUSH = getBlockType("potted_flowering_azalea_bush");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> OCHRE_FROGLIGHT = asBlockType(Material.OCHRE_FROGLIGHT);
+    public static final BlockType<Orientable> OCHRE_FROGLIGHT = getBlockType("ochre_froglight");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> VERDANT_FROGLIGHT = asBlockType(Material.VERDANT_FROGLIGHT);
+    public static final BlockType<Orientable> VERDANT_FROGLIGHT = getBlockType("verdant_froglight");
     /**
      * BlockData: {@link Orientable}
      */
-    BlockType<Orientable> PEARLESCENT_FROGLIGHT = asBlockType(Material.PEARLESCENT_FROGLIGHT);
-    BlockType<BlockData> FROGSPAWN = asBlockType(Material.FROGSPAWN);
-    BlockType<BlockData> REINFORCED_DEEPSLATE = asBlockType(Material.REINFORCED_DEEPSLATE);
+    public static final BlockType<Orientable> PEARLESCENT_FROGLIGHT = getBlockType("pearlescent_froglight");
+    public static final BlockType<BlockData> FROGSPAWN = getBlockType("frogspawn");
+    public static final BlockType<BlockData> REINFORCED_DEEPSLATE = getBlockType("reinforced_deepslate");
     /**
      * BlockData: {@link DecoratedPot}
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    BlockType<DecoratedPot> DECORATED_POT = asBlockType(Material.DECORATED_POT);
+    public static final BlockType<DecoratedPot> DECORATED_POT = getBlockType("decorated_pot");
     //</editor-fold>
 
-    @Contract("null -> null; !null -> !null")
-    @Nullable
-    static <B extends BlockData> BlockType<B> asBlockType(@Nullable Material material) {
-        if (material == null) {
-            return null;
-        }
-
-        return (BlockType<B>) material.asBlockType();
+    @NotNull
+    private static <B extends BlockData> BlockType<B> getBlockType(@NotNull String key) {
+        NamespacedKey namespacedKey = NamespacedKey.minecraft(key);
+        BlockType<?> blockType = Registry.BLOCK_TYPE.get(namespacedKey);
+        Preconditions.checkNotNull(blockType, "No BlockType found for %s. This is a bug.", namespacedKey);
+        return (BlockType<B>) blockType;
     }
+
+    /**
+     * Returns true if this BlockType has a corresponding {@link ItemType}.
+     * <p>
+     * Where corresponding means, that they have the same {@link NamespacedKey}
+     * returned by {@link #getKey()}.
+     *
+     * @return true if there is a ItemType with the same key, otherwise false
+     * @see #getItemType()
+     */
+    public abstract boolean hasItemType();
+
+    /**
+     * Returns the corresponding {@link ItemType} for the given BlockType.
+     * <p>
+     * Where corresponding means, that they have the same {@link NamespacedKey}
+     * returned by {@link #getKey()}.
+     * <p>
+     * If there is no corresponding {@link ItemType} an error will be thrown.
+     *
+     * @return the corresponding ItemType
+     * @see #hasItemType()
+     * @see BlockData#getPlacementType()
+     */
+    @NotNull
+    public abstract ItemType getItemType();
 
     /**
      * Gets the BlockData class of this BlockType
@@ -3145,29 +3173,29 @@ public interface BlockType<B extends BlockData> extends Material {
      * @return the BlockData class of this BlockType
      */
     @NotNull
-    Class<B> getBlockDataClass();
+    public abstract Class<B> getBlockDataClass();
 
     /**
-     * Creates a new {@link BlockData} instance for this Material, with all
+     * Creates a new {@link BlockData} instance for this block type, with all
      * properties initialized to unspecified defaults.
      *
      * @return new data instance
      */
     @NotNull
-    B createBlockData();
+    public abstract B createBlockData();
 
     /**
-     * Creates a new {@link BlockData} instance for this Material, with
+     * Creates a new {@link BlockData} instance for this block type, with
      * all properties initialized to unspecified defaults.
      *
      * @param consumer consumer to run on new instance before returning
      * @return new data instance
      */
     @NotNull
-    B createBlockData(@Nullable Consumer<BlockData> consumer);
+    public abstract B createBlockData(@Nullable Consumer<B> consumer);
 
     /**
-     * Creates a new {@link BlockData} instance for this Material, with all
+     * Creates a new {@link BlockData} instance for this block type, with all
      * properties initialized to unspecified defaults, except for those provided
      * in data.
      *
@@ -3176,31 +3204,31 @@ public interface BlockType<B extends BlockData> extends Material {
      * @throws IllegalArgumentException if the specified data is not valid
      */
     @NotNull
-    B createBlockData(@Nullable String data);
+    public abstract B createBlockData(@Nullable String data);
 
     /**
-     * Check if the material is a block and solid (can be built upon)
+     * Check if the blockt type is solid (can be built upon)
      *
-     * @return True if this material is a block and solid
+     * @return True if this block type is solid
      */
-    boolean isSolid();
+    public abstract boolean isSolid();
 
     /**
-     * Check if the material is a block and can catch fire
+     * Check if the block type can catch fire
      *
-     * @return True if this material is a block and can catch fire
+     * @return True if this block type can catch fire
      */
-    boolean isFlammable();
+    public abstract boolean isFlammable();
 
     /**
-     * Check if the material is a block and can burn away
+     * Check if the block type can burn away
      *
-     * @return True if this material is a block and can burn away
+     * @return True if this block type can burn away
      */
-    boolean isBurnable();
+    public abstract boolean isBurnable();
 
     /**
-     * Check if the material is a block and occludes light in the lighting engine.
+     * Check if the block type is occludes light in the lighting engine.
      * <p>
      * Generally speaking, most full blocks will occlude light. Non-full blocks are
      * not occluding (e.g. anvils, chests, tall grass, stairs, etc.), nor are specific
@@ -3215,77 +3243,68 @@ public interface BlockType<B extends BlockData> extends Material {
      * This list may be inconclusive. For a full list of the side effects of an occluding
      * block, see the <a href="https://minecraft.fandom.com/wiki/Opacity">Minecraft Wiki</a>.
      *
-     * @return True if this material is a block and occludes light
+     * @return True if this block type occludes light
      */
-    boolean isOccluding();
+    public abstract boolean isOccluding();
 
     /**
-     * @return True if this material is affected by gravity.
+     * @return True if this block type is affected by gravity.
      */
-    boolean hasGravity();
+    public abstract boolean hasGravity();
 
     /**
-     * Checks if this Material can be interacted with.
+     * Checks if this block type can be interacted with.
      * <p>
-     * Interactable materials include those with functionality when they are
+     * Interactable block types include those with functionality when they are
      * interacted with by a player such as chests, furnaces, etc.
      * <p>
      * Some blocks such as piston heads and stairs are considered interactable
      * though may not perform any additional functionality.
      * <p>
-     * Note that the interactability of some materials may be dependant on their
+     * Note that the interactability of some block types may be dependant on their
      * state as well. This method will return true if there is at least one
      * state in which additional interact handling is performed for the
-     * material.
+     * block type.
      *
-     * @return true if this material can be interacted with.
+     * @return true if this block type can be interacted with.
      */
-    boolean isInteractable();
+    public abstract boolean isInteractable();
 
     /**
      * Obtains the block's hardness level (also known as "strength").
      * <br>
      * This number is used to calculate the time required to break each block.
-     * <br>
-     * Only available when {@link #isBlock()} is true.
      *
-     * @return the hardness of that material.
+     * @return the hardness of that block type.
      */
-    float getHardness();
+    public abstract float getHardness();
 
     /**
      * Obtains the blast resistance value (also known as block "durability").
      * <br>
      * This value is used in explosions to calculate whether a block should be
      * broken or not.
-     * <br>
-     * Only available when {@link #isBlock()} is true.
      *
-     * @return the blast resistance of that material.
+     * @return the blast resistance of that block type.
      */
-    float getBlastResistance();
+    public abstract float getBlastResistance();
 
     /**
      * Returns a value that represents how 'slippery' the block is.
      * <p>
-     * Blocks with higher slipperiness, like {@link Material#ICE} can be slid on
+     * Blocks with higher slipperiness, like {@link BlockType#ICE} can be slid on
      * further by the player and other entities.
      * <p>
      * Most blocks have a default slipperiness of {@code 0.6f}.
-     * <p>
-     * Only available when {@link #isBlock()} is true.
      *
      * @return the slipperiness of this block
      */
-    float getSlipperiness();
+    public abstract float getSlipperiness();
 
     /**
-     * Get the translation key of the block associated with this material, or
-     * null if this material does not have an associated block.
+     * Check if the block type is an air block.
      *
-     * @return the translation key of the block associated with this material,
-     * or null if this material does not have an associated block
+     * @return True if this block type is an air block.
      */
-    @Nullable
-    String getBlockTranslationKey();
+    public abstract boolean isAir();
 }

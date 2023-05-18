@@ -1,8 +1,8 @@
 package org.bukkit.event.block;
 
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockType;
 import org.bukkit.event.Cancellable;
 import org.jetbrains.annotations.NotNull;
 
@@ -34,7 +34,7 @@ public abstract class BlockPistonEvent extends BlockEvent implements Cancellable
      * @return stickiness of the piston
      */
     public boolean isSticky() {
-        return block.getType() == Material.STICKY_PISTON || block.getType() == Material.MOVING_PISTON;
+        return block.getType() == BlockType.STICKY_PISTON || block.getType() == BlockType.MOVING_PISTON;
     }
 
     /**

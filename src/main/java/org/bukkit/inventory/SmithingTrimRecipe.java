@@ -1,6 +1,5 @@
 package org.bukkit.inventory;
 
-import org.bukkit.Material;
 import org.bukkit.MinecraftExperimental;
 import org.bukkit.NamespacedKey;
 import org.jetbrains.annotations.ApiStatus;
@@ -27,7 +26,7 @@ public class SmithingTrimRecipe extends SmithingRecipe implements ComplexRecipe 
      * @param addition The addition ingredient
      */
     public SmithingTrimRecipe(@NotNull NamespacedKey key, @NotNull RecipeChoice template, @NotNull RecipeChoice base, @NotNull RecipeChoice addition) {
-        super(key, new ItemStack(Material.AIR), base, addition);
+        super(key, new ItemStack(ItemType.AIR), base, addition);
         this.template = template;
     }
 

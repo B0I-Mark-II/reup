@@ -1,8 +1,8 @@
 package org.bukkit.entity;
 
 import java.util.UUID;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -68,9 +68,9 @@ public interface Animals extends Breedable {
      * Check if the provided ItemStack is the correct item used for breeding
      * this entity..
      *
-     * @param material Material to check.
+     * @param itemType ItemType to check.
      * @return if the provided ItemStack is the correct food item for this
      * entity.
      */
-    boolean isBreedItem(@NotNull Material material);
+    boolean isBreedItem(@NotNull ItemType itemType);
 }

@@ -171,12 +171,12 @@ public abstract class Statistic extends OldEnum<Statistic> implements Keyed {
         UNTYPED,
 
         /**
-         * Statistics of this type require an Item Material qualifier.
+         * Statistics of this type require an Item type qualifier.
          */
         ITEM,
 
         /**
-         * Statistics of this type require a Block Material qualifier.
+         * Statistics of this type require a Block type qualifier.
          */
         BLOCK,
 

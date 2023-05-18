@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import org.bukkit.Keyed;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.bukkit.material.MaterialData;
@@ -25,7 +24,7 @@ public class ShapelessRecipe implements Recipe, Keyed {
 
     @Deprecated
     public ShapelessRecipe(@NotNull ItemStack result) {
-        Preconditions.checkArgument(result.getType() != Material.AIR, "Recipe must have non-AIR result.");
+        Preconditions.checkArgument(result.getType() != ItemType.AIR, "Recipe must have non-AIR result.");
         this.key = NamespacedKey.randomKey();
         this.output = new ItemStack(result);
     }
@@ -37,15 +36,13 @@ public class ShapelessRecipe implements Recipe, Keyed {
      *
      * @param key the unique recipe key
      * @param result The item you want the recipe to create.
-     * @see ShapelessRecipe#addIngredient(Material)
+     * @see ShapelessRecipe#addIngredient(ItemType)
      * @see ShapelessRecipe#addIngredient(MaterialData)
-     * @see ShapelessRecipe#addIngredient(Material,int)
-     * @see ShapelessRecipe#addIngredient(int,Material)
+     * @see ShapelessRecipe#addIngredient(int,ItemType)
      * @see ShapelessRecipe#addIngredient(int,MaterialData)
-     * @see ShapelessRecipe#addIngredient(int,Material,int)
      */
     public ShapelessRecipe(@NotNull NamespacedKey key, @NotNull ItemStack result) {
-        Preconditions.checkArgument(result.getType() != Material.AIR, "Recipe must have non-AIR result.");
+        Preconditions.checkArgument(result.getType() != ItemType.AIR, "Recipe must have non-AIR result.");
         this.key = key;
         this.output = new ItemStack(result);
     }
@@ -68,22 +65,8 @@ public class ShapelessRecipe implements Recipe, Keyed {
      * @return The changed recipe, so you can chain calls.
      */
     @NotNull
-    public ShapelessRecipe addIngredient(@NotNull Material ingredient) {
-        return addIngredient(1, ingredient, 0);
-    }
-
-    /**
-     * Adds the specified ingredient.
-     *
-     * @param ingredient The ingredient to add.
-     * @param rawdata The data value, or -1 to allow any data value.
-     * @return The changed recipe, so you can chain calls.
-     * @deprecated Magic value
-     */
-    @Deprecated
-    @NotNull
-    public ShapelessRecipe addIngredient(@NotNull Material ingredient, int rawdata) {
-        return addIngredient(1, ingredient, rawdata);
+    public ShapelessRecipe addIngredient(@NotNull ItemType ingredient) {
+        return addIngredient(1, ingredient);
     }
 
     /**
@@ -95,7 +78,7 @@ public class ShapelessRecipe implements Recipe, Keyed {
      */
     @NotNull
     public ShapelessRecipe addIngredient(int count, @NotNull MaterialData ingredient) {
-        return addIngredient(count, ingredient.getItemType(), ingredient.getData());
+        return addIngredient(count, ingredient.getItemType().asItemType());
     }
 
     /**
@@ -106,31 +89,11 @@ public class ShapelessRecipe implements Recipe, Keyed {
      * @return The changed recipe, so you can chain calls.
      */
     @NotNull
-    public ShapelessRecipe addIngredient(int count, @NotNull Material ingredient) {
-        return addIngredient(count, ingredient, 0);
-    }
-
-    /**
-     * Adds multiples of the specified ingredient.
-     *
-     * @param count How many to add (can't be more than 9!)
-     * @param ingredient The ingredient to add.
-     * @param rawdata The data value, or -1 to allow any data value.
-     * @return The changed recipe, so you can chain calls.
-     * @deprecated Magic value
-     */
-    @Deprecated
-    @NotNull
-    public ShapelessRecipe addIngredient(int count, @NotNull Material ingredient, int rawdata) {
+    public ShapelessRecipe addIngredient(int count, @NotNull ItemType ingredient) {
         Preconditions.checkArgument(ingredients.size() + count <= 9, "Shapeless recipes cannot have more than 9 ingredients");
 
-        // -1 is the old wildcard, map to Short.MAX_VALUE as the new one
-        if (rawdata == -1) {
-            rawdata = Short.MAX_VALUE;
-        }
-
         while (count-- > 0) {
-            ingredients.add(new RecipeChoice.MaterialChoice(Collections.singletonList(ingredient)));
+            ingredients.add(new RecipeChoice.ItemTypeChoice(Collections.singletonList(ingredient)));
         }
         return this;
     }
@@ -165,8 +128,8 @@ public class ShapelessRecipe implements Recipe, Keyed {
      * @return The changed recipe.
      */
     @NotNull
-    public ShapelessRecipe removeIngredient(@NotNull Material ingredient) {
-        return removeIngredient(ingredient, 0);
+    public ShapelessRecipe removeIngredient(@NotNull ItemType ingredient) {
+        return removeIngredient(1, ingredient);
     }
 
     /**
@@ -179,7 +142,7 @@ public class ShapelessRecipe implements Recipe, Keyed {
      */
     @NotNull
     public ShapelessRecipe removeIngredient(@NotNull MaterialData ingredient) {
-        return removeIngredient(ingredient.getItemType(), ingredient.getData());
+        return removeIngredient(ingredient.getItemType().asItemType());
     }
 
     /**
@@ -192,8 +155,16 @@ public class ShapelessRecipe implements Recipe, Keyed {
      * @return The changed recipe.
      */
     @NotNull
-    public ShapelessRecipe removeIngredient(int count, @NotNull Material ingredient) {
-        return removeIngredient(count, ingredient, 0);
+    public ShapelessRecipe removeIngredient(int count, @NotNull ItemType ingredient) {
+        Iterator<RecipeChoice> iterator = ingredients.iterator();
+        while (count > 0 && iterator.hasNext()) {
+            ItemStack stack = iterator.next().getItemStack();
+            if (stack.getType() == ingredient) {
+                iterator.remove();
+                count--;
+            }
+        }
+        return this;
     }
 
     /**
@@ -207,48 +178,7 @@ public class ShapelessRecipe implements Recipe, Keyed {
      */
     @NotNull
     public ShapelessRecipe removeIngredient(int count, @NotNull MaterialData ingredient) {
-        return removeIngredient(count, ingredient.getItemType(), ingredient.getData());
-    }
-
-    /**
-     * Removes an ingredient from the list. If the ingredient occurs multiple
-     * times, only one instance of it is removed. If the data value is -1,
-     * only ingredients with a -1 data value will be removed.
-     *
-     * @param ingredient The ingredient to remove
-     * @param rawdata The data value;
-     * @return The changed recipe.
-     * @deprecated Magic value
-     */
-    @Deprecated
-    @NotNull
-    public ShapelessRecipe removeIngredient(@NotNull Material ingredient, int rawdata) {
-        return removeIngredient(1, ingredient, rawdata);
-    }
-
-    /**
-     * Removes multiple instances of an ingredient from the list. If there are
-     * less instances then specified, all will be removed. If the data value
-     * is -1, only ingredients with a -1 data value will be removed.
-     *
-     * @param count The number of copies to remove.
-     * @param ingredient The ingredient to remove.
-     * @param rawdata The data value.
-     * @return The changed recipe.
-     * @deprecated Magic value
-     */
-    @Deprecated
-    @NotNull
-    public ShapelessRecipe removeIngredient(int count, @NotNull Material ingredient, int rawdata) {
-        Iterator<RecipeChoice> iterator = ingredients.iterator();
-        while (count > 0 && iterator.hasNext()) {
-            ItemStack stack = iterator.next().getItemStack();
-            if (stack.getType() == ingredient && stack.getDurability() == rawdata) {
-                iterator.remove();
-                count--;
-            }
-        }
-        return this;
+        return removeIngredient(count, ingredient.getItemType().asItemType());
     }
 
     /**

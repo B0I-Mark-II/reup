@@ -1,6 +1,5 @@
 package org.bukkit.event.player;
 
-import org.bukkit.Material;
 import org.bukkit.Warning;
 import org.bukkit.entity.Fish;
 import org.bukkit.entity.Player;
@@ -35,7 +34,7 @@ public class PlayerBucketFishEvent extends PlayerBucketEntityEvent {
     /**
      * Gets the bucket used.
      *
-     * This refers to the bucket clicked with, ie {@link Material#WATER_BUCKET}.
+     * This refers to the bucket clicked with, ie {@link org.bukkit.inventory.ItemType#WATER_BUCKET}.
      *
      * @return The used bucket
      * @deprecated Use {@link #getOriginalBucket()}
@@ -50,7 +49,7 @@ public class PlayerBucketFishEvent extends PlayerBucketEntityEvent {
      * Gets the bucket that the fish will be put into.
      *
      * This refers to the bucket with the fish, ie
-     * {@link Material#PUFFERFISH_BUCKET}.
+     * {@link org.bukkit.inventory.ItemType#PUFFERFISH_BUCKET}.
      *
      * @return The bucket that the fish will be put into
      * @deprecated Use {@link #getEntityBucket()}

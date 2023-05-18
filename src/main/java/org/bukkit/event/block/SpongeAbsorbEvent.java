@@ -1,9 +1,9 @@
 package org.bukkit.event.block;
 
 import java.util.List;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.BlockType;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
@@ -32,7 +32,7 @@ public class SpongeAbsorbEvent extends BlockEvent implements Cancellable {
      * Get a list of all blocks to be removed by the sponge.
      * <br>
      * This list is mutable and contains the blocks in their removed state, i.e.
-     * having a type of {@link Material#AIR}.
+     * having a type of {@link BlockType#AIR}.
      *
      * @return list of the to be removed blocks.
      */

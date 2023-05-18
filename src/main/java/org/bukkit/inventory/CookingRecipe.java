@@ -30,8 +30,13 @@ public abstract class CookingRecipe<T extends CookingRecipe> implements Recipe, 
      * @param experience The experience given by this recipe
      * @param cookingTime The cooking time (in ticks)
      */
+    public CookingRecipe(@NotNull NamespacedKey key, @NotNull ItemStack result, @NotNull ItemType source, float experience, int cookingTime) {
+        this(key, result, new RecipeChoice.ItemTypeChoice(Collections.singletonList(source)), experience, cookingTime);
+    }
+
+    @Deprecated
     public CookingRecipe(@NotNull NamespacedKey key, @NotNull ItemStack result, @NotNull Material source, float experience, int cookingTime) {
-        this(key, result, new RecipeChoice.MaterialChoice(Collections.singletonList(source)), experience, cookingTime);
+        this(key, result, source.asItemType(), experience, cookingTime);
     }
 
     /**
@@ -44,7 +49,7 @@ public abstract class CookingRecipe<T extends CookingRecipe> implements Recipe, 
      * @param cookingTime The cooking time (in ticks)
      */
     public CookingRecipe(@NotNull NamespacedKey key, @NotNull ItemStack result, @NotNull RecipeChoice input, float experience, int cookingTime) {
-        Preconditions.checkArgument(result.getType() != Material.AIR, "Recipe must have non-AIR result.");
+        Preconditions.checkArgument(result.getType() != ItemType.AIR, "Recipe must have non-AIR result.");
         this.key = key;
         this.output = new ItemStack(result);
         this.ingredient = input;
@@ -59,8 +64,8 @@ public abstract class CookingRecipe<T extends CookingRecipe> implements Recipe, 
      * @return The changed recipe, so you can chain calls.
      */
     @NotNull
-    public CookingRecipe setInput(@NotNull Material input) {
-        this.ingredient = new RecipeChoice.MaterialChoice(Collections.singletonList(input));
+    public CookingRecipe setInput(@NotNull ItemType input) {
+        this.ingredient = new RecipeChoice.ItemTypeChoice(Collections.singletonList(input));
         return this;
     }
 

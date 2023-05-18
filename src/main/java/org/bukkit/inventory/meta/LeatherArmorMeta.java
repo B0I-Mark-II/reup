@@ -1,15 +1,15 @@
 package org.bukkit.inventory.meta;
 
 import org.bukkit.Color;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemFactory;
+import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Represents leather armor ({@link Material#LEATHER_BOOTS}, {@link
- * Material#LEATHER_CHESTPLATE}, {@link Material#LEATHER_HELMET}, or {@link
- * Material#LEATHER_LEGGINGS}) that can be colored.
+ * Represents leather armor ({@link ItemType#LEATHER_BOOTS}, {@link
+ * ItemType#LEATHER_CHESTPLATE}, {@link ItemType#LEATHER_HELMET}, or {@link
+ * ItemType#LEATHER_LEGGINGS}) that can be colored.
  */
 public interface LeatherArmorMeta extends ItemMeta {
 

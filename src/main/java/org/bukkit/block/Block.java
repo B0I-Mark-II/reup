@@ -99,7 +99,7 @@ public interface Block extends Metadatable, Translatable {
      * @return block type
      */
     @NotNull
-    Material getType();
+    BlockType<?> getType();
 
     /**
      * Gets the light level between 0-15
@@ -218,7 +218,7 @@ public interface Block extends Metadatable, Translatable {
      *
      * @param type Material to change this block to
      */
-    void setType(@NotNull Material type);
+    void setType(@NotNull BlockType<?> type);
 
     /**
      * Sets the type of this block
@@ -236,10 +236,10 @@ public interface Block extends Metadatable, Translatable {
      * triggered at a later point. If this occurs, the resulting behavior is
      * undefined.
      *
-     * @param type Material to change this block to
+     * @param type Block type to change this block to
      * @param applyPhysics False to cancel physics on the changed block.
      */
-    void setType(@NotNull Material type, boolean applyPhysics);
+    void setType(@NotNull BlockType<?> type, boolean applyPhysics);
 
     /**
      * Gets the face relation of this block compared to the given block.

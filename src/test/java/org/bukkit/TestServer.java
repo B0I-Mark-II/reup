@@ -57,14 +57,6 @@ public final class TestServer {
 
             UnsafeValues unsafeValues = Mockito.mock(Mockito.withSettings().stubOnly());
 
-            Mockito.when(unsafeValues.createLegacyMaterial(Mockito.any(), Mockito.anyInt(), Mockito.anyInt(), Mockito.anyShort(), Mockito.any())).then(new Answer<Object>() {
-                Map<String, Material> materials = new HashMap<>();
-                @Override
-                public Object answer(InvocationOnMock invocationOnMock) {
-                    return materials.computeIfAbsent(invocationOnMock.getArgument(0), name -> Mockito.mock(Material.class, Mockito.withSettings().name(name).stubOnly()));
-                }
-            });
-
             Mockito.when(instance.getUnsafe()).then(mock -> unsafeValues);
 
             Bukkit.setServer(instance);

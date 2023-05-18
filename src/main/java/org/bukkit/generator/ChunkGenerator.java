@@ -6,10 +6,10 @@ import java.util.Random;
 import org.bukkit.Bukkit;
 import org.bukkit.HeightMap;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockType;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.material.MaterialData;
 import org.jetbrains.annotations.NotNull;
@@ -321,10 +321,10 @@ public abstract class ChunkGenerator {
         case NETHER:
             return true;
         case THE_END:
-            return highest.getType() != Material.AIR && highest.getType() != Material.WATER && highest.getType() != Material.LAVA;
+            return highest.getType() != BlockType.AIR && highest.getType() != BlockType.WATER && highest.getType() != BlockType.LAVA;
         case NORMAL:
         default:
-            return highest.getType() == Material.SAND || highest.getType() == Material.GRAVEL;
+            return highest.getType() == BlockType.SAND || highest.getType() == BlockType.GRAVEL;
         }
     }
 
@@ -636,16 +636,16 @@ public abstract class ChunkGenerator {
         public Biome getBiome(int x, int y, int z);
 
         /**
-         * Set the block at x,y,z in the chunk data to material.
+         * Set the block at x,y,z in the chunk data to the given block type.
          *
          * Note: setting blocks outside the chunk's bounds does nothing.
          *
          * @param x the x location in the chunk from 0-15 inclusive
          * @param y the y location in the chunk from minHeight (inclusive) - maxHeight (exclusive)
          * @param z the z location in the chunk from 0-15 inclusive
-         * @param material the type to set the block to
+         * @param blockType the type to set the block to
          */
-        public void setBlock(int x, int y, int z, @NotNull Material material);
+        public void setBlock(int x, int y, int z, @NotNull BlockType<?> blockType);
 
         /**
          * Set the block at x,y,z in the chunk data to material.
@@ -673,7 +673,7 @@ public abstract class ChunkGenerator {
 
         /**
          * Set a region of this chunk from xMin, yMin, zMin (inclusive)
-         * to xMax, yMax, zMax (exclusive) to material.
+         * to xMax, yMax, zMax (exclusive) to the given block type.
          *
          * Setting blocks outside the chunk's bounds does nothing.
          *
@@ -683,9 +683,9 @@ public abstract class ChunkGenerator {
          * @param xMax maximum x location (exclusive) in the chunk to set
          * @param yMax maximum y location (exclusive) in the chunk to set
          * @param zMax maximum z location (exclusive) in the chunk to set
-         * @param material the type to set the blocks to
+         * @param blockType the type to set the blocks to
          */
-        public void setRegion(int xMin, int yMin, int zMin, int xMax, int yMax, int zMax, @NotNull Material material);
+        public void setRegion(int xMin, int yMin, int zMin, int xMax, int yMax, int zMax, @NotNull BlockType<?> blockType);
 
         /**
          * Set a region of this chunk from xMin, yMin, zMin (inclusive)
@@ -727,10 +727,10 @@ public abstract class ChunkGenerator {
          * @param x the x location in the chunk from 0-15 inclusive
          * @param y the y location in the chunk from minHeight (inclusive) - maxHeight (exclusive)
          * @param z the z location in the chunk from 0-15 inclusive
-         * @return the type of the block or Material.AIR if x, y or z are outside the chunk's bounds
+         * @return the type of the block or BlockType.AIR if x, y or z are outside the chunk's bounds
          */
         @NotNull
-        public Material getType(int x, int y, int z);
+        public BlockType<?> getType(int x, int y, int z);
 
         /**
          * Get the type and data of the block at x, y, z.

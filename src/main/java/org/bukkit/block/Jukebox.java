@@ -1,8 +1,8 @@
 package org.bukkit.block;
 
-import org.bukkit.Material;
 import org.bukkit.inventory.BlockInventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ItemType;
 import org.bukkit.inventory.JukeboxInventory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -15,17 +15,17 @@ public interface Jukebox extends TileState, BlockInventoryHolder {
     /**
      * Gets the record inserted into the jukebox.
      *
-     * @return The record Material, or AIR if none is inserted
+     * @return The record ItemType, or AIR if none is inserted
      */
     @NotNull
-    public Material getPlaying();
+    public ItemType getPlaying();
 
     /**
      * Sets the record being played.
      *
-     * @param record The record Material, or null/AIR to stop playing
+     * @param record The record ItemType, or null/AIR to stop playing
      */
-    public void setPlaying(@Nullable Material record);
+    public void setPlaying(@Nullable ItemType record);
 
     /**
      * Gets whether or not this jukebox has a record.

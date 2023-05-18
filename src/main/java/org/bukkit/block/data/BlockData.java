@@ -1,28 +1,29 @@
 package org.bukkit.block.data;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.SoundGroup;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockSupport;
+import org.bukkit.block.BlockType;
 import org.bukkit.block.PistonMoveReaction;
 import org.bukkit.block.structure.Mirror;
 import org.bukkit.block.structure.StructureRotation;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public interface BlockData extends Cloneable {
 
     /**
-     * Get the Material represented by this block data.
+     * Get the BlockType represented by this block data.
      *
-     * @return the material
+     * @return the block type
      */
     @NotNull
-    Material getMaterial();
+    BlockType<?> getBlockType();
 
     /**
      * Gets a string, which when passed into a method such as
@@ -203,20 +204,20 @@ public interface BlockData extends Cloneable {
     boolean isFaceSturdy(@NotNull BlockFace face, @NotNull BlockSupport support);
 
     /**
-     * Gets the material that a player would use to place this block.
+     * Gets the ItemType that a player would use to place this block.
      * <p>
-     * For most blocks this is the same as {@link #getMaterial()} but some blocks
-     * have different materials used to place them.
+     * For most blocks this is the same as {@link BlockType#asItemType()} but some blocks
+     * have different item types used to place them.
      *
      * For example:
      * <pre>
-     * {@link Material#REDSTONE_WIRE} -> {@link Material#REDSTONE}
-     * {@link Material#CARROTS} -> {@link Material#CARROT}
+     * {@link ItemType#REDSTONE_WIRE} -> {@link BlockType#REDSTONE}
+     * {@link ItemType#CARROTS} -> {@link BlockType#CARROT}
      * </pre>
-     * @return placement material
+     * @return placement item type
      */
     @NotNull
-    Material getPlacementMaterial();
+    ItemType getPlacementType();
 
     /**
      * Rotates this blockdata by the specified {@link StructureRotation}.

@@ -15,6 +15,7 @@ import java.util.function.Consumer;
 import java.util.logging.Logger;
 import org.bukkit.Warning.WarningState;
 import org.bukkit.advancement.Advancement;
+import org.bukkit.block.BlockType;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
@@ -797,7 +798,7 @@ public interface Server extends PluginMessageRecipient {
      * @param world The world the crafting takes place in.
      * @param player The player to imitate the crafting event on.
      * @return the {@link ItemStack} resulting from the given crafting matrix, if no recipe is found
-     * an ItemStack of {@link Material#AIR} is returned.
+     * an ItemStack of {@link org.bukkit.inventory.ItemType#AIR} is returned.
      */
     @NotNull
     public ItemStack craftItem(@NotNull ItemStack[] craftingMatrix, @NotNull World world, @NotNull Player player);
@@ -1503,28 +1504,30 @@ public interface Server extends PluginMessageRecipient {
     Iterator<Advancement> advancementIterator();
 
     /**
-     * Creates a new {@link BlockData} instance for the specified Material, with
+     * Creates a new {@link BlockData} instance for the specified block type, with
      * all properties initialized to unspecified defaults.
      *
-     * @param material the material
+     * @param blockType the block type
+     * @param <B> The specific block data type
      * @return new data instance
      */
     @NotNull
-    BlockData createBlockData(@NotNull Material material);
+    <B extends BlockData> B createBlockData(@NotNull BlockType<B> blockType);
 
     /**
-     * Creates a new {@link BlockData} instance for the specified Material, with
+     * Creates a new {@link BlockData} instance for the specified block type, with
      * all properties initialized to unspecified defaults.
      *
-     * @param material the material
+     * @param blockType the block type
      * @param consumer consumer to run on new instance before returning
+     * @param <B> The specific block data type
      * @return new data instance
      */
     @NotNull
-    public BlockData createBlockData(@NotNull Material material, @Nullable Consumer<BlockData> consumer);
+    public <B extends BlockData> B createBlockData(@NotNull BlockType<B> blockType, @Nullable Consumer<B> consumer);
 
     /**
-     * Creates a new {@link BlockData} instance with material and properties
+     * Creates a new {@link BlockData} instance with block type and properties
      * parsed from provided data.
      *
      * @param data data string
@@ -1535,21 +1538,22 @@ public interface Server extends PluginMessageRecipient {
     BlockData createBlockData(@NotNull String data) throws IllegalArgumentException;
 
     /**
-     * Creates a new {@link BlockData} instance for the specified Material, with
+     * Creates a new {@link BlockData} instance for the specified block type, with
      * all properties initialized to unspecified defaults, except for those
      * provided in data.
      * <br>
-     * If <code>material</code> is specified, then the data string must not also
-     * contain the material.
+     * If <code>block type</code> is specified, then the data string must not also
+     * contain the block type.
      *
-     * @param material the material
+     * @param blockType the block type
      * @param data data string
+     * @param <B> The specific block data type
      * @return new data instance
      * @throws IllegalArgumentException if the specified data is not valid
      */
     @NotNull
     @Contract("null, null -> fail")
-    BlockData createBlockData(@Nullable Material material, @Nullable String data) throws IllegalArgumentException;
+    <B extends BlockData> B createBlockData(@Nullable BlockType<B> blockType, @Nullable String data) throws IllegalArgumentException;
 
     /**
      * Gets a tag which has already been defined within the server. Plugins are

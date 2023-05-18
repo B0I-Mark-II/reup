@@ -3,7 +3,6 @@ package org.bukkit.inventory;
 import com.google.common.base.Preconditions;
 import java.util.ArrayList;
 import java.util.List;
-import org.bukkit.Material;
 import org.bukkit.entity.Villager;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.NumberConversions;
@@ -147,7 +146,7 @@ public class MerchantRecipe implements Recipe {
      * @param itemStack the item to adjust
      */
     public void adjust(@Nullable ItemStack itemStack) {
-        if (itemStack == null || itemStack.getType() == Material.AIR || itemStack.getAmount() <= 0) {
+        if (itemStack == null || itemStack.getType() == ItemType.AIR || itemStack.getAmount() <= 0) {
             return;
         }
 

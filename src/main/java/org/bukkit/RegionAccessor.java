@@ -6,6 +6,7 @@ import java.util.Random;
 import java.util.function.Predicate;
 import org.bukkit.block.Biome;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.BlockType;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -102,10 +103,10 @@ public interface RegionAccessor {
      * Gets the type of the block at the given {@link Location}.
      *
      * @param location The location of the block
-     * @return Material at the given coordinates
+     * @return Block type at the given coordinates
      */
     @NotNull
-    Material getType(@NotNull Location location);
+    BlockType<?> getType(@NotNull Location location);
 
     /**
      * Gets the type of the block at the given coordinates.
@@ -113,10 +114,10 @@ public interface RegionAccessor {
      * @param x X-coordinate of the block
      * @param y Y-coordinate of the block
      * @param z Z-coordinate of the block
-     * @return Material at the given coordinates
+     * @return Block type at the given coordinates
      */
     @NotNull
-    Material getType(int x, int y, int z);
+    BlockType<?> getType(int x, int y, int z);
 
     /**
      * Sets the {@link BlockData} at the given {@link Location}.
@@ -137,22 +138,22 @@ public interface RegionAccessor {
     void setBlockData(int x, int y, int z, @NotNull BlockData blockData);
 
     /**
-     * Sets the {@link Material} at the given {@link Location}.
+     * Sets the {@link BlockType} at the given {@link Location}.
      *
      * @param location The location of the block
-     * @param material The type to set the block to
+     * @param blockType The type to set the block to
      */
-    void setType(@NotNull Location location, @NotNull Material material);
+    void setType(@NotNull Location location, @NotNull BlockType<?> blockType);
 
     /**
-     * Sets the {@link Material} at the given coordinates.
+     * Sets the {@link BlockType} at the given coordinates.
      *
      * @param x X-coordinate of the block
      * @param y Y-coordinate of the block
      * @param z Z-coordinate of the block
-     * @param material The type to set the block to
+     * @param blockType The type to set the block to
      */
-    void setType(int x, int y, int z, @NotNull Material material);
+    void setType(int x, int y, int z, @NotNull BlockType<?> blockType);
 
     /**
      * Creates a tree at the given {@link Location}

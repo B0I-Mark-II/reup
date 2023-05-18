@@ -10,6 +10,7 @@ import java.util.function.Predicate;
 import org.bukkit.advancement.Advancement;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Biome;
+import org.bukkit.block.BlockType;
 import org.bukkit.boss.KeyedBossBar;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
@@ -18,6 +19,7 @@ import org.bukkit.entity.Villager;
 import org.bukkit.entity.memory.MemoryKey;
 import org.bukkit.generator.structure.Structure;
 import org.bukkit.generator.structure.StructureType;
+import org.bukkit.inventory.ItemType;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
 import org.bukkit.loot.LootTables;
@@ -73,6 +75,12 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
      */
     Registry<Biome> BIOME = Objects.requireNonNull(Bukkit.getRegistry(Biome.class), "No registry present for Biome. This is a bug.");
     /**
+     * Server block types.
+     *
+     * @see BlockType
+     */
+    Registry<BlockType> BLOCK_TYPE = Objects.requireNonNull(Bukkit.getRegistry(BlockType.class), "No registry present for BlockType. This is a bug.");
+    /**
      * Custom boss bars.
      *
      * @see Bukkit#getBossBar(org.bukkit.NamespacedKey)
@@ -105,6 +113,13 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
      */
     Registry<EntityType> ENTITY_TYPE = Objects.requireNonNull(Bukkit.getRegistry(EntityType.class), "No registry present for EntityType. This is a bug.");
     /**
+     * Server item types.
+     *
+     * @see ItemType
+     */
+    Registry<ItemType> ITEM_TYPE = Objects.requireNonNull(Bukkit.getRegistry(ItemType.class), "No registry present for ItemType. This is a bug.");
+
+    /**
      * Default server loot tables.
      *
      * @see LootTables
@@ -115,7 +130,7 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
      *
      * @see Material
      */
-    Registry<Material> MATERIAL = Objects.requireNonNull(Bukkit.getRegistry(Material.class), "No registry present for Material. This is a bug.");
+    Registry<Material> MATERIAL = new SimpleRegistry<>(Material.class, (mat) -> !mat.isLegacy());
     /**
      * Server statistics.
      *

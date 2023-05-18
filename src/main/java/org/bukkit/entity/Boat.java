@@ -1,8 +1,8 @@
 package org.bukkit.entity;
 
-import org.bukkit.Material;
 import org.bukkit.MinecraftExperimental;
 import org.bukkit.TreeSpecies;
+import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
@@ -138,25 +138,25 @@ public interface Boat extends Vehicle {
      * Represents the type of boats.
      */
     public enum Type {
-        OAK(Material.OAK_PLANKS),
-        SPRUCE(Material.SPRUCE_PLANKS),
-        BIRCH(Material.BIRCH_PLANKS),
-        JUNGLE(Material.JUNGLE_PLANKS),
-        ACACIA(Material.ACACIA_PLANKS),
+        OAK(ItemType.OAK_PLANKS),
+        SPRUCE(ItemType.SPRUCE_PLANKS),
+        BIRCH(ItemType.BIRCH_PLANKS),
+        JUNGLE(ItemType.JUNGLE_PLANKS),
+        ACACIA(ItemType.ACACIA_PLANKS),
         @MinecraftExperimental
         @ApiStatus.Experimental
-        CHERRY(Material.CHERRY_PLANKS),
-        DARK_OAK(Material.DARK_OAK_PLANKS),
-        MANGROVE(Material.MANGROVE_PLANKS),
+        CHERRY(ItemType.CHERRY_PLANKS),
+        DARK_OAK(ItemType.DARK_OAK_PLANKS),
+        MANGROVE(ItemType.MANGROVE_PLANKS),
         @MinecraftExperimental
         @ApiStatus.Experimental
-        BAMBOO(Material.BAMBOO_PLANKS),
+        BAMBOO(ItemType.BAMBOO_PLANKS),
         ;
 
-        private final Material materialBlock;
+        private final ItemType itemType;
 
-        private Type(Material materialBlock) {
-            this.materialBlock = materialBlock;
+        private Type(ItemType itemType) {
+            this.itemType = itemType;
         }
 
         /**
@@ -165,8 +165,8 @@ public interface Boat extends Vehicle {
          * @return a material
          */
         @NotNull
-        public Material getMaterial() {
-            return this.materialBlock;
+        public ItemType getItemType() {
+            return this.itemType;
         }
     }
 

@@ -3,6 +3,8 @@ package org.bukkit;
 import com.google.common.collect.Maps;
 import java.util.Map;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockType;
+import org.bukkit.inventory.ItemType;
 import org.bukkit.potion.Potion;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -100,7 +102,7 @@ public enum Effect {
     /**
      * A song from a record. Needs the record item ID as additional info
      */
-    RECORD_PLAY(1010, Type.SOUND, Material.class),
+    RECORD_PLAY(1010, Type.SOUND, ItemType.class),
     /**
      * Sound of ghast shrieking.
      */
@@ -132,7 +134,7 @@ public enum Effect {
     /**
      * Sound of a block breaking. Needs block ID as additional info.
      */
-    STEP_SOUND(2001, Type.SOUND, Material.class),
+    STEP_SOUND(2001, Type.SOUND, BlockType.class),
     /**
      * Visual effect of a splash potion breaking. Needs potion data value as
      * additional info.

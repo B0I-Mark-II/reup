@@ -6,11 +6,11 @@ import java.util.Set;
 import java.util.UUID;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockType;
 import org.bukkit.entity.memory.MemoryKey;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
@@ -57,7 +57,7 @@ public interface LivingEntity extends Attributable, Damageable, ProjectileSource
      * This list contains all blocks from the living entity's eye position to
      * target inclusive. This method considers all blocks as 1x1x1 in size.
      *
-     * @param transparent Set containing all transparent block Materials (set to
+     * @param transparent Set containing all transparent block types (set to
      *     null for only air)
      * @param maxDistance this is the maximum distance to scan (may be limited
      *     by server by at least 100 blocks, no less)
@@ -65,7 +65,7 @@ public interface LivingEntity extends Attributable, Damageable, ProjectileSource
      *     sight
      */
     @NotNull
-    public List<Block> getLineOfSight(@Nullable Set<Material> transparent, int maxDistance);
+    public List<Block> getLineOfSight(@Nullable Set<BlockType<?>> transparent, int maxDistance);
 
     /**
      * Gets the block that the living entity has targeted.
@@ -74,14 +74,14 @@ public interface LivingEntity extends Attributable, Damageable, ProjectileSource
      * collision shapes into account, see {@link #getTargetBlockExact(int,
      * FluidCollisionMode)}.
      *
-     * @param transparent Set containing all transparent block Materials (set to
+     * @param transparent Set containing all transparent block types (set to
      *     null for only air)
      * @param maxDistance this is the maximum distance to scan (may be limited
      *     by server by at least 100 blocks, no less)
      * @return block that the living entity has targeted
      */
     @NotNull
-    public Block getTargetBlock(@Nullable Set<Material> transparent, int maxDistance);
+    public Block getTargetBlock(@Nullable Set<BlockType<?>> transparent, int maxDistance);
 
     /**
      * Gets the last two blocks along the living entity's line of sight.
@@ -89,7 +89,7 @@ public interface LivingEntity extends Attributable, Damageable, ProjectileSource
      * The target block will be the last block in the list. This method
      * considers all blocks as 1x1x1 in size.
      *
-     * @param transparent Set containing all transparent block Materials (set to
+     * @param transparent Set containing all transparent block types (set to
      *     null for only air)
      * @param maxDistance this is the maximum distance to scan. This may be
      *     further limited by the server, but never to less than 100 blocks
@@ -97,7 +97,7 @@ public interface LivingEntity extends Attributable, Damageable, ProjectileSource
      *     line of sight
      */
     @NotNull
-    public List<Block> getLastTwoTargetBlocks(@Nullable Set<Material> transparent, int maxDistance);
+    public List<Block> getLastTwoTargetBlocks(@Nullable Set<BlockType<?>> transparent, int maxDistance);
 
     /**
      * Gets the block that the living entity has targeted.

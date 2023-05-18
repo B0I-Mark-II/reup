@@ -24,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
  * returns false.</b>
  */
 public class ItemStack implements Cloneable, ConfigurationSerializable, Translatable {
-    private Material type = Material.AIR;
+    private ItemType type = ItemType.AIR;
     private int amount = 0;
     private MaterialData data = null;
     private ItemMeta meta;
@@ -41,7 +41,17 @@ public class ItemStack implements Cloneable, ConfigurationSerializable, Translat
      *
      * @param type item material
      */
+    @Deprecated
     public ItemStack(@NotNull final Material type) {
+        this(type, 1);
+    }
+
+    /**
+     * Defaults stack size to 1, with no extra data.
+     *
+     * @param type item type
+     */
+    public ItemStack(@NotNull final ItemType type) {
         this(type, 1);
     }
 
@@ -55,8 +65,21 @@ public class ItemStack implements Cloneable, ConfigurationSerializable, Translat
      * @param type item material
      * @param amount stack size
      */
+    @Deprecated
     public ItemStack(@NotNull final Material type, final int amount) {
         this(type, amount, (short) 0);
+    }
+
+    /**
+     * An item stack with no extra data.
+     *
+     * @param type item type
+     * @param amount stack size
+     */
+    public ItemStack(@NotNull final ItemType type, final int amount) {
+        Preconditions.checkArgument(type != null, "Material cannot be null");
+        this.type = type;
+        this.amount = amount;
     }
 
     /**
@@ -67,6 +90,7 @@ public class ItemStack implements Cloneable, ConfigurationSerializable, Translat
      * @param damage durability / damage
      * @deprecated see {@link #setDurability(short)}
      */
+    @Deprecated
     public ItemStack(@NotNull final Material type, final int amount, final short damage) {
         this(type, amount, damage, null);
     }
@@ -81,13 +105,19 @@ public class ItemStack implements Cloneable, ConfigurationSerializable, Translat
     @Deprecated
     public ItemStack(@NotNull final Material type, final int amount, final short damage, @Nullable final Byte data) {
         Preconditions.checkArgument(type != null, "Material cannot be null");
-        this.type = type;
+        if (type.isLegacy()) {
+            if (data != null) {
+                this.type = Bukkit.getUnsafe().fromLegacy(type, data).getBlockType().getItemType();
+                this.data = type.getNewData(data);
+            } else {
+                this.type = Bukkit.getUnsafe().fromLegacy(type).asItemType();
+            }
+        } else {
+            this.type = type.asItemType();
+        }
         this.amount = amount;
         if (damage != 0) {
             setDurability(damage);
-        }
-        if (data != null) {
-            createData(data);
         }
     }
 
@@ -102,9 +132,8 @@ public class ItemStack implements Cloneable, ConfigurationSerializable, Translat
         Preconditions.checkArgument(stack != null, "Cannot copy null stack");
         this.type = stack.getType();
         this.amount = stack.getAmount();
-        if (this.type.isLegacy()) {
-            this.data = stack.getData();
-        }
+        this.data = stack.getData();
+
         if (stack.hasItemMeta()) {
             setItemMeta0(stack.getItemMeta(), type);
         }
@@ -117,7 +146,7 @@ public class ItemStack implements Cloneable, ConfigurationSerializable, Translat
      */
     @Utility
     @NotNull
-    public Material getType() {
+    public ItemType getType() {
         return type;
     }
 
@@ -126,23 +155,15 @@ public class ItemStack implements Cloneable, ConfigurationSerializable, Translat
      * <p>
      * Note that in doing so you will reset the MaterialData for this stack.
      * <p>
-     * <b>IMPORTANT: An <i>Item</i>Stack is only designed to contain
-     * <i>items</i>. Do not use this class to encapsulate Materials for which
-     * {@link Material#isItem()} returns false.</b>
      *
      * @param type New type to set the items in this stack to
      */
     @Utility
-    public void setType(@NotNull Material type) {
-        Preconditions.checkArgument(type != null, "Material cannot be null");
+    public void setType(@NotNull ItemType type) {
+        Preconditions.checkArgument(type != null, "ItemType cannot be null");
         this.type = type;
         if (this.meta != null) {
             this.meta = Bukkit.getItemFactory().asMetaFor(meta, type);
-        }
-        if (type.isLegacy()) {
-            createData((byte) 0);
-        } else {
-            this.data = null;
         }
     }
 
@@ -171,7 +192,7 @@ public class ItemStack implements Cloneable, ConfigurationSerializable, Translat
      */
     @Nullable
     public MaterialData getData() {
-        Material mat = Bukkit.getUnsafe().toLegacy(getType());
+        Material mat = Bukkit.getUnsafe().toLegacy(Bukkit.getUnsafe().toMaterial(getType()));
         if (data == null && mat != null && mat.getData() != null) {
             data = mat.getNewData((byte) this.getDurability());
         }
@@ -188,7 +209,7 @@ public class ItemStack implements Cloneable, ConfigurationSerializable, Translat
         if (data == null) {
             this.data = data;
         } else {
-            Material mat = Bukkit.getUnsafe().toLegacy(getType());
+            Material mat = Bukkit.getUnsafe().toLegacy(Bukkit.getUnsafe().toMaterial(getType()));
 
             if ((data.getClass() == mat.getData()) || (data.getClass() == MaterialData.class)) {
                 this.data = data;
@@ -237,15 +258,15 @@ public class ItemStack implements Cloneable, ConfigurationSerializable, Translat
      */
     @Utility
     public int getMaxStackSize() {
-        Material material = getType();
-        if (material != null) {
-            return material.getMaxStackSize();
+        ItemType itemType = getType();
+        if (itemType != null) {
+            return itemType.getMaxStackSize();
         }
         return -1;
     }
 
     private void createData(final byte data) {
-        this.data = type.getNewData(data);
+        this.data = Bukkit.getUnsafe().toLegacy(Bukkit.getUnsafe().toMaterial(type)).getNewData(data);
     }
 
     @Override
@@ -287,8 +308,7 @@ public class ItemStack implements Cloneable, ConfigurationSerializable, Translat
         if (stack == this) {
             return true;
         }
-        Material comparisonType = (this.type.isLegacy()) ? Bukkit.getUnsafe().fromLegacy(this.getData(), true) : this.type; // This may be called from legacy item stacks, try to get the right material
-        return comparisonType == stack.getType() && getDurability() == stack.getDurability() && hasItemMeta() == stack.hasItemMeta() && (hasItemMeta() ? Bukkit.getItemFactory().equals(getItemMeta(), stack.getItemMeta()) : true);
+        return getType() == stack.getType() && getDurability() == stack.getDurability() && hasItemMeta() == stack.hasItemMeta() && (hasItemMeta() ? Bukkit.getItemFactory().equals(getItemMeta(), stack.getItemMeta()) : true);
     }
 
     @NotNull
@@ -487,7 +507,8 @@ public class ItemStack implements Cloneable, ConfigurationSerializable, Translat
             damage = ((Number) args.get("damage")).shortValue();
         }
 
-        Material type;
+        Material type = null;
+        ItemType itemType = null;
         if (version < 0) {
             type = Material.getMaterial(Material.LEGACY_PREFIX + (String) args.get("type"));
 
@@ -499,14 +520,19 @@ public class ItemStack implements Cloneable, ConfigurationSerializable, Translat
                 damage = 0;
             }
         } else {
-            type = Bukkit.getUnsafe().getMaterial((String) args.get("type"), version);
+            itemType = Bukkit.getUnsafe().getItemTyp((String) args.get("type"), version);
         }
 
         if (args.containsKey("amount")) {
             amount = ((Number) args.get("amount")).intValue();
         }
 
-        ItemStack result = new ItemStack(type, amount, damage);
+        ItemStack result;
+        if (itemType != null) {
+            result = new ItemStack(itemType, amount);
+        } else {
+            result = new ItemStack(type, amount, damage);
+        }
 
         if (args.containsKey("enchantments")) { // Backward compatiblity, @deprecated
             Object raw = args.get("enchantments");
@@ -575,17 +601,17 @@ public class ItemStack implements Cloneable, ConfigurationSerializable, Translat
     /*
      * Cannot be overridden, so it's safe for constructor call
      */
-    private boolean setItemMeta0(@Nullable ItemMeta itemMeta, @NotNull Material material) {
+    private boolean setItemMeta0(@Nullable ItemMeta itemMeta, @NotNull ItemType itemType) {
         if (itemMeta == null) {
             this.meta = null;
             return true;
         }
-        if (!Bukkit.getItemFactory().isApplicable(itemMeta, material)) {
+        if (!Bukkit.getItemFactory().isApplicable(itemMeta, itemType)) {
             return false;
         }
-        this.meta = Bukkit.getItemFactory().asMetaFor(itemMeta, material);
+        this.meta = Bukkit.getItemFactory().asMetaFor(itemMeta, itemType);
 
-        Material newType = Bukkit.getItemFactory().updateMaterial(meta, material);
+        ItemType newType = Bukkit.getItemFactory().updateItemType(meta, itemType);
         if (this.type != newType) {
             this.type = newType;
         }

@@ -36,35 +36,35 @@ public interface RecipeChoice extends Predicate<ItemStack>, Cloneable {
     boolean test(@NotNull ItemStack itemStack);
 
     /**
-     * Represents a choice of multiple matching Materials.
+     * Represents a choice of multiple matching ItemTypes.
      */
-    public static class MaterialChoice implements RecipeChoice {
+    public static class ItemTypeChoice implements RecipeChoice {
 
-        private List<Material> choices;
+        private List<ItemType> choices;
 
-        public MaterialChoice(@NotNull Material choice) {
-            this(Arrays.asList(choice));
+        public ItemTypeChoice(@NotNull ItemType choice) {
+            this(Collections.singletonList(choice));
         }
 
-        public MaterialChoice(@NotNull Material... choices) {
+        public ItemTypeChoice(@NotNull ItemType... choices) {
             this(Arrays.asList(choices));
         }
 
         /**
-         * Constructs a MaterialChoice with the current values of the specified
+         * Constructs a ItemTypeChoice with the current values of the specified
          * tag.
          *
          * @param choices the tag
          */
-        public MaterialChoice(@NotNull Tag<Material> choices) {
+        public ItemTypeChoice(@NotNull Tag<ItemType> choices) {
             Preconditions.checkArgument(choices != null, "choices");
             this.choices = new ArrayList<>(choices.getValues());
         }
 
-        public MaterialChoice(@NotNull List<Material> choices) {
+        public ItemTypeChoice(@NotNull List<ItemType> choices) {
             Preconditions.checkArgument(choices != null, "choices");
             Preconditions.checkArgument(!choices.isEmpty(), "Must have at least one choice");
-            for (Material choice : choices) {
+            for (ItemType choice : choices) {
                 Preconditions.checkArgument(choice != null, "Cannot have null choice");
             }
 
@@ -73,7 +73,7 @@ public interface RecipeChoice extends Predicate<ItemStack>, Cloneable {
 
         @Override
         public boolean test(@NotNull ItemStack t) {
-            for (Material match : choices) {
+            for (ItemType match : choices) {
                 if (t.getType() == match) {
                     return true;
                 }
@@ -96,15 +96,15 @@ public interface RecipeChoice extends Predicate<ItemStack>, Cloneable {
         }
 
         @NotNull
-        public List<Material> getChoices() {
+        public List<ItemType> getChoices() {
             return Collections.unmodifiableList(choices);
         }
 
         @NotNull
         @Override
-        public MaterialChoice clone() {
+        public ItemTypeChoice clone() {
             try {
-                MaterialChoice clone = (MaterialChoice) super.clone();
+                ItemTypeChoice clone = (ItemTypeChoice) super.clone();
                 clone.choices = new ArrayList<>(choices);
                 return clone;
             } catch (CloneNotSupportedException ex) {
@@ -114,8 +114,8 @@ public interface RecipeChoice extends Predicate<ItemStack>, Cloneable {
 
         @Override
         public int hashCode() {
-            int hash = 3;
-            hash = 37 * hash + Objects.hashCode(this.choices);
+            int hash = 11;
+            hash = 43 * hash + Objects.hashCode(this.choices);
             return hash;
         }
 
@@ -130,7 +130,7 @@ public interface RecipeChoice extends Predicate<ItemStack>, Cloneable {
             if (getClass() != obj.getClass()) {
                 return false;
             }
-            final MaterialChoice other = (MaterialChoice) obj;
+            final ItemTypeChoice other = (ItemTypeChoice) obj;
             if (!Objects.equals(this.choices, other.choices)) {
                 return false;
             }
@@ -139,7 +139,7 @@ public interface RecipeChoice extends Predicate<ItemStack>, Cloneable {
 
         @Override
         public String toString() {
-            return "MaterialChoice{" + "choices=" + choices + '}';
+            return "ItemTypeChoice{" + "choices=" + choices + '}';
         }
     }
 
@@ -233,6 +233,112 @@ public interface RecipeChoice extends Predicate<ItemStack>, Cloneable {
         @Override
         public String toString() {
             return "ExactChoice{" + "choices=" + choices + '}';
+        }
+    }
+
+    @Deprecated
+    public static class MaterialChoice implements RecipeChoice {
+
+        private List<Material> choices;
+
+        public MaterialChoice(@NotNull Material choice) {
+            this(Arrays.asList(choice));
+        }
+
+        public MaterialChoice(@NotNull Material... choices) {
+            this(Arrays.asList(choices));
+        }
+
+        /**
+         * Constructs a MaterialChoice with the current values of the specified
+         * tag.
+         *
+         * @param choices the tag
+         */
+        public MaterialChoice(@NotNull Tag<Material> choices) {
+            Preconditions.checkArgument(choices != null, "choices");
+            this.choices = new ArrayList<>(choices.getValues());
+        }
+
+        public MaterialChoice(@NotNull List<Material> choices) {
+            Preconditions.checkArgument(choices != null, "choices");
+            Preconditions.checkArgument(!choices.isEmpty(), "Must have at least one choice");
+            for (Material choice : choices) {
+                Preconditions.checkArgument(choice != null, "Cannot have null choice");
+            }
+
+            this.choices = new ArrayList<>(choices);
+        }
+
+        @Override
+        public boolean test(@NotNull ItemStack t) {
+            for (Material match : choices) {
+                if (t.getType() == match.asItemType()) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        @NotNull
+        @Override
+        public ItemStack getItemStack() {
+            ItemStack stack = new ItemStack(choices.get(0));
+
+            // For compat
+            if (choices.size() > 1) {
+                stack.setDurability(Short.MAX_VALUE);
+            }
+
+            return stack;
+        }
+
+        @NotNull
+        public List<Material> getChoices() {
+            return Collections.unmodifiableList(choices);
+        }
+
+        @NotNull
+        @Override
+        public MaterialChoice clone() {
+            try {
+                MaterialChoice clone = (MaterialChoice) super.clone();
+                clone.choices = new ArrayList<>(choices);
+                return clone;
+            } catch (CloneNotSupportedException ex) {
+                throw new AssertionError(ex);
+            }
+        }
+
+        @Override
+        public int hashCode() {
+            int hash = 3;
+            hash = 37 * hash + Objects.hashCode(this.choices);
+            return hash;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            final MaterialChoice other = (MaterialChoice) obj;
+            if (!Objects.equals(this.choices, other.choices)) {
+                return false;
+            }
+            return true;
+        }
+
+        @Override
+        public String toString() {
+            return "MaterialChoice{" + "choices=" + choices + '}';
         }
     }
 }

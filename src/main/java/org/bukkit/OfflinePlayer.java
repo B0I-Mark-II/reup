@@ -1,10 +1,12 @@
 package org.bukkit;
 
 import java.util.UUID;
+import org.bukkit.block.BlockType;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.AnimalTamer;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemType;
 import org.bukkit.permissions.ServerOperator;
 import org.bukkit.profile.PlayerProfile;
 import org.jetbrains.annotations.NotNull;
@@ -203,89 +205,174 @@ public interface OfflinePlayer extends ServerOperator, AnimalTamer, Configuratio
     public int getStatistic(@NotNull Statistic statistic) throws IllegalArgumentException;
 
     /**
-     * Increments the given statistic for this player for the given material.
+     * Increments the given statistic for this player for the given item type.
      * <p>
      * This is equivalent to the following code:
-     * <code>incrementStatistic(Statistic, Material, 1)</code>
+     * <code>incrementStatistic(Statistic, ItemType, 1)</code>
      *
      * @param statistic Statistic to increment
-     * @param material Material to offset the statistic with
+     * @param itemType Item type to offset the statistic with
      * @throws IllegalArgumentException if statistic is null
-     * @throws IllegalArgumentException if material is null
+     * @throws IllegalArgumentException if item type is null
      * @throws IllegalArgumentException if the given parameter is not valid
      *     for the statistic
      */
-    public void incrementStatistic(@NotNull Statistic statistic, @NotNull Material material) throws IllegalArgumentException;
+    public void incrementStatistic(@NotNull Statistic statistic, @NotNull ItemType itemType) throws IllegalArgumentException;
 
     /**
-     * Decrements the given statistic for this player for the given material.
+     * Increments the given statistic for this player for the given block type.
      * <p>
      * This is equivalent to the following code:
-     * <code>decrementStatistic(Statistic, Material, 1)</code>
+     * <code>incrementStatistic(Statistic, BlockType, 1)</code>
      *
-     * @param statistic Statistic to decrement
-     * @param material Material to offset the statistic with
+     * @param statistic Statistic to increment
+     * @param blockType Block type to offset the statistic with
      * @throws IllegalArgumentException if statistic is null
-     * @throws IllegalArgumentException if material is null
+     * @throws IllegalArgumentException if block type is null
      * @throws IllegalArgumentException if the given parameter is not valid
      *     for the statistic
      */
-    public void decrementStatistic(@NotNull Statistic statistic, @NotNull Material material) throws IllegalArgumentException;
+    public void incrementStatistic(@NotNull Statistic statistic, @NotNull BlockType<?> blockType) throws IllegalArgumentException;
+
+    /**
+     * Decrements the given statistic for this player for the given item type.
+     * <p>
+     * This is equivalent to the following code:
+     * <code>decrementStatistic(Statistic, ItemType, 1)</code>
+     *
+     * @param statistic Statistic to decrement
+     * @param itemType Item type to offset the statistic with
+     * @throws IllegalArgumentException if statistic is null
+     * @throws IllegalArgumentException if item type is null
+     * @throws IllegalArgumentException if the given parameter is not valid
+     *     for the statistic
+     */
+    public void decrementStatistic(@NotNull Statistic statistic, @NotNull ItemType itemType) throws IllegalArgumentException;
+
+    /**
+     * Decrements the given statistic for this player for the given block type.
+     * <p>
+     * This is equivalent to the following code:
+     * <code>decrementStatistic(Statistic, BlockType, 1)</code>
+     *
+     * @param statistic Statistic to decrement
+     * @param blockType Block Type to offset the statistic with
+     * @throws IllegalArgumentException if statistic is null
+     * @throws IllegalArgumentException if block type is null
+     * @throws IllegalArgumentException if the given parameter is not valid
+     *     for the statistic
+     */
+    public void decrementStatistic(@NotNull Statistic statistic, @NotNull BlockType<?> blockType) throws IllegalArgumentException;
 
     /**
      * Gets the value of the given statistic for this player.
      *
      * @param statistic Statistic to check
-     * @param material Material offset of the statistic
+     * @param itemType Item type offset of the statistic
      * @return the value of the given statistic
      * @throws IllegalArgumentException if statistic is null
-     * @throws IllegalArgumentException if material is null
+     * @throws IllegalArgumentException if item type is null
      * @throws IllegalArgumentException if the given parameter is not valid
      *     for the statistic
      */
-    public int getStatistic(@NotNull Statistic statistic, @NotNull Material material) throws IllegalArgumentException;
+    public int getStatistic(@NotNull Statistic statistic, @NotNull ItemType itemType) throws IllegalArgumentException;
 
     /**
-     * Increments the given statistic for this player for the given material.
+     * Gets the value of the given statistic for this player.
+     *
+     * @param statistic Statistic to check
+     * @param blockType Block type offset of the statistic
+     * @return the value of the given statistic
+     * @throws IllegalArgumentException if statistic is null
+     * @throws IllegalArgumentException if block type is null
+     * @throws IllegalArgumentException if the given parameter is not valid
+     *     for the statistic
+     */
+    public int getStatistic(@NotNull Statistic statistic, @NotNull BlockType<?> blockType) throws IllegalArgumentException;
+
+    /**
+     * Increments the given statistic for this player for the given item type.
      *
      * @param statistic Statistic to increment
-     * @param material Material to offset the statistic with
+     * @param itemType Item type to offset the statistic with
      * @param amount Amount to increment this statistic by
      * @throws IllegalArgumentException if statistic is null
-     * @throws IllegalArgumentException if material is null
+     * @throws IllegalArgumentException if item type is null
      * @throws IllegalArgumentException if amount is negative
      * @throws IllegalArgumentException if the given parameter is not valid
      *     for the statistic
      */
-    public void incrementStatistic(@NotNull Statistic statistic, @NotNull Material material, int amount) throws IllegalArgumentException;
+    public void incrementStatistic(@NotNull Statistic statistic, @NotNull ItemType itemType, int amount) throws IllegalArgumentException;
 
     /**
-     * Decrements the given statistic for this player for the given material.
+     * Increments the given statistic for this player for the given block type.
+     *
+     * @param statistic Statistic to increment
+     * @param blockType Block type to offset the statistic with
+     * @param amount Amount to increment this statistic by
+     * @throws IllegalArgumentException if statistic is null
+     * @throws IllegalArgumentException if block type is null
+     * @throws IllegalArgumentException if amount is negative
+     * @throws IllegalArgumentException if the given parameter is not valid
+     *     for the statistic
+     */
+    public void incrementStatistic(@NotNull Statistic statistic, @NotNull BlockType<?> blockType, int amount) throws IllegalArgumentException;
+
+    /**
+     * Decrements the given statistic for this player for the given item type.
      *
      * @param statistic Statistic to decrement
-     * @param material Material to offset the statistic with
+     * @param itemType Item type to offset the statistic with
      * @param amount Amount to decrement this statistic by
      * @throws IllegalArgumentException if statistic is null
-     * @throws IllegalArgumentException if material is null
+     * @throws IllegalArgumentException if item type is null
      * @throws IllegalArgumentException if amount is negative
      * @throws IllegalArgumentException if the given parameter is not valid
      *     for the statistic
      */
-    public void decrementStatistic(@NotNull Statistic statistic, @NotNull Material material, int amount) throws IllegalArgumentException;
+    public void decrementStatistic(@NotNull Statistic statistic, @NotNull ItemType itemType, int amount) throws IllegalArgumentException;
 
     /**
-     * Sets the given statistic for this player for the given material.
+     * Decrements the given statistic for this player for the given block type.
+     *
+     * @param statistic Statistic to decrement
+     * @param blockType Block type to offset the statistic with
+     * @param amount Amount to decrement this statistic by
+     * @throws IllegalArgumentException if statistic is null
+     * @throws IllegalArgumentException if block type is null
+     * @throws IllegalArgumentException if amount is negative
+     * @throws IllegalArgumentException if the given parameter is not valid
+     *     for the statistic
+     */
+    public void decrementStatistic(@NotNull Statistic statistic, @NotNull BlockType<?> blockType, int amount) throws IllegalArgumentException;
+
+    /**
+     * Sets the given statistic for this player for the given item type.
      *
      * @param statistic Statistic to set
-     * @param material Material to offset the statistic with
+     * @param itemType Item type to offset the statistic with
      * @param newValue The value to set this statistic to
      * @throws IllegalArgumentException if statistic is null
-     * @throws IllegalArgumentException if material is null
+     * @throws IllegalArgumentException if item type is null
      * @throws IllegalArgumentException if newValue is negative
      * @throws IllegalArgumentException if the given parameter is not valid
      *     for the statistic
      */
-    public void setStatistic(@NotNull Statistic statistic, @NotNull Material material, int newValue) throws IllegalArgumentException;
+    public void setStatistic(@NotNull Statistic statistic, @NotNull ItemType itemType, int newValue) throws IllegalArgumentException;
+
+    /**
+     * Sets the given statistic for this player for the given block type.
+     *
+     * @param statistic Statistic to set
+     * @param blockType Block type to offset the statistic with
+     * @param newValue The value to set this statistic to
+     * @throws IllegalArgumentException if statistic is null
+     * @throws IllegalArgumentException if block type is null
+     * @throws IllegalArgumentException if newValue is negative
+     * @throws IllegalArgumentException if the given parameter is not valid
+     *     for the statistic
+     */
+    public void setStatistic(@NotNull Statistic statistic, @NotNull BlockType<?> blockType, int newValue) throws IllegalArgumentException;
 
     /**
      * Increments the given statistic for this player for the given entity.
