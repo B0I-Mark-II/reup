@@ -117,7 +117,9 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * An enum of all material IDs accepted by the official server and client
+ * @deprecated Material was split up into {@link ItemType} and {@link BlockType}
  */
+@Deprecated
 public enum Material implements Keyed, Translatable {
     //<editor-fold desc="Materials" defaultstate="collapsed">
     AIR(9648, 0),
