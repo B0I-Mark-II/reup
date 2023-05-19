@@ -3136,7 +3136,7 @@ public interface BlockType<B extends BlockData> extends Keyed, Translatable {
     @NotNull
     private static <B extends BlockData> BlockType<B> getBlockType(@NotNull String key) {
         NamespacedKey namespacedKey = NamespacedKey.minecraft(key);
-        BlockType<?> blockType = Registry.BLOCK_TYPE.get(namespacedKey);
+        BlockType<?> blockType = Registry.BLOCK.get(namespacedKey);
         Preconditions.checkNotNull(blockType, "No BlockType found for %s. This is a bug.", namespacedKey);
         return (BlockType<B>) blockType;
     }
@@ -3147,7 +3147,7 @@ public interface BlockType<B extends BlockData> extends Keyed, Translatable {
      * Where corresponding means, that they have the same {@link NamespacedKey}
      * returned by {@link #getKey()}.
      *
-     * @return true if there is a ItemType with the same key, otherwise false
+     * @return true if there is an ItemType with the same key, otherwise false
      * @see #getItemType()
      */
     boolean hasItemType();

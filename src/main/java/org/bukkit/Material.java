@@ -11077,7 +11077,7 @@ public enum Material implements Keyed, Translatable {
         if (isLegacy()) {
             material = Bukkit.getUnsafe().fromLegacy(this);
         }
-        ItemType itemType = Registry.ITEM_TYPE.get(material.key);
+        ItemType itemType = Registry.ITEM.get(material.key);
         Preconditions.checkNotNull(itemType, "Material %s is not a item type", material.getKey());
         return itemType;
     }
@@ -11095,7 +11095,7 @@ public enum Material implements Keyed, Translatable {
         if (isLegacy()) {
             material = Bukkit.getUnsafe().fromLegacy(this);
         }
-        BlockType<?> blockType = Registry.BLOCK_TYPE.get(material.key);
+        BlockType<?> blockType = Registry.BLOCK.get(material.key);
         Preconditions.checkNotNull(blockType, "Material %s is not a block type", material.getKey());
         return blockType;
     }

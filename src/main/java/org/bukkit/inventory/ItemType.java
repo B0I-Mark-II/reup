@@ -1375,7 +1375,7 @@ public interface ItemType extends Keyed, Translatable {
     @NotNull
     private static ItemType getItemType(@NotNull String key) {
         NamespacedKey namespacedKey = NamespacedKey.minecraft(key);
-        ItemType itemType = Registry.ITEM_TYPE.get(namespacedKey);
+        ItemType itemType = Registry.ITEM.get(namespacedKey);
         Preconditions.checkNotNull(itemType, "No ItemType found for %s. This is a bug.", namespacedKey);
         return itemType;
     }

@@ -79,7 +79,7 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
      *
      * @see BlockType
      */
-    Registry<BlockType> BLOCK_TYPE = Objects.requireNonNull(Bukkit.getRegistry(BlockType.class), "No registry present for BlockType. This is a bug.");
+    Registry<BlockType> BLOCK = Objects.requireNonNull(Bukkit.getRegistry(BlockType.class), "No registry present for BlockType. This is a bug.");
     /**
      * Custom boss bars.
      *
@@ -117,7 +117,7 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
      *
      * @see ItemType
      */
-    Registry<ItemType> ITEM_TYPE = Objects.requireNonNull(Bukkit.getRegistry(ItemType.class), "No registry present for ItemType. This is a bug.");
+    Registry<ItemType> ITEM = Objects.requireNonNull(Bukkit.getRegistry(ItemType.class), "No registry present for ItemType. This is a bug.");
 
     /**
      * Default server loot tables.
