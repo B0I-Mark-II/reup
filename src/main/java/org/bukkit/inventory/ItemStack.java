@@ -520,7 +520,7 @@ public class ItemStack implements Cloneable, ConfigurationSerializable, Translat
                 damage = 0;
             }
         } else {
-            itemType = Bukkit.getUnsafe().getItemTyp((String) args.get("type"), version);
+            itemType = Bukkit.getUnsafe().getItemType((String) args.get("type"), version);
         }
 
         if (args.containsKey("amount")) {

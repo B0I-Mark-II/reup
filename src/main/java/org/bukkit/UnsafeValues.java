@@ -36,7 +36,7 @@ public interface UnsafeValues {
 
     BlockData fromLegacy(Material material, byte data);
 
-    ItemType getItemTyp(String itemType, int version);
+    ItemType getItemType(String itemType, int version);
 
     int getDataVersion();
 
