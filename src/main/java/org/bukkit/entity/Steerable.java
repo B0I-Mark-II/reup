@@ -26,7 +26,7 @@ public interface Steerable extends Animals {
      * Get the time in ticks this entity's movement is being increased.
      *
      * Movement speed is often increased as a result of using the
-     * {@link #getSteerItemType()}.
+     * {@link #getSteerItem()}.
      *
      * @return the current boost ticks
      */
@@ -67,5 +67,5 @@ public interface Steerable extends Animals {
      * @return the lure item type
      */
     @NotNull
-    public ItemType getSteerItemType();
+    public ItemType getSteerItem();
 }
