@@ -31,7 +31,7 @@ public interface Piglin extends PiglinAbstract, InventoryHolder {
      *
      * @return true if the item has been added successfully, false otherwise
      */
-    public boolean addBarterItemType(@NotNull ItemType itemType);
+    public boolean addBarterItem(@NotNull ItemType itemType);
 
     /**
      * Removes an item type from the allowed list of item types to barter with.
@@ -44,7 +44,7 @@ public interface Piglin extends PiglinAbstract, InventoryHolder {
      *
      * @return true if the item has been removed successfully, false otherwise
      */
-    public boolean removeBarterItemType(@NotNull ItemType itemType);
+    public boolean removeBarterItem(@NotNull ItemType itemType);
 
     /**
      * Adds an item type the piglin will pickup and store in his inventory.
@@ -53,7 +53,7 @@ public interface Piglin extends PiglinAbstract, InventoryHolder {
      *
      * @return true if the item has been added successfully, false otherwise
      */
-    public boolean addItemTypeOfInterest(@NotNull ItemType itemType);
+    public boolean addItemOfInterest(@NotNull ItemType itemType);
 
     /**
      * Removes an item type from the list of item types the piglin will pickup.
@@ -65,7 +65,7 @@ public interface Piglin extends PiglinAbstract, InventoryHolder {
      * @param itemType The item type you want removed from the interest list
      * @return true if the item has been removed successfully, false otherwise
      */
-    public boolean removeItemTypeOfInterest(@NotNull ItemType itemType);
+    public boolean removeItemOfInterest(@NotNull ItemType itemType);
 
     /**
      * Returns a immutable set of item types the piglins will pickup.
