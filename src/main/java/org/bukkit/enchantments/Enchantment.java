@@ -323,7 +323,8 @@ public abstract class Enchantment implements Keyed {
         if (name == null) {
             return null;
         }
-        return getByKey(NamespacedKey.fromString(name));
+        name = convertLegacy(name);
+        return getByKey(NamespacedKey.fromString(name.toLowerCase()));
     }
 
     /**
@@ -366,4 +367,55 @@ public abstract class Enchantment implements Keyed {
      */
     @Deprecated
     public static void stopAcceptingRegistrations() {}
+
+    private static String convertLegacy(String from) {
+        if (from == null) {
+            return null;
+        }
+
+        switch (from.toLowerCase()) {
+            case "protection_environmental":
+                return "protection";
+            case "protection_fire":
+                return "fire_protection";
+            case "protection_fall":
+                return "feather_falling";
+            case "protection_explosions":
+                return "blast_protection";
+            case "protection_projectile":
+                return "projectile_protection";
+            case "oxygen":
+                return "respiration";
+            case "water_worker":
+                return "aqua_affinity";
+            case "damage_all":
+                return "sharpness";
+            case "damage_undead":
+                return "smite";
+            case "damage_arthropods":
+                return "bane_of_arthropods";
+            case "loot_bonus_mobs":
+                return "looting";
+            case "sweeping_edge":
+                return "sweeping";
+            case "dig_speed":
+                return "efficiency";
+            case "durability":
+                return "unbreaking";
+            case "loot_bonus_blocks":
+                return "fortune";
+            case "arrow_damage":
+                return "power";
+            case "arrow_knockback":
+                return "punch";
+            case "arrow_fire":
+                return "flame";
+            case "arrow_infinite":
+                return "infinity";
+            case "luck":
+                return "luck_of_the_sea";
+        }
+
+        return from;
+    }
 }

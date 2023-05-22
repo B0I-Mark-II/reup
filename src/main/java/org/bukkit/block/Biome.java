@@ -2,6 +2,7 @@ package org.bukkit.block;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import org.bukkit.Bukkit;
 import org.bukkit.Keyed;
 import org.bukkit.MinecraftExperimental;
 import org.bukkit.NamespacedKey;
@@ -91,7 +92,7 @@ public abstract class Biome extends OldEnum<Biome> implements Keyed {
      * @deprecated only for backwards compatibility, custom is no longer returned.
      */
     @Deprecated
-    public static final Biome CUSTOM = getBiome("custom");
+    public static final Biome CUSTOM = Bukkit.getUnsafe().getCustomBiome();
 
     @NotNull
     private static Biome getBiome(@NotNull String key) {

@@ -290,6 +290,7 @@ public abstract class PotionEffectType implements Keyed {
     @Deprecated
     public static PotionEffectType getByName(@NotNull String name) {
         Preconditions.checkArgument(name != null, "name cannot be null");
+        name = convertLegacy(name);
         return Registry.POTION_EFFECT_TYPE.get(NamespacedKey.fromString(name.toLowerCase(java.util.Locale.ENGLISH)));
     }
 
@@ -320,4 +321,33 @@ public abstract class PotionEffectType implements Keyed {
      */
     @Deprecated
     public static void stopAcceptingRegistrations() {}
+
+    private static String convertLegacy(String from) {
+        if (from == null) {
+            return null;
+        }
+
+        switch (from.toLowerCase()) {
+            case "slow":
+                return "slowness";
+            case "fast_digging":
+                return "haste";
+            case "slow_digging":
+                return "mining_fatigue";
+            case "increase_damage":
+                return "strength";
+            case "heal":
+                return "instant_health";
+            case "harm":
+                return "instant_damage";
+            case "jump":
+                return "jump_boost";
+            case "confusion":
+                return "nausea";
+            case "damage_resistance":
+                return "resistance";
+        }
+
+        return from;
+    }
 }
