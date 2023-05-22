@@ -144,13 +144,13 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
      *
      * @see Structure
      */
-    Registry<Structure> STRUCTURE = Bukkit.getRegistry(Structure.class);
+    Registry<Structure> STRUCTURE = Objects.requireNonNull(Bukkit.getRegistry(Structure.class), "No registry present for Structure. This is a bug.");
     /**
      * Server structure types.
      *
      * @see StructureType
      */
-    Registry<StructureType> STRUCTURE_TYPE = Bukkit.getRegistry(StructureType.class);
+    Registry<StructureType> STRUCTURE_TYPE = Objects.requireNonNull(Bukkit.getRegistry(StructureType.class), "No registry present for StructureType. This is a bug.");
     /**
      * Sound keys.
      *
@@ -164,7 +164,7 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    Registry<TrimMaterial> TRIM_MATERIAL = Bukkit.getRegistry(TrimMaterial.class);
+    Registry<TrimMaterial> TRIM_MATERIAL = Objects.requireNonNull(Bukkit.getRegistry(TrimMaterial.class), "No registry present for TrimMaterial. This is a bug.");
     /**
      * Trim patterns.
      *
@@ -172,7 +172,7 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
      */
     @MinecraftExperimental
     @ApiStatus.Experimental
-    Registry<TrimPattern> TRIM_PATTERN = Bukkit.getRegistry(TrimPattern.class);
+    Registry<TrimPattern> TRIM_PATTERN = Objects.requireNonNull(Bukkit.getRegistry(TrimPattern.class), "No registry present for TrimPattern. This is a bug.");
     /**
      * Villager profession.
      *
