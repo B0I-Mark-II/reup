@@ -63,8 +63,10 @@ public abstract class Art extends OldEnum<Art> implements Keyed {
      *
      * @param name The name
      * @return The painting
+     * @deprecated only for backwards compatibility, use {@link Registry#get(NamespacedKey)} instead
      */
     @Nullable
+    @Deprecated
     public static Art getByName(@NotNull String name) {
         Preconditions.checkArgument(name != null, "Name cannot be null");
 
