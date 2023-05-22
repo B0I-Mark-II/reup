@@ -26,7 +26,7 @@ public class SmithingTrimRecipe extends SmithingRecipe implements ComplexRecipe 
      * @param addition The addition ingredient
      */
     public SmithingTrimRecipe(@NotNull NamespacedKey key, @NotNull RecipeChoice template, @NotNull RecipeChoice base, @NotNull RecipeChoice addition) {
-        super(key, new ItemStack(ItemType.AIR), base, addition);
+        super(key, ItemStack.of(ItemType.AIR), base, addition);
         this.template = template;
     }
 

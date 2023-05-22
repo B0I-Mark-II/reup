@@ -551,7 +551,7 @@ public abstract class ConfigurationSectionTest extends AbstractTestingBase {
     public void testGetItemStack_String() {
         ConfigurationSection section = getConfigurationSection();
         String key = "exists";
-        ItemStack value = new ItemStack(ItemType.ACACIA_WOOD, 50);
+        ItemStack value = ItemStack.of(ItemType.ACACIA_WOOD, 50);
 
         section.set(key, value);
 
@@ -563,8 +563,8 @@ public abstract class ConfigurationSectionTest extends AbstractTestingBase {
     public void testGetItemStack_String_ItemStack() {
         ConfigurationSection section = getConfigurationSection();
         String key = "exists";
-        ItemStack value = new ItemStack(ItemType.ACACIA_WOOD, 50);
-        ItemStack def = new ItemStack(ItemType.STONE, 1);
+        ItemStack value = ItemStack.of(ItemType.ACACIA_WOOD, 50);
+        ItemStack def = ItemStack.of(ItemType.STONE, 1);
 
         section.set(key, value);
 
@@ -576,7 +576,7 @@ public abstract class ConfigurationSectionTest extends AbstractTestingBase {
     public void testIsItemStack() {
         ConfigurationSection section = getConfigurationSection();
         String key = "exists";
-        ItemStack value = new ItemStack(ItemType.ACACIA_WOOD, 50);
+        ItemStack value = ItemStack.of(ItemType.ACACIA_WOOD, 50);
 
         section.set(key, value);
 

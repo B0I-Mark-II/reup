@@ -265,7 +265,7 @@ public class Potion {
         } else {
             itemType = ItemType.POTION;
         }
-        ItemStack itemStack = new ItemStack(itemType, amount);
+        ItemStack itemStack = ItemStack.of(itemType, amount);
         PotionMeta meta = (PotionMeta) itemStack.getItemMeta();
         meta.setBasePotionData(new PotionData(type, level == 2, extended));
         itemStack.setItemMeta(meta);

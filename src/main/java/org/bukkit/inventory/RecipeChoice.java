@@ -85,7 +85,7 @@ public interface RecipeChoice extends Predicate<ItemStack>, Cloneable {
         @NotNull
         @Override
         public ItemStack getItemStack() {
-            ItemStack stack = new ItemStack(choices.get(0));
+            ItemStack stack = ItemStack.of(choices.get(0));
 
             // For compat
             if (choices.size() > 1) {

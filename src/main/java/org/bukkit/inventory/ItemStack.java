@@ -24,6 +24,30 @@ import org.jetbrains.annotations.Nullable;
  * returns false.</b>
  */
 public class ItemStack implements Cloneable, ConfigurationSerializable, Translatable {
+
+    /**
+     * Creates a new ItemStack with an amount of 1.
+     *
+     * @param itemType item type
+     * @return A new ItemStack with an amount of 1
+     */
+    @NotNull
+    public static ItemStack of(@NotNull ItemType itemType) {
+        return new ItemStack(itemType);
+    }
+
+    /**
+     * Creates a new ItemStack with the given amount.
+     *
+     * @param itemType item type
+     * @param amount stack size
+     * @return A new ItemStack with the given amount
+     */
+    @NotNull
+    public static ItemStack of(@NotNull ItemType itemType, int amount) {
+        return new ItemStack(itemType, amount);
+    }
+
     private ItemType type = ItemType.AIR;
     private int amount = 0;
     private MaterialData data = null;
@@ -51,7 +75,7 @@ public class ItemStack implements Cloneable, ConfigurationSerializable, Translat
      *
      * @param type item type
      */
-    public ItemStack(@NotNull final ItemType type) {
+    private ItemStack(@NotNull final ItemType type) {
         this(type, 1);
     }
 
@@ -76,7 +100,7 @@ public class ItemStack implements Cloneable, ConfigurationSerializable, Translat
      * @param type item type
      * @param amount stack size
      */
-    public ItemStack(@NotNull final ItemType type, final int amount) {
+    private ItemStack(@NotNull final ItemType type, final int amount) {
         Preconditions.checkArgument(type != null, "Material cannot be null");
         this.type = type;
         this.amount = amount;

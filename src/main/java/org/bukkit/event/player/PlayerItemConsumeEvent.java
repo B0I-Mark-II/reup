@@ -66,7 +66,7 @@ public class PlayerItemConsumeEvent extends PlayerEvent implements Cancellable {
      */
     public void setItem(@Nullable ItemStack item) {
         if (item == null) {
-            this.item = new ItemStack(ItemType.AIR);
+            this.item = ItemStack.of(ItemType.AIR);
         } else {
             this.item = item;
         }
