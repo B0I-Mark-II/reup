@@ -3143,9 +3143,6 @@ public interface BlockType<B extends BlockData> extends Keyed, Translatable {
 
     /**
      * Returns true if this BlockType has a corresponding {@link ItemType}.
-     * <p>
-     * Where corresponding means, that they have the same {@link NamespacedKey}
-     * returned by {@link #getKey()}.
      *
      * @return true if there is an ItemType with the same key, otherwise false
      * @see #getItemType()
@@ -3154,9 +3151,6 @@ public interface BlockType<B extends BlockData> extends Keyed, Translatable {
 
     /**
      * Returns the corresponding {@link ItemType} for the given BlockType.
-     * <p>
-     * Where corresponding means, that they have the same {@link NamespacedKey}
-     * returned by {@link #getKey()}.
      * <p>
      * If there is no corresponding {@link ItemType} an error will be thrown.
      *

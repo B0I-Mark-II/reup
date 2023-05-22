@@ -1382,9 +1382,6 @@ public interface ItemType extends Keyed, Translatable {
 
     /**
      * Returns true if this ItemType has a corresponding {@link BlockType}.
-     * <p>
-     * Where corresponding means, that they have the same {@link NamespacedKey}
-     * returned by {@link #getKey()}.
      *
      * @return true if there is a BlockType with the same key, otherwise false
      * @see #getBlockType()
@@ -1393,9 +1390,6 @@ public interface ItemType extends Keyed, Translatable {
 
     /**
      * Returns the corresponding {@link BlockType} for the given ItemType.
-     * <p>
-     * Where corresponding means, that they have the same {@link NamespacedKey}
-     * returned by {@link #getKey()}.
      * <p>
      * If there is no corresponding {@link BlockType} an error will be thrown.
      *
