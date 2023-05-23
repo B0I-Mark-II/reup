@@ -215,7 +215,7 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
      *
      * @see Frog.Variant
      */
-    Registry<Frog.Variant> FROG_VARIANT = new SimpleRegistry<>(Frog.Variant.class);
+    Registry<Frog.Variant> FROG_VARIANT = Objects.requireNonNull(Bukkit.getRegistry(Frog.Variant.class), "No registry present for Frog Variant. This is a bug.");
     /**
      * Game events.
      *
