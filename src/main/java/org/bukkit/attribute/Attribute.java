@@ -66,6 +66,7 @@ public abstract class Attribute extends OldEnum<Attribute> implements Keyed {
      */
     public static final Attribute ZOMBIE_SPAWN_REINFORCEMENTS = getAttribute("zombie.spawn_reinforcements");
 
+    @NotNull
     private static Attribute getAttribute(@NotNull String key) {
         NamespacedKey namespacedKey = NamespacedKey.minecraft(key);
         Attribute attribute = Registry.ATTRIBUTE.get(namespacedKey);

@@ -187,6 +187,7 @@ public abstract class PotionEffectType implements Keyed {
      */
     public static final PotionEffectType DARKNESS = getPotionEffectType(33, "darkness");
 
+    @NotNull
     private static PotionEffectType getPotionEffectType(int typeId, @NotNull String key) {
         NamespacedKey namespacedKey = NamespacedKey.minecraft(key);
         PotionEffectType potionEffectType = Registry.POTION_EFFECT_TYPE.get(namespacedKey);
