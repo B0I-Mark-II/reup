@@ -13,6 +13,7 @@ import org.bukkit.block.Biome;
 import org.bukkit.block.BlockType;
 import org.bukkit.boss.KeyedBossBar;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Cat;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Frog;
 import org.bukkit.entity.Villager;
@@ -100,6 +101,12 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
             return Bukkit.getBossBars();
         }
     };
+    /**
+     * Server cat types.
+     *
+     * @see Cat.Type
+     */
+    Registry<Cat.Type> CAT_TYPE = Objects.requireNonNull(Bukkit.getRegistry(Cat.Type.class), "No registry present for Cat Type. This is a bug.");
     /**
      * Server enchantments.
      *
