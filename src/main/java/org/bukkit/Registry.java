@@ -11,6 +11,7 @@ import org.bukkit.advancement.Advancement;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Biome;
 import org.bukkit.block.BlockType;
+import org.bukkit.block.banner.PatternType;
 import org.bukkit.boss.KeyedBossBar;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Cat;
@@ -82,6 +83,12 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
      */
     Registry<BlockType> BLOCK = Objects.requireNonNull(Bukkit.getRegistry(BlockType.class), "No registry present for BlockType. This is a bug.");
     /**
+     * Server pattern types.
+     *
+     * @see PatternType
+     */
+    Registry<PatternType> BANNER_PATTERN = Objects.requireNonNull(Bukkit.getRegistry(PatternType.class), "No registry present for PatternType. This is a bug.");
+    /**
      * Custom boss bars.
      *
      * @see Bukkit#getBossBar(org.bukkit.NamespacedKey)
@@ -125,7 +132,6 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
      * @see ItemType
      */
     Registry<ItemType> ITEM = Objects.requireNonNull(Bukkit.getRegistry(ItemType.class), "No registry present for ItemType. This is a bug.");
-
     /**
      * Default server loot tables.
      *
