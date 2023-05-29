@@ -147,6 +147,12 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
     @Deprecated
     Registry<Material> MATERIAL = new SimpleRegistry<>(Material.class, (mat) -> !mat.isLegacy());
     /**
+     * Server particle types.
+     *
+     * @see Particle
+     */
+    Registry<Particle> PARTICLE_TYPE = Objects.requireNonNull(Bukkit.getRegistry(Particle.class), "No registry present for Particle. This is a bug.");
+    /**
      * Server statistics.
      *
      * @see Statistic

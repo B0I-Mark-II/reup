@@ -126,14 +126,14 @@ public interface AreaEffectCloud extends Entity {
      * @return particle the set particle type
      */
     @NotNull
-    Particle getParticle();
+    Particle<?> getParticle();
 
     /**
      * Sets the particle which this cloud will be composed of
      *
      * @param particle the new particle type
      */
-    void setParticle(@NotNull Particle particle);
+    void setParticle(@NotNull Particle<?> particle);
 
     /**
      * Sets the particle which this cloud will be composed of
@@ -143,7 +143,7 @@ public interface AreaEffectCloud extends Entity {
      * @param data the data to use for the particle or null,
      *             the type of this depends on {@link Particle#getDataType()}
      */
-    <T> void setParticle(@NotNull Particle particle, @Nullable T data);
+    <T> void setParticle(@NotNull Particle<T> particle, @Nullable T data);
 
     /**
      * Sets the underlying potion data
