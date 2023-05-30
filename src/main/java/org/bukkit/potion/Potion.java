@@ -294,10 +294,10 @@ public class Potion {
                 type = PotionType.WATER;
                 break;
             case 1:
-                type = PotionType.REGEN;
+                type = PotionType.REGENERATION;
                 break;
             case 2:
-                type = PotionType.SPEED;
+                type = PotionType.SWIFTNESS;
                 break;
             case 3:
                 type = PotionType.FIRE_RESISTANCE;
@@ -306,7 +306,7 @@ public class Potion {
                 type = PotionType.POISON;
                 break;
             case 5:
-                type = PotionType.INSTANT_HEAL;
+                type = PotionType.HEALING;
                 break;
             case 6:
                 type = PotionType.NIGHT_VISION;
@@ -321,10 +321,10 @@ public class Potion {
                 type = PotionType.SLOWNESS;
                 break;
             case 11:
-                type = PotionType.JUMP;
+                type = PotionType.LEAPING;
                 break;
             case 12:
-                type = PotionType.INSTANT_DAMAGE;
+                type = PotionType.HARMING;
                 break;
             case 13:
                 type = PotionType.WATER_BREATHING;

@@ -26,6 +26,7 @@ import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
 import org.bukkit.loot.LootTables;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -152,6 +153,12 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
      * @see Particle
      */
     Registry<Particle> PARTICLE_TYPE = Objects.requireNonNull(Bukkit.getRegistry(Particle.class), "No registry present for Particle. This is a bug.");
+    /**
+     * Server potion types.
+     *
+     * @see PotionType
+     */
+    Registry<PotionType> POTION = Objects.requireNonNull(Bukkit.getRegistry(PotionType.class), "No registry present for PotionType. This is a bug.");
     /**
      * Server statistics.
      *
