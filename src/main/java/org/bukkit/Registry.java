@@ -128,6 +128,12 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
      */
     Registry<EntityType> ENTITY_TYPE = Objects.requireNonNull(Bukkit.getRegistry(EntityType.class), "No registry present for EntityType. This is a bug.");
     /**
+     * Server instruments.
+     *
+     * @see MusicInstrument
+     */
+    Registry<MusicInstrument> INSTRUMENT = Objects.requireNonNull(Bukkit.getRegistry(MusicInstrument.class), "No registry present for MusicInstrument. This is a bug.");
+    /**
      * Server item types.
      *
      * @see ItemType
