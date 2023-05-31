@@ -247,21 +247,7 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
      *
      * @see GameEvent
      */
-    Registry<GameEvent> GAME_EVENT = new Registry<GameEvent>() {
-
-        @NotNull
-        @Override
-        public Iterator iterator() {
-            return GameEvent.values().iterator();
-        }
-
-        @Nullable
-        @Override
-        public GameEvent get(@NotNull NamespacedKey key) {
-            return GameEvent.getByKey(key);
-        }
-    };
-
+    Registry<GameEvent> GAME_EVENT = Objects.requireNonNull(Bukkit.getRegistry(GameEvent.class), "No registry present for GameEvent. This is a bug.");
     /**
      * Server potion effect types.
      *
