@@ -484,4 +484,14 @@ public abstract class EntityType<E extends Entity> extends OldEnum<EntityType<E>
 
         return from;
     }
+
+    /**
+     * Gets if this EntityType is enabled by feature in a world.
+     *
+     * @param world the world to check
+     * @return true if this EntityType can be used to spawn an Entity for this World.
+     */
+    public boolean isEnabledByFeature(@NotNull World world) {
+        return Bukkit.getDataPackManager().isEnabledByFeature(this, world);
+    }
 }
