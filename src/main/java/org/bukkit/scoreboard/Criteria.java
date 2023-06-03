@@ -317,7 +317,7 @@ public interface Criteria {
      * @throws IllegalArgumentException if {@link Statistic#getType()} is not {@link Type#ENTITY}
      */
     @NotNull
-    public static Criteria statistic(@NotNull Statistic statistic, @NotNull EntityType entityType) {
+    public static Criteria statistic(@NotNull Statistic statistic, @NotNull EntityType<?> entityType) {
         Preconditions.checkArgument(statistic != null, "statistic must not be null");
         Preconditions.checkArgument(entityType != null, "entityType must not be null");
         Preconditions.checkArgument(statistic.getType() == Type.ENTITY, "statistic type must be ENTITY, given %s", statistic.getType());

@@ -2,7 +2,7 @@ package org.bukkit;
 
 /**
  * Represents the different types of skulls.
- * @deprecated check {@link Material} instead
+ * @deprecated check {@link org.bukkit.block.BlockType} instead
  */
 @Deprecated
 public enum SkullType {

@@ -101,7 +101,7 @@ public class ItemStack implements Cloneable, ConfigurationSerializable, Translat
      * @param amount stack size
      */
     private ItemStack(@NotNull final ItemType type, final int amount) {
-        Preconditions.checkArgument(type != null, "Material cannot be null");
+        Preconditions.checkArgument(type != null, "itemType cannot be null");
         this.type = type;
         this.amount = amount;
     }
@@ -275,10 +275,10 @@ public class ItemStack implements Cloneable, ConfigurationSerializable, Translat
     }
 
     /**
-     * Get the maximum stacksize for the material hold in this ItemStack.
+     * Get the maximum stacksize for the item type hold in this ItemStack.
      * (Returns -1 if it has no idea)
      *
-     * @return The maximum you can stack this material to.
+     * @return The maximum you can stack this item type to.
      */
     @Utility
     public int getMaxStackSize() {

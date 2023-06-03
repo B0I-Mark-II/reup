@@ -1643,6 +1643,7 @@ public abstract class Sound extends OldEnum<Sound> implements Keyed {
     public static final Sound ENTITY_ZOMBIE_VILLAGER_HURT = getSound("entity.zombie_villager.hurt");
     public static final Sound ENTITY_ZOMBIE_VILLAGER_STEP = getSound("entity.zombie_villager.step");
 
+    @NotNull
     private static Sound getSound(@NotNull String key) {
         NamespacedKey namespacedKey = NamespacedKey.minecraft(key);
         Sound sound = Registry.SOUNDS.get(namespacedKey);

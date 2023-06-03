@@ -14,14 +14,14 @@ public interface CreatureSpawner extends TileState {
      * @return The creature type.
      */
     @NotNull
-    public EntityType getSpawnedType();
+    public EntityType<?> getSpawnedType();
 
     /**
      * Set the spawner's creature type.
      *
      * @param creatureType The creature type.
      */
-    public void setSpawnedType(@NotNull EntityType creatureType);
+    public void setSpawnedType(@NotNull EntityType<?> creatureType);
 
     /**
      * Set the spawner mob type.

@@ -387,7 +387,7 @@ public interface OfflinePlayer extends ServerOperator, AnimalTamer, Configuratio
      * @throws IllegalArgumentException if the given parameter is not valid
      *     for the statistic
      */
-    public void incrementStatistic(@NotNull Statistic statistic, @NotNull EntityType entityType) throws IllegalArgumentException;
+    public void incrementStatistic(@NotNull Statistic statistic, @NotNull EntityType<?> entityType) throws IllegalArgumentException;
 
     /**
      * Decrements the given statistic for this player for the given entity.
@@ -402,7 +402,7 @@ public interface OfflinePlayer extends ServerOperator, AnimalTamer, Configuratio
      * @throws IllegalArgumentException if the given parameter is not valid
      *     for the statistic
      */
-    public void decrementStatistic(@NotNull Statistic statistic, @NotNull EntityType entityType) throws IllegalArgumentException;
+    public void decrementStatistic(@NotNull Statistic statistic, @NotNull EntityType<?> entityType) throws IllegalArgumentException;
 
     /**
      * Gets the value of the given statistic for this player.
@@ -415,7 +415,7 @@ public interface OfflinePlayer extends ServerOperator, AnimalTamer, Configuratio
      * @throws IllegalArgumentException if the given parameter is not valid
      *     for the statistic
      */
-    public int getStatistic(@NotNull Statistic statistic, @NotNull EntityType entityType) throws IllegalArgumentException;
+    public int getStatistic(@NotNull Statistic statistic, @NotNull EntityType<?> entityType) throws IllegalArgumentException;
 
     /**
      * Increments the given statistic for this player for the given entity.
@@ -429,7 +429,7 @@ public interface OfflinePlayer extends ServerOperator, AnimalTamer, Configuratio
      * @throws IllegalArgumentException if the given parameter is not valid
      *     for the statistic
      */
-    public void incrementStatistic(@NotNull Statistic statistic, @NotNull EntityType entityType, int amount) throws IllegalArgumentException;
+    public void incrementStatistic(@NotNull Statistic statistic, @NotNull EntityType<?> entityType, int amount) throws IllegalArgumentException;
 
     /**
      * Decrements the given statistic for this player for the given entity.
@@ -443,7 +443,7 @@ public interface OfflinePlayer extends ServerOperator, AnimalTamer, Configuratio
      * @throws IllegalArgumentException if the given parameter is not valid
      *     for the statistic
      */
-    public void decrementStatistic(@NotNull Statistic statistic, @NotNull EntityType entityType, int amount);
+    public void decrementStatistic(@NotNull Statistic statistic, @NotNull EntityType<?> entityType, int amount);
 
     /**
      * Sets the given statistic for this player for the given entity.
@@ -457,7 +457,7 @@ public interface OfflinePlayer extends ServerOperator, AnimalTamer, Configuratio
      * @throws IllegalArgumentException if the given parameter is not valid
      *     for the statistic
      */
-    public void setStatistic(@NotNull Statistic statistic, @NotNull EntityType entityType, int newValue);
+    public void setStatistic(@NotNull Statistic statistic, @NotNull EntityType<?> entityType, int newValue);
 
     /**
      * Gets the player's last death location.

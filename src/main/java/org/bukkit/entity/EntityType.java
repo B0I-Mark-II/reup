@@ -374,7 +374,7 @@ public abstract class EntityType<E extends Entity> extends OldEnum<EntityType<E>
     @Deprecated
     @Contract("null -> null")
     @Nullable
-    public static EntityType fromName(@Nullable String name) {
+    public static EntityType<?> fromName(@Nullable String name) {
         if (name == null) {
             return null;
         }
@@ -391,7 +391,7 @@ public abstract class EntityType<E extends Entity> extends OldEnum<EntityType<E>
      */
     @Deprecated
     @Nullable
-    public static EntityType fromId(int id) {
+    public static EntityType<?> fromId(int id) {
         if (id > Short.MAX_VALUE) {
             return null;
         }
@@ -405,9 +405,9 @@ public abstract class EntityType<E extends Entity> extends OldEnum<EntityType<E>
      */
     @NotNull
     @Deprecated
-    public static EntityType valueOf(@NotNull String name) {
+    public static EntityType<?> valueOf(@NotNull String name) {
         name = convertLegacy(name);
-        EntityType entityType = Registry.ENTITY_TYPE.get(NamespacedKey.fromString(name.toLowerCase()));
+        EntityType<?> entityType = Registry.ENTITY_TYPE.get(NamespacedKey.fromString(name.toLowerCase()));
         Preconditions.checkArgument(entityType != null, "No EntityType found with the name %s", name);
         return entityType;
     }
@@ -418,7 +418,7 @@ public abstract class EntityType<E extends Entity> extends OldEnum<EntityType<E>
      */
     @NotNull
     @Deprecated
-    public static EntityType[] values() {
+    public static EntityType<?>[] values() {
         return Lists.newArrayList(Registry.ENTITY_TYPE).toArray(new EntityType[0]);
     }
 

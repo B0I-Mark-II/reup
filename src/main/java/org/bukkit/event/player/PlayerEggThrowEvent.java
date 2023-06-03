@@ -13,10 +13,10 @@ public class PlayerEggThrowEvent extends PlayerEvent {
     private static final HandlerList handlers = new HandlerList();
     private final Egg egg;
     private boolean hatching;
-    private EntityType hatchType;
+    private EntityType<?> hatchType;
     private byte numHatches;
 
-    public PlayerEggThrowEvent(@NotNull final Player player, @NotNull final Egg egg, final boolean hatching, final byte numHatches, @NotNull final EntityType hatchingType) {
+    public PlayerEggThrowEvent(@NotNull final Player player, @NotNull final Egg egg, final boolean hatching, final byte numHatches, @NotNull final EntityType<?> hatchingType) {
         super(player);
         this.egg = egg;
         this.hatching = hatching;
@@ -60,7 +60,7 @@ public class PlayerEggThrowEvent extends PlayerEvent {
      * @return The type of the mob being hatched by the egg
      */
     @NotNull
-    public EntityType getHatchingType() {
+    public EntityType<?> getHatchingType() {
         return hatchType;
     }
 
@@ -69,7 +69,7 @@ public class PlayerEggThrowEvent extends PlayerEvent {
      *
      * @param hatchType The type of the mob being hatched by the egg
      */
-    public void setHatchingType(@NotNull EntityType hatchType) {
+    public void setHatchingType(@NotNull EntityType<?> hatchType) {
         if (!hatchType.isSpawnable()) throw new IllegalArgumentException("Can't spawn that entity type from an egg!");
         this.hatchType = hatchType;
     }

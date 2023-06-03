@@ -31,7 +31,7 @@ public abstract class EntityEvent extends Event {
      * @return EntityType of the Entity involved in this event
      */
     @NotNull
-    public EntityType getEntityType() {
+    public EntityType<?> getEntityType() {
         return entity.getType();
     }
 }

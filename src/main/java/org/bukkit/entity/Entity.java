@@ -447,7 +447,7 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
      * @return The entity type.
      */
     @NotNull
-    public EntityType getType();
+    public EntityType<?> getType();
 
     /**
      * Get the {@link Sound} this entity makes while swimming.

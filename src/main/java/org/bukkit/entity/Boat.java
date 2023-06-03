@@ -160,9 +160,9 @@ public interface Boat extends Vehicle {
         }
 
         /**
-         * Gets the material of the boat type.
+         * Gets the item type of the boat type.
          *
-         * @return a material
+         * @return the item type
          */
         @NotNull
         public ItemType getItemType() {

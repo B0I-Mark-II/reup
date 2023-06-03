@@ -299,9 +299,11 @@ public abstract class Enchantment implements Keyed {
      *
      * @param key key to fetch
      * @return Resulting Enchantment, or null if not found
+     * @deprecated only for backwards compatibility, use {@link Registry#get(NamespacedKey)} instead
      */
     @Contract("null -> null")
     @Nullable
+    @Deprecated
     public static Enchantment getByKey(@Nullable NamespacedKey key) {
         if (key == null) {
             return null;

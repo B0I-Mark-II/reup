@@ -213,7 +213,7 @@ public interface RegionAccessor {
      * @return Resulting Entity of this method
      */
     @NotNull
-    Entity spawnEntity(@NotNull Location location, @NotNull EntityType type);
+    Entity spawnEntity(@NotNull Location location, @NotNull EntityType<?> type);
 
     /**
      * Creates a new entity at the given {@link Location}.
@@ -239,7 +239,7 @@ public interface RegionAccessor {
      * @return the spawned entity instance.
      */
     @NotNull
-    public Entity spawnEntity(@NotNull Location loc, @NotNull EntityType type, boolean randomizeData);
+    public Entity spawnEntity(@NotNull Location loc, @NotNull EntityType<?> type, boolean randomizeData);
 
     /**
      * Get a list of all entities in this RegionAccessor

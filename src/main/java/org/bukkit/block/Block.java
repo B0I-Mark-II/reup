@@ -4,7 +4,6 @@ import java.util.Collection;
 import org.bukkit.Chunk;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Translatable;
 import org.bukkit.World;
 import org.bukkit.block.data.Bisected;
@@ -83,7 +82,7 @@ public interface Block extends Metadatable, Translatable {
      * <pre>
      * Block block = world.getBlockAt(100, 100, 100);
      * Block shower = block.getRelative(BlockFace.UP, 2);
-     * shower.setType(Material.WATER);
+     * shower.setType(BlockType.WATER);
      * </pre>
      *
      * @param face Face of this block to return
@@ -216,7 +215,7 @@ public interface Block extends Metadatable, Translatable {
     /**
      * Sets the type of this block
      *
-     * @param type Material to change this block to
+     * @param type BlockType to change this block to
      */
     void setType(@NotNull BlockType<?> type);
 
@@ -337,7 +336,7 @@ public interface Block extends Metadatable, Translatable {
      * Checks if this block is empty.
      * <p>
      * A block is considered empty when {@link #getType()} returns {@link
-     * Material#AIR}.
+     * BlockType#AIR}.
      *
      * @return true if this block is empty
      */
@@ -347,7 +346,7 @@ public interface Block extends Metadatable, Translatable {
      * Checks if this block is liquid.
      * <p>
      * A block is considered liquid when {@link #getType()} returns {@link
-     * Material#WATER} or {@link Material#LAVA}.
+     * BlockType#WATER} or {@link BlockType#LAVA}.
      *
      * @return true if this block is liquid
      */

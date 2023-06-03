@@ -17,7 +17,7 @@ public interface SpawnEggMeta extends ItemMeta {
      */
     @Deprecated
     @Contract("-> fail")
-    EntityType getSpawnedType();
+    EntityType<?> getSpawnedType();
 
     /**
      * Set the type of entity this egg will spawn.
@@ -28,7 +28,7 @@ public interface SpawnEggMeta extends ItemMeta {
      */
     @Deprecated
     @Contract("_ -> fail")
-    void setSpawnedType(EntityType type);
+    void setSpawnedType(EntityType<?> type);
 
     @NotNull
     @Override

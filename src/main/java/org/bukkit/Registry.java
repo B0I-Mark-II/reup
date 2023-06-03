@@ -149,7 +149,7 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
      * Server materials.
      *
      * @see Material
-     * @deprecated Material was split up into {@link ItemType} and {@link BlockType}
+     * @deprecated Material was split up into {@link #ITEM} and {@link #BLOCK}
      */
     @Deprecated
     Registry<Material> MATERIAL = new SimpleRegistry<>(Material.class, (mat) -> !mat.isLegacy());

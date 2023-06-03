@@ -34,7 +34,7 @@ public class SpawnEgg extends MaterialData {
         super(Material.LEGACY_MONSTER_EGG, data);
     }
 
-    public SpawnEgg(EntityType type) {
+    public SpawnEgg(EntityType<?> type) {
         this();
         setSpawnedType(type);
     }
@@ -46,7 +46,7 @@ public class SpawnEgg extends MaterialData {
      * @deprecated This is now stored in {@link SpawnEggMeta}.
      */
     @Deprecated
-    public EntityType getSpawnedType() {
+    public EntityType<?> getSpawnedType() {
         return EntityType.fromId(getData());
     }
 
@@ -57,7 +57,7 @@ public class SpawnEgg extends MaterialData {
      * @deprecated This is now stored in {@link SpawnEggMeta}.
      */
     @Deprecated
-    public void setSpawnedType(EntityType type) {
+    public void setSpawnedType(EntityType<?> type) {
         setData((byte) type.getTypeId());
     }
 

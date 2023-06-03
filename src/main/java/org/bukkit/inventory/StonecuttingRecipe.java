@@ -21,7 +21,7 @@ public class StonecuttingRecipe implements Recipe, Keyed {
      *
      * @param key The unique recipe key
      * @param result The item you want the recipe to create.
-     * @param source The input material.
+     * @param source The input item type.
      */
     public StonecuttingRecipe(@NotNull NamespacedKey key, @NotNull ItemStack result, @NotNull ItemType source) {
         this(key, result, new RecipeChoice.ItemTypeChoice(Collections.singletonList(source)));
@@ -49,19 +49,19 @@ public class StonecuttingRecipe implements Recipe, Keyed {
     /**
      * Sets the input of this cooking recipe.
      *
-     * @param input The input material.
+     * @param input The input item type.
      * @return The changed recipe, so you can chain calls.
      */
     @NotNull
-    public StonecuttingRecipe setInput(@NotNull Material input) {
-        this.ingredient = new RecipeChoice.MaterialChoice(Collections.singletonList(input));
+    public StonecuttingRecipe setInput(@NotNull ItemType input) {
+        this.ingredient = new RecipeChoice.ItemTypeChoice(Collections.singletonList(input));
         return this;
     }
 
     /**
-     * Get the input material.
+     * Get the input item stack.
      *
-     * @return The input material.
+     * @return The input item stack.
      */
     @NotNull
     public ItemStack getInput() {

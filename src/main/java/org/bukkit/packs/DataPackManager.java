@@ -66,5 +66,5 @@ public interface DataPackManager {
      * @param world World to check
      * @return {@code True} if the type of entity is enabled
      */
-    public boolean isEnabledByFeature(@NotNull EntityType entityType, @NotNull World world);
+    public boolean isEnabledByFeature(@NotNull EntityType<?> entityType, @NotNull World world);
 }

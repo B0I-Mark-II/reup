@@ -32,7 +32,7 @@ public interface DecoratedPot extends TileState {
     /**
      * Set the shards which will be dropped when this pot is broken.
      *
-     * @param shard list of items
+     * @param shard list of item types
      */
     public void setShards(@Nullable List<ItemType> shard);
 }

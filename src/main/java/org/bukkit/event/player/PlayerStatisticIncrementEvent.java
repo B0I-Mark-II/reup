@@ -24,7 +24,7 @@ public class PlayerStatisticIncrementEvent extends PlayerEvent implements Cancel
     private final int initialValue;
     private final int newValue;
     private boolean isCancelled = false;
-    private final EntityType entityType;
+    private final EntityType<?> entityType;
     private final ItemType itemType;
     private final BlockType<?> blockType;
 
@@ -38,7 +38,7 @@ public class PlayerStatisticIncrementEvent extends PlayerEvent implements Cancel
         this.blockType = null;
     }
 
-    public PlayerStatisticIncrementEvent(@NotNull Player player, @NotNull Statistic statistic, int initialValue, int newValue, @NotNull EntityType entityType) {
+    public PlayerStatisticIncrementEvent(@NotNull Player player, @NotNull Statistic statistic, int initialValue, int newValue, @NotNull EntityType<?> entityType) {
         super(player);
         this.statistic = statistic;
         this.initialValue = initialValue;
@@ -122,7 +122,7 @@ public class PlayerStatisticIncrementEvent extends PlayerEvent implements Cancel
      * @return the EntityType of the statistic
      */
     @Nullable
-    public EntityType getEntityType() {
+    public EntityType<?> getEntityType() {
         return entityType;
     }
 

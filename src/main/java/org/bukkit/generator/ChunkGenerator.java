@@ -660,7 +660,7 @@ public abstract class ChunkGenerator {
         public void setBlock(int x, int y, int z, @NotNull MaterialData material);
 
         /**
-         * Set the block at x,y,z in the chunk data to material.
+         * Set the block at x,y,z in the chunk data to blockdata.
          *
          * Setting blocks outside the chunk's bounds does nothing.
          *
@@ -705,7 +705,7 @@ public abstract class ChunkGenerator {
 
         /**
          * Set a region of this chunk from xMin, yMin, zMin (inclusive) to xMax,
-         * yMax, zMax (exclusive) to material.
+         * yMax, zMax (exclusive) to blockdata.
          *
          * Setting blocks outside the chunk's bounds does nothing.
          *

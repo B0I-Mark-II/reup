@@ -1400,35 +1400,35 @@ public interface ItemType extends Keyed, Translatable {
     BlockType<?> getBlockType();
 
     /**
-     * Gets the maximum amount of this material that can be held in a stack
+     * Gets the maximum amount of this item type that can be held in a stack
      *
-     * @return Maximum stack size for this material
+     * @return Maximum stack size for this item type
      */
     int getMaxStackSize();
 
     /**
-     * Gets the maximum durability of this material
+     * Gets the maximum durability of this item type
      *
-     * @return Maximum durability for this material
+     * @return Maximum durability for this item type
      */
     short getMaxDurability();
 
     /**
-     * Checks if this Material is edible.
+     * Checks if this item type is edible.
      *
-     * @return true if this Material is edible.
+     * @return true if this item type is edible.
      */
     boolean isEdible();
 
     /**
-     * @return True if this material represents a playable music disk.
+     * @return True if this item type represents a playable music disk.
      */
     boolean isRecord();
 
     /**
-     * Checks if this Material can be used as fuel in a Furnace
+     * Checks if this item type can be used as fuel in a Furnace
      *
-     * @return true if this Material can be used as fuel.
+     * @return true if this item type can be used as fuel.
      */
     boolean isFuel();
 
@@ -1442,11 +1442,11 @@ public interface ItemType extends Keyed, Translatable {
     ItemType getCraftingRemainingItem();
 
     /**
-     * Get the best suitable slot for this Material.
+     * Get the best suitable slot for this item type.
      *
      * For most items this will be {@link EquipmentSlot#HAND}.
      *
-     * @return the best EquipmentSlot for this Material
+     * @return the best EquipmentSlot for this item type
      */
     @NotNull
     EquipmentSlot getEquipmentSlot();
@@ -1466,7 +1466,7 @@ public interface ItemType extends Keyed, Translatable {
     Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot slot);
 
     /**
-     * Get the {@link CreativeCategory} to which this material belongs.
+     * Get the {@link CreativeCategory} to which this item type belongs.
      *
      * @return the creative category. null if does not belong to a category
      */

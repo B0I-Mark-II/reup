@@ -1,6 +1,5 @@
 package org.bukkit.block;
 
-import org.bukkit.Material;
 import org.bukkit.MinecraftExperimental;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
@@ -139,7 +138,7 @@ public interface Skull extends TileState {
      * Gets the type of skull
      *
      * @return the type of skull
-     * @deprecated check {@link Material} instead
+     * @deprecated check {@link BlockType} instead
      */
     @Deprecated
     @NotNull
@@ -149,7 +148,7 @@ public interface Skull extends TileState {
      * Sets the type of skull
      *
      * @param skullType the type of skull
-     * @deprecated check {@link Material} instead
+     * @deprecated check {@link BlockType} instead
      */
     @Deprecated
     @Contract("_ -> fail")
