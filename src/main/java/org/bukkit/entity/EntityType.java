@@ -7,7 +7,6 @@ import com.google.common.collect.Lists;
 import org.bukkit.Bukkit;
 import org.bukkit.Keyed;
 import org.bukkit.Location;
-import org.bukkit.MinecraftExperimental;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 import org.bukkit.Translatable;
@@ -284,14 +283,10 @@ public abstract class EntityType<E extends Entity> extends OldEnum<EntityType<E>
     public static final EntityType<Frog> FROG = getEntityType("frog");
     public static final EntityType<Tadpole> TADPOLE = getEntityType("tadpole");
     public static final EntityType<Warden> WARDEN = getEntityType("warden");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final EntityType<Camel> CAMEL = getEntityType("camel");
     public static final EntityType<BlockDisplay> BLOCK_DISPLAY = getEntityType("block_display");
     public static final EntityType<Interaction> INTERACTION = getEntityType("interaction");
     public static final EntityType<ItemDisplay> ITEM_DISPLAY = getEntityType("item_display");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final EntityType<Sniffer> SNIFFER = getEntityType("sniffer");
     public static final EntityType<TextDisplay> TEXT_DISPLAY = getEntityType("text_display");
     /**

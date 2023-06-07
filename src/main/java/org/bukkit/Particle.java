@@ -5,7 +5,6 @@ import com.google.common.collect.Lists;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.OldEnum;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class Particle<D> extends OldEnum<Particle<D>> implements Keyed {
@@ -119,15 +118,8 @@ public abstract class Particle<D> extends OldEnum<Particle<D>> implements Keyed 
     public static final Particle<Float> SCULK_CHARGE = getParticle("sculk_charge");
     public static final Particle<Void> SCULK_CHARGE_POP = getParticle("sculk_charge_pop");
     public static final Particle<Integer> SHRIEK = getParticle("shriek");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
-    public static final Particle<Void> DRIPPING_CHERRY_LEAVES = getParticle("dripping_cherry_leaves");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
-    public static final Particle<Void> FALLING_CHERRY_LEAVES = getParticle("falling_cherry_leaves");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
-    public static final Particle<Void> LANDING_CHERRY_LEAVES = getParticle("landing_cherry_leaves");
+    public static final Particle<Void> CHERRY_LEAVES = getParticle("cherry_leaves");
+    public static final Particle<Void> EGG_CRACK = getParticle("egg_crack");
     /**
      * Uses {@link BlockData} as DataType
      */

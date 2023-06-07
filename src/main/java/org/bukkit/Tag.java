@@ -4,7 +4,6 @@ import java.util.Set;
 import org.bukkit.block.BlockType;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemType;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -39,6 +38,10 @@ public interface Tag<T extends Keyed> extends Keyed {
      * Vanilla block tag representing all wooden buttons.
      */
     Tag<BlockType> WOODEN_BUTTONS = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("wooden_buttons"), BlockType.class);
+    /**
+     * Vanilla block tag representing all stone buttons.
+     */
+    Tag<BlockType> STONE_BUTTONS = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("stone_buttons"), BlockType.class);
     /**
      * Vanilla block tag representing all buttons (inherits from
      * {@link #WOODEN_BUTTONS}.
@@ -121,8 +124,6 @@ public interface Tag<T extends Keyed> extends Keyed {
     /**
      * Vanilla block tag representing all cherry log and bark variants.
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     Tag<BlockType> CHERRY_LOGS = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("cherry_logs"), BlockType.class);
     /**
      * Vanilla block tag representing all jungle log and bark variants.
@@ -321,20 +322,14 @@ public interface Tag<T extends Keyed> extends Keyed {
     /**
      * Vanilla block tag representing all ceiling signs.
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     Tag<BlockType> CEILING_HANGING_SIGNS = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("ceiling_hanging_signs"), BlockType.class);
     /**
      * Vanilla block tag representing all wall hanging signs.
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     Tag<BlockType> WALL_HANGING_SIGNS = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("wall_hanging_signs"), BlockType.class);
     /**
      * Vanilla block tag representing all hanging signs.
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     Tag<BlockType> ALL_HANGING_SIGNS = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("all_hanging_signs"), BlockType.class);
     /**
      * Vanilla block tag representing all signs, regardless of type.
@@ -503,6 +498,10 @@ public interface Tag<T extends Keyed> extends Keyed {
      */
     Tag<BlockType> INSIDE_STEP_SOUND_BLOCKS = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("inside_step_sound_blocks"), BlockType.class);
     /**
+     * Vanilla block tag representing all blocks that play combination step sounds.
+     */
+    Tag<BlockType> COMBINATION_STEP_SOUND_BLOCKS = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("combination_step_sound_blocks"), BlockType.class);
+    /**
      * Vanilla block tag representing all blocks that block vibration signals.
      */
     Tag<BlockType> OCCLUDES_VIBRATION_SIGNALS = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("occludes_vibration_signals"), BlockType.class);
@@ -563,6 +562,10 @@ public interface Tag<T extends Keyed> extends Keyed {
      */
     Tag<BlockType> MINEABLE_SHOVEL = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("mineable/shovel"), BlockType.class);
     /**
+     * Vanilla block tag representing all blocks that can be efficiently mined with a sword.
+     */
+    Tag<BlockType> SWORD_EFFICIENT = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("sword_efficient"), BlockType.class);
+    /**
      * Vanilla block tag representing all blocks which require a diamond tool.
      */
     Tag<BlockType> NEEDS_DIAMOND_TOOL = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("needs_diamond_tool"), BlockType.class);
@@ -607,6 +610,10 @@ public interface Tag<T extends Keyed> extends Keyed {
      */
     Tag<BlockType> ANCIENT_CITY_REPLACEABLE = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("ancient_city_replaceable"), BlockType.class);
     /**
+     * Vanilla block tag representing all blocks which resonate vibrations.
+     */
+    Tag<BlockType> VIBRATION_RESONATORS = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("vibration_resonators"), BlockType.class);
+    /**
      * Vanilla block tag representing all blocks which animals will spawn on.
      */
     Tag<BlockType> ANIMALS_SPAWNABLE_ON = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("animals_spawnable_on"), BlockType.class);
@@ -632,11 +639,6 @@ public interface Tag<T extends Keyed> extends Keyed {
      */
     Tag<BlockType> POLAR_BEARS_SPAWNABLE_ON_ALTERNATE = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("polar_bears_spawnable_on_alternate"), BlockType.class);
     /**
-     * @deprecated {@link #POLAR_BEARS_SPAWNABLE_ON_ALTERNATE}
-     */
-    @Deprecated
-    Tag<BlockType> POLAR_BEARS_SPAWNABLE_ON_IN_FROZEN_OCEAN = POLAR_BEARS_SPAWNABLE_ON_ALTERNATE;
-    /**
      * Vanilla block tag representing all blocks which rabbits will spawn on.
      */
     Tag<BlockType> RABBITS_SPAWNABLE_ON = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("rabbits_spawnable_on"), BlockType.class);
@@ -656,10 +658,6 @@ public interface Tag<T extends Keyed> extends Keyed {
      * Vanilla block tag representing all blocks which azaleas will grow on.
      */
     Tag<BlockType> AZALEA_GROWS_ON = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("azalea_grows_on"), BlockType.class);
-    /**
-     * Vanilla block tag representing all plant blocks which may be replaced.
-     */
-    Tag<BlockType> REPLACEABLE_PLANTS = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("replaceable_plants"), BlockType.class);
     /**
      * Vanilla block tag representing all blocks which may be converted to mud.
      */
@@ -684,6 +682,10 @@ public interface Tag<T extends Keyed> extends Keyed {
      */
     Tag<BlockType> SNAPS_GOAT_HORN = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("snaps_goat_horn"), BlockType.class);
     /**
+     * Vanilla block tag representing all blocks replaceable by growing trees.
+     */
+    Tag<BlockType> REPLACEABLE_BY_TREES = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("replaceable_by_trees"), BlockType.class);
+    /**
      * Vanilla block tag representing blocks which snow cannot survive on.
      */
     Tag<BlockType> SNOW_LAYER_CANNOT_SURVIVE_ON = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("snow_layer_cannot_survive_on"), BlockType.class);
@@ -698,9 +700,31 @@ public interface Tag<T extends Keyed> extends Keyed {
     /**
      * Vanilla block tag representing blocks which can be dug by sniffers.
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     Tag<BlockType> SNIFFER_DIGGABLE_BLOCK = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("sniffer_diggable_block"), BlockType.class);
+    /**
+     * Vanilla block tag representing all blocks which booster sniffer egg hatching.
+     */
+    Tag<BlockType> SNIFFER_EGG_HATCH_BOOST = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("sniffer_egg_hatch_boost"), BlockType.class);
+    /**
+     * Vanilla block tag representing all blocks which can be replaced by trail ruins.
+     */
+    Tag<BlockType> TRAIL_RUINS_REPLACEABLE = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("trail_ruins_replaceable"), BlockType.class);
+    /**
+     * Vanilla block tag representing all blocks which are replaceable.
+     */
+    Tag<BlockType> REPLACEABLE = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("replaceable"), BlockType.class);
+    /**
+     * Vanilla block tag representing all blocks which provide enchantment power.
+     */
+    Tag<BlockType> ENCHANTMENT_POWER_PROVIDER = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("enchantment_power_provider"), BlockType.class);
+    /**
+     * Vanilla block tag representing all blocks which transmit enchantment power.
+     */
+    Tag<BlockType> ENCHANTMENT_POWER_TRANSMITTER = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("enchantment_power_transmitter"), BlockType.class);
+    /**
+     * Vanilla block tag representing all blocks which do not destroy farmland when placed.
+     */
+    Tag<BlockType> MAINTAINS_FARMLAND = Bukkit.getTag(REGISTRY_BLOCKS, NamespacedKey.minecraft("maintains_farmland"), BlockType.class);
     /**
      * Key for the built in item registry.
      */
@@ -789,39 +813,31 @@ public interface Tag<T extends Keyed> extends Keyed {
     /**
      * Vanilla item tag representing all items which modify note block sounds when placed on top.
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     Tag<ItemType> ITEMS_NOTE_BLOCK_TOP_INSTRUMENTS = Bukkit.getTag(REGISTRY_ITEMS, NamespacedKey.minecraft("noteblock_top_instruments"), ItemType.class);
     /**
      * Vanilla item tag representing all trimmable armor items.
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     Tag<ItemType> ITEMS_TRIMMABLE_ARMOR = Bukkit.getTag(REGISTRY_ITEMS, NamespacedKey.minecraft("trimmable_armor"), ItemType.class);
     /**
      * Vanilla item tag representing all ItemTypes which can be used for trimming armor.
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     Tag<ItemType> ITEMS_TRIM_ItemTypeS = Bukkit.getTag(REGISTRY_ITEMS, NamespacedKey.minecraft("trim_materials"), ItemType.class);
     /**
      * Vanilla item tag representing all trimming templates.
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     Tag<ItemType> ITEMS_TRIM_TEMPLATES = Bukkit.getTag(REGISTRY_ITEMS, NamespacedKey.minecraft("trim_templates"), ItemType.class);
     /**
      * Vanilla item tag representing all food for sniffers.
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     Tag<ItemType> ITEMS_SNIFFER_FOOD = Bukkit.getTag(REGISTRY_ITEMS, NamespacedKey.minecraft("sniffer_food"), ItemType.class);
     /**
-     * Vanilla item tag representing all decorated pot shards.
+     * Vanilla item tag representing all decorated pot sherds.
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
-    Tag<ItemType> ITEMS_DECORATED_POT_SHARDS = Bukkit.getTag(REGISTRY_ITEMS, NamespacedKey.minecraft("decorated_pot_shards"), ItemType.class);
+    Tag<ItemType> ITEMS_DECORATED_POT_SHERDS = Bukkit.getTag(REGISTRY_ITEMS, NamespacedKey.minecraft("decorated_pot_sherds"), ItemType.class);
+    /**
+     * Vanilla item tag representing all decorated pot ingredients.
+     */
+    Tag<ItemType> ITEMS_DECORATED_POT_INGREDIENTS = Bukkit.getTag(REGISTRY_ITEMS, NamespacedKey.minecraft("decorated_pot_ingredients"), ItemType.class);
     /**
      * Vanilla item tag representing all swords.
      */
@@ -847,11 +863,13 @@ public interface Tag<T extends Keyed> extends Keyed {
      */
     Tag<ItemType> ITEMS_TOOLS = Bukkit.getTag(REGISTRY_ITEMS, NamespacedKey.minecraft("tools"), ItemType.class);
     /**
-     * Vanilla item tag representing all item which break decorated pots.
+     * Vanilla item tag representing all items which break decorated pots.
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     Tag<ItemType> ITEMS_BREAKS_DECORATED_POTS = Bukkit.getTag(REGISTRY_ITEMS, NamespacedKey.minecraft("breaks_decorated_pots"), ItemType.class);
+    /**
+     * Vanilla item tag representing all seeds planteable by villagers.
+     */
+    Tag<ItemType> ITEMS_VILLAGER_PLANTABLE_SEEDS = Bukkit.getTag(REGISTRY_ITEMS, NamespacedKey.minecraft("villager_plantable_seeds"), ItemType.class);
     /**
      * Vanilla item tag representing all items that confer freeze immunity on
      * the wearer.

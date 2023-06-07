@@ -50,6 +50,7 @@ public abstract class Sound extends OldEnum<Sound> implements Keyed {
     public static final Sound BLOCK_AMETHYST_BLOCK_FALL = getSound("block.amethyst_block.fall");
     public static final Sound BLOCK_AMETHYST_BLOCK_HIT = getSound("block.amethyst_block.hit");
     public static final Sound BLOCK_AMETHYST_BLOCK_PLACE = getSound("block.amethyst_block.place");
+    public static final Sound BLOCK_AMETHYST_BLOCK_RESONATE = getSound("block.amethyst_block.resonate");
     public static final Sound BLOCK_AMETHYST_BLOCK_STEP = getSound("block.amethyst_block.step");
     public static final Sound BLOCK_AMETHYST_CLUSTER_BREAK = getSound("block.amethyst_cluster.break");
     public static final Sound BLOCK_AMETHYST_CLUSTER_FALL = getSound("block.amethyst_cluster.fall");
@@ -275,38 +276,16 @@ public abstract class Sound extends OldEnum<Sound> implements Keyed {
     public static final Sound BLOCK_CHAIN_HIT = getSound("block.chain.hit");
     public static final Sound BLOCK_CHAIN_PLACE = getSound("block.chain.place");
     public static final Sound BLOCK_CHAIN_STEP = getSound("block.chain.step");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHERRY_WOOD_BREAK = getSound("block.cherry_wood.break");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHERRY_WOOD_FALL = getSound("block.cherry_wood.fall");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHERRY_WOOD_HIT = getSound("block.cherry_wood.hit");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHERRY_WOOD_PLACE = getSound("block.cherry_wood.place");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHERRY_WOOD_STEP = getSound("block.cherry_wood.step");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHERRY_SAPLING_BREAK = getSound("block.cherry_sapling.break");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHERRY_SAPLING_FALL = getSound("block.cherry_sapling.fall");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHERRY_SAPLING_HIT = getSound("block.cherry_sapling.hit");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHERRY_SAPLING_PLACE = getSound("block.cherry_sapling.place");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHERRY_SAPLING_STEP = getSound("block.cherry_sapling.step");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHERRY_LEAVES_BREAK = getSound("block.cherry_leaves.break");
     @MinecraftExperimental
     @ApiStatus.Experimental

@@ -4,11 +4,9 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import org.bukkit.Bukkit;
 import org.bukkit.Keyed;
-import org.bukkit.MinecraftExperimental;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 import org.bukkit.util.OldEnum;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -82,8 +80,6 @@ public abstract class Biome extends OldEnum<Biome> implements Keyed {
     public static final Biome FROZEN_PEAKS = getBiome("frozen_peaks");
     public static final Biome JAGGED_PEAKS = getBiome("jagged_peaks");
     public static final Biome STONY_PEAKS = getBiome("stony_peaks");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Biome CHERRY_GROVE = getBiome("cherry_grove");
 
     /**

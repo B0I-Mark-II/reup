@@ -188,7 +188,6 @@ public enum EnchantmentTarget {
             return ARMOR.includes(item)
                     || item.equals(ItemType.ELYTRA)
                     || item.equals(ItemType.CARVED_PUMPKIN)
-                    || item.equals(ItemType.JACK_O_LANTERN)
                     || item.equals(ItemType.SKELETON_SKULL)
                     || item.equals(ItemType.WITHER_SKELETON_SKULL)
                     || item.equals(ItemType.ZOMBIE_HEAD)

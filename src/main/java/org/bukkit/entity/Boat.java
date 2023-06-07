@@ -1,9 +1,7 @@
 package org.bukkit.entity;
 
-import org.bukkit.MinecraftExperimental;
 import org.bukkit.TreeSpecies;
 import org.bukkit.inventory.ItemType;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -143,13 +141,9 @@ public interface Boat extends Vehicle {
         BIRCH(ItemType.BIRCH_PLANKS),
         JUNGLE(ItemType.JUNGLE_PLANKS),
         ACACIA(ItemType.ACACIA_PLANKS),
-        @MinecraftExperimental
-        @ApiStatus.Experimental
         CHERRY(ItemType.CHERRY_PLANKS),
         DARK_OAK(ItemType.DARK_OAK_PLANKS),
         MANGROVE(ItemType.MANGROVE_PLANKS),
-        @MinecraftExperimental
-        @ApiStatus.Experimental
         BAMBOO(ItemType.BAMBOO_PLANKS),
         ;
 

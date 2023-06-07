@@ -194,7 +194,6 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
      *
      * @see TrimMaterial
      */
-    @MinecraftExperimental
     @ApiStatus.Experimental
     Registry<TrimMaterial> TRIM_MATERIAL = Objects.requireNonNull(Bukkit.getRegistry(TrimMaterial.class), "No registry present for TrimMaterial. This is a bug.");
     /**
@@ -202,7 +201,6 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
      *
      * @see TrimPattern
      */
-    @MinecraftExperimental
     @ApiStatus.Experimental
     Registry<TrimPattern> TRIM_PATTERN = Objects.requireNonNull(Bukkit.getRegistry(TrimPattern.class), "No registry present for TrimPattern. This is a bug.");
     /**
@@ -283,7 +281,7 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
     default T match(@NotNull String input) {
         Preconditions.checkArgument(input != null, "input must not be null");
 
-        String filtered = input.toLowerCase().replaceAll("\\s+", "_").replaceAll("\\W", "");
+        String filtered = input.toLowerCase().replaceAll("\\s+", "_");
         NamespacedKey namespacedKey = NamespacedKey.fromString(filtered);
         return (namespacedKey != null) ? get(namespacedKey) : null;
     }
