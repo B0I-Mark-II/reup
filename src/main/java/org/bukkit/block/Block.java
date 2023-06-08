@@ -335,8 +335,8 @@ public interface Block extends Metadatable, Translatable {
     /**
      * Checks if this block is empty.
      * <p>
-     * A block is considered empty when {@link #getType()} returns {@link
-     * BlockType#AIR}.
+     * A block is considered empty when {@link #getType()} returns a block type for which
+     * {@link BlockType#isAir()} is true.
      *
      * @return true if this block is empty
      */

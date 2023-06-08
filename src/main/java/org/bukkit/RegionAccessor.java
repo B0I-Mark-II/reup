@@ -210,10 +210,11 @@ public interface RegionAccessor {
      *
      * @param location The location to spawn the entity
      * @param type The entity to spawn
+     * @param <E> The class of the {@link Entity} to spawn
      * @return Resulting Entity of this method
      */
     @NotNull
-    Entity spawnEntity(@NotNull Location location, @NotNull EntityType<?> type);
+    <E extends Entity> E spawnEntity(@NotNull Location location, @NotNull EntityType<E> type);
 
     /**
      * Creates a new entity at the given {@link Location}.
@@ -236,10 +237,11 @@ public interface RegionAccessor {
      *                      randomisation logic for their spawn.
      *                      This parameter is hence useless for any other type
      *                      of entity.
+     * @param <E> the class of the {@link Entity} to spawn
      * @return the spawned entity instance.
      */
     @NotNull
-    public Entity spawnEntity(@NotNull Location loc, @NotNull EntityType<?> type, boolean randomizeData);
+    public <E extends Entity> E spawnEntity(@NotNull Location loc, @NotNull EntityType<E> type, boolean randomizeData);
 
     /**
      * Get a list of all entities in this RegionAccessor
