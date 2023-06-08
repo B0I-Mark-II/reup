@@ -3,7 +3,6 @@ package org.bukkit.block;
 import com.google.common.base.Preconditions;
 import java.util.function.Consumer;
 import org.bukkit.Keyed;
-import org.bukkit.MinecraftExperimental;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 import org.bukkit.Translatable;
@@ -11,7 +10,9 @@ import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.AnaloguePowerable;
 import org.bukkit.block.data.Bisected;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Brushable;
 import org.bukkit.block.data.Directional;
+import org.bukkit.block.data.Hatchable;
 import org.bukkit.block.data.Levelled;
 import org.bukkit.block.data.Lightable;
 import org.bukkit.block.data.MultipleFacing;
@@ -31,6 +32,7 @@ import org.bukkit.block.data.type.BigDripleaf;
 import org.bukkit.block.data.type.BrewingStand;
 import org.bukkit.block.data.type.BubbleColumn;
 import org.bukkit.block.data.type.Cake;
+import org.bukkit.block.data.type.CalibratedSculkSensor;
 import org.bukkit.block.data.type.Campfire;
 import org.bukkit.block.data.type.Candle;
 import org.bukkit.block.data.type.CaveVines;
@@ -73,6 +75,7 @@ import org.bukkit.block.data.type.Observer;
 import org.bukkit.block.data.type.PinkPetals;
 import org.bukkit.block.data.type.Piston;
 import org.bukkit.block.data.type.PistonHead;
+import org.bukkit.block.data.type.PitcherCrop;
 import org.bukkit.block.data.type.PointedDripstone;
 import org.bukkit.block.data.type.RedstoneRail;
 import org.bukkit.block.data.type.RedstoneWallTorch;
@@ -92,7 +95,6 @@ import org.bukkit.block.data.type.SmallDripleaf;
 import org.bukkit.block.data.type.Snow;
 import org.bukkit.block.data.type.Stairs;
 import org.bukkit.block.data.type.StructureBlock;
-import org.bukkit.block.data.type.SuspiciousSand;
 import org.bukkit.block.data.type.Switch;
 import org.bukkit.block.data.type.TNT;
 import org.bukkit.block.data.type.TechnicalPiston;
@@ -104,7 +106,6 @@ import org.bukkit.block.data.type.Wall;
 import org.bukkit.block.data.type.WallHangingSign;
 import org.bukkit.block.data.type.WallSign;
 import org.bukkit.inventory.ItemType;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -134,16 +135,10 @@ public interface BlockType<B extends BlockData> extends Keyed, Translatable {
     BlockType<BlockData> BIRCH_PLANKS = getBlockType("birch_planks");
     BlockType<BlockData> JUNGLE_PLANKS = getBlockType("jungle_planks");
     BlockType<BlockData> ACACIA_PLANKS = getBlockType("acacia_planks");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<BlockData> CHERRY_PLANKS = getBlockType("cherry_planks");
     BlockType<BlockData> DARK_OAK_PLANKS = getBlockType("dark_oak_planks");
     BlockType<BlockData> MANGROVE_PLANKS = getBlockType("mangrove_planks");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<BlockData> BAMBOO_PLANKS = getBlockType("bamboo_planks");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<BlockData> BAMBOO_MOSAIC = getBlockType("bamboo_mosaic");
     /**
      * BlockData: {@link Sapling}
@@ -168,8 +163,6 @@ public interface BlockType<B extends BlockData> extends Keyed, Translatable {
     /**
      * BlockData: {@link Sapling}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<Sapling> CHERRY_SAPLING = getBlockType("cherry_sapling");
     /**
      * BlockData: {@link Sapling}
@@ -190,13 +183,15 @@ public interface BlockType<B extends BlockData> extends Keyed, Translatable {
     BlockType<Levelled> LAVA = getBlockType("lava");
     BlockType<BlockData> SAND = getBlockType("sand");
     /**
-     * BlockData: {@link SuspiciousSand}
+     * BlockData: {@link Brushable}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
-    BlockType<SuspiciousSand> SUSPICIOUS_SAND = getBlockType("suspicious_sand");
+    BlockType<Brushable> SUSPICIOUS_SAND = getBlockType("suspicious_sand");
     BlockType<BlockData> RED_SAND = getBlockType("red_sand");
     BlockType<BlockData> GRAVEL = getBlockType("gravel");
+    /**
+     * BlockData: {@link Brushable}
+     */
+    BlockType<Brushable> SUSPICIOUS_GRAVEL = getBlockType("suspicious_gravel");
     BlockType<BlockData> GOLD_ORE = getBlockType("gold_ore");
     BlockType<BlockData> DEEPSLATE_GOLD_ORE = getBlockType("deepslate_gold_ore");
     BlockType<BlockData> IRON_ORE = getBlockType("iron_ore");
@@ -227,8 +222,6 @@ public interface BlockType<B extends BlockData> extends Keyed, Translatable {
     /**
      * BlockData: {@link Orientable}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<Orientable> CHERRY_LOG = getBlockType("cherry_log");
     /**
      * BlockData: {@link Orientable}
@@ -249,8 +242,6 @@ public interface BlockType<B extends BlockData> extends Keyed, Translatable {
     /**
      * BlockData: {@link Orientable}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<Orientable> BAMBOO_BLOCK = getBlockType("bamboo_block");
     /**
      * BlockData: {@link Orientable}
@@ -271,8 +262,6 @@ public interface BlockType<B extends BlockData> extends Keyed, Translatable {
     /**
      * BlockData: {@link Orientable}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<Orientable> STRIPPED_CHERRY_LOG = getBlockType("stripped_cherry_log");
     /**
      * BlockData: {@link Orientable}
@@ -313,8 +302,6 @@ public interface BlockType<B extends BlockData> extends Keyed, Translatable {
     /**
      * BlockData: {@link Orientable}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<Orientable> CHERRY_WOOD = getBlockType("cherry_wood");
     /**
      * BlockData: {@link Orientable}
@@ -347,8 +334,6 @@ public interface BlockType<B extends BlockData> extends Keyed, Translatable {
     /**
      * BlockData: {@link Orientable}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<Orientable> STRIPPED_CHERRY_WOOD = getBlockType("stripped_cherry_wood");
     /**
      * BlockData: {@link Orientable}
@@ -381,8 +366,6 @@ public interface BlockType<B extends BlockData> extends Keyed, Translatable {
     /**
      * BlockData: {@link Leaves}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<Leaves> CHERRY_LEAVES = getBlockType("cherry_leaves");
     /**
      * BlockData: {@link Leaves}
@@ -531,8 +514,6 @@ public interface BlockType<B extends BlockData> extends Keyed, Translatable {
      */
     BlockType<TechnicalPiston> MOVING_PISTON = getBlockType("moving_piston");
     BlockType<BlockData> DANDELION = getBlockType("dandelion");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<BlockData> TORCHFLOWER = getBlockType("torchflower");
     BlockType<BlockData> POPPY = getBlockType("poppy");
     BlockType<BlockData> BLUE_ORCHID = getBlockType("blue_orchid");
@@ -559,8 +540,6 @@ public interface BlockType<B extends BlockData> extends Keyed, Translatable {
     /**
      * BlockData: {@link ChiseledBookshelf}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<ChiseledBookshelf> CHISELED_BOOKSHELF = getBlockType("chiseled_bookshelf");
     BlockType<BlockData> MOSSY_COBBLESTONE = getBlockType("mossy_cobblestone");
     BlockType<BlockData> OBSIDIAN = getBlockType("obsidian");
@@ -622,8 +601,6 @@ public interface BlockType<B extends BlockData> extends Keyed, Translatable {
     /**
      * BlockData: {@link Sign}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<Sign> CHERRY_SIGN = getBlockType("cherry_sign");
     /**
      * BlockData: {@link Sign}
@@ -676,8 +653,6 @@ public interface BlockType<B extends BlockData> extends Keyed, Translatable {
     /**
      * BlockData: {@link WallSign}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<WallSign> CHERRY_WALL_SIGN = getBlockType("cherry_wall_sign");
     /**
      * BlockData: {@link WallSign}
@@ -698,134 +673,90 @@ public interface BlockType<B extends BlockData> extends Keyed, Translatable {
     /**
      * BlockData: {@link HangingSign}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<HangingSign> OAK_HANGING_SIGN = getBlockType("oak_hanging_sign");
     /**
      * BlockData: {@link HangingSign}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<HangingSign> SPRUCE_HANGING_SIGN = getBlockType("spruce_hanging_sign");
     /**
      * BlockData: {@link HangingSign}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<HangingSign> BIRCH_HANGING_SIGN = getBlockType("birch_hanging_sign");
     /**
      * BlockData: {@link HangingSign}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<HangingSign> ACACIA_HANGING_SIGN = getBlockType("acacia_hanging_sign");
     /**
      * BlockData: {@link HangingSign}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<HangingSign> CHERRY_HANGING_SIGN = getBlockType("cherry_hanging_sign");
     /**
      * BlockData: {@link HangingSign}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<HangingSign> JUNGLE_HANGING_SIGN = getBlockType("jungle_hanging_sign");
     /**
      * BlockData: {@link HangingSign}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<HangingSign> DARK_OAK_HANGING_SIGN = getBlockType("dark_oak_hanging_sign");
     /**
      * BlockData: {@link HangingSign}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<HangingSign> CRIMSON_HANGING_SIGN = getBlockType("crimson_hanging_sign");
     /**
      * BlockData: {@link HangingSign}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<HangingSign> WARPED_HANGING_SIGN = getBlockType("warped_hanging_sign");
     /**
      * BlockData: {@link HangingSign}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<HangingSign> MANGROVE_HANGING_SIGN = getBlockType("mangrove_hanging_sign");
     /**
      * BlockData: {@link HangingSign}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<HangingSign> BAMBOO_HANGING_SIGN = getBlockType("bamboo_hanging_sign");
     /**
      * BlockData: {@link WallHangingSign}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<WallHangingSign> OAK_WALL_HANGING_SIGN = getBlockType("oak_wall_hanging_sign");
     /**
      * BlockData: {@link WallHangingSign}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<WallHangingSign> SPRUCE_WALL_HANGING_SIGN = getBlockType("spruce_wall_hanging_sign");
     /**
      * BlockData: {@link WallHangingSign}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<WallHangingSign> BIRCH_WALL_HANGING_SIGN = getBlockType("birch_wall_hanging_sign");
     /**
      * BlockData: {@link WallHangingSign}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<WallHangingSign> ACACIA_WALL_HANGING_SIGN = getBlockType("acacia_wall_hanging_sign");
     /**
      * BlockData: {@link WallHangingSign}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<WallHangingSign> CHERRY_WALL_HANGING_SIGN = getBlockType("cherry_wall_hanging_sign");
     /**
      * BlockData: {@link WallHangingSign}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<WallHangingSign> JUNGLE_WALL_HANGING_SIGN = getBlockType("jungle_wall_hanging_sign");
     /**
      * BlockData: {@link WallHangingSign}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<WallHangingSign> DARK_OAK_WALL_HANGING_SIGN = getBlockType("dark_oak_wall_hanging_sign");
     /**
      * BlockData: {@link WallHangingSign}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<WallHangingSign> MANGROVE_WALL_HANGING_SIGN = getBlockType("mangrove_wall_hanging_sign");
     /**
      * BlockData: {@link WallHangingSign}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<WallHangingSign> CRIMSON_WALL_HANGING_SIGN = getBlockType("crimson_wall_hanging_sign");
     /**
      * BlockData: {@link WallHangingSign}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<WallHangingSign> WARPED_WALL_HANGING_SIGN = getBlockType("warped_wall_hanging_sign");
     /**
      * BlockData: {@link WallHangingSign}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<WallHangingSign> BAMBOO_WALL_HANGING_SIGN = getBlockType("bamboo_wall_hanging_sign");
     /**
      * BlockData: {@link Switch}
@@ -862,8 +793,6 @@ public interface BlockType<B extends BlockData> extends Keyed, Translatable {
     /**
      * BlockData: {@link Powerable}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<Powerable> CHERRY_PRESSURE_PLATE = getBlockType("cherry_pressure_plate");
     /**
      * BlockData: {@link Powerable}
@@ -997,8 +926,6 @@ public interface BlockType<B extends BlockData> extends Keyed, Translatable {
     /**
      * BlockData: {@link TrapDoor}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<TrapDoor> CHERRY_TRAPDOOR = getBlockType("cherry_trapdoor");
     /**
      * BlockData: {@link TrapDoor}
@@ -1182,16 +1109,12 @@ public interface BlockType<B extends BlockData> extends Keyed, Translatable {
      */
     BlockType<Wall> MOSSY_COBBLESTONE_WALL = getBlockType("mossy_cobblestone_wall");
     BlockType<BlockData> FLOWER_POT = getBlockType("flower_pot");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<BlockData> POTTED_TORCHFLOWER = getBlockType("potted_torchflower");
     BlockType<BlockData> POTTED_OAK_SAPLING = getBlockType("potted_oak_sapling");
     BlockType<BlockData> POTTED_SPRUCE_SAPLING = getBlockType("potted_spruce_sapling");
     BlockType<BlockData> POTTED_BIRCH_SAPLING = getBlockType("potted_birch_sapling");
     BlockType<BlockData> POTTED_JUNGLE_SAPLING = getBlockType("potted_jungle_sapling");
     BlockType<BlockData> POTTED_ACACIA_SAPLING = getBlockType("potted_acacia_sapling");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<BlockData> POTTED_CHERRY_SAPLING = getBlockType("potted_cherry_sapling");
     BlockType<BlockData> POTTED_DARK_OAK_SAPLING = getBlockType("potted_dark_oak_sapling");
     BlockType<BlockData> POTTED_MANGROVE_PROPAGULE = getBlockType("potted_mangrove_propagule");
@@ -1244,8 +1167,6 @@ public interface BlockType<B extends BlockData> extends Keyed, Translatable {
     /**
      * BlockData: {@link Switch}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<Switch> CHERRY_BUTTON = getBlockType("cherry_button");
     /**
      * BlockData: {@link Switch}
@@ -1310,14 +1231,10 @@ public interface BlockType<B extends BlockData> extends Keyed, Translatable {
     /**
      * BlockData: {@link Rotatable}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<Rotatable> PIGLIN_HEAD = getBlockType("piglin_head");
     /**
      * BlockData: {@link Directional}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<Directional> PIGLIN_WALL_HEAD = getBlockType("piglin_wall_head");
     /**
      * BlockData: {@link Directional}
@@ -1462,8 +1379,6 @@ public interface BlockType<B extends BlockData> extends Keyed, Translatable {
     /**
      * BlockData: {@link Stairs}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<Stairs> CHERRY_STAIRS = getBlockType("cherry_stairs");
     /**
      * BlockData: {@link Stairs}
@@ -1476,14 +1391,10 @@ public interface BlockType<B extends BlockData> extends Keyed, Translatable {
     /**
      * BlockData: {@link Stairs}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<Stairs> BAMBOO_STAIRS = getBlockType("bamboo_stairs");
     /**
      * BlockData: {@link Stairs}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<Stairs> BAMBOO_MOSAIC_STAIRS = getBlockType("bamboo_mosaic_stairs");
     BlockType<BlockData> SLIME_BLOCK = getBlockType("slime_block");
     BlockType<BlockData> BARRIER = getBlockType("barrier");
@@ -1728,8 +1639,6 @@ public interface BlockType<B extends BlockData> extends Keyed, Translatable {
     /**
      * BlockData: {@link Slab}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<Slab> CHERRY_SLAB = getBlockType("cherry_slab");
     /**
      * BlockData: {@link Slab}
@@ -1742,14 +1651,10 @@ public interface BlockType<B extends BlockData> extends Keyed, Translatable {
     /**
      * BlockData: {@link Slab}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<Slab> BAMBOO_SLAB = getBlockType("bamboo_slab");
     /**
      * BlockData: {@link Slab}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<Slab> BAMBOO_MOSAIC_SLAB = getBlockType("bamboo_mosaic_slab");
     /**
      * BlockData: {@link Slab}
@@ -1830,8 +1735,6 @@ public interface BlockType<B extends BlockData> extends Keyed, Translatable {
     /**
      * BlockData: {@link Gate}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<Gate> CHERRY_FENCE_GATE = getBlockType("cherry_fence_gate");
     /**
      * BlockData: {@link Gate}
@@ -1864,8 +1767,6 @@ public interface BlockType<B extends BlockData> extends Keyed, Translatable {
     /**
      * BlockData: {@link Fence}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<Fence> CHERRY_FENCE = getBlockType("cherry_fence");
     /**
      * BlockData: {@link Fence}
@@ -1898,8 +1799,6 @@ public interface BlockType<B extends BlockData> extends Keyed, Translatable {
     /**
      * BlockData: {@link Door}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<Door> CHERRY_DOOR = getBlockType("cherry_door");
     /**
      * BlockData: {@link Door}
@@ -1938,9 +1837,15 @@ public interface BlockType<B extends BlockData> extends Keyed, Translatable {
     /**
      * BlockData: {@link Ageable}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<Ageable> TORCHFLOWER_CROP = getBlockType("torchflower_crop");
+    /**
+     * BlockData: {@link PitcherCrop}
+     */
+    BlockType<PitcherCrop> PITCHER_CROP = getBlockType("pitcher_crop");
+    /**
+     * BlockData: {@link Bisected}
+     */
+    BlockType<Bisected> PITCHER_PLANT = getBlockType("pitcher_plant");
     /**
      * BlockData: {@link Ageable}
      */
@@ -2145,6 +2050,10 @@ public interface BlockType<B extends BlockData> extends Keyed, Translatable {
      * BlockData: {@link TurtleEgg}
      */
     BlockType<TurtleEgg> TURTLE_EGG = getBlockType("turtle_egg");
+    /**
+     * BlockData: {@link Hatchable}
+     */
+    BlockType<Hatchable> SNIFFER_EGG = getBlockType("sniffer_egg");
     BlockType<BlockData> DEAD_TUBE_CORAL_BLOCK = getBlockType("dead_tube_coral_block");
     BlockType<BlockData> DEAD_BRAIN_CORAL_BLOCK = getBlockType("dead_brain_coral_block");
     BlockType<BlockData> DEAD_BUBBLE_CORAL_BLOCK = getBlockType("dead_bubble_coral_block");
@@ -2901,6 +2810,10 @@ public interface BlockType<B extends BlockData> extends Keyed, Translatable {
      * BlockData: {@link SculkSensor}
      */
     BlockType<SculkSensor> SCULK_SENSOR = getBlockType("sculk_sensor");
+    /**
+     * BlockData: {@link CalibratedSculkSensor}
+     */
+    BlockType<CalibratedSculkSensor> CALIBRATED_SCULK_SENSOR = getBlockType("calibrated_sculk_sensor");
     BlockType<BlockData> SCULK = getBlockType("sculk");
     /**
      * BlockData: {@link SculkVein}
@@ -3020,8 +2933,6 @@ public interface BlockType<B extends BlockData> extends Keyed, Translatable {
     /**
      * BlockData: {@link PinkPetals}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<PinkPetals> PINK_PETALS = getBlockType("pink_petals");
     BlockType<BlockData> MOSS_BLOCK = getBlockType("moss_block");
     /**
@@ -3128,8 +3039,6 @@ public interface BlockType<B extends BlockData> extends Keyed, Translatable {
     /**
      * BlockData: {@link DecoratedPot}
      */
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     BlockType<DecoratedPot> DECORATED_POT = getBlockType("decorated_pot");
     //</editor-fold>
 

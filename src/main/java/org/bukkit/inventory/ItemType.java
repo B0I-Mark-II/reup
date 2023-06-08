@@ -3,14 +3,12 @@ package org.bukkit.inventory;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Multimap;
 import org.bukkit.Keyed;
-import org.bukkit.MinecraftExperimental;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 import org.bukkit.Translatable;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.BlockType;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -44,34 +42,25 @@ public interface ItemType extends Keyed, Translatable {
     ItemType BIRCH_PLANKS = getItemType("birch_planks");
     ItemType JUNGLE_PLANKS = getItemType("jungle_planks");
     ItemType ACACIA_PLANKS = getItemType("acacia_planks");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType CHERRY_PLANKS = getItemType("cherry_planks");
     ItemType DARK_OAK_PLANKS = getItemType("dark_oak_planks");
     ItemType MANGROVE_PLANKS = getItemType("mangrove_planks");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType BAMBOO_PLANKS = getItemType("bamboo_planks");
     ItemType CRIMSON_PLANKS = getItemType("crimson_planks");
     ItemType WARPED_PLANKS = getItemType("warped_planks");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType BAMBOO_MOSAIC = getItemType("bamboo_mosaic");
     ItemType OAK_SAPLING = getItemType("oak_sapling");
     ItemType SPRUCE_SAPLING = getItemType("spruce_sapling");
     ItemType BIRCH_SAPLING = getItemType("birch_sapling");
     ItemType JUNGLE_SAPLING = getItemType("jungle_sapling");
     ItemType ACACIA_SAPLING = getItemType("acacia_sapling");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType CHERRY_SAPLING = getItemType("cherry_sapling");
     ItemType DARK_OAK_SAPLING = getItemType("dark_oak_sapling");
     ItemType MANGROVE_PROPAGULE = getItemType("mangrove_propagule");
     ItemType BEDROCK = getItemType("bedrock");
     ItemType SAND = getItemType("sand");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType SUSPICIOUS_SAND = getItemType("suspicious_sand");
+    ItemType SUSPICIOUS_GRAVEL = getItemType("suspicious_gravel");
     ItemType RED_SAND = getItemType("red_sand");
     ItemType GRAVEL = getItemType("gravel");
     ItemType COAL_ORE = getItemType("coal_ore");
@@ -140,8 +129,6 @@ public interface ItemType extends Keyed, Translatable {
     ItemType BIRCH_LOG = getItemType("birch_log");
     ItemType JUNGLE_LOG = getItemType("jungle_log");
     ItemType ACACIA_LOG = getItemType("acacia_log");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType CHERRY_LOG = getItemType("cherry_log");
     ItemType DARK_OAK_LOG = getItemType("dark_oak_log");
     ItemType MANGROVE_LOG = getItemType("mangrove_log");
@@ -149,16 +136,12 @@ public interface ItemType extends Keyed, Translatable {
     ItemType MUDDY_MANGROVE_ROOTS = getItemType("muddy_mangrove_roots");
     ItemType CRIMSON_STEM = getItemType("crimson_stem");
     ItemType WARPED_STEM = getItemType("warped_stem");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType BAMBOO_BLOCK = getItemType("bamboo_block");
     ItemType STRIPPED_OAK_LOG = getItemType("stripped_oak_log");
     ItemType STRIPPED_SPRUCE_LOG = getItemType("stripped_spruce_log");
     ItemType STRIPPED_BIRCH_LOG = getItemType("stripped_birch_log");
     ItemType STRIPPED_JUNGLE_LOG = getItemType("stripped_jungle_log");
     ItemType STRIPPED_ACACIA_LOG = getItemType("stripped_acacia_log");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType STRIPPED_CHERRY_LOG = getItemType("stripped_cherry_log");
     ItemType STRIPPED_DARK_OAK_LOG = getItemType("stripped_dark_oak_log");
     ItemType STRIPPED_MANGROVE_LOG = getItemType("stripped_mangrove_log");
@@ -169,8 +152,6 @@ public interface ItemType extends Keyed, Translatable {
     ItemType STRIPPED_BIRCH_WOOD = getItemType("stripped_birch_wood");
     ItemType STRIPPED_JUNGLE_WOOD = getItemType("stripped_jungle_wood");
     ItemType STRIPPED_ACACIA_WOOD = getItemType("stripped_acacia_wood");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType STRIPPED_CHERRY_WOOD = getItemType("stripped_cherry_wood");
     ItemType STRIPPED_DARK_OAK_WOOD = getItemType("stripped_dark_oak_wood");
     ItemType STRIPPED_MANGROVE_WOOD = getItemType("stripped_mangrove_wood");
@@ -182,8 +163,6 @@ public interface ItemType extends Keyed, Translatable {
     ItemType BIRCH_WOOD = getItemType("birch_wood");
     ItemType JUNGLE_WOOD = getItemType("jungle_wood");
     ItemType ACACIA_WOOD = getItemType("acacia_wood");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType CHERRY_WOOD = getItemType("cherry_wood");
     ItemType DARK_OAK_WOOD = getItemType("dark_oak_wood");
     ItemType MANGROVE_WOOD = getItemType("mangrove_wood");
@@ -194,8 +173,6 @@ public interface ItemType extends Keyed, Translatable {
     ItemType BIRCH_LEAVES = getItemType("birch_leaves");
     ItemType JUNGLE_LEAVES = getItemType("jungle_leaves");
     ItemType ACACIA_LEAVES = getItemType("acacia_leaves");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType CHERRY_LEAVES = getItemType("cherry_leaves");
     ItemType DARK_OAK_LEAVES = getItemType("dark_oak_leaves");
     ItemType MANGROVE_LEAVES = getItemType("mangrove_leaves");
@@ -246,9 +223,8 @@ public interface ItemType extends Keyed, Translatable {
     ItemType CORNFLOWER = getItemType("cornflower");
     ItemType LILY_OF_THE_VALLEY = getItemType("lily_of_the_valley");
     ItemType WITHER_ROSE = getItemType("wither_rose");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType TORCHFLOWER = getItemType("torchflower");
+    ItemType PITCHER_PLANT = getItemType("pitcher_plant");
     ItemType SPORE_BLOSSOM = getItemType("spore_blossom");
     ItemType BROWN_MUSHROOM = getItemType("brown_mushroom");
     ItemType RED_MUSHROOM = getItemType("red_mushroom");
@@ -262,8 +238,6 @@ public interface ItemType extends Keyed, Translatable {
     ItemType SUGAR_CANE = getItemType("sugar_cane");
     ItemType KELP = getItemType("kelp");
     ItemType MOSS_CARPET = getItemType("moss_carpet");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType PINK_PETALS = getItemType("pink_petals");
     ItemType MOSS_BLOCK = getItemType("moss_block");
     ItemType HANGING_ROOTS = getItemType("hanging_roots");
@@ -275,16 +249,10 @@ public interface ItemType extends Keyed, Translatable {
     ItemType BIRCH_SLAB = getItemType("birch_slab");
     ItemType JUNGLE_SLAB = getItemType("jungle_slab");
     ItemType ACACIA_SLAB = getItemType("acacia_slab");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType CHERRY_SLAB = getItemType("cherry_slab");
     ItemType DARK_OAK_SLAB = getItemType("dark_oak_slab");
     ItemType MANGROVE_SLAB = getItemType("mangrove_slab");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType BAMBOO_SLAB = getItemType("bamboo_slab");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType BAMBOO_MOSAIC_SLAB = getItemType("bamboo_mosaic_slab");
     ItemType CRIMSON_SLAB = getItemType("crimson_slab");
     ItemType WARPED_SLAB = getItemType("warped_slab");
@@ -311,11 +279,7 @@ public interface ItemType extends Keyed, Translatable {
     ItemType SMOOTH_STONE = getItemType("smooth_stone");
     ItemType BRICKS = getItemType("bricks");
     ItemType BOOKSHELF = getItemType("bookshelf");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType CHISELED_BOOKSHELF = getItemType("chiseled_bookshelf");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType DECORATED_POT = getItemType("decorated_pot");
     ItemType MOSSY_COBBLESTONE = getItemType("mossy_cobblestone");
     ItemType OBSIDIAN = getItemType("obsidian");
@@ -344,8 +308,6 @@ public interface ItemType extends Keyed, Translatable {
     ItemType BIRCH_FENCE = getItemType("birch_fence");
     ItemType JUNGLE_FENCE = getItemType("jungle_fence");
     ItemType ACACIA_FENCE = getItemType("acacia_fence");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType CHERRY_FENCE = getItemType("cherry_fence");
     ItemType DARK_OAK_FENCE = getItemType("dark_oak_fence");
     ItemType MANGROVE_FENCE = getItemType("mangrove_fence");
@@ -418,16 +380,10 @@ public interface ItemType extends Keyed, Translatable {
     ItemType BIRCH_STAIRS = getItemType("birch_stairs");
     ItemType JUNGLE_STAIRS = getItemType("jungle_stairs");
     ItemType ACACIA_STAIRS = getItemType("acacia_stairs");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType CHERRY_STAIRS = getItemType("cherry_stairs");
     ItemType DARK_OAK_STAIRS = getItemType("dark_oak_stairs");
     ItemType MANGROVE_STAIRS = getItemType("mangrove_stairs");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType BAMBOO_STAIRS = getItemType("bamboo_stairs");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType BAMBOO_MOSAIC_STAIRS = getItemType("bamboo_mosaic_stairs");
     ItemType CRIMSON_STAIRS = getItemType("crimson_stairs");
     ItemType WARPED_STAIRS = getItemType("warped_stairs");
@@ -624,6 +580,7 @@ public interface ItemType extends Keyed, Translatable {
     ItemType RED_CONCRETE_POWDER = getItemType("red_concrete_powder");
     ItemType BLACK_CONCRETE_POWDER = getItemType("black_concrete_powder");
     ItemType TURTLE_EGG = getItemType("turtle_egg");
+    ItemType SNIFFER_EGG = getItemType("sniffer_egg");
     ItemType DEAD_TUBE_CORAL_BLOCK = getItemType("dead_tube_coral_block");
     ItemType DEAD_BRAIN_CORAL_BLOCK = getItemType("dead_brain_coral_block");
     ItemType DEAD_BUBBLE_CORAL_BLOCK = getItemType("dead_bubble_coral_block");
@@ -711,6 +668,7 @@ public interface ItemType extends Keyed, Translatable {
     ItemType LIGHTNING_ROD = getItemType("lightning_rod");
     ItemType DAYLIGHT_DETECTOR = getItemType("daylight_detector");
     ItemType SCULK_SENSOR = getItemType("sculk_sensor");
+    ItemType CALIBRATED_SCULK_SENSOR = getItemType("calibrated_sculk_sensor");
     ItemType TRIPWIRE_HOOK = getItemType("tripwire_hook");
     ItemType TRAPPED_CHEST = getItemType("trapped_chest");
     ItemType TNT = getItemType("tnt");
@@ -723,8 +681,6 @@ public interface ItemType extends Keyed, Translatable {
     ItemType BIRCH_BUTTON = getItemType("birch_button");
     ItemType JUNGLE_BUTTON = getItemType("jungle_button");
     ItemType ACACIA_BUTTON = getItemType("acacia_button");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType CHERRY_BUTTON = getItemType("cherry_button");
     ItemType DARK_OAK_BUTTON = getItemType("dark_oak_button");
     ItemType MANGROVE_BUTTON = getItemType("mangrove_button");
@@ -740,8 +696,6 @@ public interface ItemType extends Keyed, Translatable {
     ItemType BIRCH_PRESSURE_PLATE = getItemType("birch_pressure_plate");
     ItemType JUNGLE_PRESSURE_PLATE = getItemType("jungle_pressure_plate");
     ItemType ACACIA_PRESSURE_PLATE = getItemType("acacia_pressure_plate");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType CHERRY_PRESSURE_PLATE = getItemType("cherry_pressure_plate");
     ItemType DARK_OAK_PRESSURE_PLATE = getItemType("dark_oak_pressure_plate");
     ItemType MANGROVE_PRESSURE_PLATE = getItemType("mangrove_pressure_plate");
@@ -754,8 +708,6 @@ public interface ItemType extends Keyed, Translatable {
     ItemType BIRCH_DOOR = getItemType("birch_door");
     ItemType JUNGLE_DOOR = getItemType("jungle_door");
     ItemType ACACIA_DOOR = getItemType("acacia_door");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType CHERRY_DOOR = getItemType("cherry_door");
     ItemType DARK_OAK_DOOR = getItemType("dark_oak_door");
     ItemType MANGROVE_DOOR = getItemType("mangrove_door");
@@ -768,8 +720,6 @@ public interface ItemType extends Keyed, Translatable {
     ItemType BIRCH_TRAPDOOR = getItemType("birch_trapdoor");
     ItemType JUNGLE_TRAPDOOR = getItemType("jungle_trapdoor");
     ItemType ACACIA_TRAPDOOR = getItemType("acacia_trapdoor");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType CHERRY_TRAPDOOR = getItemType("cherry_trapdoor");
     ItemType DARK_OAK_TRAPDOOR = getItemType("dark_oak_trapdoor");
     ItemType MANGROVE_TRAPDOOR = getItemType("mangrove_trapdoor");
@@ -781,8 +731,6 @@ public interface ItemType extends Keyed, Translatable {
     ItemType BIRCH_FENCE_GATE = getItemType("birch_fence_gate");
     ItemType JUNGLE_FENCE_GATE = getItemType("jungle_fence_gate");
     ItemType ACACIA_FENCE_GATE = getItemType("acacia_fence_gate");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType CHERRY_FENCE_GATE = getItemType("cherry_fence_gate");
     ItemType DARK_OAK_FENCE_GATE = getItemType("dark_oak_fence_gate");
     ItemType MANGROVE_FENCE_GATE = getItemType("mangrove_fence_gate");
@@ -812,11 +760,7 @@ public interface ItemType extends Keyed, Translatable {
     ItemType JUNGLE_CHEST_BOAT = getItemType("jungle_chest_boat");
     ItemType ACACIA_BOAT = getItemType("acacia_boat");
     ItemType ACACIA_CHEST_BOAT = getItemType("acacia_chest_boat");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType CHERRY_BOAT = getItemType("cherry_boat");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType CHERRY_CHEST_BOAT = getItemType("cherry_chest_boat");
     ItemType DARK_OAK_BOAT = getItemType("dark_oak_boat");
     ItemType DARK_OAK_CHEST_BOAT = getItemType("dark_oak_chest_boat");
@@ -921,46 +865,22 @@ public interface ItemType extends Keyed, Translatable {
     ItemType BIRCH_SIGN = getItemType("birch_sign");
     ItemType JUNGLE_SIGN = getItemType("jungle_sign");
     ItemType ACACIA_SIGN = getItemType("acacia_sign");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType CHERRY_SIGN = getItemType("cherry_sign");
     ItemType DARK_OAK_SIGN = getItemType("dark_oak_sign");
     ItemType MANGROVE_SIGN = getItemType("mangrove_sign");
     ItemType BAMBOO_SIGN = getItemType("bamboo_sign");
     ItemType CRIMSON_SIGN = getItemType("crimson_sign");
     ItemType WARPED_SIGN = getItemType("warped_sign");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType OAK_HANGING_SIGN = getItemType("oak_hanging_sign");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType SPRUCE_HANGING_SIGN = getItemType("spruce_hanging_sign");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType BIRCH_HANGING_SIGN = getItemType("birch_hanging_sign");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType JUNGLE_HANGING_SIGN = getItemType("jungle_hanging_sign");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType ACACIA_HANGING_SIGN = getItemType("acacia_hanging_sign");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType CHERRY_HANGING_SIGN = getItemType("cherry_hanging_sign");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType DARK_OAK_HANGING_SIGN = getItemType("dark_oak_hanging_sign");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType MANGROVE_HANGING_SIGN = getItemType("mangrove_hanging_sign");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType BAMBOO_HANGING_SIGN = getItemType("bamboo_hanging_sign");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType CRIMSON_HANGING_SIGN = getItemType("crimson_hanging_sign");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType WARPED_HANGING_SIGN = getItemType("warped_hanging_sign");
     ItemType BUCKET = getItemType("bucket");
     ItemType WATER_BUCKET = getItemType("water_bucket");
@@ -984,8 +904,6 @@ public interface ItemType extends Keyed, Translatable {
     ItemType EGG = getItemType("egg");
     ItemType COMPASS = getItemType("compass");
     ItemType RECOVERY_COMPASS = getItemType("recovery_compass");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType BUNDLE = getItemType("bundle");
     ItemType FISHING_ROD = getItemType("fishing_rod");
     ItemType CLOCK = getItemType("clock");
@@ -1069,8 +987,6 @@ public interface ItemType extends Keyed, Translatable {
     ItemType BEE_SPAWN_EGG = getItemType("bee_spawn_egg");
     ItemType BLAZE_SPAWN_EGG = getItemType("blaze_spawn_egg");
     ItemType CAT_SPAWN_EGG = getItemType("cat_spawn_egg");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType CAMEL_SPAWN_EGG = getItemType("camel_spawn_egg");
     ItemType CAVE_SPIDER_SPAWN_EGG = getItemType("cave_spider_spawn_egg");
     ItemType CHICKEN_SPAWN_EGG = getItemType("chicken_spawn_egg");
@@ -1118,8 +1034,6 @@ public interface ItemType extends Keyed, Translatable {
     ItemType SKELETON_SPAWN_EGG = getItemType("skeleton_spawn_egg");
     ItemType SKELETON_HORSE_SPAWN_EGG = getItemType("skeleton_horse_spawn_egg");
     ItemType SLIME_SPAWN_EGG = getItemType("slime_spawn_egg");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType SNIFFER_SPAWN_EGG = getItemType("sniffer_spawn_egg");
     ItemType SNOW_GOLEM_SPAWN_EGG = getItemType("snow_golem_spawn_egg");
     ItemType SPIDER_SPAWN_EGG = getItemType("spider_spawn_egg");
@@ -1163,8 +1077,6 @@ public interface ItemType extends Keyed, Translatable {
     ItemType ZOMBIE_HEAD = getItemType("zombie_head");
     ItemType CREEPER_HEAD = getItemType("creeper_head");
     ItemType DRAGON_HEAD = getItemType("dragon_head");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType PIGLIN_HEAD = getItemType("piglin_head");
     ItemType NETHER_STAR = getItemType("nether_star");
     ItemType PUMPKIN_PIE = getItemType("pumpkin_pie");
@@ -1208,9 +1120,8 @@ public interface ItemType extends Keyed, Translatable {
     ItemType END_CRYSTAL = getItemType("end_crystal");
     ItemType CHORUS_FRUIT = getItemType("chorus_fruit");
     ItemType POPPED_CHORUS_FRUIT = getItemType("popped_chorus_fruit");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType TORCHFLOWER_SEEDS = getItemType("torchflower_seeds");
+    ItemType PITCHER_POD = getItemType("pitcher_pod");
     ItemType BEETROOT = getItemType("beetroot");
     ItemType BEETROOT_SEEDS = getItemType("beetroot_seeds");
     ItemType BEETROOT_SOUP = getItemType("beetroot_soup");
@@ -1238,6 +1149,7 @@ public interface ItemType extends Keyed, Translatable {
     ItemType MUSIC_DISC_11 = getItemType("music_disc_11");
     ItemType MUSIC_DISC_WAIT = getItemType("music_disc_wait");
     ItemType MUSIC_DISC_OTHERSIDE = getItemType("music_disc_otherside");
+    ItemType MUSIC_DISC_RELIC = getItemType("music_disc_relic");
     ItemType MUSIC_DISC_5 = getItemType("music_disc_5");
     ItemType MUSIC_DISC_PIGSTEP = getItemType("music_disc_pigstep");
     ItemType DISC_FRAGMENT_5 = getItemType("disc_fragment_5");
@@ -1319,57 +1231,44 @@ public interface ItemType extends Keyed, Translatable {
     ItemType PEARLESCENT_FROGLIGHT = getItemType("pearlescent_froglight");
     ItemType FROGSPAWN = getItemType("frogspawn");
     ItemType ECHO_SHARD = getItemType("echo_shard");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType BRUSH = getItemType("brush");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType NETHERITE_UPGRADE_SMITHING_TEMPLATE = getItemType("netherite_upgrade_smithing_template");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType SENTRY_ARMOR_TRIM_SMITHING_TEMPLATE = getItemType("sentry_armor_trim_smithing_template");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType DUNE_ARMOR_TRIM_SMITHING_TEMPLATE = getItemType("dune_armor_trim_smithing_template");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType COAST_ARMOR_TRIM_SMITHING_TEMPLATE = getItemType("coast_armor_trim_smithing_template");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType WILD_ARMOR_TRIM_SMITHING_TEMPLATE = getItemType("wild_armor_trim_smithing_template");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType WARD_ARMOR_TRIM_SMITHING_TEMPLATE = getItemType("ward_armor_trim_smithing_template");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType EYE_ARMOR_TRIM_SMITHING_TEMPLATE = getItemType("eye_armor_trim_smithing_template");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType VEX_ARMOR_TRIM_SMITHING_TEMPLATE = getItemType("vex_armor_trim_smithing_template");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType TIDE_ARMOR_TRIM_SMITHING_TEMPLATE = getItemType("tide_armor_trim_smithing_template");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType SNOUT_ARMOR_TRIM_SMITHING_TEMPLATE = getItemType("snout_armor_trim_smithing_template");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType RIB_ARMOR_TRIM_SMITHING_TEMPLATE = getItemType("rib_armor_trim_smithing_template");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     ItemType SPIRE_ARMOR_TRIM_SMITHING_TEMPLATE = getItemType("spire_armor_trim_smithing_template");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
-    ItemType POTTERY_SHARD_ARCHER = getItemType("pottery_shard_archer");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
-    ItemType POTTERY_SHARD_PRIZE = getItemType("pottery_shard_prize");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
-    ItemType POTTERY_SHARD_ARMS_UP = getItemType("pottery_shard_arms_up");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
-    ItemType POTTERY_SHARD_SKULL = getItemType("pottery_shard_skull");
+    ItemType WAYFINDER_ARMOR_TRIM_SMITHING_TEMPLATE = getItemType("wayfinder_armor_trim_smithing_template");
+    ItemType SHAPER_ARMOR_TRIM_SMITHING_TEMPLATE = getItemType("shaper_armor_trim_smithing_template");
+    ItemType SILENCE_ARMOR_TRIM_SMITHING_TEMPLATE = getItemType("silence_armor_trim_smithing_template");
+    ItemType RAISER_ARMOR_TRIM_SMITHING_TEMPLATE = getItemType("raiser_armor_trim_smithing_template");
+    ItemType HOST_ARMOR_TRIM_SMITHING_TEMPLATE = getItemType("host_armor_trim_smithing_template");
+    ItemType ANGLER_POTTERY_SHERD = getItemType("angler_pottery_sherd");
+    ItemType ARCHER_POTTERY_SHERD = getItemType("archer_pottery_sherd");
+    ItemType ARMS_UP_POTTERY_SHERD = getItemType("arms_up_pottery_sherd");
+    ItemType BLADE_POTTERY_SHERD = getItemType("blade_pottery_sherd");
+    ItemType BREWER_POTTERY_SHERD = getItemType("brewer_pottery_sherd");
+    ItemType BURN_POTTERY_SHERD = getItemType("burn_pottery_sherd");
+    ItemType DANGER_POTTERY_SHERD = getItemType("danger_pottery_sherd");
+    ItemType EXPLORER_POTTERY_SHERD = getItemType("explorer_pottery_sherd");
+    ItemType FRIEND_POTTERY_SHERD = getItemType("friend_pottery_sherd");
+    ItemType HEART_POTTERY_SHERD = getItemType("heart_pottery_sherd");
+    ItemType HEARTBREAK_POTTERY_SHERD = getItemType("heartbreak_pottery_sherd");
+    ItemType HOWL_POTTERY_SHERD = getItemType("howl_pottery_sherd");
+    ItemType MINER_POTTERY_SHERD = getItemType("miner_pottery_sherd");
+    ItemType MOURNER_POTTERY_SHERD = getItemType("mourner_pottery_sherd");
+    ItemType PLENTY_POTTERY_SHERD = getItemType("plenty_pottery_sherd");
+    ItemType PRIZE_POTTERY_SHERD = getItemType("prize_pottery_sherd");
+    ItemType SHEAF_POTTERY_SHERD = getItemType("sheaf_pottery_sherd");
+    ItemType SHELTER_POTTERY_SHERD = getItemType("shelter_pottery_sherd");
+    ItemType SKULL_POTTERY_SHERD = getItemType("skull_pottery_sherd");
+    ItemType SNORT_POTTERY_SHERD = getItemType("snort_pottery_sherd");
     //</editor-fold>
 
     @NotNull

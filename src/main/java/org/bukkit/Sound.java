@@ -3,7 +3,6 @@ package org.bukkit;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import org.bukkit.util.OldEnum;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -183,12 +182,11 @@ public abstract class Sound extends OldEnum<Sound> implements Keyed {
     public static final Sound ITEM_BOTTLE_FILL = getSound("item.bottle.fill");
     public static final Sound ITEM_BOTTLE_FILL_DRAGONBREATH = getSound("item.bottle.fill_dragonbreath");
     public static final Sound BLOCK_BREWING_STAND_BREW = getSound("block.brewing_stand.brew");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
-    public static final Sound ITEM_BRUSH_BRUSHING = getSound("item.brush.brushing");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
-    public static final Sound ITEM_BRUSH_BRUSH_SAND_COMPLETED = getSound("item.brush.brush_sand_completed");
+    public static final Sound ITEM_BRUSH_BRUSHING_GENERIC = getSound("item.brush.brushing.generic");
+    public static final Sound ITEM_BRUSH_BRUSHING_SAND = getSound("item.brush.brushing.sand");
+    public static final Sound ITEM_BRUSH_BRUSHING_GRAVEL = getSound("item.brush.brushing.gravel");
+    public static final Sound ITEM_BRUSH_BRUSHING_SAND_COMPLETE = getSound("item.brush.brushing.sand.complete");
+    public static final Sound ITEM_BRUSH_BRUSHING_GRAVEL_COMPLETE = getSound("item.brush.brushing.gravel.complete");
     public static final Sound BLOCK_BUBBLE_COLUMN_BUBBLE_POP = getSound("block.bubble_column.bubble_pop");
     public static final Sound BLOCK_BUBBLE_COLUMN_UPWARDS_AMBIENT = getSound("block.bubble_column.upwards_ambient");
     public static final Sound BLOCK_BUBBLE_COLUMN_UPWARDS_INSIDE = getSound("block.bubble_column.upwards_inside");
@@ -215,38 +213,16 @@ public abstract class Sound extends OldEnum<Sound> implements Keyed {
     public static final Sound BLOCK_CALCITE_PLACE = getSound("block.calcite.place");
     public static final Sound BLOCK_CALCITE_HIT = getSound("block.calcite.hit");
     public static final Sound BLOCK_CALCITE_FALL = getSound("block.calcite.fall");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound ENTITY_CAMEL_AMBIENT = getSound("entity.camel.ambient");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound ENTITY_CAMEL_DASH = getSound("entity.camel.dash");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound ENTITY_CAMEL_DASH_READY = getSound("entity.camel.dash_ready");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound ENTITY_CAMEL_DEATH = getSound("entity.camel.death");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound ENTITY_CAMEL_EAT = getSound("entity.camel.eat");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound ENTITY_CAMEL_HURT = getSound("entity.camel.hurt");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound ENTITY_CAMEL_SADDLE = getSound("entity.camel.saddle");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound ENTITY_CAMEL_SIT = getSound("entity.camel.sit");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound ENTITY_CAMEL_STAND = getSound("entity.camel.stand");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound ENTITY_CAMEL_STEP = getSound("entity.camel.step");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound ENTITY_CAMEL_STEP_SAND = getSound("entity.camel.step_sand");
     public static final Sound BLOCK_CAMPFIRE_CRACKLE = getSound("block.campfire.crackle");
     public static final Sound BLOCK_CANDLE_AMBIENT = getSound("block.candle.ambient");
@@ -287,62 +263,24 @@ public abstract class Sound extends OldEnum<Sound> implements Keyed {
     public static final Sound BLOCK_CHERRY_SAPLING_PLACE = getSound("block.cherry_sapling.place");
     public static final Sound BLOCK_CHERRY_SAPLING_STEP = getSound("block.cherry_sapling.step");
     public static final Sound BLOCK_CHERRY_LEAVES_BREAK = getSound("block.cherry_leaves.break");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHERRY_LEAVES_FALL = getSound("block.cherry_leaves.fall");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHERRY_LEAVES_HIT = getSound("block.cherry_leaves.hit");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHERRY_LEAVES_PLACE = getSound("block.cherry_leaves.place");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHERRY_LEAVES_STEP = getSound("block.cherry_leaves.step");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHERRY_WOOD_HANGING_SIGN_STEP = getSound("block.cherry_wood_hanging_sign.step");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHERRY_WOOD_HANGING_SIGN_BREAK = getSound("block.cherry_wood_hanging_sign.break");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHERRY_WOOD_HANGING_SIGN_FALL = getSound("block.cherry_wood_hanging_sign.fall");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHERRY_WOOD_HANGING_SIGN_HIT = getSound("block.cherry_wood_hanging_sign.hit");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHERRY_WOOD_HANGING_SIGN_PLACE = getSound("block.cherry_wood_hanging_sign.place");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHERRY_WOOD_DOOR_CLOSE = getSound("block.cherry_wood_door.close");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHERRY_WOOD_DOOR_OPEN = getSound("block.cherry_wood_door.open");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHERRY_WOOD_TRAPDOOR_CLOSE = getSound("block.cherry_wood_trapdoor.close");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHERRY_WOOD_TRAPDOOR_OPEN = getSound("block.cherry_wood_trapdoor.open");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHERRY_WOOD_BUTTON_CLICK_OFF = getSound("block.cherry_wood_button.click_off");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHERRY_WOOD_BUTTON_CLICK_ON = getSound("block.cherry_wood_button.click_on");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHERRY_WOOD_PRESSURE_PLATE_CLICK_OFF = getSound("block.cherry_wood_pressure_plate.click_off");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHERRY_WOOD_PRESSURE_PLATE_CLICK_ON = getSound("block.cherry_wood_pressure_plate.click_on");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHERRY_WOOD_FENCE_GATE_CLOSE = getSound("block.cherry_wood_fence_gate.close");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHERRY_WOOD_FENCE_GATE_OPEN = getSound("block.cherry_wood_fence_gate.open");
     public static final Sound BLOCK_CHEST_CLOSE = getSound("block.chest.close");
     public static final Sound BLOCK_CHEST_LOCKED = getSound("block.chest.locked");
@@ -352,32 +290,14 @@ public abstract class Sound extends OldEnum<Sound> implements Keyed {
     public static final Sound ENTITY_CHICKEN_EGG = getSound("entity.chicken.egg");
     public static final Sound ENTITY_CHICKEN_HURT = getSound("entity.chicken.hurt");
     public static final Sound ENTITY_CHICKEN_STEP = getSound("entity.chicken.step");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHISELED_BOOKSHELF_BREAK = getSound("block.chiseled_bookshelf.break");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHISELED_BOOKSHELF_FALL = getSound("block.chiseled_bookshelf.fall");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHISELED_BOOKSHELF_HIT = getSound("block.chiseled_bookshelf.hit");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHISELED_BOOKSHELF_INSERT = getSound("block.chiseled_bookshelf.insert");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHISELED_BOOKSHELF_INSERT_ENCHANTED = getSound("block.chiseled_bookshelf.insert.enchanted");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHISELED_BOOKSHELF_STEP = getSound("block.chiseled_bookshelf.step");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHISELED_BOOKSHELF_PICKUP = getSound("block.chiseled_bookshelf.pickup");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHISELED_BOOKSHELF_PICKUP_ENCHANTED = getSound("block.chiseled_bookshelf.pickup.enchanted");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_CHISELED_BOOKSHELF_PLACE = getSound("block.chiseled_bookshelf.place");
     public static final Sound BLOCK_CHORUS_FLOWER_DEATH = getSound("block.chorus_flower.death");
     public static final Sound BLOCK_CHORUS_FLOWER_GROW = getSound("block.chorus_flower.grow");
@@ -424,23 +344,11 @@ public abstract class Sound extends OldEnum<Sound> implements Keyed {
     public static final Sound ITEM_CROSSBOW_QUICK_CHARGE_2 = getSound("item.crossbow.quick_charge_2");
     public static final Sound ITEM_CROSSBOW_QUICK_CHARGE_3 = getSound("item.crossbow.quick_charge_3");
     public static final Sound ITEM_CROSSBOW_SHOOT = getSound("item.crossbow.shoot");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_DECORATED_POT_BREAK = getSound("block.decorated_pot.break");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_DECORATED_POT_FALL = getSound("block.decorated_pot.fall");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_DECORATED_POT_HIT = getSound("block.decorated_pot.hit");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_DECORATED_POT_STEP = getSound("block.decorated_pot.step");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_DECORATED_POT_PLACE = getSound("block.decorated_pot.place");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_DECORATED_POT_SHATTER = getSound("block.decorated_pot.shatter");
     public static final Sound BLOCK_DEEPSLATE_BRICKS_BREAK = getSound("block.deepslate_bricks.break");
     public static final Sound BLOCK_DEEPSLATE_BRICKS_FALL = getSound("block.deepslate_bricks.fall");
@@ -584,21 +492,16 @@ public abstract class Sound extends OldEnum<Sound> implements Keyed {
     public static final Sound ENTITY_FOX_SNIFF = getSound("entity.fox.sniff");
     public static final Sound ENTITY_FOX_SPIT = getSound("entity.fox.spit");
     public static final Sound ENTITY_FOX_TELEPORT = getSound("entity.fox.teleport");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_SUSPICIOUS_SAND_BREAK = getSound("block.suspicious_sand.break");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_SUSPICIOUS_SAND_STEP = getSound("block.suspicious_sand.step");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_SUSPICIOUS_SAND_PLACE = getSound("block.suspicious_sand.place");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_SUSPICIOUS_SAND_HIT = getSound("block.suspicious_sand.hit");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_SUSPICIOUS_SAND_FALL = getSound("block.suspicious_sand.fall");
+    public static final Sound BLOCK_SUSPICIOUS_GRAVEL_BREAK = getSound("block.suspicious_gravel.break");
+    public static final Sound BLOCK_SUSPICIOUS_GRAVEL_STEP = getSound("block.suspicious_gravel.step");
+    public static final Sound BLOCK_SUSPICIOUS_GRAVEL_PLACE = getSound("block.suspicious_gravel.place");
+    public static final Sound BLOCK_SUSPICIOUS_GRAVEL_HIT = getSound("block.suspicious_gravel.hit");
+    public static final Sound BLOCK_SUSPICIOUS_GRAVEL_FALL = getSound("block.suspicious_gravel.fall");
     public static final Sound BLOCK_FROGLIGHT_BREAK = getSound("block.froglight.break");
     public static final Sound BLOCK_FROGLIGHT_FALL = getSound("block.froglight.fall");
     public static final Sound BLOCK_FROGLIGHT_HIT = getSound("block.froglight.hit");
@@ -716,20 +619,10 @@ public abstract class Sound extends OldEnum<Sound> implements Keyed {
     public static final Sound BLOCK_NETHER_WOOD_HANGING_SIGN_FALL = getSound("block.nether_wood_hanging_sign.fall");
     public static final Sound BLOCK_NETHER_WOOD_HANGING_SIGN_HIT = getSound("block.nether_wood_hanging_sign.hit");
     public static final Sound BLOCK_NETHER_WOOD_HANGING_SIGN_PLACE = getSound("block.nether_wood_hanging_sign.place");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_BAMBOO_WOOD_HANGING_SIGN_STEP = getSound("block.bamboo_wood_hanging_sign.step");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_BAMBOO_WOOD_HANGING_SIGN_BREAK = getSound("block.bamboo_wood_hanging_sign.break");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_BAMBOO_WOOD_HANGING_SIGN_FALL = getSound("block.bamboo_wood_hanging_sign.fall");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_BAMBOO_WOOD_HANGING_SIGN_HIT = getSound("block.bamboo_wood_hanging_sign.hit");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_BAMBOO_WOOD_HANGING_SIGN_PLACE = getSound("block.bamboo_wood_hanging_sign.place");
     public static final Sound ITEM_HOE_TILL = getSound("item.hoe.till");
     public static final Sound ENTITY_HOGLIN_AMBIENT = getSound("entity.hoglin.ambient");
@@ -875,20 +768,10 @@ public abstract class Sound extends OldEnum<Sound> implements Keyed {
     public static final Sound BLOCK_MOSS_CARPET_HIT = getSound("block.moss_carpet.hit");
     public static final Sound BLOCK_MOSS_CARPET_PLACE = getSound("block.moss_carpet.place");
     public static final Sound BLOCK_MOSS_CARPET_STEP = getSound("block.moss_carpet.step");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_PINK_PETALS_BREAK = getSound("block.pink_petals.break");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_PINK_PETALS_FALL = getSound("block.pink_petals.fall");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_PINK_PETALS_HIT = getSound("block.pink_petals.hit");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_PINK_PETALS_PLACE = getSound("block.pink_petals.place");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound BLOCK_PINK_PETALS_STEP = getSound("block.pink_petals.step");
     public static final Sound BLOCK_MOSS_BREAK = getSound("block.moss.break");
     public static final Sound BLOCK_MOSS_FALL = getSound("block.moss.fall");
@@ -933,6 +816,7 @@ public abstract class Sound extends OldEnum<Sound> implements Keyed {
     public static final Sound MUSIC_DISC_WAIT = getSound("music_disc.wait");
     public static final Sound MUSIC_DISC_WARD = getSound("music_disc.ward");
     public static final Sound MUSIC_DISC_OTHERSIDE = getSound("music_disc.otherside");
+    public static final Sound MUSIC_DISC_RELIC = getSound("music_disc.relic");
     public static final Sound MUSIC_DRAGON = getSound("music.dragon");
     public static final Sound MUSIC_END = getSound("music.end");
     public static final Sound MUSIC_GAME = getSound("music.game");
@@ -945,11 +829,9 @@ public abstract class Sound extends OldEnum<Sound> implements Keyed {
     public static final Sound MUSIC_OVERWORLD_JAGGED_PEAKS = getSound("music.overworld.jagged_peaks");
     public static final Sound MUSIC_OVERWORLD_LUSH_CAVES = getSound("music.overworld.lush_caves");
     public static final Sound MUSIC_OVERWORLD_SWAMP = getSound("music.overworld.swamp");
-    public static final Sound MUSIC_OVERWORLD_JUNGLE_AND_FOREST = getSound("music.overworld.jungle_and_forest");
+    public static final Sound MUSIC_OVERWORLD_FOREST = getSound("music.overworld.forest");
     public static final Sound MUSIC_OVERWORLD_OLD_GROWTH_TAIGA = getSound("music.overworld.old_growth_taiga");
     public static final Sound MUSIC_OVERWORLD_MEADOW = getSound("music.overworld.meadow");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound MUSIC_OVERWORLD_CHERRY_GROVE = getSound("music.overworld.cherry_grove");
     public static final Sound MUSIC_NETHER_NETHER_WASTES = getSound("music.nether.nether_wastes");
     public static final Sound MUSIC_OVERWORLD_FROZEN_PEAKS = getSound("music.overworld.frozen_peaks");
@@ -957,6 +839,12 @@ public abstract class Sound extends OldEnum<Sound> implements Keyed {
     public static final Sound MUSIC_NETHER_SOUL_SAND_VALLEY = getSound("music.nether.soul_sand_valley");
     public static final Sound MUSIC_OVERWORLD_STONY_PEAKS = getSound("music.overworld.stony_peaks");
     public static final Sound MUSIC_NETHER_WARPED_FOREST = getSound("music.nether.warped_forest");
+    public static final Sound MUSIC_OVERWORLD_FLOWER_FOREST = getSound("music.overworld.flower_forest");
+    public static final Sound MUSIC_OVERWORLD_DESERT = getSound("music.overworld.desert");
+    public static final Sound MUSIC_OVERWORLD_BADLANDS = getSound("music.overworld.badlands");
+    public static final Sound MUSIC_OVERWORLD_JUNGLE = getSound("music.overworld.jungle");
+    public static final Sound MUSIC_OVERWORLD_SPARSE_JUNGLE = getSound("music.overworld.sparse_jungle");
+    public static final Sound MUSIC_OVERWORLD_BAMBOO_JUNGLE = getSound("music.overworld.bamboo_jungle");
     public static final Sound MUSIC_UNDER_WATER = getSound("music.under_water");
     public static final Sound BLOCK_NETHER_BRICKS_BREAK = getSound("block.nether_bricks.break");
     public static final Sound BLOCK_NETHER_BRICKS_STEP = getSound("block.nether_bricks.step");
@@ -1353,42 +1241,21 @@ public abstract class Sound extends OldEnum<Sound> implements Keyed {
     public static final Sound ENTITY_SLIME_SQUISH_SMALL = getSound("entity.slime.squish_small");
     public static final Sound BLOCK_SMITHING_TABLE_USE = getSound("block.smithing_table.use");
     public static final Sound BLOCK_SMOKER_SMOKE = getSound("block.smoker.smoke");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound ENTITY_SNIFFER_STEP = getSound("entity.sniffer.step");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound ENTITY_SNIFFER_EAT = getSound("entity.sniffer.eat");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound ENTITY_SNIFFER_IDLE = getSound("entity.sniffer.idle");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound ENTITY_SNIFFER_HURT = getSound("entity.sniffer.hurt");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound ENTITY_SNIFFER_DEATH = getSound("entity.sniffer.death");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound ENTITY_SNIFFER_DROP_SEED = getSound("entity.sniffer.drop_seed");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound ENTITY_SNIFFER_SCENTING = getSound("entity.sniffer.scenting");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound ENTITY_SNIFFER_SNIFFING = getSound("entity.sniffer.sniffing");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound ENTITY_SNIFFER_SEARCHING = getSound("entity.sniffer.searching");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound ENTITY_SNIFFER_DIGGING = getSound("entity.sniffer.digging");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound ENTITY_SNIFFER_DIGGING_STOP = getSound("entity.sniffer.digging_stop");
-    @MinecraftExperimental
-    @ApiStatus.Experimental
     public static final Sound ENTITY_SNIFFER_HAPPY = getSound("entity.sniffer.happy");
+    public static final Sound BLOCK_SNIFFER_EGG_PLOP = getSound("block.sniffer_egg.plop");
+    public static final Sound BLOCK_SNIFFER_EGG_CRACK = getSound("block.sniffer_egg.crack");
+    public static final Sound BLOCK_SNIFFER_EGG_HATCH = getSound("block.sniffer_egg.hatch");
     public static final Sound ENTITY_SNOWBALL_THROW = getSound("entity.snowball.throw");
     public static final Sound BLOCK_SNOW_BREAK = getSound("block.snow.break");
     public static final Sound BLOCK_SNOW_FALL = getSound("block.snow.fall");
@@ -1541,6 +1408,7 @@ public abstract class Sound extends OldEnum<Sound> implements Keyed {
     public static final Sound ENTITY_WARDEN_SONIC_CHARGE = getSound("entity.warden.sonic_charge");
     public static final Sound ENTITY_WARDEN_STEP = getSound("entity.warden.step");
     public static final Sound ENTITY_WARDEN_TENDRIL_CLICKS = getSound("entity.warden.tendril_clicks");
+    public static final Sound BLOCK_SIGN_WAXED_INTERACT_FAIL = getSound("block.sign.waxed_interact_fail");
     public static final Sound BLOCK_WATER_AMBIENT = getSound("block.water.ambient");
     public static final Sound WEATHER_RAIN = getSound("weather.rain");
     public static final Sound WEATHER_RAIN_ABOVE = getSound("weather.rain.above");
