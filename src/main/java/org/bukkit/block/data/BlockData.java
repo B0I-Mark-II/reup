@@ -5,6 +5,7 @@ import org.bukkit.Server;
 import org.bukkit.SoundGroup;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.BlockSupport;
 import org.bukkit.block.BlockType;
 import org.bukkit.block.PistonMoveReaction;
@@ -12,6 +13,7 @@ import org.bukkit.block.structure.Mirror;
 import org.bukkit.block.structure.StructureRotation;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ItemType;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -236,4 +238,14 @@ public interface BlockData extends Cloneable {
      * @param mirror the mirror
      */
     void mirror(@NotNull Mirror mirror);
+
+    /**
+     * Creates a new default {@link BlockState} for this type of Block, not
+     * bound to a location.
+     *
+     * @return a new {@link BlockState}
+     */
+    @NotNull
+    @ApiStatus.Experimental
+    BlockState createBlockState();
 }
