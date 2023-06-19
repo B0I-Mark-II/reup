@@ -5,10 +5,11 @@ import static org.junit.Assert.*;
 import java.util.Collection;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.TestPlugin;
+import org.bukkit.support.AbstractTestingBase;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class StandardMessengerTest {
+public class StandardMessengerTest extends AbstractTestingBase {
     public StandardMessenger getMessenger() {
         return new StandardMessenger();
     }
