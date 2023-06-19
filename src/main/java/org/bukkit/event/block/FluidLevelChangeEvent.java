@@ -34,14 +34,14 @@ public class FluidLevelChangeEvent extends BlockEvent implements Cancellable {
     }
 
     /**
-     * Sets the new data of the changed block. Must be of the same Material as
+     * Sets the new data of the changed block. Must be of the same block type as
      * the old one.
      *
      * @param newData the new data
      */
     public void setNewData(@NotNull BlockData newData) {
         Preconditions.checkArgument(newData != null, "newData null");
-        Preconditions.checkArgument(this.newData.getMaterial().equals(newData.getMaterial()), "Cannot change fluid type");
+        Preconditions.checkArgument(this.newData.getBlockType().equals(newData.getBlockType()), "Cannot change fluid type");
 
         this.newData = newData;
     }

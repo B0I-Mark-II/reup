@@ -1,6 +1,6 @@
 package org.bukkit.inventory.meta;
 
-import org.bukkit.Material;
+import org.bukkit.block.BlockType;
 import org.bukkit.block.data.BlockData;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,11 +20,11 @@ public interface BlockDataMeta extends ItemMeta {
      * The state is a copy, it must be set back (or to another item) with
      * {@link #setBlockData(org.bukkit.block.data.BlockData)}
      *
-     * @param material the material we wish to get this data in the context of
+     * @param blockType the block type we wish to get this data in the context of
      * @return the attached data or new data
      */
     @NotNull
-    BlockData getBlockData(@NotNull Material material);
+    BlockData getBlockData(@NotNull BlockType<?> blockType);
 
     /**
      * Attaches a copy of the passed block data to the item.

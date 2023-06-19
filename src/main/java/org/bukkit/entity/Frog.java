@@ -1,8 +1,11 @@
 package org.bukkit.entity;
 
-import java.util.Locale;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
+import org.bukkit.util.OldEnum;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -44,30 +47,50 @@ public interface Frog extends Animals {
     /**
      * Represents the variant of a frog - ie its color.
      */
-    public enum Variant implements Keyed {
+    abstract class Variant extends OldEnum<Variant> implements Keyed {
 
         /**
          * Temperate (brown-orange) frog.
          */
-        TEMPERATE,
+        public static final Variant TEMPERATE = getVariant("temperate");
         /**
          * Warm (gray) frog.
          */
-        WARM,
+        public static final Variant WARM = getVariant("warm");
         /**
          * Cold (green) frog.
          */
-        COLD;
-        private final NamespacedKey key;
-
-        private Variant() {
-            this.key = NamespacedKey.minecraft(name().toLowerCase(Locale.ROOT));
-        }
+        public static final Variant COLD = getVariant("cold");
 
         @NotNull
-        @Override
-        public NamespacedKey getKey() {
-            return key;
+        private static Variant getVariant(@NotNull String key) {
+            NamespacedKey namespacedKey = NamespacedKey.minecraft(key);
+            Variant variant = Registry.FROG_VARIANT.get(namespacedKey);
+            Preconditions.checkNotNull(variant, "No frog variant found for %s. This is a bug.", namespacedKey);
+            return variant;
+        }
+
+        /**
+         * @param name of the frog variant.
+         * @return the frog variant with the given name.
+         * @deprecated only for backwards compatibility, use {@link Registry#get(NamespacedKey)} instead.
+         */
+        @NotNull
+        @Deprecated
+        public static Variant valueOf(@NotNull String name) {
+            Variant variant = Registry.FROG_VARIANT.get(NamespacedKey.fromString(name.toLowerCase()));
+            Preconditions.checkArgument(variant != null, "No frog variant found with the name %s", name);
+            return variant;
+        }
+
+        /**
+         * @return an array of all known frog variants.
+         * @deprecated use {@link Registry#iterator()}.
+         */
+        @NotNull
+        @Deprecated
+        public static Variant[] values() {
+            return Lists.newArrayList(Registry.FROG_VARIANT).toArray(new Variant[0]);
         }
     }
 }

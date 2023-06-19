@@ -1,13 +1,13 @@
 package org.bukkit.inventory.meta;
 
 import java.util.List;
-import org.bukkit.Material;
+import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Represents a book ({@link Material#WRITABLE_BOOK} or {@link
- * Material#WRITTEN_BOOK}) that can have a title, an author, and pages.
+ * Represents a book ({@link ItemType#WRITABLE_BOOK} or {@link
+ * ItemType#WRITTEN_BOOK}) that can have a title, an author, and pages.
  */
 public interface BookMeta extends ItemMeta {
 

@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -25,7 +26,12 @@ public class PlayerBucketFillEvent extends PlayerBucketEvent {
         super(who, block, blockClicked, blockFace, bucket, itemInHand);
     }
 
+    @Deprecated
     public PlayerBucketFillEvent(@NotNull final Player who, @NotNull final Block block, @NotNull final Block blockClicked, @NotNull final BlockFace blockFace, @NotNull final Material bucket, @NotNull final ItemStack itemInHand, @NotNull final EquipmentSlot hand) {
+        super(who, block, blockClicked, blockFace, bucket, itemInHand, hand);
+    }
+
+    public PlayerBucketFillEvent(@NotNull final Player who, @NotNull final Block block, @NotNull final Block blockClicked, @NotNull final BlockFace blockFace, @NotNull final ItemType bucket, @NotNull final ItemStack itemInHand, @NotNull final EquipmentSlot hand) {
         super(who, block, blockClicked, blockFace, bucket, itemInHand, hand);
     }
 

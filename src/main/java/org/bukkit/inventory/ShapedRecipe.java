@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import org.bukkit.Keyed;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.recipe.CraftingBookCategory;
 import org.bukkit.material.MaterialData;
@@ -29,8 +28,7 @@ public class ShapedRecipe implements Recipe, Keyed {
      *
      * @param result The item you want the recipe to create.
      * @see ShapedRecipe#shape(String...)
-     * @see ShapedRecipe#setIngredient(char, Material)
-     * @see ShapedRecipe#setIngredient(char, Material, int)
+     * @see ShapedRecipe#setIngredient(char, ItemType)
      * @see ShapedRecipe#setIngredient(char, MaterialData)
      * @see ShapedRecipe#setIngredient(char, RecipeChoice)
      * @deprecated Recipes must have keys. Use {@link #ShapedRecipe(NamespacedKey, ItemStack)}
@@ -38,7 +36,7 @@ public class ShapedRecipe implements Recipe, Keyed {
      */
     @Deprecated
     public ShapedRecipe(@NotNull ItemStack result) {
-        Preconditions.checkArgument(result.getType() != Material.AIR, "Recipe must have non-AIR result.");
+        Preconditions.checkArgument(result.getType() != ItemType.AIR, "Recipe must have non-AIR result.");
         this.key = NamespacedKey.randomKey();
         this.output = new ItemStack(result);
     }
@@ -51,14 +49,13 @@ public class ShapedRecipe implements Recipe, Keyed {
      * @param key the unique recipe key
      * @param result The item you want the recipe to create.
      * @see ShapedRecipe#shape(String...)
-     * @see ShapedRecipe#setIngredient(char, Material)
-     * @see ShapedRecipe#setIngredient(char, Material, int)
+     * @see ShapedRecipe#setIngredient(char, ItemType)
      * @see ShapedRecipe#setIngredient(char, MaterialData)
      * @see ShapedRecipe#setIngredient(char, RecipeChoice)
      */
     public ShapedRecipe(@NotNull NamespacedKey key, @NotNull ItemStack result) {
         Preconditions.checkArgument(key != null, "key");
-        Preconditions.checkArgument(result.getType() != Material.AIR, "Recipe must have non-AIR result.");
+        Preconditions.checkArgument(result.getType() != ItemType.AIR, "Recipe must have non-AIR result.");
 
         this.key = key;
         this.output = new ItemStack(result);
@@ -118,11 +115,11 @@ public class ShapedRecipe implements Recipe, Keyed {
      */
     @NotNull
     public ShapedRecipe setIngredient(char key, @NotNull MaterialData ingredient) {
-        return setIngredient(key, ingredient.getItemType(), ingredient.getData());
+        return setIngredient(key, ingredient.getItemType().asItemType());
     }
 
     /**
-     * Sets the material that a character in the recipe shape refers to.
+     * Sets the item type that a character in the recipe shape refers to.
      * <p>
      * Note that before an ingredient can be set, the recipe's shape must be defined
      * with {@link #shape(String...)}.
@@ -133,34 +130,10 @@ public class ShapedRecipe implements Recipe, Keyed {
      * @throws IllegalArgumentException if the {@code key} does not appear in the shape.
      */
     @NotNull
-    public ShapedRecipe setIngredient(char key, @NotNull Material ingredient) {
-        return setIngredient(key, ingredient, 0);
-    }
-
-    /**
-     * Sets the material that a character in the recipe shape refers to.
-     * <p>
-     * Note that before an ingredient can be set, the recipe's shape must be defined
-     * with {@link #shape(String...)}.
-     *
-     * @param key The character that represents the ingredient in the shape.
-     * @param ingredient The ingredient.
-     * @param raw The raw material data as an integer.
-     * @return The changed recipe, so you can chain calls.
-     * @throws IllegalArgumentException if the {@code key} does not appear in the shape.
-     * @deprecated Magic value
-     */
-    @Deprecated
-    @NotNull
-    public ShapedRecipe setIngredient(char key, @NotNull Material ingredient, int raw) {
+    public ShapedRecipe setIngredient(char key, @NotNull ItemType ingredient) {
         Preconditions.checkArgument(ingredients.containsKey(key), "Symbol does not appear in the shape:", key);
 
-        // -1 is the old wildcard, map to Short.MAX_VALUE as the new one
-        if (raw == -1) {
-            raw = Short.MAX_VALUE;
-        }
-
-        ingredients.put(key, new RecipeChoice.MaterialChoice(Collections.singletonList(ingredient)));
+        ingredients.put(key, new RecipeChoice.ItemTypeChoice(Collections.singletonList(ingredient)));
         return this;
     }
 

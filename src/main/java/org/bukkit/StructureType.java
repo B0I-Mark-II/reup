@@ -58,7 +58,7 @@ public final class StructureType implements Keyed {
      * Strongholds are underground structures that consist of many rooms,
      * libraries, and an end portal room.
      * <br>
-     * They can be found using an {@link Material#ENDER_EYE}.
+     * They can be found using an {@link org.bukkit.inventory.ItemType#ENDER_EYE}.
      */
     public static final StructureType STRONGHOLD = register(new StructureType("stronghold", MapCursor.Type.MANSION));
 
@@ -137,7 +137,7 @@ public final class StructureType implements Keyed {
      * Shipwrecks are structures that generate on the floor of oceans or
      * beaches.
      * <br>
-     * They are made up of wood materials, and contain 1-3 loot chests. They can
+     * They are made up of wood blocks, and contain 1-3 loot chests. They can
      * generate sideways, upside-down, or upright.
      */
     public static final StructureType SHIPWRECK = register(new StructureType("shipwreck", MapCursor.Type.RED_X));

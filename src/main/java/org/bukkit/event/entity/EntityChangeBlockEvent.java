@@ -1,7 +1,7 @@
 package org.bukkit.event.entity;
 
-import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockType;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.Cancellable;
@@ -45,13 +45,13 @@ public class EntityChangeBlockEvent extends EntityEvent implements Cancellable {
     }
 
     /**
-     * Gets the Material that the block is changing into
+     * Gets the block type that the block is changing into
      *
-     * @return the material that the block is changing into
+     * @return the block type that the block is changing into
      */
     @NotNull
-    public Material getTo() {
-        return to.getMaterial();
+    public BlockType<?> getTo() {
+        return to.getBlockType();
     }
 
     /**

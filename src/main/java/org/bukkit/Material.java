@@ -10,6 +10,7 @@ import java.util.function.Consumer;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockType;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.AnaloguePowerable;
 import org.bukkit.block.data.Bisected;
@@ -111,13 +112,16 @@ import org.bukkit.block.data.type.WallHangingSign;
 import org.bukkit.block.data.type.WallSign;
 import org.bukkit.inventory.CreativeCategory;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemType;
 import org.bukkit.material.MaterialData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * An enum of all material IDs accepted by the official server and client
+ * @deprecated Material was split up into {@link ItemType} and {@link BlockType}
  */
+@Deprecated
 public enum Material implements Keyed, Translatable {
     //<editor-fold desc="Materials" defaultstate="collapsed">
     AIR(9648, 0),
@@ -4490,7 +4494,7 @@ public enum Material implements Keyed, Translatable {
      */
     @NotNull
     public BlockData createBlockData() {
-        return Bukkit.createBlockData(this);
+        return Bukkit.createBlockData(asBlockType());
     }
 
     /**
@@ -4502,7 +4506,7 @@ public enum Material implements Keyed, Translatable {
      */
     @NotNull
     public BlockData createBlockData(@Nullable Consumer<BlockData> consumer) {
-        return Bukkit.createBlockData(this, consumer);
+        return Bukkit.createBlockData((BlockType<BlockData>) asBlockType(), consumer);
     }
 
     /**
@@ -4516,7 +4520,7 @@ public enum Material implements Keyed, Translatable {
      */
     @NotNull
     public BlockData createBlockData(@Nullable String data) throws IllegalArgumentException {
-        return Bukkit.createBlockData(this, data);
+        return Bukkit.createBlockData(asBlockType(), data);
     }
 
     /**
@@ -5569,7 +5573,7 @@ public enum Material implements Keyed, Translatable {
             case YELLOW_WOOL:
             case ZOMBIE_HEAD:
             case ZOMBIE_WALL_HEAD:
-            //</editor-fold>
+                //</editor-fold>
                 return true;
             default:
                 return 0 <= id && id < 256;
@@ -5624,7 +5628,7 @@ public enum Material implements Keyed, Translatable {
             case SUSPICIOUS_STEW:
             case SWEET_BERRIES:
             case TROPICAL_FISH:
-            // ----- Legacy Separator -----
+                // ----- Legacy Separator -----
             case LEGACY_BREAD:
             case LEGACY_CARROT_ITEM:
             case LEGACY_BAKED_POTATO:
@@ -5655,7 +5659,7 @@ public enum Material implements Keyed, Translatable {
             case LEGACY_BEETROOT:
             case LEGACY_CHORUS_FRUIT:
             case LEGACY_BEETROOT_SOUP:
-            //</editor-fold>
+                //</editor-fold>
                 return true;
             default:
                 return false;
@@ -5775,7 +5779,7 @@ public enum Material implements Keyed, Translatable {
             case MUSIC_DISC_STRAD:
             case MUSIC_DISC_WAIT:
             case MUSIC_DISC_WARD:
-            //</editor-fold>
+                //</editor-fold>
                 return true;
             default:
                 return id >= LEGACY_GOLD_RECORD.id && id <= LEGACY_RECORD_12.id;
@@ -6571,7 +6575,7 @@ public enum Material implements Keyed, Translatable {
             case YELLOW_TERRACOTTA:
             case YELLOW_WALL_BANNER:
             case YELLOW_WOOL:
-            // ----- Legacy Separator -----
+                // ----- Legacy Separator -----
             case LEGACY_STONE:
             case LEGACY_GRASS:
             case LEGACY_DIRT:
@@ -6771,7 +6775,7 @@ public enum Material implements Keyed, Translatable {
             case LEGACY_BLACK_GLAZED_TERRACOTTA:
             case LEGACY_CONCRETE:
             case LEGACY_CONCRETE_POWDER:
-            //</editor-fold>
+                //</editor-fold>
                 return true;
             default:
                 return false;
@@ -6789,7 +6793,7 @@ public enum Material implements Keyed, Translatable {
             case AIR:
             case CAVE_AIR:
             case VOID_AIR:
-            // ----- Legacy Separator -----
+                // ----- Legacy Separator -----
             case LEGACY_AIR:
                 //</editor-fold>
                 return true;
@@ -6939,7 +6943,7 @@ public enum Material implements Keyed, Translatable {
             case YELLOW_CARPET:
             case ZOMBIE_HEAD:
             case ZOMBIE_WALL_HEAD:
-            // ----- Legacy Separator -----
+                // ----- Legacy Separator -----
             case LEGACY_AIR:
             case LEGACY_SAPLING:
             case LEGACY_POWERED_RAIL:
@@ -6990,7 +6994,7 @@ public enum Material implements Keyed, Translatable {
             case LEGACY_BEETROOT_BLOCK:
             case LEGACY_END_GATEWAY:
             case LEGACY_STRUCTURE_VOID:
-            //</editor-fold>
+                //</editor-fold>
                 return true;
             default:
                 return false;
@@ -7282,7 +7286,7 @@ public enum Material implements Keyed, Translatable {
             case YELLOW_CARPET:
             case YELLOW_WALL_BANNER:
             case YELLOW_WOOL:
-            // ----- Legacy Separator -----
+                // ----- Legacy Separator -----
             case LEGACY_WOOD:
             case LEGACY_LOG:
             case LEGACY_LEAVES:
@@ -7338,7 +7342,7 @@ public enum Material implements Keyed, Translatable {
             case LEGACY_JUNGLE_DOOR:
             case LEGACY_ACACIA_DOOR:
             case LEGACY_DARK_OAK_DOOR:
-            //</editor-fold>
+                //</editor-fold>
                 return true;
             default:
                 return false;
@@ -7530,7 +7534,7 @@ public enum Material implements Keyed, Translatable {
             case WITHER_ROSE:
             case YELLOW_CARPET:
             case YELLOW_WOOL:
-            // ----- Legacy Separator -----
+                // ----- Legacy Separator -----
             case LEGACY_WOOD:
             case LEGACY_LOG:
             case LEGACY_LEAVES:
@@ -7568,7 +7572,7 @@ public enum Material implements Keyed, Translatable {
             case LEGACY_ACACIA_FENCE:
             case LEGACY_ACACIA_STAIRS:
             case LEGACY_DARK_OAK_STAIRS:
-            //</editor-fold>
+                //</editor-fold>
                 return true;
             default:
                 return false;
@@ -7831,7 +7835,7 @@ public enum Material implements Keyed, Translatable {
             case YELLOW_BANNER:
             case YELLOW_CARPET:
             case YELLOW_WOOL:
-            // ----- Legacy Separator -----
+                // ----- Legacy Separator -----
             case LEGACY_LAVA_BUCKET:
             case LEGACY_COAL_BLOCK:
             case LEGACY_BLAZE_ROD:
@@ -7895,7 +7899,7 @@ public enum Material implements Keyed, Translatable {
             case LEGACY_WOOL:
             case LEGACY_CARPET:
             case LEGACY_BOWL:
-            //</editor-fold>
+                //</editor-fold>
                 return true;
             default:
                 return false;
@@ -8282,7 +8286,7 @@ public enum Material implements Keyed, Translatable {
             case YELLOW_SHULKER_BOX:
             case YELLOW_TERRACOTTA:
             case YELLOW_WOOL:
-            // ----- Legacy Separator -----
+                // ----- Legacy Separator -----
             case LEGACY_STONE:
             case LEGACY_GRASS:
             case LEGACY_DIRT:
@@ -8381,7 +8385,7 @@ public enum Material implements Keyed, Translatable {
             case LEGACY_BLACK_GLAZED_TERRACOTTA:
             case LEGACY_CONCRETE:
             case LEGACY_CONCRETE_POWDER:
-            //</editor-fold>
+                //</editor-fold>
                 return true;
             default:
                 return false;
@@ -8420,12 +8424,12 @@ public enum Material implements Keyed, Translatable {
             case SAND:
             case WHITE_CONCRETE_POWDER:
             case YELLOW_CONCRETE_POWDER:
-            // ----- Legacy Separator -----
+                // ----- Legacy Separator -----
             case LEGACY_SAND:
             case LEGACY_GRAVEL:
             case LEGACY_ANVIL:
             case LEGACY_CONCRETE_POWDER:
-            //</editor-fold>
+                //</editor-fold>
                 return true;
             default:
                 return false;
@@ -8587,7 +8591,7 @@ public enum Material implements Keyed, Translatable {
             case YELLOW_CANDLE_CAKE:
             case YELLOW_WALL_BANNER:
             case ZOMBIE_WALL_HEAD:
-            // ----- Legacy Separator -----
+                // ----- Legacy Separator -----
             case LEGACY_ACACIA_DOOR:
             case LEGACY_BED_BLOCK:
             case LEGACY_BEETROOT_BLOCK:
@@ -8640,7 +8644,7 @@ public enum Material implements Keyed, Translatable {
             case LEGACY_WATER:
             case LEGACY_WOODEN_DOOR:
             case LEGACY_WOOD_DOUBLE_STEP:
-            //</editor-fold>
+                //</editor-fold>
                 return false;
             default:
                 return true;
@@ -10973,5 +10977,41 @@ public enum Material implements Keyed, Translatable {
      */
     public boolean isEnabledByFeature(@NotNull World world) {
         return Bukkit.getDataPackManager().isEnabledByFeature(this, world);
+    }
+
+    /**
+     * Tries to convert this Material to an item type
+     *
+     * @return the converted item type
+     * @deprecated only for internal use
+     */
+    @NotNull
+    @Deprecated
+    public ItemType asItemType() {
+        Material material = this;
+        if (isLegacy()) {
+            material = Bukkit.getUnsafe().fromLegacy(this);
+        }
+        ItemType itemType = Registry.ITEM.get(material.key);
+        Preconditions.checkNotNull(itemType, "Material %s is not a item type", material.getKey());
+        return itemType;
+    }
+
+    /**
+     * Tries to convert this Material to a block type
+     *
+     * @return the converted block type
+     * @deprecated only for internal use
+     */
+    @NotNull
+    @Deprecated
+    public BlockType<?> asBlockType() {
+        Material material = this;
+        if (isLegacy()) {
+            material = Bukkit.getUnsafe().fromLegacy(this);
+        }
+        BlockType<?> blockType = Registry.BLOCK.get(material.key);
+        Preconditions.checkNotNull(blockType, "Material %s is not a block type", material.getKey());
+        return blockType;
     }
 }

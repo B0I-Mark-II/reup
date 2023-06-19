@@ -1,8 +1,8 @@
 package org.bukkit.entity;
 
 import java.util.Set;
-import org.bukkit.Material;
 import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -25,69 +25,69 @@ public interface Piglin extends PiglinAbstract, InventoryHolder {
     public void setIsAbleToHunt(boolean flag);
 
     /**
-     * Adds a material to the allowed list of materials to barter with.
+     * Adds an item type to the allowed list of item types to barter with.
      *
-     * @param material The material to add
+     * @param itemType The item type to add
      *
      * @return true if the item has been added successfully, false otherwise
      */
-    public boolean addBarterMaterial(@NotNull Material material);
+    public boolean addBarterItem(@NotNull ItemType itemType);
 
     /**
-     * Removes a material from the allowed list of materials to barter with.
+     * Removes an item type from the allowed list of item types to barter with.
      *
      * <strong>Note:</strong> It's not possible to override the default
      * bartering item gold_ingots as payment. To block gold_ingots see
      * {@link org.bukkit.event.entity.PiglinBarterEvent}.
      *
-     * @param material The material to remove
+     * @param itemType The item type to remove
      *
      * @return true if the item has been removed successfully, false otherwise
      */
-    public boolean removeBarterMaterial(@NotNull Material material);
+    public boolean removeBarterItem(@NotNull ItemType itemType);
 
     /**
-     * Adds a material the piglin will pickup and store in his inventory.
+     * Adds an item type the piglin will pickup and store in his inventory.
      *
-     * @param material The material you want the piglin to be interested in
+     * @param itemType The item type you want the piglin to be interested in
      *
      * @return true if the item has been added successfully, false otherwise
      */
-    public boolean addMaterialOfInterest(@NotNull Material material);
+    public boolean addItemOfInterest(@NotNull ItemType itemType);
 
     /**
-     * Removes a material from the list of materials the piglin will pickup.
+     * Removes an item type from the list of item types the piglin will pickup.
      *
      * <strong>Note:</strong> It's not possible to override the default list of
      * item the piglin will pickup. To cancel pickup see
      * {@link org.bukkit.event.entity.EntityPickupItemEvent}.
      *
-     * @param material The material you want removed from the interest list
+     * @param itemType The item type you want removed from the interest list
      * @return true if the item has been removed successfully, false otherwise
      */
-    public boolean removeMaterialOfInterest(@NotNull Material material);
+    public boolean removeItemOfInterest(@NotNull ItemType itemType);
 
     /**
-     * Returns a immutable set of materials the piglins will pickup.
+     * Returns a immutable set of item types the piglins will pickup.
      * <br>
      * <strong>Note:</strong> This set will not include the items that are set
      * by default. To interact with those items see
      * {@link org.bukkit.event.entity.EntityPickupItemEvent}.
      *
-     * @return An immutable materials set
+     * @return An immutable item type set
      */
     @NotNull
-    public Set<Material> getInterestList();
+    public Set<ItemType> getInterestList();
 
     /**
-     * Returns a immutable set of materials the piglins will barter with.
+     * Returns a immutable set of item types the piglins will barter with.
      *
      * <strong>Note:</strong> This set will not include the items that are set
      * by default. To interact with those items see
      * {@link org.bukkit.event.entity.PiglinBarterEvent}.
      *
-     * @return An immutable materials set
+     * @return An immutable item type set
      */
     @NotNull
-    public Set<Material> getBarterList();
+    public Set<ItemType> getBarterList();
 }

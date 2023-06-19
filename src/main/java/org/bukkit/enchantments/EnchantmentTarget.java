@@ -1,7 +1,7 @@
 package org.bukkit.enchantments;
 
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -16,7 +16,7 @@ public enum EnchantmentTarget {
     @Deprecated
     ALL {
         @Override
-        public boolean includes(@NotNull Material item) {
+        public boolean includes(@NotNull ItemType item) {
             for (EnchantmentTarget target : EnchantmentTarget.values()) {
                 if (target != this && target.includes(item)) {
                     return true;
@@ -32,7 +32,7 @@ public enum EnchantmentTarget {
      */
     ARMOR {
         @Override
-        public boolean includes(@NotNull Material item) {
+        public boolean includes(@NotNull ItemType item) {
             return ARMOR_FEET.includes(item)
                 || ARMOR_LEGS.includes(item)
                 || ARMOR_HEAD.includes(item)
@@ -45,13 +45,13 @@ public enum EnchantmentTarget {
      */
     ARMOR_FEET {
         @Override
-        public boolean includes(@NotNull Material item) {
-            return item.equals(Material.LEATHER_BOOTS)
-                || item.equals(Material.CHAINMAIL_BOOTS)
-                || item.equals(Material.IRON_BOOTS)
-                || item.equals(Material.DIAMOND_BOOTS)
-                || item.equals(Material.GOLDEN_BOOTS)
-                || item.equals(Material.NETHERITE_BOOTS);
+        public boolean includes(@NotNull ItemType item) {
+            return item.equals(ItemType.LEATHER_BOOTS)
+                || item.equals(ItemType.CHAINMAIL_BOOTS)
+                || item.equals(ItemType.IRON_BOOTS)
+                || item.equals(ItemType.DIAMOND_BOOTS)
+                || item.equals(ItemType.GOLDEN_BOOTS)
+                || item.equals(ItemType.NETHERITE_BOOTS);
         }
     },
 
@@ -60,13 +60,13 @@ public enum EnchantmentTarget {
      */
     ARMOR_LEGS {
         @Override
-        public boolean includes(@NotNull Material item) {
-            return item.equals(Material.LEATHER_LEGGINGS)
-                || item.equals(Material.CHAINMAIL_LEGGINGS)
-                || item.equals(Material.IRON_LEGGINGS)
-                || item.equals(Material.DIAMOND_LEGGINGS)
-                || item.equals(Material.GOLDEN_LEGGINGS)
-                || item.equals(Material.NETHERITE_LEGGINGS);
+        public boolean includes(@NotNull ItemType item) {
+            return item.equals(ItemType.LEATHER_LEGGINGS)
+                || item.equals(ItemType.CHAINMAIL_LEGGINGS)
+                || item.equals(ItemType.IRON_LEGGINGS)
+                || item.equals(ItemType.DIAMOND_LEGGINGS)
+                || item.equals(ItemType.GOLDEN_LEGGINGS)
+                || item.equals(ItemType.NETHERITE_LEGGINGS);
         }
     },
 
@@ -75,13 +75,13 @@ public enum EnchantmentTarget {
      */
     ARMOR_TORSO {
         @Override
-        public boolean includes(@NotNull Material item) {
-            return item.equals(Material.LEATHER_CHESTPLATE)
-                || item.equals(Material.CHAINMAIL_CHESTPLATE)
-                || item.equals(Material.IRON_CHESTPLATE)
-                || item.equals(Material.DIAMOND_CHESTPLATE)
-                || item.equals(Material.GOLDEN_CHESTPLATE)
-                || item.equals(Material.NETHERITE_CHESTPLATE);
+        public boolean includes(@NotNull ItemType item) {
+            return item.equals(ItemType.LEATHER_CHESTPLATE)
+                || item.equals(ItemType.CHAINMAIL_CHESTPLATE)
+                || item.equals(ItemType.IRON_CHESTPLATE)
+                || item.equals(ItemType.DIAMOND_CHESTPLATE)
+                || item.equals(ItemType.GOLDEN_CHESTPLATE)
+                || item.equals(ItemType.NETHERITE_CHESTPLATE);
         }
     },
 
@@ -90,14 +90,14 @@ public enum EnchantmentTarget {
      */
     ARMOR_HEAD {
         @Override
-        public boolean includes(@NotNull Material item) {
-            return item.equals(Material.LEATHER_HELMET)
-                || item.equals(Material.CHAINMAIL_HELMET)
-                || item.equals(Material.DIAMOND_HELMET)
-                || item.equals(Material.IRON_HELMET)
-                || item.equals(Material.GOLDEN_HELMET)
-                || item.equals(Material.TURTLE_HELMET)
-                || item.equals(Material.NETHERITE_HELMET);
+        public boolean includes(@NotNull ItemType item) {
+            return item.equals(ItemType.LEATHER_HELMET)
+                || item.equals(ItemType.CHAINMAIL_HELMET)
+                || item.equals(ItemType.DIAMOND_HELMET)
+                || item.equals(ItemType.IRON_HELMET)
+                || item.equals(ItemType.GOLDEN_HELMET)
+                || item.equals(ItemType.TURTLE_HELMET)
+                || item.equals(ItemType.NETHERITE_HELMET);
         }
     },
 
@@ -106,13 +106,13 @@ public enum EnchantmentTarget {
      */
     WEAPON {
         @Override
-        public boolean includes(@NotNull Material item) {
-            return item.equals(Material.WOODEN_SWORD)
-                || item.equals(Material.STONE_SWORD)
-                || item.equals(Material.IRON_SWORD)
-                || item.equals(Material.DIAMOND_SWORD)
-                || item.equals(Material.GOLDEN_SWORD)
-                || item.equals(Material.NETHERITE_SWORD);
+        public boolean includes(@NotNull ItemType item) {
+            return item.equals(ItemType.WOODEN_SWORD)
+                || item.equals(ItemType.STONE_SWORD)
+                || item.equals(ItemType.IRON_SWORD)
+                || item.equals(ItemType.DIAMOND_SWORD)
+                || item.equals(ItemType.GOLDEN_SWORD)
+                || item.equals(ItemType.NETHERITE_SWORD);
         }
     },
 
@@ -121,31 +121,31 @@ public enum EnchantmentTarget {
      */
     TOOL {
         @Override
-        public boolean includes(@NotNull Material item) {
-            return item.equals(Material.WOODEN_SHOVEL)
-                || item.equals(Material.STONE_SHOVEL)
-                || item.equals(Material.IRON_SHOVEL)
-                || item.equals(Material.DIAMOND_SHOVEL)
-                || item.equals(Material.GOLDEN_SHOVEL)
-                || item.equals(Material.NETHERITE_SHOVEL)
-                || item.equals(Material.WOODEN_PICKAXE)
-                || item.equals(Material.STONE_PICKAXE)
-                || item.equals(Material.IRON_PICKAXE)
-                || item.equals(Material.DIAMOND_PICKAXE)
-                || item.equals(Material.GOLDEN_PICKAXE)
-                || item.equals(Material.NETHERITE_PICKAXE)
-                || item.equals(Material.WOODEN_AXE)
-                || item.equals(Material.STONE_AXE)
-                || item.equals(Material.IRON_AXE)
-                || item.equals(Material.DIAMOND_AXE)
-                || item.equals(Material.GOLDEN_AXE)
-                || item.equals(Material.NETHERITE_AXE)
-                || item.equals(Material.WOODEN_HOE)
-                || item.equals(Material.STONE_HOE)
-                || item.equals(Material.IRON_HOE)
-                || item.equals(Material.DIAMOND_HOE)
-                || item.equals(Material.GOLDEN_HOE)
-                || item.equals(Material.NETHERITE_HOE);
+        public boolean includes(@NotNull ItemType item) {
+            return item.equals(ItemType.WOODEN_SHOVEL)
+                || item.equals(ItemType.STONE_SHOVEL)
+                || item.equals(ItemType.IRON_SHOVEL)
+                || item.equals(ItemType.DIAMOND_SHOVEL)
+                || item.equals(ItemType.GOLDEN_SHOVEL)
+                || item.equals(ItemType.NETHERITE_SHOVEL)
+                || item.equals(ItemType.WOODEN_PICKAXE)
+                || item.equals(ItemType.STONE_PICKAXE)
+                || item.equals(ItemType.IRON_PICKAXE)
+                || item.equals(ItemType.DIAMOND_PICKAXE)
+                || item.equals(ItemType.GOLDEN_PICKAXE)
+                || item.equals(ItemType.NETHERITE_PICKAXE)
+                || item.equals(ItemType.WOODEN_AXE)
+                || item.equals(ItemType.STONE_AXE)
+                || item.equals(ItemType.IRON_AXE)
+                || item.equals(ItemType.DIAMOND_AXE)
+                || item.equals(ItemType.GOLDEN_AXE)
+                || item.equals(ItemType.NETHERITE_AXE)
+                || item.equals(ItemType.WOODEN_HOE)
+                || item.equals(ItemType.STONE_HOE)
+                || item.equals(ItemType.IRON_HOE)
+                || item.equals(ItemType.DIAMOND_HOE)
+                || item.equals(ItemType.GOLDEN_HOE)
+                || item.equals(ItemType.NETHERITE_HOE);
         }
     },
 
@@ -154,8 +154,8 @@ public enum EnchantmentTarget {
      */
     BOW {
         @Override
-        public boolean includes(@NotNull Material item) {
-            return item.equals(Material.BOW);
+        public boolean includes(@NotNull ItemType item) {
+            return item.equals(ItemType.BOW);
         }
     },
 
@@ -164,8 +164,8 @@ public enum EnchantmentTarget {
      */
     FISHING_ROD {
         @Override
-        public boolean includes(@NotNull Material item) {
-            return item.equals(Material.FISHING_ROD);
+        public boolean includes(@NotNull ItemType item) {
+            return item.equals(ItemType.FISHING_ROD);
         }
     },
 
@@ -174,7 +174,7 @@ public enum EnchantmentTarget {
      */
     BREAKABLE {
         @Override
-        public boolean includes(@NotNull Material item) {
+        public boolean includes(@NotNull ItemType item) {
             return item.getMaxDurability() > 0 && item.getMaxStackSize() == 1;
         }
     },
@@ -184,18 +184,18 @@ public enum EnchantmentTarget {
      */
     WEARABLE {
         @Override
-        public boolean includes(@NotNull Material item) {
+        public boolean includes(@NotNull ItemType item) {
             return ARMOR.includes(item)
-                    || item.equals(Material.ELYTRA)
-                    || item.equals(Material.CARVED_PUMPKIN)
-                    || item.equals(Material.SKELETON_SKULL)
-                    || item.equals(Material.WITHER_SKELETON_SKULL)
-                    || item.equals(Material.ZOMBIE_HEAD)
-                    || item.equals(Material.PIGLIN_HEAD)
-                    || item.equals(Material.PLAYER_HEAD)
-                    || item.equals(Material.CREEPER_HEAD)
-                    || item.equals(Material.DRAGON_HEAD)
-                    || item.equals(Material.SHIELD);
+                    || item.equals(ItemType.ELYTRA)
+                    || item.equals(ItemType.CARVED_PUMPKIN)
+                    || item.equals(ItemType.SKELETON_SKULL)
+                    || item.equals(ItemType.WITHER_SKELETON_SKULL)
+                    || item.equals(ItemType.ZOMBIE_HEAD)
+                    || item.equals(ItemType.PIGLIN_HEAD)
+                    || item.equals(ItemType.PLAYER_HEAD)
+                    || item.equals(ItemType.CREEPER_HEAD)
+                    || item.equals(ItemType.DRAGON_HEAD)
+                    || item.equals(ItemType.SHIELD);
         }
     },
 
@@ -204,8 +204,8 @@ public enum EnchantmentTarget {
      */
     TRIDENT {
         @Override
-        public boolean includes(@NotNull Material item) {
-            return item.equals(Material.TRIDENT);
+        public boolean includes(@NotNull ItemType item) {
+            return item.equals(ItemType.TRIDENT);
         }
     },
 
@@ -214,8 +214,8 @@ public enum EnchantmentTarget {
      */
     CROSSBOW {
         @Override
-        public boolean includes(@NotNull Material item) {
-            return item.equals(Material.CROSSBOW);
+        public boolean includes(@NotNull ItemType item) {
+            return item.equals(ItemType.CROSSBOW);
         }
     },
 
@@ -224,8 +224,8 @@ public enum EnchantmentTarget {
      */
     VANISHABLE {
         @Override
-        public boolean includes(@NotNull Material item) {
-            return BREAKABLE.includes(item) || (WEARABLE.includes(item) && !item.equals(Material.ELYTRA)) || item.equals(Material.COMPASS);
+        public boolean includes(@NotNull ItemType item) {
+            return BREAKABLE.includes(item) || (WEARABLE.includes(item) && !item.equals(ItemType.ELYTRA)) || item.equals(ItemType.COMPASS);
         }
     };
 
@@ -235,7 +235,7 @@ public enum EnchantmentTarget {
      * @param item The item to check
      * @return True if the target includes the item
      */
-    public abstract boolean includes(@NotNull Material item);
+    public abstract boolean includes(@NotNull ItemType item);
 
     /**
      * Check whether this target includes the specified item.

@@ -6,10 +6,11 @@ import org.bukkit.TestServer;
 import org.bukkit.event.Event;
 import org.bukkit.event.TestEvent;
 import org.bukkit.permissions.Permission;
+import org.bukkit.support.AbstractTestingBase;
 import org.junit.After;
 import org.junit.Test;
 
-public class PluginManagerTest {
+public class PluginManagerTest extends AbstractTestingBase {
     private class MutableObject {
         volatile Object value = null;
     }

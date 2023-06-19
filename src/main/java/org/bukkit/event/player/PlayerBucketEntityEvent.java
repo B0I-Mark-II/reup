@@ -1,6 +1,5 @@
 package org.bukkit.event.player;
 
-import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -42,7 +41,7 @@ public class PlayerBucketEntityEvent extends PlayerEvent implements Cancellable 
     /**
      * Gets the bucket used to capture the {@link Entity}.
      *
-     * This refers to the bucket clicked with, eg {@link Material#WATER_BUCKET}.
+     * This refers to the bucket clicked with, eg {@link org.bukkit.inventory.ItemType#WATER_BUCKET}.
      *
      * @return The used bucket
      */
@@ -55,7 +54,7 @@ public class PlayerBucketEntityEvent extends PlayerEvent implements Cancellable 
      * Gets the bucket that the {@link Entity} will be put into.
      *
      * This refers to the bucket with the entity, eg
-     * {@link Material#PUFFERFISH_BUCKET}.
+     * {@link org.bukkit.inventory.ItemType#PUFFERFISH_BUCKET}.
      *
      * @return The bucket that the {@link Entity} will be put into
      */

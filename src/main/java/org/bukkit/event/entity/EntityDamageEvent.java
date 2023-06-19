@@ -7,7 +7,6 @@ import com.google.common.collect.ImmutableMap;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
-import org.bukkit.Material;
 import org.bukkit.WorldBorder;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -430,7 +429,7 @@ public class EntityDamageEvent extends EntityEvent implements Cancellable {
          */
         FLY_INTO_WALL,
         /**
-         * Damage caused when an entity steps on {@link Material#MAGMA_BLOCK}.
+         * Damage caused when an entity steps on {@link org.bukkit.block.BlockType#MAGMA_BLOCK}.
          * <p>
          * Damage: 1
          */

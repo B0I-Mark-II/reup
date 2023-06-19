@@ -1,6 +1,5 @@
 package org.bukkit.entity;
 
-import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
 import org.jetbrains.annotations.NotNull;
 
@@ -8,16 +7,6 @@ import org.jetbrains.annotations.NotNull;
  * Represents a falling block
  */
 public interface FallingBlock extends Entity {
-
-    /**
-     * Get the Material of the falling block
-     *
-     * @return Material of the block
-     * @deprecated use {@link #getBlockData()}
-     */
-    @Deprecated
-    @NotNull
-    Material getMaterial();
 
     /**
      * Get the data for the falling block

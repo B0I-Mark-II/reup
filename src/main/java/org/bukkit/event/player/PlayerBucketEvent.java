@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,7 +20,7 @@ public abstract class PlayerBucketEvent extends PlayerEvent implements Cancellab
     private final Block block;
     private final Block blockClicked;
     private final BlockFace blockFace;
-    private final Material bucket;
+    private final ItemType bucket;
     private final EquipmentSlot hand;
 
     @Deprecated
@@ -32,7 +33,12 @@ public abstract class PlayerBucketEvent extends PlayerEvent implements Cancellab
         this(who, block, blockClicked, blockFace, bucket, itemInHand, EquipmentSlot.HAND);
     }
 
+    @Deprecated
     public PlayerBucketEvent(@NotNull final Player who, @NotNull final Block block, @NotNull final Block blockClicked, @NotNull final BlockFace blockFace, @NotNull final Material bucket, @NotNull final ItemStack itemInHand, @NotNull final EquipmentSlot hand) {
+        this(who, block, blockClicked, blockFace, bucket.asItemType(), itemInHand, hand);
+    }
+
+    public PlayerBucketEvent(@NotNull final Player who, @NotNull final Block block, @NotNull final Block blockClicked, @NotNull final BlockFace blockFace, @NotNull final ItemType bucket, @NotNull final ItemStack itemInHand, @NotNull final EquipmentSlot hand) {
         super(who);
         this.block = block;
         this.blockClicked = blockClicked;
@@ -48,7 +54,7 @@ public abstract class PlayerBucketEvent extends PlayerEvent implements Cancellab
      * @return the used bucket
      */
     @NotNull
-    public Material getBucket() {
+    public ItemType getBucket() {
         return bucket;
     }
 

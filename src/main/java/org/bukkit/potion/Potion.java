@@ -2,9 +2,9 @@ package org.bukkit.potion;
 
 import com.google.common.base.Preconditions;
 import java.util.Collection;
-import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ItemType;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.jetbrains.annotations.NotNull;
 
@@ -259,13 +259,13 @@ public class Potion {
      */
     @NotNull
     public ItemStack toItemStack(int amount) {
-        Material material;
+        ItemType itemType;
         if (isSplash()) {
-            material = Material.SPLASH_POTION;
+            itemType = ItemType.SPLASH_POTION;
         } else {
-            material = Material.POTION;
+            itemType = ItemType.POTION;
         }
-        ItemStack itemStack = new ItemStack(material, amount);
+        ItemStack itemStack = ItemStack.of(itemType, amount);
         PotionMeta meta = (PotionMeta) itemStack.getItemMeta();
         meta.setBasePotionData(new PotionData(type, level == 2, extended));
         itemStack.setItemMeta(meta);
@@ -294,10 +294,10 @@ public class Potion {
                 type = PotionType.WATER;
                 break;
             case 1:
-                type = PotionType.REGEN;
+                type = PotionType.REGENERATION;
                 break;
             case 2:
-                type = PotionType.SPEED;
+                type = PotionType.SWIFTNESS;
                 break;
             case 3:
                 type = PotionType.FIRE_RESISTANCE;
@@ -306,7 +306,7 @@ public class Potion {
                 type = PotionType.POISON;
                 break;
             case 5:
-                type = PotionType.INSTANT_HEAL;
+                type = PotionType.HEALING;
                 break;
             case 6:
                 type = PotionType.NIGHT_VISION;
@@ -321,10 +321,10 @@ public class Potion {
                 type = PotionType.SLOWNESS;
                 break;
             case 11:
-                type = PotionType.JUMP;
+                type = PotionType.LEAPING;
                 break;
             case 12:
-                type = PotionType.INSTANT_DAMAGE;
+                type = PotionType.HARMING;
                 break;
             case 13:
                 type = PotionType.WATER_BREATHING;
@@ -355,7 +355,7 @@ public class Potion {
     @NotNull
     public static Potion fromItemStack(@NotNull ItemStack item) {
         Preconditions.checkArgument(item != null, "item cannot be null");
-        if (item.getType() != Material.POTION)
+        if (item.getType() != ItemType.POTION)
             throw new IllegalArgumentException("item is not a potion");
         return fromDamage(item.getDurability());
     }

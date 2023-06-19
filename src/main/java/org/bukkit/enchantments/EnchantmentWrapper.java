@@ -6,10 +6,11 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * A simple wrapper for ease of selecting {@link Enchantment}s
+ * @deprecated only for backwards compatibility, EnchantmentWrapper is no longer used.
  */
+@Deprecated
 public class EnchantmentWrapper extends Enchantment {
     public EnchantmentWrapper(@NotNull String name) {
-        super(NamespacedKey.minecraft(name));
     }
 
     /**
@@ -62,5 +63,11 @@ public class EnchantmentWrapper extends Enchantment {
     @Override
     public boolean conflictsWith(@NotNull Enchantment other) {
         return getEnchantment().conflictsWith(other);
+    }
+
+    @NotNull
+    @Override
+    public NamespacedKey getKey() {
+        return getEnchantment().getKey();
     }
 }

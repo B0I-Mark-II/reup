@@ -1,6 +1,7 @@
 package org.bukkit;
 
 import org.bukkit.block.Biome;
+import org.bukkit.block.BlockType;
 import org.bukkit.block.data.BlockData;
 import org.jetbrains.annotations.NotNull;
 
@@ -40,10 +41,10 @@ public interface ChunkSnapshot {
      * @param x 0-15
      * @param y world minHeight (inclusive) - world maxHeight (exclusive)
      * @param z 0-15
-     * @return block material type
+     * @return block type
      */
     @NotNull
-    Material getBlockType(int x, int y, int z);
+    BlockType<?> getBlockType(int x, int y, int z);
 
     /**
      * Get block data for block at corresponding coordinate in the chunk
@@ -51,7 +52,7 @@ public interface ChunkSnapshot {
      * @param x 0-15
      * @param y world minHeight (inclusive) - world maxHeight (exclusive)
      * @param z 0-15
-     * @return block material type
+     * @return block data
      */
     @NotNull
     BlockData getBlockData(int x, int y, int z);

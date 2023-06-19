@@ -1,12 +1,12 @@
 package org.bukkit.event.player;
 
-import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -28,7 +28,7 @@ public class PlayerShearEntityEvent extends PlayerEvent implements Cancellable {
 
     @Deprecated
     public PlayerShearEntityEvent(@NotNull final Player who, @NotNull final Entity what) {
-        this(who, what, new ItemStack(Material.SHEARS), EquipmentSlot.HAND);
+        this(who, what, ItemStack.of(ItemType.SHEARS), EquipmentSlot.HAND);
     }
 
     @Override

@@ -8,7 +8,6 @@ import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Instrument;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Note;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Particle;
@@ -32,6 +31,7 @@ import org.bukkit.event.player.PlayerExpCooldownChangeEvent;
 import org.bukkit.event.player.PlayerResourcePackStatusEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ItemType;
 import org.bukkit.map.MapView;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.messaging.PluginMessageRecipient;
@@ -507,18 +507,6 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      * certain location. This will not actually change the world in any way.
      *
      * @param loc The location of the changed block
-     * @param material The new block
-     * @param data The block data
-     * @deprecated Magic value
-     */
-    @Deprecated
-    public void sendBlockChange(@NotNull Location loc, @NotNull Material material, byte data);
-
-    /**
-     * Send a block change. This fakes a block change packet for a user at a
-     * certain location. This will not actually change the world in any way.
-     *
-     * @param loc The location of the changed block
      * @param block The new block
      */
     public void sendBlockChange(@NotNull Location loc, @NotNull BlockData block);
@@ -638,7 +626,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      * a certain location. This will not actually change the world in any way.
      * This method will use a sign at the location's block or a faked sign
      * sent via
-     * {@link #sendBlockChange(org.bukkit.Location, org.bukkit.block.data.BlockData)}.
+     * {@link #sendBlockChange(Location, BlockData)}.
      * <p>
      * If the client does not have a sign at the given location it will
      * display an error message to the user.
@@ -658,7 +646,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      * a certain location. This will not actually change the world in any way.
      * This method will use a sign at the location's block or a faked sign
      * sent via
-     * {@link #sendBlockChange(org.bukkit.Location, org.bukkit.block.data.BlockData)}.
+     * {@link #sendBlockChange(Location, BlockData)}.
      * <p>
      * If the client does not have a sign at the given location it will
      * display an error message to the user.
@@ -680,7 +668,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      * a certain location. This will not actually change the world in any way.
      * This method will use a sign at the location's block or a faked sign
      * sent via
-     * {@link #sendBlockChange(org.bukkit.Location, org.bukkit.block.data.BlockData)}.
+     * {@link #sendBlockChange(Location, BlockData)}.
      * <p>
      * If the client does not have a sign at the given location it will
      * display an error message to the user.
@@ -1511,7 +1499,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      * @param location the location to spawn at
      * @param count the number of particles
      */
-    public void spawnParticle(@NotNull Particle particle, @NotNull Location location, int count);
+    public void spawnParticle(@NotNull Particle<?> particle, @NotNull Location location, int count);
 
     /**
      * Spawns the particle (the number of times specified by count)
@@ -1523,7 +1511,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      * @param z the position on the z axis to spawn at
      * @param count the number of particles
      */
-    public void spawnParticle(@NotNull Particle particle, double x, double y, double z, int count);
+    public void spawnParticle(@NotNull Particle<?> particle, double x, double y, double z, int count);
 
     /**
      * Spawns the particle (the number of times specified by count)
@@ -1536,7 +1524,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      * @param data the data to use for the particle or null,
      *             the type of this depends on {@link Particle#getDataType()}
      */
-    public <T> void spawnParticle(@NotNull Particle particle, @NotNull Location location, int count, @Nullable T data);
+    public <T> void spawnParticle(@NotNull Particle<T> particle, @NotNull Location location, int count, @Nullable T data);
 
 
     /**
@@ -1552,7 +1540,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      * @param data the data to use for the particle or null,
      *             the type of this depends on {@link Particle#getDataType()}
      */
-    public <T> void spawnParticle(@NotNull Particle particle, double x, double y, double z, int count, @Nullable T data);
+    public <T> void spawnParticle(@NotNull Particle<T> particle, double x, double y, double z, int count, @Nullable T data);
 
     /**
      * Spawns the particle (the number of times specified by count)
@@ -1567,7 +1555,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      * @param offsetY the maximum random offset on the Y axis
      * @param offsetZ the maximum random offset on the Z axis
      */
-    public void spawnParticle(@NotNull Particle particle, @NotNull Location location, int count, double offsetX, double offsetY, double offsetZ);
+    public void spawnParticle(@NotNull Particle<?> particle, @NotNull Location location, int count, double offsetX, double offsetY, double offsetZ);
 
     /**
      * Spawns the particle (the number of times specified by count)
@@ -1584,7 +1572,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      * @param offsetY the maximum random offset on the Y axis
      * @param offsetZ the maximum random offset on the Z axis
      */
-    public void spawnParticle(@NotNull Particle particle, double x, double y, double z, int count, double offsetX, double offsetY, double offsetZ);
+    public void spawnParticle(@NotNull Particle<?> particle, double x, double y, double z, int count, double offsetX, double offsetY, double offsetZ);
 
     /**
      * Spawns the particle (the number of times specified by count)
@@ -1602,7 +1590,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      * @param data the data to use for the particle or null,
      *             the type of this depends on {@link Particle#getDataType()}
      */
-    public <T> void spawnParticle(@NotNull Particle particle, @NotNull Location location, int count, double offsetX, double offsetY, double offsetZ, @Nullable T data);
+    public <T> void spawnParticle(@NotNull Particle<T> particle, @NotNull Location location, int count, double offsetX, double offsetY, double offsetZ, @Nullable T data);
 
     /**
      * Spawns the particle (the number of times specified by count)
@@ -1622,7 +1610,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      * @param data the data to use for the particle or null,
      *             the type of this depends on {@link Particle#getDataType()}
      */
-    public <T> void spawnParticle(@NotNull Particle particle, double x, double y, double z, int count, double offsetX, double offsetY, double offsetZ, @Nullable T data);
+    public <T> void spawnParticle(@NotNull Particle<T> particle, double x, double y, double z, int count, double offsetX, double offsetY, double offsetZ, @Nullable T data);
 
     /**
      * Spawns the particle (the number of times specified by count)
@@ -1639,7 +1627,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      * @param extra the extra data for this particle, depends on the
      *              particle used (normally speed)
      */
-    public void spawnParticle(@NotNull Particle particle, @NotNull Location location, int count, double offsetX, double offsetY, double offsetZ, double extra);
+    public void spawnParticle(@NotNull Particle<?> particle, @NotNull Location location, int count, double offsetX, double offsetY, double offsetZ, double extra);
 
     /**
      * Spawns the particle (the number of times specified by count)
@@ -1658,7 +1646,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      * @param extra the extra data for this particle, depends on the
      *              particle used (normally speed)
      */
-    public void spawnParticle(@NotNull Particle particle, double x, double y, double z, int count, double offsetX, double offsetY, double offsetZ, double extra);
+    public void spawnParticle(@NotNull Particle<?> particle, double x, double y, double z, int count, double offsetX, double offsetY, double offsetZ, double extra);
 
     /**
      * Spawns the particle (the number of times specified by count)
@@ -1678,7 +1666,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      * @param data the data to use for the particle or null,
      *             the type of this depends on {@link Particle#getDataType()}
      */
-    public <T> void spawnParticle(@NotNull Particle particle, @NotNull Location location, int count, double offsetX, double offsetY, double offsetZ, double extra, @Nullable T data);
+    public <T> void spawnParticle(@NotNull Particle<T> particle, @NotNull Location location, int count, double offsetX, double offsetY, double offsetZ, double extra, @Nullable T data);
 
     /**
      * Spawns the particle (the number of times specified by count)
@@ -1700,7 +1688,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      * @param data the data to use for the particle or null,
      *             the type of this depends on {@link Particle#getDataType()}
      */
-    public <T> void spawnParticle(@NotNull Particle particle, double x, double y, double z, int count, double offsetX, double offsetY, double offsetZ, double extra, @Nullable T data);
+    public <T> void spawnParticle(@NotNull Particle<T> particle, double x, double y, double z, int count, double offsetX, double offsetY, double offsetZ, double extra, @Nullable T data);
 
     /**
      * Return the player's progression on the specified advancement.
@@ -1759,7 +1747,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
     public void updateCommands();
 
     /**
-     * Open a {@link Material#WRITTEN_BOOK} for a Player
+     * Open a {@link ItemType#WRITTEN_BOOK} for a Player
      *
      * @param book The book to open for this player
      */

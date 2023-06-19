@@ -4,14 +4,21 @@ import org.bukkit.Color;
 import org.bukkit.NamespacedKey;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * @deprecated only for backwards compatibility, PotionEffectTypeWrapper is no longer used.
+ */
+@Deprecated
 public class PotionEffectTypeWrapper extends PotionEffectType {
-    protected PotionEffectTypeWrapper(int id, @NotNull String name) {
-        super(id, NamespacedKey.minecraft(name));
-    }
+    protected PotionEffectTypeWrapper(int id) {}
 
     @Override
     public double getDurationModifier() {
         return getType().getDurationModifier();
+    }
+
+    @Override
+    public int getId() {
+        return getType().getId();
     }
 
     @NotNull
@@ -39,5 +46,11 @@ public class PotionEffectTypeWrapper extends PotionEffectType {
     @Override
     public Color getColor() {
         return getType().getColor();
+    }
+
+    @NotNull
+    @Override
+    public NamespacedKey getKey() {
+        return getType().getKey();
     }
 }

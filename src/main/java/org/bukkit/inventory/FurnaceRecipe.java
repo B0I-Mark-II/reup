@@ -70,27 +70,13 @@ public class FurnaceRecipe extends CookingRecipe<FurnaceRecipe> {
      */
     @NotNull
     public FurnaceRecipe setInput(@NotNull MaterialData input) {
-        return setInput(input.getItemType(), input.getData());
+        return setInput(input.getItemType().asItemType());
     }
 
     @NotNull
     @Override
-    public FurnaceRecipe setInput(@NotNull Material input) {
+    public FurnaceRecipe setInput(@NotNull ItemType input) {
         return (FurnaceRecipe) super.setInput(input);
-    }
-
-    /**
-     * Sets the input of this furnace recipe.
-     *
-     * @param input The input material.
-     * @param data The data value. (Note: This is currently ignored by the
-     *     CraftBukkit server.)
-     * @return The changed recipe, so you can chain calls.
-     * @deprecated Magic value
-     */
-    @Deprecated
-    public FurnaceRecipe setInput(@NotNull Material input, int data) {
-        return setInputChoice(new RecipeChoice.MaterialChoice(Collections.singletonList(input)));
     }
 
     @NotNull

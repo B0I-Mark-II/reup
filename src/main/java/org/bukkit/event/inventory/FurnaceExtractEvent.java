@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockExpEvent;
+import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -11,10 +12,15 @@ import org.jetbrains.annotations.NotNull;
  */
 public class FurnaceExtractEvent extends BlockExpEvent {
     private final Player player;
-    private final Material itemType;
+    private final ItemType itemType;
     private final int itemAmount;
 
+    @Deprecated
     public FurnaceExtractEvent(@NotNull Player player, @NotNull Block block, @NotNull Material itemType, int itemAmount, int exp) {
+        this(player, block, itemType.asItemType(), itemAmount, exp);
+    }
+
+    public FurnaceExtractEvent(@NotNull Player player, @NotNull Block block, @NotNull ItemType itemType, int itemAmount, int exp) {
         super(block, exp);
         this.player = player;
         this.itemType = itemType;
@@ -32,12 +38,12 @@ public class FurnaceExtractEvent extends BlockExpEvent {
     }
 
     /**
-     * Get the Material of the item being retrieved
+     * Get the type of the item being retrieved
      *
-     * @return the material of the item
+     * @return the type of the item
      */
     @NotNull
-    public Material getItemType() {
+    public ItemType getItemType() {
         return itemType;
     }
 

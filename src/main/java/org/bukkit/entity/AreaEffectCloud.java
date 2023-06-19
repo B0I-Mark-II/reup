@@ -6,6 +6,7 @@ import org.bukkit.Particle;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
 import org.bukkit.projectiles.ProjectileSource;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -126,14 +127,14 @@ public interface AreaEffectCloud extends Entity {
      * @return particle the set particle type
      */
     @NotNull
-    Particle getParticle();
+    Particle<?> getParticle();
 
     /**
      * Sets the particle which this cloud will be composed of
      *
      * @param particle the new particle type
      */
-    void setParticle(@NotNull Particle particle);
+    void setParticle(@NotNull Particle<?> particle);
 
     /**
      * Sets the particle which this cloud will be composed of
@@ -143,22 +144,41 @@ public interface AreaEffectCloud extends Entity {
      * @param data the data to use for the particle or null,
      *             the type of this depends on {@link Particle#getDataType()}
      */
-    <T> void setParticle(@NotNull Particle particle, @Nullable T data);
+    <T> void setParticle(@NotNull Particle<T> particle, @Nullable T data);
 
     /**
      * Sets the underlying potion data
      *
      * @param data PotionData to set the base potion state to
+     * @deprecated Upgraded / extended potions are now their own {@link PotionType} use {@link #setBasePotionType} instead.
      */
+    @Deprecated
     void setBasePotionData(@NotNull PotionData data);
 
     /**
      * Returns the potion data about the base potion
      *
      * @return a PotionData object
+     * @deprecated Upgraded / extended potions are now their own {@link PotionType} use {@link #getBasePotionType()} instead.
      */
     @NotNull
+    @Deprecated
     PotionData getBasePotionData();
+
+    /**
+     * Sets the underlying potion type
+     *
+     * @param type PotionType to set the base potion state to
+     */
+    void setBasePotionType(@NotNull PotionType type);
+
+    /**
+     * Returns the potion type about the base potion
+     *
+     * @return a PotionType object
+     */
+    @NotNull
+    PotionType getBasePotionType();
 
     /**
      * Checks for the presence of custom potion effects.

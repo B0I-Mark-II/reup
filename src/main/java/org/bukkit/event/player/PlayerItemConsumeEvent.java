@@ -1,11 +1,11 @@
 package org.bukkit.event.player;
 
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -66,7 +66,7 @@ public class PlayerItemConsumeEvent extends PlayerEvent implements Cancellable {
      */
     public void setItem(@Nullable ItemStack item) {
         if (item == null) {
-            this.item = new ItemStack(Material.AIR);
+            this.item = ItemStack.of(ItemType.AIR);
         } else {
             this.item = item;
         }

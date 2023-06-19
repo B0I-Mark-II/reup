@@ -1,7 +1,7 @@
 package org.bukkit.event.block;
 
-import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockType;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
  * <li>The Block returned by getBlock() is the block we are trying to place
  *     on, not the block we are trying to place.
  * <li>If you want to figure out what is being placed, use {@link
- *     #getMaterial()} instead.
+ *     #getType()} instead.
  * </ul>
  */
 public class BlockCanBuildEvent extends BlockEvent {
@@ -67,13 +67,13 @@ public class BlockCanBuildEvent extends BlockEvent {
     }
 
     /**
-     * Gets the Material that we are trying to place.
+     * Gets the block type that we are trying to place.
      *
-     * @return The Material that we are trying to place
+     * @return The block type that we are trying to place
      */
     @NotNull
-    public Material getMaterial() {
-        return blockData.getMaterial();
+    public BlockType<?> getType() {
+        return blockData.getBlockType();
     }
 
     /**

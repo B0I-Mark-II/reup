@@ -2,10 +2,12 @@ package org.bukkit.event.player;
 
 import org.bukkit.Material;
 import org.bukkit.Statistic;
+import org.bukkit.block.BlockType;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
+import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,8 +24,9 @@ public class PlayerStatisticIncrementEvent extends PlayerEvent implements Cancel
     private final int initialValue;
     private final int newValue;
     private boolean isCancelled = false;
-    private final EntityType entityType;
-    private final Material material;
+    private final EntityType<?> entityType;
+    private final ItemType itemType;
+    private final BlockType<?> blockType;
 
     public PlayerStatisticIncrementEvent(@NotNull Player player, @NotNull Statistic statistic, int initialValue, int newValue) {
         super(player);
@@ -31,25 +34,57 @@ public class PlayerStatisticIncrementEvent extends PlayerEvent implements Cancel
         this.initialValue = initialValue;
         this.newValue = newValue;
         this.entityType = null;
-        this.material = null;
+        this.itemType = null;
+        this.blockType = null;
     }
 
-    public PlayerStatisticIncrementEvent(@NotNull Player player, @NotNull Statistic statistic, int initialValue, int newValue, @NotNull EntityType entityType) {
+    public PlayerStatisticIncrementEvent(@NotNull Player player, @NotNull Statistic statistic, int initialValue, int newValue, @NotNull EntityType<?> entityType) {
         super(player);
         this.statistic = statistic;
         this.initialValue = initialValue;
         this.newValue = newValue;
         this.entityType = entityType;
-        this.material = null;
+        this.itemType = null;
+        this.blockType = null;
     }
 
+    @Deprecated
     public PlayerStatisticIncrementEvent(@NotNull Player player, @NotNull Statistic statistic, int initialValue, int newValue, @NotNull Material material) {
         super(player);
         this.statistic = statistic;
         this.initialValue = initialValue;
         this.newValue = newValue;
         this.entityType = null;
-        this.material = material;
+
+        if (statistic.getType() == Statistic.Type.BLOCK) {
+            this.itemType = null;
+            this.blockType = material.asBlockType();
+        } else if (statistic.getType() == Statistic.Type.ITEM) {
+            this.itemType = material.asItemType();
+            this.blockType = null;
+        } else {
+            throw new IllegalArgumentException("Expected statistic of type block or item, but got " + statistic.getType());
+        }
+    }
+
+    public PlayerStatisticIncrementEvent(@NotNull Player player, @NotNull Statistic statistic, int initialValue, int newValue, @NotNull ItemType itemType) {
+        super(player);
+        this.statistic = statistic;
+        this.initialValue = initialValue;
+        this.newValue = newValue;
+        this.entityType = null;
+        this.itemType = itemType;
+        this.blockType = null;
+    }
+
+    public PlayerStatisticIncrementEvent(@NotNull Player player, @NotNull Statistic statistic, int initialValue, int newValue, @NotNull BlockType<?> blockType) {
+        super(player);
+        this.statistic = statistic;
+        this.initialValue = initialValue;
+        this.newValue = newValue;
+        this.entityType = null;
+        this.itemType = null;
+        this.blockType = blockType;
     }
 
     /**
@@ -87,19 +122,28 @@ public class PlayerStatisticIncrementEvent extends PlayerEvent implements Cancel
      * @return the EntityType of the statistic
      */
     @Nullable
-    public EntityType getEntityType() {
+    public EntityType<?> getEntityType() {
         return entityType;
     }
 
     /**
-     * Gets the Material if {@link #getStatistic() getStatistic()} is a block
-     * or item statistic otherwise returns null.
+     * Gets the Item type if {@link #getStatistic()} is an item statistic.
      *
-     * @return the Material of the statistic
+     * @return the Item Type of the statistic
      */
     @Nullable
-    public Material getMaterial() {
-        return material;
+    public ItemType getItemType() {
+        return itemType;
+    }
+
+    /**
+     * Gets the Block type if {@link #getStatistic()} is a block statistic.
+     *
+     * @return the Block Type of the statistic
+     */
+    @Nullable
+    public BlockType<?> getBlockType() {
+        return blockType;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package org.bukkit.inventory;
 
 import org.bukkit.Color;
-import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.meta.BookMeta;
@@ -20,14 +19,14 @@ import org.jetbrains.annotations.Nullable;
 public interface ItemFactory {
 
     /**
-     * This creates a new item meta for the material.
+     * This creates a new item meta for the item type.
      *
-     * @param material The material to consider as base for the meta
+     * @param itemType The item type to consider as base for the meta
      * @return a new ItemMeta that could be applied to an item stack of the
-     *     specified material
+     *     specified item type
      */
     @Nullable
-    ItemMeta getItemMeta(@NotNull final Material material);
+    ItemMeta getItemMeta(@NotNull final ItemType itemType);
 
     /**
      * This method checks the item meta to confirm that it is applicable (no
@@ -47,19 +46,19 @@ public interface ItemFactory {
 
     /**
      * This method checks the item meta to confirm that it is applicable (no
-     * data lost if applied) to the specified Material.
+     * data lost if applied) to the specified item type.
      * <p>
      * A {@link SkullMeta} would not be valid for a sword, but a normal {@link
      * ItemMeta} from an enchanted dirt block would.
      *
      * @param meta Meta to check
-     * @param material Material that meta will be applied to
+     * @param itemType item type that meta will be applied to
      * @return true if the meta can be applied without losing data, false
      *     otherwise
      * @throws IllegalArgumentException if the meta was not created by this
      *     factory
      */
-    boolean isApplicable(@Nullable final ItemMeta meta, @Nullable final Material material) throws IllegalArgumentException;
+    boolean isApplicable(@Nullable final ItemMeta meta, @Nullable final ItemType itemType) throws IllegalArgumentException;
 
     /**
      * This method is used to compare two item meta data objects.
@@ -78,7 +77,7 @@ public interface ItemFactory {
      * Returns an appropriate item meta for the specified stack.
      * <p>
      * The item meta returned will always be a valid meta for a given
-     * ItemStack of the specified material. It may be a more or less specific
+     * ItemStack of the specified item type. It may be a more or less specific
      * meta, and could also be the same meta or meta type as the parameter.
      * The item meta returned will also always be the most appropriate meta.
      * <p>
@@ -99,10 +98,10 @@ public interface ItemFactory {
     ItemMeta asMetaFor(@NotNull final ItemMeta meta, @NotNull final ItemStack stack) throws IllegalArgumentException;
 
     /**
-     * Returns an appropriate item meta for the specified material.
+     * Returns an appropriate item meta for the specified item type.
      * <p>
      * The item meta returned will always be a valid meta for a given
-     * ItemStack of the specified material. It may be a more or less specific
+     * ItemStack of the specified item type. It may be a more or less specific
      * meta, and could also be the same meta or meta type as the parameter.
      * The item meta returned will also always be the most appropriate meta.
      * <p>
@@ -112,14 +111,14 @@ public interface ItemFactory {
      * common interface.
      *
      * @param meta the meta to convert
-     * @param material the material to convert the meta for
-     * @return An appropriate item meta for the specified item material. No
+     * @param itemType the item type to convert the meta for
+     * @return An appropriate item meta for the specified item type. No
      *     guarantees are made as to if a copy is returned. This will be null for air.
      * @throws IllegalArgumentException if the specified meta was not created
      *     by this factory
      */
     @Nullable
-    ItemMeta asMetaFor(@NotNull final ItemMeta meta, @NotNull final Material material) throws IllegalArgumentException;
+    ItemMeta asMetaFor(@NotNull final ItemMeta meta, @NotNull final ItemType itemType) throws IllegalArgumentException;
 
     /**
      * Returns the default color for all leather armor.
@@ -134,8 +133,8 @@ public interface ItemFactory {
      * <p>
      * The input should match the same input as expected by Minecraft's {@code /give}
      * command. For example, "minecraft:diamond_sword{Enchantments:[{id:"minecraft:sharpness", lvl:3}]}"
-     * would yield an ItemStack of {@link Material#DIAMOND_SWORD} with an {@link ItemMeta}
-     * containing a level 3 {@link Enchantment#DAMAGE_ALL}
+     * would yield an ItemStack of {@link ItemType#DIAMOND_SWORD} with an {@link ItemMeta}
+     * containing a level 3 {@link Enchantment#SHARPNESS}
      * enchantment.
      *
      * @param input the item input string
@@ -147,16 +146,16 @@ public interface ItemFactory {
     ItemStack createItemStack(@NotNull String input) throws IllegalArgumentException;
 
     /**
-     * Apply a material change for an item meta. Do not use under any
+     * Apply an item type change for an item meta. Do not use under any
      * circumstances.
      *
      * @param meta meta
-     * @param material material
-     * @return updated material
-     * @throws IllegalArgumentException if bad material or data
+     * @param itemType item type
+     * @return updated item type
+     * @throws IllegalArgumentException if bad item type or data
      * @deprecated for internal use only
      */
     @Deprecated
     @NotNull
-    Material updateMaterial(@NotNull final ItemMeta meta, @NotNull final Material material) throws IllegalArgumentException;
+    ItemType updateItemType(@NotNull final ItemMeta meta, @NotNull final ItemType itemType) throws IllegalArgumentException;
 }

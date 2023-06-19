@@ -5,9 +5,10 @@ import static org.junit.Assert.*;
 import com.google.common.collect.ImmutableList;
 import org.bukkit.event.player.PlayerChatTabCompleteEvent;
 import org.bukkit.plugin.messaging.TestPlayer;
+import org.bukkit.support.AbstractTestingBase;
 import org.junit.Test;
 
-public class PlayerChatTabCompleteEventTest {
+public class PlayerChatTabCompleteEventTest extends AbstractTestingBase {
 
     @Test
     public void testGetLastToken() {

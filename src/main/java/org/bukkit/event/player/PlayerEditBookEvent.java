@@ -93,7 +93,7 @@ public class PlayerEditBookEvent extends PlayerEvent implements Cancellable {
 
     /**
      * Gets whether or not the book is being signed. If a book is signed the
-     * Material changes from BOOK_AND_QUILL to WRITTEN_BOOK.
+     * Item type changes from BOOK_AND_QUILL to WRITTEN_BOOK.
      *
      * @return true if the book is being signed
      */
@@ -103,7 +103,7 @@ public class PlayerEditBookEvent extends PlayerEvent implements Cancellable {
 
     /**
      * Sets whether or not the book is being signed. If a book is signed the
-     * Material changes from BOOK_AND_QUILL to WRITTEN_BOOK.
+     * Item type changes from BOOK_AND_QUILL to WRITTEN_BOOK.
      *
      * @param signing whether or not the book is being signed.
      */

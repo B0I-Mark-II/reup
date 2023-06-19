@@ -9,11 +9,16 @@ import org.jetbrains.annotations.NotNull;
  */
 public class CampfireRecipe extends CookingRecipe<CampfireRecipe> {
 
-    public CampfireRecipe(@NotNull NamespacedKey key, @NotNull ItemStack result, @NotNull Material source, float experience, int cookingTime) {
+    public CampfireRecipe(@NotNull NamespacedKey key, @NotNull ItemStack result, @NotNull ItemType source, float experience, int cookingTime) {
         super(key, result, source, experience, cookingTime);
     }
 
     public CampfireRecipe(@NotNull NamespacedKey key, @NotNull ItemStack result, @NotNull RecipeChoice input, float experience, int cookingTime) {
         super(key, result, input, experience, cookingTime);
+    }
+
+    @Deprecated
+    public CampfireRecipe(@NotNull NamespacedKey key, @NotNull ItemStack result, @NotNull Material source, float experience, int cookingTime) {
+        super(key, result, source, experience, cookingTime);
     }
 }

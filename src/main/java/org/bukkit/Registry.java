@@ -3,24 +3,30 @@ package org.bukkit;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableMap;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Predicate;
 import org.bukkit.advancement.Advancement;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Biome;
+import org.bukkit.block.BlockType;
+import org.bukkit.block.banner.PatternType;
 import org.bukkit.boss.KeyedBossBar;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Cat;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Frog;
 import org.bukkit.entity.Villager;
 import org.bukkit.entity.memory.MemoryKey;
 import org.bukkit.generator.structure.Structure;
 import org.bukkit.generator.structure.StructureType;
+import org.bukkit.inventory.ItemType;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
 import org.bukkit.loot.LootTables;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -58,19 +64,31 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
      *
      * @see Art
      */
-    Registry<Art> ART = new SimpleRegistry<>(Art.class);
+    Registry<Art> ART = Objects.requireNonNull(Bukkit.getRegistry(Art.class), "No registry present for Art. This is a bug.");
     /**
      * Attribute.
      *
      * @see Attribute
      */
-    Registry<Attribute> ATTRIBUTE = new SimpleRegistry<>(Attribute.class);
+    Registry<Attribute> ATTRIBUTE = Objects.requireNonNull(Bukkit.getRegistry(Attribute.class), "No registry present for Attribute. This is a bug.");
     /**
      * Server biomes.
      *
      * @see Biome
      */
-    Registry<Biome> BIOME = new SimpleRegistry<>(Biome.class);
+    Registry<Biome> BIOME = Objects.requireNonNull(Bukkit.getRegistry(Biome.class), "No registry present for Biome. This is a bug.");
+    /**
+     * Server block types.
+     *
+     * @see BlockType
+     */
+    Registry<BlockType> BLOCK = Objects.requireNonNull(Bukkit.getRegistry(BlockType.class), "No registry present for BlockType. This is a bug.");
+    /**
+     * Server pattern types.
+     *
+     * @see PatternType
+     */
+    Registry<PatternType> BANNER_PATTERN = Objects.requireNonNull(Bukkit.getRegistry(PatternType.class), "No registry present for PatternType. This is a bug.");
     /**
      * Custom boss bars.
      *
@@ -92,30 +110,35 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
         }
     };
     /**
+     * Server cat types.
+     *
+     * @see Cat.Type
+     */
+    Registry<Cat.Type> CAT_TYPE = Objects.requireNonNull(Bukkit.getRegistry(Cat.Type.class), "No registry present for Cat Type. This is a bug.");
+    /**
      * Server enchantments.
      *
      * @see Enchantment#getByKey(org.bukkit.NamespacedKey)
      */
-    Registry<Enchantment> ENCHANTMENT = new Registry<Enchantment>() {
-
-        @Nullable
-        @Override
-        public Enchantment get(@NotNull NamespacedKey key) {
-            return Enchantment.getByKey(key);
-        }
-
-        @NotNull
-        @Override
-        public Iterator<Enchantment> iterator() {
-            return Arrays.asList(Enchantment.values()).iterator();
-        }
-    };
+    Registry<Enchantment> ENCHANTMENT = Objects.requireNonNull(Bukkit.getRegistry(Enchantment.class), "No registry present for Enchantment. This is a bug.");
     /**
      * Server entity types.
      *
      * @see EntityType
      */
-    Registry<EntityType> ENTITY_TYPE = new SimpleRegistry<>(EntityType.class, (entity) -> entity != EntityType.UNKNOWN);
+    Registry<EntityType> ENTITY_TYPE = Objects.requireNonNull(Bukkit.getRegistry(EntityType.class), "No registry present for EntityType. This is a bug.");
+    /**
+     * Server instruments.
+     *
+     * @see MusicInstrument
+     */
+    Registry<MusicInstrument> INSTRUMENT = Objects.requireNonNull(Bukkit.getRegistry(MusicInstrument.class), "No registry present for MusicInstrument. This is a bug.");
+    /**
+     * Server item types.
+     *
+     * @see ItemType
+     */
+    Registry<ItemType> ITEM = Objects.requireNonNull(Bukkit.getRegistry(ItemType.class), "No registry present for ItemType. This is a bug.");
     /**
      * Default server loot tables.
      *
@@ -126,58 +149,72 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
      * Server materials.
      *
      * @see Material
+     * @deprecated Material was split up into {@link #ITEM} and {@link #BLOCK}
      */
+    @Deprecated
     Registry<Material> MATERIAL = new SimpleRegistry<>(Material.class, (mat) -> !mat.isLegacy());
+    /**
+     * Server particle types.
+     *
+     * @see Particle
+     */
+    Registry<Particle> PARTICLE_TYPE = Objects.requireNonNull(Bukkit.getRegistry(Particle.class), "No registry present for Particle. This is a bug.");
+    /**
+     * Server potion types.
+     *
+     * @see PotionType
+     */
+    Registry<PotionType> POTION = Objects.requireNonNull(Bukkit.getRegistry(PotionType.class), "No registry present for PotionType. This is a bug.");
     /**
      * Server statistics.
      *
      * @see Statistic
      */
-    Registry<Statistic> STATISTIC = new SimpleRegistry<>(Statistic.class);
+    Registry<Statistic> STATISTIC = Objects.requireNonNull(Bukkit.getRegistry(Statistic.class), "No registry present for Statistic. This is a bug.");
     /**
      * Server structures.
      *
      * @see Structure
      */
-    Registry<Structure> STRUCTURE = Bukkit.getRegistry(Structure.class);
+    Registry<Structure> STRUCTURE = Objects.requireNonNull(Bukkit.getRegistry(Structure.class), "No registry present for Structure. This is a bug.");
     /**
      * Server structure types.
      *
      * @see StructureType
      */
-    Registry<StructureType> STRUCTURE_TYPE = Bukkit.getRegistry(StructureType.class);
+    Registry<StructureType> STRUCTURE_TYPE = Objects.requireNonNull(Bukkit.getRegistry(StructureType.class), "No registry present for StructureType. This is a bug.");
     /**
      * Sound keys.
      *
      * @see Sound
      */
-    Registry<Sound> SOUNDS = new SimpleRegistry<>(Sound.class);
+    Registry<Sound> SOUNDS = Objects.requireNonNull(Bukkit.getRegistry(Sound.class), "No registry present for Sound. This is a bug.");
     /**
      * Trim materials.
      *
      * @see TrimMaterial
      */
     @ApiStatus.Experimental
-    Registry<TrimMaterial> TRIM_MATERIAL = Bukkit.getRegistry(TrimMaterial.class);
+    Registry<TrimMaterial> TRIM_MATERIAL = Objects.requireNonNull(Bukkit.getRegistry(TrimMaterial.class), "No registry present for TrimMaterial. This is a bug.");
     /**
      * Trim patterns.
      *
      * @see TrimPattern
      */
     @ApiStatus.Experimental
-    Registry<TrimPattern> TRIM_PATTERN = Bukkit.getRegistry(TrimPattern.class);
+    Registry<TrimPattern> TRIM_PATTERN = Objects.requireNonNull(Bukkit.getRegistry(TrimPattern.class), "No registry present for TrimPattern. This is a bug.");
     /**
      * Villager profession.
      *
      * @see Villager.Profession
      */
-    Registry<Villager.Profession> VILLAGER_PROFESSION = new SimpleRegistry<>(Villager.Profession.class);
+    Registry<Villager.Profession> VILLAGER_PROFESSION = Objects.requireNonNull(Bukkit.getRegistry(Villager.Profession.class), "No registry present for Villager Profession. This is a bug.");
     /**
      * Villager type.
      *
      * @see Villager.Type
      */
-    Registry<Villager.Type> VILLAGER_TYPE = new SimpleRegistry<>(Villager.Type.class);
+    Registry<Villager.Type> VILLAGER_TYPE = Objects.requireNonNull(Bukkit.getRegistry(Villager.Type.class), "No registry present for Villager Type. This is a bug.");
     /**
      * Memory Keys.
      *
@@ -202,32 +239,25 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
      *
      * @see Fluid
      */
-    Registry<Fluid> FLUID = new SimpleRegistry<>(Fluid.class);
+    Registry<Fluid> FLUID = Objects.requireNonNull(Bukkit.getRegistry(Fluid.class), "No registry present for Fluid. This is a bug.");
     /**
      * Frog variants.
      *
      * @see Frog.Variant
      */
-    Registry<Frog.Variant> FROG_VARIANT = new SimpleRegistry<>(Frog.Variant.class);
+    Registry<Frog.Variant> FROG_VARIANT = Objects.requireNonNull(Bukkit.getRegistry(Frog.Variant.class), "No registry present for Frog Variant. This is a bug.");
     /**
      * Game events.
      *
      * @see GameEvent
      */
-    Registry<GameEvent> GAME_EVENT = new Registry<GameEvent>() {
-
-        @NotNull
-        @Override
-        public Iterator iterator() {
-            return GameEvent.values().iterator();
-        }
-
-        @Nullable
-        @Override
-        public GameEvent get(@NotNull NamespacedKey key) {
-            return GameEvent.getByKey(key);
-        }
-    };
+    Registry<GameEvent> GAME_EVENT = Objects.requireNonNull(Bukkit.getRegistry(GameEvent.class), "No registry present for GameEvent. This is a bug.");
+    /**
+     * Server potion effect types.
+     *
+     * @see PotionEffectType
+     */
+    Registry<PotionEffectType> POTION_EFFECT_TYPE = Objects.requireNonNull(Bukkit.getRegistry(PotionEffectType.class), "No registry present for Potion Effect Type. This is a bug.");
 
     /**
      * Get the object by its key.
