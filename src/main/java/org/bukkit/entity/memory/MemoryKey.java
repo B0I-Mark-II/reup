@@ -44,7 +44,7 @@ public final class MemoryKey<T> implements Keyed {
         return tClass;
     }
 
-    private static final Map<NamespacedKey, MemoryKey> MEMORY_KEYS = new HashMap<>();
+    private static final Map<NamespacedKey, MemoryKey<?>> MEMORY_KEYS = new HashMap<>();
     //
     public static final MemoryKey<Location> HOME = new MemoryKey<>(NamespacedKey.minecraft("home"), Location.class);
     public static final MemoryKey<Location> POTENTIAL_JOB_SITE = new MemoryKey<>(NamespacedKey.minecraft("potential_job_site"), Location.class);
@@ -80,7 +80,7 @@ public final class MemoryKey<T> implements Keyed {
      * available under that key
      */
     @Nullable
-    public static MemoryKey getByKey(@NotNull NamespacedKey namespacedKey) {
+    public static MemoryKey<?> getByKey(@NotNull NamespacedKey namespacedKey) {
         return MEMORY_KEYS.get(namespacedKey);
     }
 
@@ -90,7 +90,7 @@ public final class MemoryKey<T> implements Keyed {
      * @return the memoryKeys
      */
     @NotNull
-    public static Set<MemoryKey> values() {
+    public static Set<MemoryKey<?>> values() {
         return new HashSet<>(MEMORY_KEYS.values());
     }
 }
