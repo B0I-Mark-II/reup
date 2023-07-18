@@ -128,7 +128,7 @@ public abstract class Particle<D> extends OldEnum<Particle<D>> implements Keyed 
     @NotNull
     private static <D> Particle<D> getParticle(@NotNull String key) {
         NamespacedKey namespacedKey = NamespacedKey.minecraft(key);
-        Particle<D> particle = Registry.PARTICLE_TYPE.get(namespacedKey);
+        Particle<D> particle = (Particle<D>) Registry.PARTICLE_TYPE.get(namespacedKey);
         Preconditions.checkNotNull(particle, "No particle found for %s. This is a bug.", namespacedKey);
         return particle;
     }

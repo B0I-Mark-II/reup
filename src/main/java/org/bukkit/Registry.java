@@ -82,7 +82,7 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
      *
      * @see BlockType
      */
-    Registry<BlockType> BLOCK = Objects.requireNonNull(Bukkit.getRegistry(BlockType.class), "No registry present for BlockType. This is a bug.");
+    Registry<BlockType<?>> BLOCK = Objects.requireNonNull(Bukkit.getRegistry(BlockType.class), "No registry present for BlockType. This is a bug.");
     /**
      * Server pattern types.
      *
@@ -118,7 +118,7 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
     /**
      * Server enchantments.
      *
-     * @see Enchantment#getByKey(org.bukkit.NamespacedKey)
+     * @see Enchantment
      */
     Registry<Enchantment> ENCHANTMENT = Objects.requireNonNull(Bukkit.getRegistry(Enchantment.class), "No registry present for Enchantment. This is a bug.");
     /**
@@ -126,7 +126,7 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
      *
      * @see EntityType
      */
-    Registry<EntityType> ENTITY_TYPE = Objects.requireNonNull(Bukkit.getRegistry(EntityType.class), "No registry present for EntityType. This is a bug.");
+    Registry<EntityType<?>> ENTITY_TYPE = Objects.requireNonNull(Bukkit.getRegistry(EntityType.class), "No registry present for EntityType. This is a bug.");
     /**
      * Server instruments.
      *
@@ -158,7 +158,7 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
      *
      * @see Particle
      */
-    Registry<Particle> PARTICLE_TYPE = Objects.requireNonNull(Bukkit.getRegistry(Particle.class), "No registry present for Particle. This is a bug.");
+    Registry<Particle<?>> PARTICLE_TYPE = Objects.requireNonNull(Bukkit.getRegistry(Particle.class), "No registry present for Particle. This is a bug.");
     /**
      * Server potion types.
      *
@@ -220,17 +220,17 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
      *
      * @see MemoryKey
      */
-    Registry<MemoryKey> MEMORY_MODULE_TYPE = new Registry<MemoryKey>() {
+    Registry<MemoryKey<?>> MEMORY_MODULE_TYPE = new Registry<>() {
 
         @NotNull
         @Override
-        public Iterator iterator() {
+        public Iterator<MemoryKey<?>> iterator() {
             return MemoryKey.values().iterator();
         }
 
         @Nullable
         @Override
-        public MemoryKey get(@NotNull NamespacedKey key) {
+        public MemoryKey<?> get(@NotNull NamespacedKey key) {
             return MemoryKey.getByKey(key);
         }
     };

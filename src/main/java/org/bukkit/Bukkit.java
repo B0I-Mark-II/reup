@@ -1974,7 +1974,7 @@ public final class Bukkit {
      * @return the corresponding registry or null if not present
      */
     @Nullable
-    public static <T extends Keyed> Registry<T> getRegistry(@NotNull Class<T> tClass) {
+    public static <T extends Keyed> Registry<? extends T> getRegistry(@NotNull Class<T> tClass) {
         return server.getRegistry(tClass);
     }
 

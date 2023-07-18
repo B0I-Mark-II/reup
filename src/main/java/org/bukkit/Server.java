@@ -1684,7 +1684,7 @@ public interface Server extends PluginMessageRecipient {
      * @return the corresponding registry or null if not present
      */
     @Nullable
-    <T extends Keyed> Registry<T> getRegistry(@NotNull Class<T> tClass);
+    <T extends Keyed> Registry<? extends T> getRegistry(@NotNull Class<T> tClass);
 
     /**
      * @return the unsafe values instance
